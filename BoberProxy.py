@@ -3433,7 +3433,12 @@ class LoggerUI(ITab):
                         try:
                             if getattr(self, "autoUpdateCookies", False):
                                 try:
-                                    changes = self.cookieManager.update_from_response(response_bytes)
+                                    try:
+                                        resp_text = self.helpers.bytesToString(response_bytes)
+                                    except Exception:
+                                        # fallback: best-effort conversion
+                                        resp_text = str(response_bytes)
+                                    changes = self.cookieManager.update_from_response(resp_text)
                                     if changes:
                                         for ch in changes:
                                             try:
@@ -3657,7 +3662,11 @@ class LoggerUI(ITab):
                                         try:
                                             if getattr(self, "autoUpdateCookies", False):
                                                 try:
-                                                    changes2 = self.cookieManager.update_from_response(check_resp)
+                                                    try:
+                                                        check_text = self.helpers.bytesToString(check_resp)
+                                                    except Exception:
+                                                        check_text = str(check_resp)
+                                                    changes2 = self.cookieManager.update_from_response(check_text)
                                                     _log("CheckPageTemplate: cookie changes from check response: %s" % str(changes2))
                                                 except:
                                                     pass
