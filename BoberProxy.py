@@ -1,243 +1,196 @@
 # -*- coding: latin-1 -*-
-# Extender.py — BoberProxy (updated: mode switch, local listener, tabs, template controls, custom codeblock)
-from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController
+# Extender.py — BoberProxy (updated: tabs, template controls, custom codeblock)
+from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener
+
 from javax import swing
-from java.awt import GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout
-from javax.swing.table import DefaultTableModel
-from java.util.regex import Pattern
-import threading, time, os, socket, traceback
-from javax.swing.table import TableRowSorter
-from java.util import Comparator
-from java.awt import Color
+from javax.swing import SortOrder, RowSorter, SwingUtilities
+from javax.swing.table import DefaultTableModel, TableRowSorter
 from javax.swing.text import DefaultHighlighter
 from javax.swing.event import ChangeListener
-import re
-from javax.swing import SortOrder, RowSorter
-from java.awt.event import MouseAdapter
-from javax.swing import SwingUtilities
-from java.awt import FlowLayout
 
+from java.awt import (
+    GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout,
+    Color, Dimension, BorderLayout
+)
+from java.awt.event import MouseAdapter, ComponentAdapter
+from java.util import Comparator
+from java.util.regex import Pattern
+
+import sys, threading, time, os, socket, traceback, jarray, binascii, hashlib, re
+
+# URL parsing – choose one, depending on which one works in your environment
+# Python 2 (old Jython versions):
+from urlparse import urljoin, urlparse
+# Python 3 (Jython and newer versions):
+#from urllib.parse import urljoin, urlparse
 
 class CsrfManager(object):
-    """
-    Simple CSRF token cache + extractor.
-    Stores last seen token for a given param name.
-    Thread-safe via lock.
-    """
+
     def __init__(self):
         self.lock = threading.Lock()
-        # mapping: param_name -> last_value
-        self.tokens = {}
-        # pattern override (set by UI before calling update)
-        self.pattern_to_use = None
-        self.token_name = None
+        self.token = None             # there is only 1 token
+        self.pattern_to_use = None    # user-specified regex
 
-    def _to_text(self, data):
-        """
-        Robust conversion of various response forms to a unicode string.
-        Handles:
-         - bytes / bytearray
-         - iterable of ints (Java byte[] / Jython byte[] view)
-         - string repr like "array('b', [72, 84, ...])"
-         - fallback to str()
-        """
-        try:
-            # already bytes-like
-            if isinstance(data, (bytes, bytearray)):
-                try:
-                    return data.decode("latin-1", "replace")
-                except:
-                    return data.decode("utf-8", "replace")
-
-            # If it's an actual iterable (Java byte[], list of ints, etc.) but not a str
-            if hasattr(data, '__iter__') and not isinstance(data, str):
-                try:
-                    out = bytearray()
-                    for b in data:
-                        try:
-                            iv = int(b)
-                        except Exception:
-                            try:
-                                iv = ord(b)
-                            except Exception:
-                                iv = 0
-                        if iv < 0:
-                            iv = iv + 256
-                        out.append(iv)
-                    return bytes(out).decode("latin-1", "replace")
-                except Exception:
-                    # fallthrough to string handling
-                    pass
-
-            # otherwise, try to parse common textual reprs like: array('b', [72, 84, ...])
-            s = str(data)
-
-            # pattern: array('b', [72, 84, ...])
+    def _decode(self, data):
+        if isinstance(data, (bytes, bytearray)):
             try:
-                import re
-                m = re.match(r"^\s*array\('b'\s*,\s*\[([0-9,\s]+)\]\s*\)\s*$", s)
-                if m:
-                    nums = [int(x.strip()) for x in m.group(1).split(',') if x.strip()]
-                    if nums:
-                        return bytes(nums).decode("latin-1", "replace")
-            except Exception:
-                pass
-
-            # fallback: if string contains bracketed numbers like [72, 84, ...], try that
-            try:
-                import re
-                m2 = re.search(r"\[([0-9,\s]+)\]", s)
-                if m2:
-                    parts = [p.strip() for p in m2.group(1).split(',') if p.strip().isdigit()]
-                    if parts:
-                        nums = [int(p) for p in parts]
-                        return bytes(nums).decode("latin-1", "replace")
-            except Exception:
-                pass
-
-            # final fallback: return the string representation
-            return s
-
-        except Exception:
-            try:
-                return str(data)
+                return data.decode("latin-1", "replace")
             except:
-                return ""
+                return data.decode("utf-8", "replace")
 
-    def update_from_response(self, response_bytes, param_name):
+        try:
+            if hasattr(data, "__iter__") and not isinstance(data, str):
+                return bytearray((int(b) & 0xff for b in data)).decode("latin-1", "replace")
+        except:
+            pass
+
+        try:
+            return str(data)
+        except:
+            return ""
+
+    def update_from_response(self, response_bytes):
         """
-        Extract token using either a user-supplied regex (pattern_to_use) or the default pattern.
-        Returns (True, value) if found, else (False, None).
+        Extract CSRF token using user regex.
+        Returns (True, token) or (False, None)
         """
-        txt = self._to_text(response_bytes)
+        txt = self._decode(response_bytes)
         if not txt:
             return False, None
 
-        import re
-        # prepare pattern: use UI override if set, else use default with param_name inserted
-        pat_text = None
-        try:
-            if self.pattern_to_use:
-                pat_text = str(self.pattern_to_use)
-                # if pattern contains %s, substitute the param name (useful if user left %s)
-                if "%s" in pat_text:
-                    pat_text = pat_text % re.escape(param_name)
-            else:
-                pat_text = self._default_pattern_for(param_name)
-        except Exception:
-            pat_text = self._default_pattern_for(param_name)
-
-        try:
-            m = re.search(pat_text, txt, flags=re.IGNORECASE | re.DOTALL)
-            if m:
-                token = m.group(1)
-                with self.lock:
-                    self.tokens[param_name] = token
-                return True, token
-        except Exception:
-            # invalid regex or matching error: ignore, return not found
+        # user regex required
+        pattern = self.pattern_to_use
+        if not pattern:
             return False, None
 
-        return False, None
+        try:
+            m = re.search(pattern, txt, flags=re.IGNORECASE | re.DOTALL)
+            if not m:
+                return False, None
 
-    def _default_pattern_for(self, param_name):
-        import re
-        # default: look for input with name="param_name" and capture value attr
-        return r'<input[^\>]+name=[\"\\\']' + re.escape(param_name) + r'["\\\'][^\>]*value=[\"\\\']([^\"\\\']*)["\\\']'
+            token = m.group(1)
+            with self.lock:
+                self.token = token
+            return True, token
 
-    def get_token(self, param_name):
+        except:
+            return False, None
+
+    def get_token(self):
         with self.lock:
-            return self.tokens.get(param_name)
-    
-    def set_token(self, param_name, value):
-        with self.lock:
-            self.tokens[param_name] = value
+            return self.token
 
-
-    def clear(self, param_name=None):
+    def set_token(self, value):
         with self.lock:
-            if param_name:
-                if param_name in self.tokens:
-                    del self.tokens[param_name]
-            else:
-                self.tokens = {}
+            self.token = value
+
+    def clear(self):
+        with self.lock:
+            self.token = None
 
     def dump(self):
         with self.lock:
-            if not self.tokens:
-                return "<no csrf tokens>"
-            return "; ".join("%s=%s" % (k, v) for k, v in self.tokens.items())
+            return self.token or "<no csrf token>"
 
 
 class CookieManager(object):
+    """
+    Clean, robust cookie handler for both proxy responses and internal flows.
+    Thread-safe. API is fully backward-compatible.
+    """
+
     def __init__(self):
-        self.jar = {}   # simple dict: {name: value}
+        self.jar = {}   # {cookie_name: cookie_value}
         self.lock = threading.Lock()
 
-    def _to_text(self, data):
-        # helper: if bytes arrive, decode
-        try:
-            if isinstance(data, (bytes, bytearray)):
-                try:
-                    return data.decode("latin-1", "replace")
-                except:
-                    return data.decode("utf-8", "replace")
-            else:
-                return str(data)
-        except:
+    # --- Internal helper ---
+
+    def _decode(self, data):
+        """
+        Minimal, deterministic conversion: because Burp always passes bytes.
+        """
+        if isinstance(data, (bytes, bytearray)):
             try:
-                return str(data)
+                return data.decode("latin-1", "replace")
             except:
-                return ""
+                return data.decode("utf-8", "replace")
+
+        # Java byte[] masquerading as iterable of ints
+        try:
+            if hasattr(data, "__iter__") and not isinstance(data, str):
+                ba = bytearray()
+                for b in data:
+                    try: ba.append(int(b) & 0xff)
+                    except: pass
+                return ba.decode("latin-1", "replace")
+        except:
+            pass
+
+        # last fallback
+        try:
+            return str(data)
+        except:
+            return ""
+
+    # --- Public API ---
 
     def update_from_response(self, response_bytes_or_text):
         """
-        Parse Set-Cookie headers from response and update jar.
-        Accepts response as bytes or str. Returns list of changes for logging.
+        Parse Set-Cookie headers and update jar.
+        Accepts bytes or string.
+        Returns list of ("added"/"updated"/"deleted", name, old, new).
         """
-        txt = self._to_text(response_bytes_or_text)
+        txt = self._decode(response_bytes_or_text)
         changes = []
+
+        # isolate headers
         try:
-            # split headers (we only need header area)
-            hdr_part = txt.split("\r\n\r\n", 1)[0]
-            for line in hdr_part.split("\r\n"):
-                if not line:
+            headers = txt.split("\r\n\r\n", 1)[0].split("\r\n")
+        except:
+            return changes
+
+        for line in headers:
+            if not line or "set-cookie" not in line.lower():
+                continue
+
+            try:
+                # Remove "Set-Cookie:"
+                val = line.split(":", 1)[1].strip()
+                # Take only the name=value
+                pair = val.split(";", 1)[0].strip()
+
+                if "=" not in pair:
                     continue
-                line_lower = line.lower()
-                if "set-cookie" in line_lower:
-                    try:
-                        val = line.split(":", 1)[1].strip()
-                        # cookie-pair is before first ';'
-                        pair = val.split(";", 1)[0].strip()
-                        if "=" in pair:
-                            name, v = pair.split("=", 1)
-                            name = name.strip()
-                            v = v.strip()
-                            with self.lock:
-                                old = self.jar.get(name)
-                                if v == "" or v.lower().startswith("deleted"):
-                                    # treat empty as deletion
-                                    if name in self.jar:
-                                        del self.jar[name]
-                                        changes.append(("deleted", name, old, None))
-                                else:
-                                    self.jar[name] = v
-                                    if old is None:
-                                        changes.append(("added", name, None, v))
-                                    else:
-                                        changes.append(("updated", name, old, v))
-                    except Exception:
-                        # ignore malformed Set-Cookie
-                        pass
-        except Exception:
-            pass
+
+                name, value = pair.split("=", 1)
+                name = name.strip()
+                value = value.strip()
+
+                with self.lock:
+                    old = self.jar.get(name)
+
+                    # deletion
+                    if value == "" or value.lower().startswith("deleted"):
+                        if name in self.jar:
+                            del self.jar[name]
+                            changes.append(("deleted", name, old, None))
+                        continue
+
+                    # update or add
+                    self.jar[name] = value
+                    if old is None:
+                        changes.append(("added", name, None, value))
+                    else:
+                        changes.append(("updated", name, old, value))
+
+            except Exception:
+                pass
+
         return changes
 
     def inject_into_request(self, request_text):
         """
-        Ensure the request_text (str) contains a Cookie: header merged from jar.
-        If request has existing Cookie header, merge (jar overrides).
-        Returns modified request_text (str).
+        Merge current cookies into the request. Return new request text.
         """
         try:
             txt = str(request_text)
@@ -246,69 +199,61 @@ class CookieManager(object):
 
         # split header/body
         parts = txt.split("\r\n\r\n", 1)
-        headers = parts[0].split("\r\n")
+        header_lines = parts[0].split("\r\n")
         body = parts[1] if len(parts) > 1 else ""
 
-        # find existing Cookie header (if any), parse into dict
+        # existing cookies
         existing = {}
-        new_headers = []
-        found_cookie = False
-        for h in headers:
+        new_header_lines = []
+        found_cookie_hdr = False
+
+        for h in header_lines:
             if h.lower().startswith("cookie:"):
-                found_cookie = True
+                found_cookie_hdr = True
                 try:
-                    cval = h.split(":",1)[1].strip()
-                    for pair in cval.split(";"):
+                    cookie_str = h.split(":", 1)[1].strip()
+                    for pair in cookie_str.split(";"):
                         if "=" in pair:
-                            n,v = pair.split("=",1)
-                            existing[n.strip()] = v.strip()
+                            k, v = pair.split("=", 1)
+                            existing[k.strip()] = v.strip()
                 except:
                     pass
             else:
-                new_headers.append(h)
+                new_header_lines.append(h)
 
-        # merge: existing <- jar (jar overrides)
+        # merge cookies (jar overrides)
         with self.lock:
             merged = dict(existing)
-            for k,v in self.jar.items():
-                merged[k] = v
+            merged.update(self.jar)
 
-        # build Cookie header if merged not empty
+        # insert cookie header
         if merged:
-            cookie_pairs = ["%s=%s" % (k, merged[k]) for k in merged]
-            cookie_header = "Cookie: " + "; ".join(cookie_pairs)
-            # insert cookie header near top (after request-line)
-            # ensure new_headers has at least request-line as first element
-            if len(new_headers) >= 1:
-                # insert after request-line (index 1)
-                # find Host header index to insert after it
-                host_idx = None
-                for idx, h in enumerate(new_headers):
-                    if h.lower().startswith("host:"):
-                        host_idx = idx
-                        break
-                if host_idx is not None:
-                    new_headers.insert(host_idx + 1, cookie_header)
+            cookie_header = "Cookie: " + "; ".join("%s=%s" % (k, v) for k, v in merged.items())
+
+            # try to insert right after Host:
+            inserted = False
+            for idx, h in enumerate(new_header_lines):
+                if h.lower().startswith("host:"):
+                    new_header_lines.insert(idx + 1, cookie_header)
+                    inserted = True
+                    break
+
+            if not inserted:
+                # fallback: after request-line
+                if len(new_header_lines) > 1:
+                    new_header_lines.insert(1, cookie_header)
                 else:
-                    # fallback: put after request-line
-                    new_headers.insert(1, cookie_header)
+                    new_header_lines.append(cookie_header)
 
-            else:
-                new_headers.append(cookie_header)
-        else:
-            # nothing to add; keep headers without Cookie
-            pass
+        # rebuild request
+        return "\r\n".join(new_header_lines) + "\r\n\r\n" + body
 
-        # reassemble
-        new_txt = "\r\n".join(new_headers) + "\r\n\r\n" + body
-        return new_txt
 
     def clear(self):
         with self.lock:
             self.jar = {}
 
     def dump(self):
-        # return string representation for UI
         with self.lock:
             if not self.jar:
                 return "<no cookies>"
@@ -347,8 +292,6 @@ def _exec_in_namespace(code, namespace):
 class FilterDialog(object):
     def __init__(self, parent):
         self.parent = parent
-        from javax import swing
-        from java.awt import GridBagLayout, GridBagConstraints, Insets
         self.dialog = swing.JDialog()
         self.dialog.setTitle("Display filter")
         # use simple JPanel as content
@@ -381,7 +324,6 @@ class FilterDialog(object):
             self.controls[fname] = (cb, mode, vals)
             row += 1
 
-        from java.awt import Dimension
         try:
             pref = p.getPreferredSize()
             p.setPreferredSize(Dimension(pref.width, max(pref.height, 300)))
@@ -508,7 +450,6 @@ class FilterDialog(object):
                 pass
 
 
-
 class LoggerUI(ITab):
     def __init__(self, callbacks, controller, msgEditor, callbacks_ref):
         # -------- core references / state ----------
@@ -518,40 +459,37 @@ class LoggerUI(ITab):
         self.msgEditor = msgEditor
         self.callbacks_ref = callbacks_ref
         self._suspend_selection_events = False
-        # __init__ végén
-        self._init_display_filters()
 
+        self._init_display_filters()
 
         # search / highlight state
         self._search_matches = []
         self._current_match_idx = -1
 
-        # local-server state
-        self._local_server_thread = None
-        self._local_server_running = False
-        self._local_server_socket = None
-        self._local_server_port = 8081
-        self._mode = "proxy"  # "proxy" or "local"
+        # Proxy toggle state: when True, extension will intercept proxy requests and run the processing flow
+        self._proxy_mode_active = False
 
         # other flags / storage
         self.paused = False
         self.running = False
         self.log_entries = []
 
+
         # Custom codeblock defaults
-        self.custom_code_text = (
-            "def custom_codeblock(payload1, payload2, csrf_token,):\n"
+        self.default_code_text = (
+            "def custom_codeblock(payload1, payload2, csrf_token):\n"
             "    \"\"\"\n"
             "    Custom transform hook that MUST accept and MUST return exactly three values.\n"
             "    Parameters\n"
             "    - payload1: first incoming payload (string)\n"
             "    - payload2: second incoming payload (string)\n"
             "    - csrf_token: csrf token (string)\n"
-            "\n"
             "    MUST return exactly three elements in this order:\n"
             "    return payload1, payload2, csrf_token\n"
             "    \"\"\"\n"
             "    # Default behaviour: pass inputs through unchanged\n"
+            "\n"
+            "\n"
             "    return payload1, payload2, csrf_token\n"
         )
 
@@ -564,10 +502,9 @@ class LoggerUI(ITab):
 
         self.csrfManager = CsrfManager()
         self.autoUpdateCsrf = False
-        self.csrf_param_name = "csrfmiddlewaretoken"
 
         # default CSRF regex pattern (use %s for insertion of param name)
-        self.csrf_default_pattern = r'<input[^\>]+name=[\"\\\']%s[\"\\\'][^\>]*value=[\"\\\']([^\"\\\']*)[\"\\\']'
+        self.csrf_default_pattern = r'<input[^>]+name=["\\\']csrfmiddlewaretoken["\\\'][^>]*value=["\\\']([^"\\\']*)["\\\']'
 
         # -------- main split panes ----------
         self.mainSplit = swing.JSplitPane(swing.JSplitPane.HORIZONTAL_SPLIT)
@@ -589,20 +526,13 @@ class LoggerUI(ITab):
 
         # Create IMessageEditor instances (use controller that will be setMessageInfo on selection)
         # left: request editor (editable False), right: response editor (editable False)
-        try:
-            # prefer the msgEditor passed in (existing), but create separate viewers via callbacks if available
-            self.reqViewer = callbacks.createMessageEditor(self.controller, False)
-            self.respViewer = callbacks.createMessageEditor(self.controller, False)
-            # obtain Swing components
-            reqComp = self.reqViewer.getComponent()
-            respComp = self.respViewer.getComponent()
-        except Exception:
-            # fallback: keep a plain text area if MessageEditor creation fails
-            self.detailArea = swing.JTextArea()
-            self.detailArea.setLineWrap(False)
-            self.detailArea.setEditable(False)
-            reqComp = swing.JScrollPane(self.detailArea)
-            respComp = swing.JScrollPane(swing.JTextArea())
+        # prefer the msgEditor passed in (existing), but create separate viewers via callbacks if available
+        self.reqViewer = callbacks.createMessageEditor(self.controller, False)
+        self.respViewer = callbacks.createMessageEditor(self.controller, False)
+        # obtain Swing components
+        reqComp = self.reqViewer.getComponent()
+        respComp = self.respViewer.getComponent()
+
 
         # split pane: left=request, right=response (equal divider)
         self.viewerSplit = swing.JSplitPane(swing.JSplitPane.HORIZONTAL_SPLIT)
@@ -626,15 +556,9 @@ class LoggerUI(ITab):
         # controller for template editors: simple controller that will provide no
         # associated IMessageInfo when editor is used stand-alone.
         self._template_req_controller = SimpleMessageController()
-        try:
-            self.reqTemplateEditor = callbacks.createMessageEditor(self._template_req_controller, True)
-            self.reqTemplateComp = self.reqTemplateEditor.getComponent()
-        except Exception:
-            # fallback to plain text area if creation fails
-            self.reqTemplateArea = swing.JTextArea()
-            self.reqTemplateArea.setLineWrap(False)
-            self.reqTemplateArea.setEditable(True)
-            self.reqTemplateComp = swing.JScrollPane(self.reqTemplateArea)
+        self.reqTemplateEditor = callbacks.createMessageEditor(self._template_req_controller, True)
+        self.reqTemplateComp = self.reqTemplateEditor.getComponent()
+
 
         # small control row for request template (existing ctrlPanel kept)
         rtc.gridx = 0; rtc.gridy = 0; rtc.weighty = 1.0
@@ -671,10 +595,11 @@ class LoggerUI(ITab):
         self.clearReqTemplateBtn = swing.JButton("Clear", actionPerformed=self._clear_req_template)
         btnPanel.add(self.clearReqTemplateBtn)
 
-        rpc.gridx = 1
-        rpc.weightx = 0.0    # buttons do not expand
+        rpc.gridx = 2
+        rpc.weightx = 0.0
         rpc.anchor = GridBagConstraints.EAST
         rowPanel.add(btnPanel, rpc)
+
 
         # add the single-row panel into the template panel (same grid row as before)
         rtc.gridy = 1; rtc.weighty = 0.0; rtc.fill = GridBagConstraints.HORIZONTAL
@@ -683,15 +608,9 @@ class LoggerUI(ITab):
 
         # === CheckPageTemplate: use Burp IMessageEditor (editable) ===
         self._template_check_controller = SimpleMessageController()
-        try:
-            self.checkPageEditor = callbacks.createMessageEditor(self._template_check_controller, True)
-            self.checkPageComp = self.checkPageEditor.getComponent()
-        except Exception:
-            self.checkPageArea = swing.JTextArea()
-            self.checkPageArea.setLineWrap(False)
-            self.checkPageArea.setEditable(True)
-            self.checkPageComp = swing.JScrollPane(self.checkPageArea)
-
+        self.checkPageEditor = callbacks.createMessageEditor(self._template_check_controller, True)
+        self.checkPageComp = self.checkPageEditor.getComponent()
+ 
         # CheckPageTemplate panel
         checkPagePanel = swing.JPanel(GridBagLayout())
         cpc = GridBagConstraints()
@@ -699,10 +618,6 @@ class LoggerUI(ITab):
         cpc.fill = GridBagConstraints.BOTH
         cpc.weightx = 1.0
         cpc.weighty = 1.0
-        self.checkPageArea = swing.JTextArea()
-        self.checkPageArea.setLineWrap(False)
-        self.checkPageArea.setEditable(True)
-        self.checkPageScroll = swing.JScrollPane(self.checkPageArea)
         cpc.gridx = 0; cpc.gridy = 0; cpc.weighty = 1.0
         checkPagePanel.add(self.checkPageComp, cpc)
 
@@ -751,32 +666,7 @@ class LoggerUI(ITab):
         self.tabbed.addTab("CheckPageTemplate", checkPagePanel)
 
         # Tab change handling: reset scroll/caret so user sees top
-        class TabListener(ChangeListener):
-            def __init__(self, parent):
-                self.parent = parent
-            def stateChanged(self, e):
-                try:
-                    sel = self.parent.tabbed.getSelectedIndex()
-                    if sel == 1:
-                        txt = self.parent.reqTemplateArea.getText()
-                        if txt:
-                            try:
-                                self.parent.reqTemplateArea.setCaretPosition(0)
-                                self.parent.reqTemplateScroll.getVerticalScrollBar().setValue(0)
-                            except:
-                                pass
-                    elif sel == 2:
-                        txt = self.parent.checkPageArea.getText()
-                        if txt:
-                            try:
-                                self.parent.checkPageArea.setCaretPosition(0)
-                                self.parent.checkPageScroll.getVerticalScrollBar().setValue(0)
-                            except:
-                                pass
-                except:
-                    pass
 
-        self.tabbed.addChangeListener(TabListener(self))
         self.leftSplit.setLeftComponent(self.tabbed)
 
         # --- LOG table on left-bottom ---
@@ -833,7 +723,7 @@ class LoggerUI(ITab):
             except Exception as e:
                 # swallow errors but optionally log for debug
                 try:
-                    _log("reset_sorting_to_model_order failed: %s" % str(e))
+                    self._log("reset_sorting_to_model_order failed: %s" % str(e))
                 except:
                     pass
 
@@ -849,7 +739,7 @@ class LoggerUI(ITab):
                     col = _table_ref.columnAtPoint(event.getPoint())
                 except Exception as e:
                     try:
-                        _log("HeaderClickListener: cannot determine column: %s" % e)
+                        self._log("HeaderClickListener: cannot determine column: %s" % e)
                     except:
                         pass
                     return
@@ -860,12 +750,12 @@ class LoggerUI(ITab):
                         try:
                             reset_sorting_to_model_order()
                             try:
-                                _log("[DEBUG] Sorting reset to model order")
+                                self._log("[DEBUG] Sorting reset to model order")
                             except:
                                 pass
                         except Exception as e:
                             try:
-                                _log("[DEBUG] Sorting reset error: %s" % e)
+                                self._log("[DEBUG] Sorting reset error: %s" % e)
                             except:
                                 pass
                     # ensure our reset runs after Swing's default sorter
@@ -894,7 +784,6 @@ class LoggerUI(ITab):
 
         # ---------- RIGHT: controls (mode + filters + utility) ----------
         # We'll use a GridBagLayout for overall placement, but make groups use horizontal Box/Flow where needed
-        from java.awt import Dimension
         rightWrapper = swing.JPanel()
         rightWrapper.setLayout(swing.BoxLayout(rightWrapper, swing.BoxLayout.Y_AXIS))        
 
@@ -909,26 +798,10 @@ class LoggerUI(ITab):
         # Mode selector (proxy / local)
         c.gridy = row; c.gridx = 0; c.gridwidth = 2
         modePanel = swing.JPanel()
-        self.proxyModeBtn = swing.JToggleButton("Proxy mode", True, actionPerformed=lambda e: self._set_mode("proxy"))
-        self.localModeBtn = swing.JToggleButton("Local-server", False, actionPerformed=lambda e: self._set_mode("local"))
-        def _sync_mode_buttons():
-            if self._mode == "proxy":
-                self.proxyModeBtn.setSelected(True)
-                self.localModeBtn.setSelected(False)
-            else:
-                self.proxyModeBtn.setSelected(False)
-                self.localModeBtn.setSelected(True)
+        self.proxyModeBtn = swing.JToggleButton("Injecting proxy from templates", False, actionPerformed=lambda e: self._on_proxy_toggle())
         modePanel.add(self.proxyModeBtn)
-        modePanel.add(self.localModeBtn)
         rightContent.add(modePanel, c)
         row += 1
-
-        # mode status label
-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        self.modeStatusLabel = swing.JLabel("Mode: proxy")
-        rightContent.add(self.modeStatusLabel, c)
-        row += 1
-        c.gridwidth = 1
 
         # Logging header
         c.gridy = row; c.gridx = 0; c.gridwidth = 2
@@ -989,10 +862,12 @@ class LoggerUI(ITab):
 
         # Regex field
         c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        rightContent.add(swing.JLabel("Response regex (Java):"), c)
+        rightContent.add(swing.JLabel("Response regex (Java Pattern, .find() must match):"), c)
         row += 1
         c.gridy = row
         self.regexField = swing.JTextField("", 20)
+        self.regexField.setToolTipText("Uses Java regex (java.util.regex.Pattern); escape backslashes (\\w, \\d, etc.); evaluated with .find(), not .matches().")
+
         rightContent.add(self.regexField, c)
         row += 1
 
@@ -1029,176 +904,70 @@ class LoggerUI(ITab):
         row += 1
 
 
-        # --- Per-template autofollow checkboxes (insert above the global followRedirectsChk) ---
-        # Auto-follow redirects for Request Template (RT)
-        c.gridy = row
-        c.gridx = 0
-        c.gridwidth = 1
-        self.autoFollowRTChk = swing.JCheckBox("AutoFollow redirect on RT", False,
-            actionPerformed=lambda e: self._on_toggle_per_template_autofollow())
-        rightContent.add(self.autoFollowRTChk, c)
-
-        # Auto-follow redirects for CheckPageTemplate (CPT)
-        c.gridy = row        # ugyanaz a sor
-        c.gridx = 1          # másik oszlop
-        c.gridwidth = 1
-        self.autoFollowCPTChk = swing.JCheckBox("AutoFollow redirect on CPT", False,
-            actionPerformed=lambda e: self._on_toggle_per_template_autofollow())
-        rightContent.add(self.autoFollowCPTChk, c)
-
-        row += 1
-
-        # Follow-redirects and manual target controls (insert directly above the existing Use CheckPageTemplate row)
-
-        # 1) Follow redirects checkbox
-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        self.followRedirectsChk = swing.JCheckBox("My tool wants to follow the redirects", False,
-            actionPerformed=lambda e: self._on_toggle_follow_redirects())
-        rightContent.add(self.followRedirectsChk, c)
-        row += 1
-
-        # 2) Scheme row: label + input (defaults to "http")
-        c.gridy = row; c.gridx = 0; c.gridwidth = 1; c.weightx = 0.0; c.anchor = GridBagConstraints.WEST
-        rightContent.add(swing.JLabel("Scheme(http/https):"), c)
-        self.schemeField = swing.JTextField("http", 8)
-        c.gridx = 1; c.weightx = 0.0; c.anchor = GridBagConstraints.EAST
-        rightContent.add(self.schemeField, c)
-        row += 1
-
-        # 3) Host row: label + input (defaults to "bobr.pol")
-        c.gridy = row; c.gridx = 0; c.gridwidth = 1; c.anchor = GridBagConstraints.WEST
-        rightContent.add(swing.JLabel("Host(target host name):"), c)
-        self.targetHostField = swing.JTextField("bobr.pol", 16)
-        c.gridx = 1; c.anchor = GridBagConstraints.EAST
-        rightContent.add(self.targetHostField, c)
-        row += 1
-
-        # 4) Port row: label + input (defaults to "80")
-        c.gridy = row; c.gridx = 0; c.gridwidth = 1; c.anchor = GridBagConstraints.WEST
-        rightContent.add(swing.JLabel("Port(1-65535):"), c)
-        self.targetPortField = swing.JTextField("80", 8)
-        c.gridx = 1; c.anchor = GridBagConstraints.EAST
-        rightContent.add(self.targetPortField, c)
-        row += 1
-
-        # Initially disable the three input rows (they become enabled only when checkbox checked)
-        try:
-            for w in [self.schemeField, self.targetHostField, self.targetPortField]:
-                w.setEnabled(False)
-        except:
-            pass
-
-
-        # --- CheckPageTemplate usage toggle (UI) with wait input ---
-        # Insert this *above* the existing Auto-update cookies checkbox block
-
-        # Checkbox (unchanged, only instantiation moved slightly)
-        self.useCheckPageChk = swing.JCheckBox(
-            "Use CheckPageTemplate", False,
-            actionPerformed=lambda e: setattr(self, "useCheckPageTemplate", bool(self.useCheckPageChk.isSelected()))
-        )
+        # instantiate:
+        self.useCheckPageChk = swing.JCheckBox("Use CheckPageTemplate", False, actionPerformed=self._on_use_checkpage_toggle)
         self.useCheckPageTemplate = False
 
-        # New: label and input for waiting seconds
-        wait_label = swing.JLabel("Waiting before send(s):")
-        self.checkpageWaitField = swing.JTextField("0.5", 6)  # default text, small width
-        # attribute to hold the parsed float value (seconds)
-        self.checkpageWaitSeconds = 0.5
+        self.autoFollowRTChk = swing.JCheckBox("AutoFollow redirect on RT", False)
+        self.autoFollowRTChk.setEnabled(False)
 
-        # helper to parse and store the value safely
-        def _apply_checkpage_wait():
-            try:
-                v = float(self.checkpageWaitField.getText().strip())
-                if v < 0:
-                    v = 0.0
-            except Exception:
-                v = 0.5
-            self.checkpageWaitSeconds = v
-            # normalize field text to a consistent format
-            self.checkpageWaitField.setText(str(v))
-
-        # apply when user presses Enter in the field
-        self.checkpageWaitField.actionPerformed = lambda e: _apply_checkpage_wait()
-
-        # Layout: add checkbox, then label and input on the same row
-        c.gridy = row; c.gridx = 0; c.gridwidth = 1
+        # add to UI in one row:
+        c.gridy = row
+        c.gridx = 0
         rightContent.add(self.useCheckPageChk, c)
-
-        c.gridx = 1; c.gridwidth = 1
-        # a small panel to hold label + field together (keeps alignment tidy)
-        _waitPanel = swing.JPanel()
-        _waitPanel.add(wait_label)
-        _waitPanel.add(self.checkpageWaitField)
-        rightContent.add(_waitPanel, c)
-
+        c.gridx = 1
+        rightContent.add(self.autoFollowRTChk, c)
         row += 1
-        
 
-        # Auto-update cookies checkbox
+
+        # --- Cookies checkbox ---
         self.autoUpdateChk = swing.JCheckBox(
             "Auto-update cookies from responses", False,
             actionPerformed=lambda e: setattr(self, "autoUpdateCookies", bool(self.autoUpdateChk.isSelected()))
         )
-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        rightContent.add(self.autoUpdateChk, c)
-        row += 1
 
-        # Cookies buttons in one compact horizontal panel
-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        c.weightx = 1.0
-        c.anchor = GridBagConstraints.CENTER
+        # --- CSRF checkbox ---
+        self.autoUpdateCsrfChk = swing.JCheckBox(
+            "Auto-update CSRF from responses", False,
+            actionPerformed=lambda e: setattr(self, "autoUpdateCsrf", bool(self.autoUpdateCsrfChk.isSelected()))
+        )
 
+        # --- Cookies buttons ---
         cookiePanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
         self.clearCookiesBtn = swing.JButton("Clear Cookies", actionPerformed=lambda e: self._on_clear_cookies())
         cookiePanel.add(self.clearCookiesBtn)
         self.showCookiesBtn = swing.JButton("Show Cookies", actionPerformed=lambda e: self._on_show_cookies())
         cookiePanel.add(self.showCookiesBtn)
         cookiePanel.setMaximumSize(cookiePanel.getPreferredSize())
-        rightContent.add(cookiePanel, c)
 
-        # restore defaults
-        c.gridwidth = 1
-        c.weightx = 0.0
-        row += 1
-
-        # Auto-update CSRF checkbox
-        self.autoUpdateCsrfChk = swing.JCheckBox(
-            "Auto-update CSRF from responses", False,
-            actionPerformed=lambda e: setattr(self, "autoUpdateCsrf", bool(self.autoUpdateCsrfChk.isSelected()))
-        )
-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        rightContent.add(self.autoUpdateCsrfChk, c)
-        row += 1
-
-        # CSRF param name input
-        c.gridy = row; c.gridx = 0; c.gridwidth = 1
-        rightContent.add(swing.JLabel("Hidden param name:"), c)
-        self.csrfParamField = swing.JTextField(self.csrf_param_name, 12)
-        c.gridx = 1
-        rightContent.add(self.csrfParamField, c)
-        row += 1
-
-        # CSRF Clear/Show in compact horizontal panel
-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        c.weightx = 1.0
-        c.anchor = GridBagConstraints.CENTER
-
+        # --- CSRF buttons ---
         csrfPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
         self.clearCsrfBtn = swing.JButton("Clear CSRF", actionPerformed=lambda e: self._on_clear_csrf())
         csrfPanel.add(self.clearCsrfBtn)
         self.showCsrfBtn = swing.JButton("Show CSRF", actionPerformed=lambda e: self._on_show_csrf())
         csrfPanel.add(self.showCsrfBtn)
         csrfPanel.setMaximumSize(csrfPanel.getPreferredSize())
-        rightContent.add(csrfPanel, c)
 
-        # restore defaults
-        c.gridwidth = 1
-        c.weightx = 0.0
+
+        # --- Elrendezés: két sor, két oszlop ---
+        # sor 1: checkboxok
+        c.gridy = row; c.gridx = 0
+        rightContent.add(self.autoUpdateChk, c)
+        c.gridx = 1
+        rightContent.add(self.autoUpdateCsrfChk, c)
         row += 1
+
+        # sor 2: gombpárok
+        c.gridy = row; c.gridx = 0
+        rightContent.add(cookiePanel, c)
+        c.gridx = 1
+        rightContent.add(csrfPanel, c)
+        row += 1
+
 
         # CSRF regex label + reset button (kept in the same style as other rows)
         c.gridy = row; c.gridx = 0; c.gridwidth = 1
-        rightContent.add(swing.JLabel("Regex pattern:"), c)
+        rightContent.add(swing.JLabel("Regex pattern (Python-style, first capturing group = token):"), c)
         self.resetCsrfRegexBtn = swing.JButton("Reset to default", actionPerformed=lambda e: self._on_reset_csrf_regex())
         c.gridx = 1
         rightContent.add(self.resetCsrfRegexBtn, c)
@@ -1208,7 +977,7 @@ class LoggerUI(ITab):
         c.gridy = row; c.gridx = 0; c.gridwidth = 2
         self.csrfRegexArea = swing.JTextArea(self.csrf_default_pattern, 2, 40)
         self.csrfRegexArea.setLineWrap(False)
-        self.csrfRegexArea.setToolTipText("Use %s to substitute the token name; default pattern shown")
+        self.csrfRegexArea.setToolTipText("Custom regex to extract the CSRF token. The first capturing group is used.")
         self.csrfRegexScroll = swing.JScrollPane(self.csrfRegexArea)
         rightContent.add(self.csrfRegexScroll, c)
         row += 1
@@ -1224,12 +993,13 @@ class LoggerUI(ITab):
         rightContent.add(self.useCustomChk, c)
         self.timeoutField = swing.JTextField(str(self.custom_timeout_ms), 6)
         self.timeoutField.setToolTipText("Timeout (ms)")
+        self.custom_codeblock_status = False
         c.gridx = 1
         rightContent.add(self.timeoutField, c)
         row += 1
 
         c.gridy = row; c.gridx = 0
-        rightContent.add(swing.JLabel("Payload param name(payload1 - required):"), c)
+        rightContent.add(swing.JLabel("Payload1 param name (p4yl04dm4rk3r):"), c)
         self.payloadParamField = swing.JTextField(self.payload_param_name, 10)
         c.gridx = 1
         rightContent.add(self.payloadParamField, c)
@@ -1240,7 +1010,7 @@ class LoggerUI(ITab):
 
         # UI: second payload param name field (next to payloadParamField)
         c.gridy = row; c.gridx = 0
-        rightContent.add(swing.JLabel("Payload param name(payload2 - optional):"), c)
+        rightContent.add(swing.JLabel("Payload2 param name (53c0undm4rk3r):"), c)
         self.payloadParam2Field = swing.JTextField(self.payload_param2_name, 10)
         c.gridx = 1
         rightContent.add(self.payloadParam2Field, c)
@@ -1249,7 +1019,7 @@ class LoggerUI(ITab):
 
         # custom code text area (multi-line)
         c.gridy = row; c.gridx = 0; c.gridwidth = 2
-        self.customCodeArea = swing.JTextArea(self.custom_code_text, 10, 40)
+        self.customCodeArea = swing.JTextArea(self.default_code_text, 10, 40)
         self.customCodeArea.setLineWrap(False)
         self.customCodeScroll = swing.JScrollPane(self.customCodeArea)
         rightContent.add(self.customCodeScroll, c)
@@ -1268,9 +1038,6 @@ class LoggerUI(ITab):
         row += 1
 
         # Error/output area (fills remaining vertical space)
-        # --- Error/output area (isolated in its own container, expands only within itself) ---
-        from java.awt import Dimension, BorderLayout
-
         # Create a sub-panel with BorderLayout so the scroll pane fills it completely
         outputPanel = swing.JPanel(BorderLayout())
 
@@ -1287,6 +1054,9 @@ class LoggerUI(ITab):
         scroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
         scroll.setPreferredSize(Dimension(0, 120))  # default visible area (~5 lines)
 
+        # initially disable custom controls (preserve original behavior)
+        self._on_toggle_custom()
+
         # Add scroll pane to the output panel (fills the panel)
         outputPanel.add(scroll, BorderLayout.CENTER)
 
@@ -1302,30 +1072,11 @@ class LoggerUI(ITab):
         rightContent.add(outputPanel, c)
         row += 1
 
-
         # reset fill/grid hints
         c.fill = GridBagConstraints.HORIZONTAL
         c.gridwidth = 1
         c.weighty = 0.0
-
-        # --- Fixed-height status label (prevents vertical layout shift) ---
-        statusPanel = swing.JPanel(BorderLayout())
-        self.customStatusLabel = swing.JLabel("")
-        self.customStatusLabel.setPreferredSize(Dimension(0, 20))  # fixed height ~1 text line
-        self.customStatusLabel.setHorizontalAlignment(swing.SwingConstants.LEFT)
-        statusPanel.add(self.customStatusLabel, BorderLayout.CENTER)
-
-        c.gridy = row
-        c.gridx = 0
-        c.gridwidth = 2
-        c.fill = GridBagConstraints.HORIZONTAL
-        c.weightx = 1.0
-        c.weighty = 0.0
-        rightContent.add(statusPanel, c)
-        row += 1
-
-        # initially disable custom controls (preserve original behavior)
-        self._on_toggle_custom()
+        row += 1  
 
         # spacer at the end to push items to top
         c.gridy = row; c.weighty = 1.0
@@ -1334,16 +1085,12 @@ class LoggerUI(ITab):
 
         # wrap rightContent into wrapper so layout can flexibly shrink
         rightWrapper.add(rightContent)
-
         # small rigid spacer below to prevent jitter when resizing
         rightWrapper.add(swing.Box.createRigidArea(Dimension(0, 5)))
-
         # scroll pane around the wrapper (not directly rightContent!)
         self.rightScroll = swing.JScrollPane(rightWrapper)
         
         # --- (Jython-kompatibilis) dynamic resize hookup for rightContent ---
-        from java.awt import Dimension
-        from java.awt.event import ComponentAdapter
 
         def _update_preferred_size(evt=None):
             try:
@@ -1388,69 +1135,125 @@ class LoggerUI(ITab):
         except:
             pass
 
+    # --- Error/output area (isolated in its own container, expands only within itself) ---
+    def _log(self, msg):
+        try:
+            self.customStatusArea.setText(str(msg))
+        except Exception as e:
+            print("customStatusArea_SETTEXT_ERROR:", e)
 
-    def _on_toggle_per_template_autofollow(self, evt=None):
-        """
-        When per-template autofollow checkboxes change, the global followRedirectsChk must be unchecked.
-        """
-        try:
-            rt = bool(self.autoFollowRTChk.isSelected())
-        except:
-            rt = False
-        try:
-            cpt = bool(self.autoFollowCPTChk.isSelected())
-        except:
-            cpt = False
 
-        # If any per-template checkbox is selected, make sure the global checkbox is unchecked.
+    def _to_text(self, data):
+        """
+        Robust conversion of various response forms to a unicode string.
+        Handles:
+         - bytes / bytearray
+         - iterable of ints (Java byte[] / Jython byte[] view)
+         - string repr like "array('b', [72, 84, ...])"
+         - fallback to str()
+        """
         try:
-            if rt or cpt:
-                enabled = False
+            # already bytes-like
+            if isinstance(data, (bytes, bytearray)):
                 try:
-                    self.followRedirectsChk.setSelected(enabled)
+                    return data.decode("latin-1", "replace")
                 except:
-                    pass
+                    return data.decode("utf-8", "replace")
+
+            # If it's an actual iterable (Java byte[], list of ints, etc.) but not a str
+            if hasattr(data, '__iter__') and not isinstance(data, str):
                 try:
-                    for w in [self.schemeField, self.targetHostField, self.targetPortField]:
+                    out = bytearray()
+                    for b in data:
                         try:
-                            w.setEnabled(enabled)
-                        except:
-                            pass
-                except:
+                            iv = int(b)
+                        except Exception:
+                            try:
+                                iv = ord(b)
+                            except Exception:
+                                iv = 0
+                        if iv < 0:
+                            iv = iv + 256
+                        out.append(iv)
+                    return bytes(out).decode("latin-1", "replace")
+                except Exception:
+                    # fallthrough to string handling
                     pass
-        except:
-            pass
+
+            # otherwise, try to parse common textual reprs like: array('b', [72, 84, ...])
+            s = str(data)
+
+            # pattern: array('b', [72, 84, ...])
+            try:
+                m = re.match(r"^\s*array\('b'\s*,\s*\[([0-9,\s]+)\]\s*\)\s*$", s)
+                if m:
+                    nums = [int(x.strip()) for x in m.group(1).split(',') if x.strip()]
+                    if nums:
+                        return bytes(nums).decode("latin-1", "replace")
+            except Exception:
+                pass
+
+            # fallback: if string contains bracketed numbers like [72, 84, ...], try that
+            try:
+                m2 = re.search(r"\[([0-9,\s]+)\]", s)
+                if m2:
+                    parts = [p.strip() for p in m2.group(1).split(',') if p.strip().isdigit()]
+                    if parts:
+                        nums = [int(p) for p in parts]
+                        return bytes(nums).decode("latin-1", "replace")
+            except Exception:
+                pass
+
+            # final fallback: return the string representation
+            return s
+
+        except Exception:
+            try:
+                return str(data)
+            except:
+                return ""
 
 
-    def _on_toggle_follow_redirects(self, evt=None):
+    def _on_proxy_toggle(self):
+        """
+        Toggle the proxy-mode processing flag. When enabled, the extension will
+        actively intercept proxy requests and run the processing flow.
+        """
         try:
-            enabled = bool(self.followRedirectsChk.isSelected())
-        except:
-            enabled = False
-        try:
-            for w in [self.schemeField, self.targetHostField, self.targetPortField]:
+            self._proxy_mode_active = bool(self.proxyModeBtn.isSelected())
+
+            # mutual exclusion: if proxy ON, force local OFF
+            if self._proxy_mode_active:
                 try:
-                    w.setEnabled(enabled)
+                    self._update_autofollow_enabled_on_proxy()
                 except:
                     pass
-        except:
-            pass
-        
-        # ensure per-template checkboxes are cleared when the global follow is enabled
-        try:
-            if enabled:
+            else:
                 try:
-                    if hasattr(self, "autoFollowRTChk") and self.autoFollowRTChk.isSelected():
-                        self.autoFollowRTChk.setSelected(False)
+                    self._update_autofollow_enabled_on_proxy()
                 except:
                     pass
-                try:
-                    if hasattr(self, "autoFollowCPTChk") and self.autoFollowCPTChk.isSelected():
-                        self.autoFollowCPTChk.setSelected(False)
-                except:
-                    pass
-        except:
-            pass
+
+            self._log("Proxy processing toggled: %s" % ("ON" if self._proxy_mode_active else "OFF"))
+        except Exception as e:
+            self._log("Error toggling proxy processing: %s" % str(e))
+
+
+    def _update_autofollow_enabled_on_proxy(self):
+        """
+        Enable autoFollowRTChk only if proxy mode is active AND
+        useCheckPageChk is selected.
+        """
+        if self._proxy_mode_active and self.useCheckPageChk.isSelected():
+            self.autoFollowRTChk.setEnabled(True)
+        else:
+            self.autoFollowRTChk.setSelected(False)
+            self.autoFollowRTChk.setEnabled(False)
+
+
+    def _on_use_checkpage_toggle(self, event=None):
+        self.useCheckPageTemplate = self.useCheckPageChk.isSelected()
+        self._update_autofollow_enabled_on_proxy()
 
 
     def _open_filter_dialog(self, evt=None):
@@ -1518,23 +1321,10 @@ class LoggerUI(ITab):
                     except:
                         b = txt.encode("latin-1", "replace")
                     self.reqTemplateEditor.setMessage(b, True)
-                else:
-                    self.reqTemplateArea.setText(txt)
-                try:
-                    # try to reset caret/scroll for textarea fallback
-                    if hasattr(self, "reqTemplateArea"):
-                        self.reqTemplateArea.setCaretPosition(0)
-                        self.reqTemplateScroll.getVerticalScrollBar().setValue(0)
-                except:
-                    pass
                 self.set_status("Loaded request into Request Template")
                 self.tabbed.setSelectedIndex(1)
-            except Exception:
-                # fallback: set as text
-                try:
-                    self.reqTemplateArea.setText(txt)
-                except:
-                    pass
+            except:
+                pass
         except:
             pass
 
@@ -1549,14 +1339,6 @@ class LoggerUI(ITab):
                         self.reqTemplateEditor.setMessage(self.helpers.stringToBytes(""), True)
                     except:
                         pass
-            else:
-                self.reqTemplateArea.setText("")
-            try:
-                if hasattr(self, "reqTemplateArea"):
-                    self.reqTemplateArea.setCaretPosition(0)
-                    self.reqTemplateScroll.getVerticalScrollBar().setValue(0)
-            except:
-                pass
             self.set_status("Request Template cleared")
         except:
             pass
@@ -1572,21 +1354,10 @@ class LoggerUI(ITab):
                     except:
                         b = txt.encode("latin-1", "replace")
                     self.checkPageEditor.setMessage(b, True)
-                else:
-                    self.checkPageArea.setText(txt)
-                try:
-                    if hasattr(self, "checkPageArea"):
-                        self.checkPageArea.setCaretPosition(0)
-                        self.checkPageScroll.getVerticalScrollBar().setValue(0)
-                except:
-                    pass
                 self.set_status("Loaded request into CheckPageTemplate")
                 self.tabbed.setSelectedIndex(2)
-            except Exception:
-                try:
-                    self.checkPageArea.setText(txt)
-                except:
-                    pass
+            except:
+                pass
         except:
             pass
 
@@ -1600,47 +1371,10 @@ class LoggerUI(ITab):
                         self.checkPageEditor.setMessage(self.helpers.stringToBytes(""), True)
                     except:
                         pass
-            else:
-                self.checkPageArea.setText("")
-            try:
-                if hasattr(self, "checkPageArea"):
-                    self.checkPageArea.setCaretPosition(0)
-                    self.checkPageScroll.getVerticalScrollBar().setValue(0)
-            except:
-                pass
             self.set_status("CheckPageTemplate cleared")
         except:
             pass
 
-
-
-    def _set_mode(self, mode):
-        # toggle mode: "proxy" or "local"
-        if mode == self._mode:
-            return
-        # stop local if switching away
-        if mode == "proxy":
-            # stop local server if running
-            self._stop_local_server()
-            self._mode = "proxy"
-            self.modeStatusLabel.setText("Mode: proxy")
-            self.proxyModeBtn.setSelected(True)
-            self.localModeBtn.setSelected(False)
-            # enable controls
-            self._set_right_controls_enabled(True)
-        else:
-            # start local server
-            ok = self._start_local_server()
-            if ok:
-                self._mode = "local"
-                self.modeStatusLabel.setText("Mode: local (listening: 127.0.0.1:%d)" % self._local_server_port)
-                self.proxyModeBtn.setSelected(False)
-                self.localModeBtn.setSelected(True)
-                # optionally disable some controls to avoid confusion
-                self._set_right_controls_enabled(False)
-            else:
-                # failed to start -> keep proxy mode
-                self._set_mode("proxy")
 
     def _set_right_controls_enabled(self, enabled):
         try:
@@ -1656,142 +1390,7 @@ class LoggerUI(ITab):
             except:
                 pass
 
-    def _start_local_server(self):
-        if self._local_server_running:
-            return True
-        try:
-            srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            srv.bind(("127.0.0.1", self._local_server_port))
-            srv.listen(5)
-        except Exception as e:
-            swing.JOptionPane.showMessageDialog(None, "Failed to start local server on 127.0.0.1:%d: %s" % (self._local_server_port, e))
-            return False
 
-        self._local_server_socket = srv
-        self._local_server_running = True
-
-        def server_thread():
-            try:
-                while self._local_server_running:
-                    try:
-                        conn, addr = srv.accept()
-                        
-                        def handler(cn, ad):
-                            """
-                            Connection handler with bounded concurrency control.
-                            We use a BoundedSemaphore stored on self to limit how many handlers
-                            can run the heavy processing (self._handle_external_payload) at once.
-                            This avoids unbounded CPU / memory growth while accepting connections quickly.
-                            """
-                            # ensure we have a semaphore on self (persistent across connections)
-                            if not hasattr(self, "_fpl_req_semaphore"):
-                                # tune this value to your environment (start with 60)
-                                MAX_PARALLEL_WORKERS = 60
-                                try:
-                                    self._fpl_req_semaphore = threading.BoundedSemaphore(value=MAX_PARALLEL_WORKERS)
-                                except Exception:
-                                    # fallback, create a plain Semaphore if Bounded not available
-                                    self._fpl_req_semaphore = threading.Semaphore(value=MAX_PARALLEL_WORKERS)
-
-                            acquired = False
-                            try:
-                                # Acquire semaphore (blocks here if too many workers already running)
-                                self._fpl_req_semaphore.acquire()
-                                acquired = True
-
-                                # ---- read request from socket (same behaviour as before) ----
-                                cn.settimeout(3.0)
-                                data = b""
-                                try:
-                                    chunk = cn.recv(65535)
-                                    if chunk:
-                                        data += chunk
-                                except:
-                                    # if recv fails, we'll fall back below
-                                    pass
-
-                                # prepare fallback response
-                                fallback_body = b"BoberProxy local server OK\n"
-                                fallback_resp = (
-                                    b"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
-                                    + str(len(fallback_body)).encode("ascii")
-                                    + b"\r\nConnection: close\r\n\r\n"
-                                    + fallback_body
-                                )
-
-                                if not data:
-                                    try:
-                                        cn.sendall(fallback_resp)
-                                    except:
-                                        pass
-                                    return
-
-                                # ---- call existing payload handler (unchanged) ----
-                                try:
-                                    # keep original behaviour: handler returns raw response bytes
-                                    resp = self._handle_external_payload(data)
-                                    if resp:
-                                        cn.sendall(resp)
-                                    else:
-                                        cn.sendall(fallback_resp)
-                                except Exception as e:
-                                    # minimal logging so we don't spam disk or break behaviour
-                                    try:
-                                        print("[FPL] handler exception:", e)
-                                    except:
-                                        pass
-                                    try:
-                                        cn.sendall(fallback_resp)
-                                    except:
-                                        pass
-
-                            finally:
-                                # ensure we always release (if we acquired)
-                                if acquired:
-                                    try:
-                                        self._fpl_req_semaphore.release()
-                                    except:
-                                        pass
-                                # close socket
-                                try:
-                                    cn.close()
-                                except:
-                                    pass
-
-
-                        t = threading.Thread(target=handler, args=(conn, addr))
-                        t.setDaemon(True)
-                        t.start()
-                    except Exception:
-                        time.sleep(0.05)
-            finally:
-                try:
-                    srv.close()
-                except:
-                    pass
-                self._local_server_running = False
-
-        thr = threading.Thread(target=server_thread)
-        thr.setDaemon(True)
-        thr.start()
-        self._local_server_thread = thr
-        return True
-
-    def _stop_local_server(self):
-        if not self._local_server_running:
-            return
-        self._local_server_running = False
-        try:
-            if self._local_server_socket:
-                try:
-                    self._local_server_socket.close()
-                except:
-                    pass
-        except:
-            pass
-        self.modeStatusLabel.setText("Mode: proxy (local server stopped)")
-        return
 
     def getTabCaption(self): return "BoberProxy"
     def getUiComponent(self): return self._component
@@ -2023,7 +1622,7 @@ class LoggerUI(ITab):
                         self.displayed_entries.append(entry)
                     except:
                         pass
-            from javax.swing.table import DefaultTableModel
+        
             new_model = DefaultTableModel(new_rows, column_names)
             self.table.setModel(new_model)
             self.tableModel = new_model
@@ -2060,11 +1659,7 @@ class LoggerUI(ITab):
                 except:
                     return ""
         except:
-            # fallback: if we have a JTextArea fallback
-            try:
-                return getattr(self, "reqTemplateArea", swing.JTextArea()).getText()
-            except:
-                return ""
+            pass
 
     # set template editor content from bytes/string
     def _editor_set_text(self, editor, text_or_bytes):
@@ -2078,12 +1673,7 @@ class LoggerUI(ITab):
                     b = str(text_or_bytes).encode("latin-1", "replace")
             editor.setMessage(b, True)  # note: second arg 'isRequest' only affects highlighting in Burp editor
         except:
-            try:
-                # fallback for plain JTextArea
-                if hasattr(self, "reqTemplateArea"):
-                    self.reqTemplateArea.setText(str(text_or_bytes))
-            except:
-                pass
+            pass
 
 
     def set_status(self, txt):
@@ -2150,7 +1740,6 @@ class LoggerUI(ITab):
                     ])
 
             # --- Replace the model in one step ---
-            from javax.swing.table import DefaultTableModel
             column_names = [self.tableModel.getColumnName(c) for c in range(col_count)]
             new_model = DefaultTableModel(new_rows, column_names)
             self.table.setModel(new_model)
@@ -2169,10 +1758,7 @@ class LoggerUI(ITab):
 
             # --- Cleanup ---
             self.table.setEnabled(True)
-            try:
-                self.detailArea.setText("")
-            except:
-                pass
+
             try:
                 self.lineNums.setText("")
             except:
@@ -2208,7 +1794,6 @@ class LoggerUI(ITab):
     def sort_by_index_asc(self):
         """Sort JTable by '#' column (index ascending)."""
         try:
-            from javax.swing import RowSorter, SortOrder
             sorter = self.table.getRowSorter()
             if sorter:
                 sorter.setSortKeys([RowSorter.SortKey(0, SortOrder.ASCENDING)])
@@ -2269,12 +1854,8 @@ class LoggerUI(ITab):
 
     def _on_clear_csrf(self, evt=None):
         try:
-            pname = str(self.csrfParamField.getText()).strip()
-            if not pname:
-                self.customStatusArea.setText("No param name specified.")
-                return
-            self.csrfManager.clear(pname)
-            self.customStatusArea.setText("Cleared CSRF token for: %s" % pname)
+            self.csrfManager.clear()
+            self.customStatusArea.setText("CSRF_token cleared")
         except Exception as e:
             try:
                 self.customStatusArea.setText("Error clearing CSRF: %s" % e)
@@ -2283,15 +1864,9 @@ class LoggerUI(ITab):
 
     def _on_show_csrf(self, evt=None):
         try:
-            pname = str(self.csrfParamField.getText()).strip()
-            if not pname:
-                self.customStatusArea.setText("Hidden param name: (empty)\nAll tokens: %s" % self.csrfManager.dump())
-                return
-            val = self.csrfManager.get_token(pname)
-            if val is None:
-                self.customStatusArea.setText("No token cached for: %s" % pname)
-            else:
-                self.customStatusArea.setText("Cached %s = %s" % (pname, val))
+            txt = self.csrfManager.dump()
+            # put into customStatusArea so user sees current jar
+            self.customStatusArea.setText("CSRF_token:\n%s" % txt)
         except Exception as e:
             try:
                 self.customStatusArea.setText("Error showing CSRF: %s" % e)
@@ -2301,10 +1876,7 @@ class LoggerUI(ITab):
     def _on_reset_csrf_regex(self, evt=None):
         try:
             self.csrfRegexArea.setText(self.csrf_default_pattern)
-            try:
-                self.customStatusArea.setText("CSRF regex reset to default.")
-            except:
-                pass
+            self.customStatusArea.setText("CSRF regex reset to default.")
         except Exception as e:
             try:
                 self.customStatusArea.setText("Error resetting CSRF regex: %s" % e)
@@ -2312,7 +1884,7 @@ class LoggerUI(ITab):
                 pass
 
 
-    # selection -> show request/response és caret alapviselkedés
+    # selection -> show request/response and caret default behavior
     def on_table_select(self, event):
         if getattr(self, "_suspend_selection_events", False):
             return
@@ -2371,37 +1943,6 @@ class LoggerUI(ITab):
                     else:
                         self.respViewer.setMessage(None, False)
             except:
-                pass
-
-            # try to reset any per-viewer caret/scroll if possible (best-effort)
-            try:
-                # if we fell back to text area, set caret
-                if hasattr(self, "detailArea") and self.detailArea is not None:
-                    self.detailArea.setCaretPosition(0)
-            except:
-                pass
-
-            # keep search UI behavior: if user typed >=2 chars, we can still attempt to search in the response text
-            try:
-                text = str(self.searchField.getText()).strip()
-            except:
-                text = ""
-            if len(text) >= 2:
-                # best-effort: run previous do_search on the textual response if we can obtain it
-                try:
-                    hay = ""
-                    if messageInfo.getResponse():
-                        hay = self.helpers.bytesToString(messageInfo.getResponse())
-                    elif messageInfo.getRequest():
-                        hay = self.helpers.bytesToString(messageInfo.getRequest())
-                    # replace detailArea content for search/highlight flow if detailArea exists
-                    if hasattr(self, "detailArea") and self.detailArea is not None:
-                        self.detailArea.setText(hay)
-                        SwingUtilities.invokeLater(lambda: self.do_search(scroll_if_checked=True))
-                except:
-                    pass
-            else:
-                # nothing to search: nothing more to do
                 pass
 
         except Exception as e:
@@ -2597,18 +2138,18 @@ class LoggerUI(ITab):
     # Custom codeblock helpers
     # ---------------------------
     def _on_toggle_custom(self, evt=None):
-        enabled = bool(self.useCustomChk.isSelected())
-        for w in [self.customCodeArea, self.payloadParamField, self.payloadParam2Field, self.testCodeBtn, self.resetBtn, self.timeoutField]:
+        self.custom_codeblock_status = bool(self.useCustomChk.isSelected())
+        for w in [self.customCodeArea, self.testCodeBtn, self.resetBtn, self.timeoutField]:
             try:
-                w.setEnabled(enabled)
+                w.setEnabled(self.custom_codeblock_status)
             except:
                 pass
         # show brief status
         try:
-            if enabled:
-                self.customStatusLabel.setText("Custom codeblock enabled")
+            if self.custom_codeblock_status:
+                self._log("Custom codeblock enabled")
             else:
-                self.customStatusLabel.setText("")
+                self._log("")
         except:
             pass
 
@@ -2646,25 +2187,9 @@ class LoggerUI(ITab):
     def _reset_custom_code(self, event=None):
         # Reset the user code area to a simple backward-compatible template.
         # English comments inside code are required — keep them short.
-        default_template = (
-            "def custom_codeblock(payload1, payload2, csrf_token,):\n"
-            "    \"\"\"\n"
-            "    Custom transform hook that MUST accept and MUST return exactly three values.\n"
-            "    Parameters\n"
-            "    - payload1: first incoming payload (string)\n"
-            "    - payload2: second incoming payload (string)\n"
-            "    - csrf_token: csrf token (string)\n"
-            "\n"
-            "    MUST return exactly three elements in this order:\n"
-            "    return payload1, payload2, csrf_token\n"
-            "    \"\"\"\n"
-            "    # Default behaviour: pass inputs through unchanged\n"
-            "    return payload1, payload2, csrf_token\n"
-        )
-
-
         try:
-            self.customCodeArea.setText(default_template)
+            default_code_text = getattr(self, "default_code_text", "")
+            self.customCodeArea.setText(default_code_text)
         except:
             pass
 
@@ -2673,7 +2198,7 @@ class LoggerUI(ITab):
     def run_user_code(self, incoming_payload1, timeout_ms=500, incoming_payload2=None, incoming_csrf=None):
         """
         Execute user's custom_codeblock and enforce that the function:
-        def custom_codeblock(payload1, payload2, csrf_token,)
+        def custom_codeblock(payload1, payload2, csrf_token)
         returns exactly three values in order: payload1, payload2, csrf_token
 
         Returns (ok, out_tuple_or_none, err_str)
@@ -2681,13 +2206,24 @@ class LoggerUI(ITab):
         - out_tuple_or_none: (payload1, payload2, csrf_token) tuple when ok True
         - err_str: error message when ok False
         """
-        user_code_text = str(self.customCodeArea.getText())
+        # determine user code text: use editor only when custom enabled, otherwise use default
+        try:
+            print("incoming_payload1:", incoming_payload1)
+            print("incoming_payload2:", incoming_payload2)
+            print("incoming_csrf:", incoming_csrf)
+        except:
+            pass
+
+        if self.custom_codeblock_status:
+            user_code_text = str(self.customCodeArea.getText())
+        else:
+            # use the default template stored in the class, if any
+            user_code_text = getattr(self, "default_code_text", "")
         ns = {}
         try:
             _exec_in_namespace(user_code_text, ns)
         except Exception as e:
-            import traceback as _tb
-            return False, None, "Compilation error: %s\n%s" % (e, _tb.format_exc())
+            return False, None, "Compilation error: %s\n%s" % (e, traceback.format_exc())
 
         if 'custom_codeblock' not in ns or not callable(ns.get('custom_codeblock')):
             return False, None, "custom_codeblock not defined as callable in user code"
@@ -2703,8 +2239,7 @@ class LoggerUI(ITab):
                 result['ok'] = True
             except Exception as e:
                 try:
-                    import traceback as _tb
-                    result['exc'] = str(e) + "\n" + _tb.format_exc()
+                    result['exc'] = str(e) + "\n" + traceback.format_exc()
                 except:
                     result['exc'] = str(e)
 
@@ -2760,970 +2295,563 @@ class LoggerUI(ITab):
                             pass
                 except:
                     pass
-            # fallback: return whole body (if present)
-            try:
-                rb = messageInfo.getRequest()
-                if rb:
-                    return self.helpers.bytesToString(rb)
-            except:
-                pass
         except:
             pass
         return ""
 
 
-    def _follow_redirects_chain(self, initial_request_bytes, initial_response_bytes, initial_target_host, initial_target_port, initial_https, max_redirects=10):
-        """
-        Follow Location headers up to max_redirects. Returns final response as Python bytes or None on failure.
-        Updates cookies / csrf on every response if the corresponding auto-update flags are set.
-        Parameters:
-          - initial_request_bytes: the bytes we originally sent (used for resolving relative locations)
-          - initial_response_bytes: the first response bytes (Java byte[] or bytes-like)
-          - initial_target_host/port/https: current target info
-        """
-        try:
-            from urlparse import urljoin, urlparse
-        except:
-            try:
-                # fallback for some Jython envs
-                from java.net import URL
-                urljoin = None
-                urlparse = None
-            except:
-                urljoin = None
-                urlparse = None
+    def _update_cookies_and_csrf(self, response_bytes):
+        if not response_bytes:
+            return
 
-        # helper: convert Java byte-array/iterable to python bytes
-        def _to_pybytes(x):
+        # --- COOKIE UPDATE ---
+        if getattr(self, "autoUpdateCookies", False):
             try:
-                if isinstance(x, (bytes, bytearray)):
-                    return bytes(x)
-                out = bytearray()
-                for b in x:
-                    try:
-                        iv = int(b)
-                    except Exception:
-                        try:
-                            iv = ord(b)
-                        except Exception:
-                            iv = 0
-                    if iv < 0:
-                        iv += 256
-                    out.append(iv)
-                return bytes(out)
-            except Exception:
+                text = self.callbacks.getHelpers().bytesToString(response_bytes)
+                self.cookieManager.update_from_response(text)
+            except Exception as e:
+                print("[CookieUpdate] error:", e)
+
+        # --- CSRF UPDATE ---
+        if getattr(self, "autoUpdateCsrf", False):
+            try:
+                # 1) UI → CsrfManager
                 try:
-                    return str(x).encode("latin-1", "replace")
+                    pattern = self.csrfRegexArea.getText().strip()
+                    self.csrfManager.pattern_to_use = pattern
                 except:
-                    return b""
+                    self.csrfManager.pattern_to_use = None
 
-        # helper: extract status and headers and Location header from Java byte[] response
-        def _extract_status_and_location(resp_bytes):
-            txt = ""
-            try:
-                txt = self.helpers.bytesToString(resp_bytes)
-            except:
-                try:
-                    txt = _to_pybytes(resp_bytes).decode("latin-1", "replace")
-                except:
-                    txt = ""
-            # status code
-            status = None
-            try:
-                first_line = txt.split("\r\n",1)[0]
-                parts = first_line.split()
-                if len(parts) >= 2:
+                # 2) extract token
+                ok, new_token = self.csrfManager.update_from_response(response_bytes)
+
+                # 3) status message
+                if ok:
                     try:
-                        status = int(parts[1])
-                    except:
-                        status = None
-            except:
-                status = None
-            # headers parse (simple): find Location header (case-insensitively)
-            loc = None
-            try:
-                hdrs = txt.split("\r\n\r\n",1)[0].split("\r\n")[1:]
-                for h in hdrs:
-                    if h.lower().startswith("location:"):
-                        loc = h.split(":",1)[1].strip()
-                        break
-            except:
-                loc = None
-            return status, loc, txt
-
-        # helper: build request bytes for a new URL (use helpers.buildHttpMessage when possible)
-        def _build_request_for_url(base_request_bytes, target_url, keep_method_get=True):
-            """
-            target_url: absolute URL string (scheme://host[:port]/path[?q])
-            keep_method_get: if True, build GET request with no body; else try to reuse original method/body.
-            """
-            try:
-                # parse target_url
-                try:
-                    parsed = urlparse(target_url)
-                    scheme = parsed.scheme or ("https" if initial_https else "http")
-                    host = parsed.hostname
-                    port = parsed.port
-                    path = parsed.path or "/"
-                    if parsed.query:
-                        path = path + "?" + parsed.query
-                except Exception:
-                    # fallback: try simple split
-                    host = initial_target_host
-                    port = initial_target_port
-                    scheme = "https" if initial_https else "http"
-                    path = target_url
-
-                if not port:
-                    port = 443 if scheme == "https" else 80
-
-                # create minimal headers: request-line + Host + Connection: close + User-Agent (if present) + no body for GET
-                if keep_method_get:
-                    req_line = "GET %s HTTP/1.1" % path
-                    headers = [req_line, "Host: %s%s" % (host, ((":%d" % port) if ((scheme=="https" and port!=443) or (scheme=="http" and port!=80)) else "")), "Connection: close"]
-                    # try to keep a User-Agent from original if present
-                    try:
-                        parsed_orig = self.helpers.analyzeRequest(base_request_bytes)
-                        for h in parsed_orig.getHeaders():
-                            hs = str(h)
-                            if hs.lower().startswith("user-agent:"):
-                                headers.append(hs)
-                                break
+                        self.customStatusArea.setText("CSRF token updated.")
                     except:
                         pass
-                    body = b""
-                else:
-                    # try to reuse original headers and body but update Host and Connection
-                    try:
-                        parsed_orig = self.helpers.analyzeRequest(base_request_bytes)
-                        orig_headers = list(parsed_orig.getHeaders())
-                        bo = parsed_orig.getBodyOffset()
-                        orig_body = base_request_bytes[bo:] if base_request_bytes else b""
-                    except:
-                        orig_headers = []
-                        orig_body = b""
-                    new_headers = []
-                    host_replaced = False
-                    for h in orig_headers:
-                        try:
-                            hs = str(h)
-                        except:
-                            hs = h
-                        if hs.lower().startswith("host:"):
-                            new_headers.append("Host: %s%s" % (host, ((":%d" % port) if ((scheme=="https" and port!=443) or (scheme=="http" and port!=80)) else "")))
-                            host_replaced = True
-                        elif hs.lower().startswith("connection:"):
-                            new_headers.append("Connection: close")
-                        else:
-                            new_headers.append(hs)
-                    if not host_replaced:
-                        new_headers.insert(0, "Host: %s%s" % (host, ((":%d" % port) if ((scheme=="https" and port!=443) or (scheme=="http" and port!=80)) else "")))
-                    # rebuild request bytes
-                    try:
-                        req_bytes = self.helpers.buildHttpMessage(new_headers, orig_body)
-                        return req_bytes, host, port, (scheme.lower()=="https")
-                    except:
-                        # fallback to text build
-                        hdrs_text = "\r\n".join(new_headers) + "\r\n\r\n"
-                        try:
-                            rb = self.helpers.stringToBytes(hdrs_text) + orig_body
-                        except:
-                            rb = hdrs_text.encode("latin-1") + orig_body
-                        return rb, host, port, (scheme.lower()=="https")
-                    # unreachable
-                # try to build bytes via helpers
+
+            except Exception as e:
+                print("[CSRFUpdate] ERROR:", e)
+
+
+    def _follow_redirects_chain(self, initial_request_bytes, initial_response_bytes, initial_target_host, initial_target_port, initial_https, max_redirects=10):
+        """
+        V4: simple, robust redirect-follow implementation.
+
+        Parameters:
+        - initial_request_bytes: original sent request (bytes or Java byte[]-like iterable)
+        - initial_response_bytes: first received response (bytes or Java byte[]-like)
+        - initial_target_host/port/https: initial target
+        - max_redirects: max number of redirects to follow
+
+        Returns:
+        - final response as Python bytes, or None if unsuccessful.
+        """
+        try:
+            print("_follow_redirects_chain_ENTRY")
+            # --- helper: converting Java-iterable/bytearray -> Python bytes
+            def _to_pybytes(b):
                 try:
-                    rb = self.helpers.buildHttpMessage(headers, b"")
-                    return rb, host, port, (scheme.lower()=="https")
+                    if isinstance(b, (bytes, bytearray)):
+                        return bytes(b)
+                    out = bytearray()
+                    for x in b:
+                        try:
+                            iv = int(x)
+                        except Exception:
+                            try:
+                                iv = ord(x)
+                            except Exception:
+                                iv = 0
+                        if iv < 0:
+                            iv += 256
+                        out.append(iv)
+                    return bytes(out)
+                except Exception:
+                    try:
+                        return str(b).encode("latin-1", "replace")
+                    except:
+                        return b""
+
+            # --- helper: extract standard text from response (string)
+            def _response_to_text(resp_bytes):
+                if resp_bytes is None:
+                    return ""
+                try:
+                    if hasattr(self.helpers, "bytesToString"):
+                        try:
+                            return self.helpers.bytesToString(resp_bytes)
+                        except:
+                            pass
+                    # fallback
+                    pb = _to_pybytes(resp_bytes)
+                    return pb.decode("latin-1", "replace")
                 except:
                     try:
-                        txt = "\r\n".join(headers) + "\r\n\r\n"
-                        return (self.helpers.stringToBytes(txt)), host, port, (scheme.lower()=="https")
+                        return str(resp_bytes)
                     except:
-                        return None, host, port, (scheme.lower()=="https")
-            except Exception:
-                return None, None, None, None
+                        return ""
 
-        # start loop
-        try:
+            # --- helper: extract status and Location headers
+            def _extract_status_and_location(resp_bytes):
+                txt = _response_to_text(resp_bytes)
+                status = None
+                loc = None
+                try:
+                    first_line = txt.split("\r\n", 1)[0]
+                    parts = first_line.split()
+                    if len(parts) >= 2:
+                        try:
+                            status = int(parts[1])
+                        except:
+                            status = None
+                except:
+                    status = None
+                try:
+                    hdrs = txt.split("\r\n\r\n", 1)[0].split("\r\n")[1:]
+                    for h in hdrs:
+                        if h.lower().startswith("location:"):
+                            loc = h.split(":", 1)[1].strip()
+                            break
+                except:
+                    loc = None
+                return status, loc
+
+            # --- initial states ---
             steps = 0
             current_resp = initial_response_bytes
-            current_req_bytes = initial_request_bytes
+            current_req = initial_request_bytes
             current_host = initial_target_host
             current_port = initial_target_port
             current_https = bool(initial_https)
-            last_text = ""
-            while steps < max_redirects:
-                steps += 1
-                status, location, resp_text = _extract_status_and_location(current_resp)
-                last_text = resp_text
-                # update cookies & csrf for this response if requested
-                try:
-                    if getattr(self, "autoUpdateCookies", False):
-                        try:
-                            changes = self.cookieManager.update_from_response(resp_text)
-                            if changes:
-                                for ch in changes:
-                                    try:
-                                        self.customStatusArea.setText("Cookie update: %s -> %s" % (ch[1], ch[3]))
-                                    except:
-                                        pass
-                        except:
-                            pass
-                except:
-                    pass
-                try:
-                    if getattr(self, "autoUpdateCsrf", False):
-                        try:
-                            pname_csrf = str(self.csrfParamField.getText()).strip() if hasattr(self, "csrfParamField") else getattr(self, "csrf_param_name", "")
-                        except:
-                            pname_csrf = getattr(self, "csrf_param_name", "")
-                        if pname_csrf:
-                            try:
-                                custom_pat = str(self.csrfRegexArea.getText() or "").strip()
-                                if custom_pat:
-                                    self.csrfManager.pattern_to_use = custom_pat
-                                else:
-                                    self.csrfManager.pattern_to_use = None
-                            except:
-                                self.csrfManager.pattern_to_use = None
-                            try:
-                                ok, val = self.csrfManager.update_from_response(current_resp, pname_csrf)
-                                if ok:
-                                    try:
-                                        self.customStatusArea.setText("CSRF token updated: %s" % (pname_csrf))
-                                    except:
-                                        pass
-                            except:
-                                pass
-                except:
-                    pass
+            print("current_host:", current_host)
+            print("current_port:", current_port)
+            print("current_https:", current_https)
 
-                # if not redirect status or no location, stop and return current_resp
+            while steps < int(max_redirects):
+                steps += 1
+
+                status, location = _extract_status_and_location(current_resp)
+                print("status:", status)
+                print("location:", location)
+
+                # update cookie and csrf from the response just received (if enabled)
+                self._update_cookies_and_csrf(current_resp)
+                print("Cookie and CSRF updated if enabled")
+                # if there is no redirect status or no Location -> return the current response
                 try:
                     if status is None or not (300 <= int(status) < 400) or not location:
-                        # final: return Python bytes
                         return _to_pybytes(current_resp)
                 except:
                     return _to_pybytes(current_resp)
 
-                # resolve location against the current request URL
-                try:
-                    # Determine base URL from current_req_bytes or current_host/port/scheme
-                    base_url = None
-                    try:
-                        # try to get URL from current_req_bytes via helpers.analyzeRequest
-                        if current_req_bytes:
-                            try:
-                                parsed_req = self.helpers.analyzeRequest(current_req_bytes)
-                                urlobj = parsed_req.getUrl()
-                                if urlobj:
-                                    proto = urlobj.getProtocol()
-                                    hostb = urlobj.getHost()
-                                    portb = urlobj.getPort()
-                                    pathb = urlobj.getPath() or "/"
-                                    q = urlobj.getQuery()
-                                    if q:
-                                        pathb = pathb + "?" + q
-                                    if not portb or int(portb) <= 0:
-                                        portb = (443 if str(proto).lower()=="https" else 80)
-                                    base_url = "%s://%s%s" % (str(proto).lower(), hostb, ((":%d" % portb) if ((str(proto).lower()=="https" and portb!=443) or (str(proto).lower()=="http" and portb!=80)) else ""))
-                                    base_url = base_url + pathb
-                            except:
-                                pass
-                    except:
-                        base_url = None
-                    if base_url is None:
-                        # fallback to current_host/port/https
-                        scheme = "https" if current_https else "http"
-                        if current_host:
-                            base_url = "%s://%s%s" % (scheme, current_host, ((":%d" % current_port) if ((scheme=="https" and current_port!=443) or (scheme=="http" and current_port!=80)) else ""))
-                            base_url = base_url + "/"
-                except:
-                    base_url = None
-
-                # compute new absolute URL:
+                # --- Resolve new absolute URL from Location (relative or absolute) ---
                 new_url = None
                 try:
-                    if location.lower().startswith("http://") or location.lower().startswith("https://"):
-                        new_url = location
+                    # ha location abszolút -> használjuk
+                    loc_l = location.strip()
+                    if loc_l.lower().startswith("http://") or loc_l.lower().startswith("https://"):
+                        new_url = loc_l
                     else:
-                        if urljoin is not None and base_url is not None:
-                            new_url = urljoin(base_url, location)
+                        # try to extract base url from current_req (analyzeRequest)
+                        base = None
+                        try:
+                            if current_req:
+                                try:
+                                    parsed_req = None
+                                    if hasattr(self.helpers, "analyzeRequest"):
+                                        try:
+                                            parsed_req = self.helpers.analyzeRequest(current_req)
+                                            uobj = parsed_req.getUrl()
+                                            if uobj:
+                                                proto = uobj.getProtocol()
+                                                hostb = uobj.getHost()
+                                                portb = uobj.getPort()
+                                                pathb = uobj.getPath() or "/"
+                                                q = uobj.getQuery()
+                                                if q:
+                                                    pathb = pathb + "?" + q
+                                                if not portb or int(portb) <= 0:
+                                                    portb = (443 if str(proto).lower()=="https" else 80)
+                                                base = "%s://%s%s" % (str(proto).lower(), hostb, ((":%d" % portb) if ((str(proto).lower()=="https" and portb!=443) or (str(proto).lower()=="http" and portb!=80)) else ""))
+                                                base = base + pathb
+                                        except:
+                                            parsed_req = None
+                                except:
+                                    current_req = None
+                        except:
+                            base = None
+
+                        if base and urljoin is not None:
+                            try:
+                                new_url = urljoin(base, loc_l)
+                            except:
+                                new_url = None
                         else:
-                            # naive manual resolution: if location starts with '/', attach scheme://host[:port] + location
+                            # fallback: use current_host/current_port
                             scheme = "https" if current_https else "http"
-                            if location.startswith("/"):
-                                new_url = "%s://%s%s" % (scheme, current_host, location)
-                            else:
-                                # relative path no leading slash -> append to base path
-                                new_url = (base_url.rstrip("/") + "/" + location)
-                except:
+                            if current_host:
+                                if loc_l.startswith("/"):
+                                    new_url = "%s://%s%s" % (scheme, current_host, loc_l)
+                                else:
+                                    new_url = "%s://%s/%s" % (scheme, current_host, loc_l)
+                except Exception as e:
+                    print("[Resolve new absolute URL from Location] ERROR: %s" % str(e))
                     new_url = None
 
                 if not new_url:
-                    # cannot resolve -> return current
                     return _to_pybytes(current_resp)
 
-                # build request for new_url
-                # For redirects, prefer GET with empty body (common behaviour); keep_method_get True
-                new_req_bytes, new_host, new_port, new_https = _build_request_for_url(current_req_bytes, new_url, keep_method_get=True)
+                # --- build new request for new_url (GET, no body) ---
+                try:
+                    # parse new_url
+                    p = urlparse(new_url) if urlparse is not None else None
+                    scheme = p.scheme if p and getattr(p, "scheme", None) else ("https" if current_https else "http")
+                    new_host = p.hostname if p else current_host
+                    new_port = p.port if p and getattr(p, "port", None) else (443 if scheme == "https" else 80)
+                    new_path = (p.path or "/") + (("?" + p.query) if p and getattr(p, "query", None) else "")
+                except:
+                    new_host = current_host
+                    new_port = current_port
+                    scheme = "https" if current_https else "http"
+                    new_path = "/"
+
+                # build minimal GET headers preserving User-Agent if possible
+                headers = ["GET %s HTTP/1.1" % new_path, "Host: %s%s" % (new_host, ((":%d" % new_port) if ((scheme=="https" and new_port!=443) or (scheme=="http" and new_port!=80)) else "")), "Connection: close"]
+                try:
+                    # try copy User-Agent from previous request if available
+                    try:
+                        if current_req and hasattr(self.helpers, "analyzeRequest"):
+                            pr = self.helpers.analyzeRequest(current_req)
+                            for h in pr.getHeaders():
+                                hs = str(h)
+                                if hs.lower().startswith("user-agent:"):
+                                    headers.append(hs)
+                                    break
+                    except:
+                        pass
+                except Exception as e:
+                    print("[build minimal GET headers preserving User-Agent if possible] ERROR: %s" % str(e))
+                    pass
+
+                # build bytes via helpers if available
+                try:
+                    if hasattr(self.helpers, "buildHttpMessage"):
+                        try:
+                            new_req_bytes = self.helpers.buildHttpMessage(headers, b"")
+                        except:
+                            # fallback to stringToBytes
+                            try:
+                                txt = "\r\n".join(headers) + "\r\n\r\n"
+                                if hasattr(self.helpers, "stringToBytes"):
+                                    new_req_bytes = self.helpers.stringToBytes(txt)
+                                else:
+                                    new_req_bytes = txt.encode("latin-1", "replace")
+                            except:
+                                new_req_bytes = None
+                    else:
+                        txt = "\r\n".join(headers) + "\r\n\r\n"
+                        new_req_bytes = txt.encode("latin-1", "replace")
+                except Exception as e:
+                    print("[build bytes via helpers if available] ERROR: %s" % str(e))
+                    new_req_bytes = None
+
                 if not new_req_bytes or not new_host:
                     return _to_pybytes(current_resp)
 
-                # inject cookies if autoUpdateCookies set (CookieManager.inject_into_request accepts request text)
+                # inject cookies into the new request if cookie auto-update is enabled
                 try:
-                    if getattr(self, "autoUpdateCookies", False):
+                    if getattr(self, "autoUpdateCookies", False) and getattr(self, "cookieManager", None):
                         try:
-                            try:
-                                txt = self.helpers.bytesToString(new_req_bytes)
-                                injected = self.cookieManager.inject_into_request(txt)
-                                if injected is not None:
-                                    try:
-                                        new_req_bytes = self.helpers.stringToBytes(injected)
-                                    except:
-                                        new_req_bytes = injected.encode("latin-1")
-                            except Exception:
-                                # fallback: skip injection
-                                pass
+                            txt_req = self.helpers.bytesToString(new_req_bytes) if hasattr(self.helpers, "bytesToString") else _to_pybytes(new_req_bytes).decode("latin-1", "replace")
+                            injected = self.cookieManager.inject_into_request(txt_req)
+                            if injected is not None:
+                                try:
+                                    new_req_bytes = self.helpers.stringToBytes(injected)
+                                except:
+                                    new_req_bytes = injected.encode("latin-1", "replace")
                         except:
                             pass
-                except:
+                except Exception as e:
+                    print("[inject cookies into the new request if cookie auto-update is enabled] ERROR: %s" % str(e))
                     pass
 
-                # send the new request via Burp callbacks
+                # send via Burp callbacks
                 try:
-                    svc = None
+                    # prefer buildHttpService + makeHttpRequest
                     try:
-                        svc = self.helpers.buildHttpService(new_host, int(new_port), "https" if new_https else "http")
-                        new_resp_obj = self.callbacks.makeHttpRequest(svc, new_req_bytes)
+                        svc = self.helpers.buildHttpService(new_host, int(new_port), "https" if scheme.lower()=="https" else "http")
+                        resp_obj = self.callbacks.makeHttpRequest(svc, new_req_bytes)
                     except Exception:
+                        resp_obj = None
                         try:
-                            new_resp_obj = self.callbacks.makeHttpRequest(new_host, int(new_port), bool(new_https), new_req_bytes)
+                            resp_obj = self.callbacks.makeHttpRequest(new_host, int(new_port), bool(scheme.lower()=="https"), new_req_bytes)
                         except:
-                            new_resp_obj = None
-                    if not new_resp_obj:
+                            resp_obj = None
+
+                    if not resp_obj:
                         return _to_pybytes(current_resp)
 
-                    # poll for response
+                    # poll for response bytes
                     new_resp = None
                     attempts = 20
-                    sleep_s = 0.08
                     for _ in range(attempts):
                         try:
-                            new_resp = new_resp_obj.getResponse()
+                            new_resp = resp_obj.getResponse()
                         except:
                             new_resp = None
                         if new_resp:
                             break
-                        time.sleep(sleep_s)
+                        time.sleep(0.08)
 
                     if not new_resp:
                         return _to_pybytes(current_resp)
 
-                    # update variables and loop
+                    # update loop state and continue
                     current_resp = new_resp
-                    current_req_bytes = new_req_bytes
+                    current_req = new_req_bytes
                     current_host = new_host
                     current_port = new_port
-                    current_https = new_https
-                    # continue next iteration (will update cookies/csrf for this new_resp at the top)
-                except Exception:
+                    current_https = (scheme.lower() == "https")
+                    continue
+
+                except Exception as e:
+                    print("[prefer buildHttpService + makeHttpRequest] ERROR: %s" % str(e))
                     return _to_pybytes(current_resp)
 
-            # exceeded max redirects -> return last response bytes
+            # exceeded max redirects -> return current_resp
             return _to_pybytes(current_resp)
-        except Exception:
+
+        except Exception as e:
+            print("[helper: converting Java-iterable/bytearray -> Python bytes] ERROR: %s" % str(e))
             try:
-                return bytes(initial_response_bytes) if isinstance(initial_response_bytes, (bytes, bytearray)) else b""
+                return _to_pybytes(initial_response_bytes)
             except:
-                return b""
+                return None
 
 
 
-    def _handle_external_payload(self, raw_request_bytes):
+    def build_request_from_template(
+        self,
+        get_editor_message=None,
+        helpers=None,
+        cookie_manager=None,
+        csrf_manager=None,
+        auto_update_cookies=False,
+        auto_update_csrf=False,
+        normalize_func=None,
+        custom_status_setter=None,
+        incoming_payload1="",
+        incoming_payload2="",
+        fallback_resp=None
+    ):
         """
-        Robust, defensive rework of the original handler.
-        Returns Python bytes (never str). On any error returns a small fallback HTTP response.
+        Clean, robust template -> request builder.
+        Returns:
+        (request_bytes, forced_https_flag, final_request_text)
+        or on error:
+        (fallback_resp)
         """
-        import sys, time, traceback
-
-        # Normalize template text helper (place this inside _handle_external_payload, before any string->bytes conversion)
-        def _normalize_template_text(text):
-            # Ensure simple HTTP/2 -> HTTP/1.1 fallback for plain-text templates
-            try:
-                parts = text.split("\r\n", 1)
-                if len(parts) >= 1:
-                    first_line = parts[0].strip()
-                    if first_line.upper().endswith("HTTP/2"):
-                        first_line = first_line.rsplit(" ", 1)[0] + " HTTP/1.1"
-                        text = first_line + ("\r\n" + parts[1] if len(parts) > 1 else "")
-            except:
-                pass
-
-            # Add Connection: close if missing to avoid persistent-connection surprises
-            try:
-                if "connection:" not in text.lower():
-                    text = text.replace("\r\n\r\n", "\r\nConnection: close\r\n\r\n", 1)
-            except:
-                pass
-
-            return text
-
-
-        def _log(msg):
-            try:
-                print("[FPL_RESP]", msg)
-                sys.stdout.flush()
-            except:
-                pass
-            try:
-                with open("/tmp/fpl_resp_debug.log", "a") as f:
-                    f.write("[%s] %s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), str(msg)))
-            except:
-                pass
-
-        # fallback response bytes
-        fallback_body = b"BoberProxy local server OK\n"
-        fallback_resp = (
-            b"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
-            + str(len(fallback_body)).encode("ascii")
-            + b"\r\nConnection: close\r\n\r\n"
-            + fallback_body
-        )
 
         try:
-            _log("ENTER handler raw len: %d" % (0 if raw_request_bytes is None else (len(raw_request_bytes) if hasattr(raw_request_bytes, "__len__") else -1)))
-            if not raw_request_bytes:
-                _log("No raw_request_bytes -> fallback")
-                return fallback_resp
-
-            # try to decode request text for parsing (logs only)
+            # 1) load template text (editor preferred, textarea fallback)
+            template_text = ""
             try:
-                req_text = raw_request_bytes.decode("latin-1", "replace")
-            except:
-                req_text = str(raw_request_bytes)
-
-            # --- 1) determine payload param names (defensive) ---
-            # --- extract incoming payloads (map q -> payload1, w -> payload2) ---
-            try:
-                pname1 = str(self.payloadParamField.getText()).strip()
-            except:
-                pname1 = getattr(self, "payload_param_name", "q")
-            try:
-                pname2 = str(self.payloadParam2Field.getText()).strip()
-            except:
-                pname2 = getattr(self, "payload_param2_name", "w")
-
-            # extract from query or body similar to existing logic (ensure both may be empty then fallback to request text)
-            incoming_payload1 = ""
-            incoming_payload2 = ""
-            # --- parse query for both names ---
-            try:
-                first_line = req_text.split("\r\n", 1)[0]
-                parts = first_line.split()
-                if len(parts) >= 2:
-                    path = parts[1]
-                    if "?" in path:
-                        qstr = path.split("?", 1)[1]
-                        for kv in qstr.split("&"):
-                            if "=" in kv:
-                                k, v = kv.split("=", 1)
-                                if k == pname1 and not incoming_payload1:
-                                    incoming_payload1 = v
-                                elif k == pname2 and not incoming_payload2:
-                                    incoming_payload2 = v
-            except:
-                pass
-
-            # check body if still missing (form-urlencoded preferred)
-            try:
-                if incoming_payload1 == "" or incoming_payload2 == "":
-                    hdr_body_split = req_text.split("\r\n\r\n", 1)
-                    body_text = hdr_body_split[1] if len(hdr_body_split) > 1 else ""
-                    content_type = ""
-                    headers_text = hdr_body_split[0] if len(hdr_body_split) > 0 else ""
-                    for hl in headers_text.split("\r\n")[1:]:
-                        if hl.lower().startswith("content-type:"):
-                            content_type = hl.split(":",1)[1].strip().lower()
-                            break
-                    if content_type.startswith("application/x-www-form-urlencoded"):
-                        for kv in body_text.split("&"):
-                            if "=" in kv:
-                                k, v = kv.split("=", 1)
-                                if k == pname1 and incoming_payload1 == "":
-                                    incoming_payload1 = v
-                                elif k == pname2 and incoming_payload2 == "":
-                                    incoming_payload2 = v
-                    if incoming_payload1 == "" and body_text:
-                        incoming_payload1 = body_text
-                    # do not override payload2 with body_text unless specifically set earlier (keep it empty if not present)
-            except:
-                pass
-
-            # --- Follow-redirects direct-forward branch (robust, uses helpers.analyzeRequest + buildHttpMessage) ---
-            # Insert this block immediately after the code that sets:
-            #   incoming_payload1 = ...   (final fallback)
-            #   incoming_payload2 = incoming_payload2 or ""
-            # and before any template marker replacement or custom-code invocation.
-            try:
-                # read follow-redirects flag
-                try:
-                    follow_requested = bool(self.followRedirectsChk.isSelected())
-                except Exception:
-                    follow_requested = False
-
-                # check whether the tool actually provided payloads (q/w or overrides)
-                try:
-                    tool_sent_payload1 = bool(incoming_payload1 and str(incoming_payload1).strip())
-                except Exception:
-                    tool_sent_payload1 = False
-                try:
-                    tool_sent_payload2 = bool(incoming_payload2 and str(incoming_payload2).strip())
-                except Exception:
-                    tool_sent_payload2 = False
-
-                # if follow requested AND NO payloads were supplied by the tool -> take alternate direct-forward path
-                if follow_requested and (not tool_sent_payload1 and not tool_sent_payload2):
-                    # read UI target values with validation/fallbacks
-                    try:
-                        scheme = str(self.schemeField.getText()).strip().lower()
-                    except Exception:
-                        scheme = "http"
-                    if scheme not in ("http", "https"):
-                        scheme = "http"
-
-                    try:
-                        target_host_ui = str(self.targetHostField.getText()).strip()
-                    except Exception:
-                        target_host_ui = ""
-
-                    try:
-                        port_txt = str(self.targetPortField.getText()).strip()
-                        port_val = int(port_txt)
-                        if port_val < 1 or port_val > 65535:
-                            raise ValueError("port out of range")
-                    except Exception:
-                        port_val = 443 if scheme == "https" else 80
-
-                    # if no UI host configured, do not take this branch
-                    if not target_host_ui:
-                        pass
-                    else:
-                        req_bytes_to_send = None
-                        try:
-                            # Prefer parsing original raw bytes to rebuild headers/body safely
-                            parsed_req = None
-                            try:
-                                if raw_request_bytes:
-                                    parsed_req = self.helpers.analyzeRequest(raw_request_bytes)
-                            except Exception:
-                                parsed_req = None
-
-                            if parsed_req:
-                                # extract headers and body bytes
-                                try:
-                                    orig_headers = list(parsed_req.getHeaders())
-                                except Exception:
-                                    orig_headers = []
-                                try:
-                                    bo = parsed_req.getBodyOffset()
-                                    orig_body = raw_request_bytes[bo:] if raw_request_bytes is not None else b""
-                                except Exception:
-                                    orig_body = b""
-
-                                # build new headers: replace Host (respecting port) and ensure Connection: close
-                                new_headers = []
-                                host_replaced = False
-                                for h in orig_headers:
-                                    try:
-                                        hs = str(h)
-                                    except Exception:
-                                        hs = h
-                                    if hs.lower().startswith("host:"):
-                                        if (scheme == "https" and port_val != 443) or (scheme == "http" and port_val != 80):
-                                            new_headers.append("Host: %s:%d" % (target_host_ui, port_val))
-                                        else:
-                                            new_headers.append("Host: %s" % (target_host_ui))
-                                        host_replaced = True
-                                    elif hs.lower().startswith("connection:"):
-                                        # normalize connection header
-                                        new_headers.append("Connection: close")
-                                    else:
-                                        new_headers.append(hs)
-                                if not host_replaced:
-                                    if (scheme == "https" and port_val != 443) or (scheme == "http" and port_val != 80):
-                                        new_headers.insert(0, "Host: %s:%d" % (target_host_ui, port_val))
-                                    else:
-                                        new_headers.insert(0, "Host: %s" % target_host_ui)
-
-                                # ensure Connection present
-                                if not any(h.lower().startswith("connection:") for h in new_headers):
-                                    new_headers.append("Connection: close")
-
-                                # let Burp build a correct HTTP message (handles request-line, content-length, etc.)
-                                try:
-                                    req_bytes_to_send = self.helpers.buildHttpMessage(new_headers, orig_body)
-                                except Exception:
-                                    # fallback: build from headers + body as bytes
-                                    try:
-                                        hdrs_text = "\r\n".join(new_headers) + "\r\n\r\n"
-                                        req_bytes_to_send = self.helpers.stringToBytes(hdrs_text) + (orig_body if isinstance(orig_body, (bytes, bytearray)) else b"")
-                                    except Exception:
-                                        req_bytes_to_send = None
-                            else:
-                                # parsed_req not available: attempt to derive path from analyzeRequest or default to "/"
-                                try:
-                                    path = "/"
-                                    try:
-                                        if raw_request_bytes:
-                                            pr = self.helpers.analyzeRequest(raw_request_bytes)
-                                            url = pr.getUrl()
-                                            if url:
-                                                q = url.getQuery()
-                                                path = url.getPath() + (("?" + q) if q else "")
-                                    except Exception:
-                                        path = "/"
-                                    text_min = "GET %s HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n" % (path, target_host_ui)
-                                    try:
-                                        req_bytes_to_send = self.helpers.stringToBytes(text_min)
-                                    except Exception:
-                                        req_bytes_to_send = text_min.encode("latin-1", "replace")
-                                except Exception:
-                                    req_bytes_to_send = None
-                        except Exception:
-                            req_bytes_to_send = None
-
-                        # if we have bytes to send, perform the request via Burp and return the response raw bytes unchanged
-                        if req_bytes_to_send:
-                            try:
-                                # build service and send
-                                try:
-                                    svc = self.helpers.buildHttpService(target_host_ui, int(port_val), "https" if scheme == "https" else "http")
-                                    try:
-                                        resp_obj = self.callbacks.makeHttpRequest(svc, req_bytes_to_send)
-                                    except Exception:
-                                        try:
-                                            resp_obj = self.callbacks.makeHttpRequest(target_host_ui, int(port_val), bool(scheme == "https"), req_bytes_to_send)
-                                        except Exception:
-                                            resp_obj = None
-                                except Exception:
-                                    resp_obj = None
-
-                                if resp_obj:
-                                    # poll for response (existing timing behavior)
-                                    response_bytes = None
-                                    attempts = 20
-                                    sleep_s = 0.08
-                                    for _ in range(attempts):
-                                        try:
-                                            response_bytes = resp_obj.getResponse()
-                                        except Exception:
-                                            response_bytes = None
-                                        if response_bytes:
-                                            break
-                                        time.sleep(sleep_s)
-
-                                    if response_bytes:
-                                        # convert Java byte[] iterable to Python bytes safely
-                                        try:
-                                            if isinstance(response_bytes, (bytes, bytearray)):
-                                                outb = bytes(response_bytes)
-                                            else:
-                                                out_arr = bytearray()
-                                                for b in response_bytes:
-                                                    try:
-                                                        iv = int(b)
-                                                    except Exception:
-                                                        try:
-                                                            iv = ord(b)
-                                                        except Exception:
-                                                            iv = 0
-                                                    if iv < 0:
-                                                        iv += 256
-                                                    out_arr.append(iv)
-                                                outb = bytes(out_arr)
-                                        except Exception:
-                                            try:
-                                                s = self.helpers.bytesToString(response_bytes)
-                                                outb = s.encode("latin-1", "replace")
-                                            except Exception:
-                                                outb = None
-
-                                        if outb:
-                                            # return raw response bytes directly to the local client (no template processing)
-                                            return outb
-                            except Exception:
-                                # any error while sending/receiving -> fall back to normal template flow
-                                pass
-            except Exception:
-                # top-level safety: ensure normal processing continues on unexpected errors
-                pass
-            # --- end follow-redirects branch ---
-
-
-            # final fallback: use whole request string for payload1 if empty
-            if incoming_payload1 == "":
-                try:
-                    incoming_payload1 = self.helpers.bytesToString(raw_request_bytes)
-                except:
-                    incoming_payload1 = str(raw_request_bytes)
-
-            incoming_payload2 = incoming_payload2 or ""
-
-            # decide csrf token to pass: if autoUpdateCsrf checked, obtain token (if any) else None
-            # Always request the current CSRF token value, regardless of the checkbox state.
-            csrf_token_to_pass = None
-            try:
-                csrf_name = str(self.csrfParamField.getText()).strip()
-            except:
-                csrf_name = getattr(self, "csrf_param_name", "csrfmiddlewaretoken")
-
-            try:
-                csrf_token_to_pass = self.csrfManager.get_token(csrf_name)
-            except:
-                try:
-                    csrf_token_to_pass = getattr(self.csrfManager, "jar", {}).get(csrf_name)
-                except:
-                    csrf_token_to_pass = None
-                
-            # determine timeout (ms) to use for user code execution
-            try:
-                t_ms = int(self.timeoutField.getText())
-            except Exception:
-                t_ms = getattr(self, "custom_timeout_ms", 500)
-
-            # run user code and enforce 3-value tuple out
-            if csrf_token_to_pass is not None:
-                ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, csrf_token_to_pass)
-            else:
-                ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, None)
-
-            if ok and out is not None:
-                # out must be a 3-tuple (payload1, payload2, csrf_token)
-                if isinstance(out, (list, tuple)) and len(out) == 3:
-                    outgoing_payload1 = out[0] or ""
-                    outgoing_payload2 = out[1] or ""
-                    returned_csrf = out[2]
-                    # if autoUpdateCsrf checked and returned_csrf is not None -> update CsrfManager
-                    if getattr(self, "autoUpdateCsrf", False) and returned_csrf is not None:
-                        try:
-                            csrf_name = str(self.csrfParamField.getText()).strip()
-                        except:
-                            csrf_name = getattr(self, "csrf_param_name", "csrfmiddlewaretoken")
-                        try:
-                            self.csrfManager.set_token(csrf_name, returned_csrf)
-                        except:
-                            try:
-                                j = getattr(self.csrfManager, "jar", None)
-                                if isinstance(j, dict):
-                                    j[csrf_name] = returned_csrf
-                            except:
-                                pass
-                else:
-                    # user code violated contract -> treat as error: fall back to incoming values
-                    try:
-                        self.customStatusArea.setText("User code contract violation: must return exactly 3 values (payload1, payload2, csrf_token). Using original payloads.")
-                    except:
-                        pass
-                    outgoing_payload1 = incoming_payload1
-                    outgoing_payload2 = incoming_payload2
-            else:
-                # error or timeout -> fallback
-                outgoing_payload1 = incoming_payload1
-                outgoing_payload2 = incoming_payload2
-                if not ok:
-                    try:
-                        if err is None:
-                            self.customStatusArea.setText("User code: timeout")
-                        else:
-                            txt = str(err)
-                            if len(txt) > 1000:
-                                txt = txt[:1000] + "..."
-                            self.customStatusArea.setText("User code error:\n%s" % txt)
-                    except:
-                        pass
-
-
-            # --- 3) load and verify template ---
-            try:
-                if hasattr(self, "reqTemplateEditor"):
-                    tb = self.reqTemplateEditor.getMessage()
+                if callable(get_editor_message):
+                    tb = get_editor_message()
                     if tb is None:
                         template_text = ""
                     else:
-                        try:
-                            template_text = self.helpers.bytesToString(tb)
-                        except:
-                            template_text = str(tb)
-                else:
-                    template_text = str(getattr(self, "reqTemplateArea", None) and self.reqTemplateArea.getText() or "")
-            except:
+                        # helpers.bytesToString if available
+                        if helpers is not None:
+                            try:
+                                template_text = helpers.bytesToString(tb)
+                            except Exception:
+                                # tb lehet bytes/object
+                                try:
+                                    if isinstance(tb, (bytes, bytearray)):
+                                        template_text = tb.decode("latin-1", "replace")
+                                    else:
+                                        template_text = str(tb)
+                                except:
+                                    template_text = str(tb)
+                        else:
+                            try:
+                                if isinstance(tb, (bytes, bytearray)):
+                                    template_text = tb.decode("latin-1", "replace")
+                                else:
+                                    template_text = str(tb)
+                            except:
+                                template_text = str(tb)
+            except Exception:
                 template_text = ""
 
             payload_marker = "p4yl04dm4rk3r"
             payload_marker2 = "53c0undm4rk3r"
-            if not template_text.strip():
-                try:
-                    self.customStatusArea.setText("No Request Template configured; skipping template send.")
-                except:
-                    pass
-                _log("RETURN: template empty")
-                return fallback_resp
+            csrf_marker = "c5rfm4rk3r"
 
-            if payload_marker not in template_text:
-                try:
-                    self.customStatusArea.setText("Request Template missing payload marker: %s" % payload_marker)
-                except:
-                    pass
-                _log("RETURN: template missing marker")
-                return fallback_resp
+            if not template_text or not template_text.strip():
+                self._log("No Request Template configured; Incoming request forwarded.")
+                print("RETURN: template empty")
+                return (fallback_resp)
 
-            final_request_text = template_text.replace("p4yl04dm4rk3r", outgoing_payload1)
-            final_request_text = final_request_text.replace("53c0undm4rk3r", outgoing_payload2)
-            _log("final_request_text length: %d" % len(final_request_text))
 
-            # --- diagnostic: cookie jar before inject ---
+            # --- CSRF token to pass to user-code (do not auto-update here) ---
+            csrf_token = None
             try:
-                try:
-                    _log("CookieManager.jar BEFORE inject: %s" % (self.cookieManager.dump()))
-                except:
-                    _log("CookieManager.jar BEFORE inject: <dump failed>")
-            except:
-                pass
+                csrf_token = csrf_manager.get_token()
+                print("[CSRF token to pass to user-code] OK: %s" % csrf_token)
+            except Exception as e:
+                print("[CSRF token to pass to user-code] ERROR: %s" % e)
 
-            # --- inject cookies into the final request if enabled ---
-            try:
-                if getattr(self, "autoUpdateCookies", False):
+
+            # 1,5) load template text (editor preferred, textarea fallback)
+            if self.custom_codeblock_status and (incoming_payload1 or incoming_payload2):
+                # --- run user code (contract: returns tuple(payload1,payload2,csrf) ) ---
+                try:
                     try:
-                        injected = self.cookieManager.inject_into_request(final_request_text)
-                        if injected is None:
-                            _log("CookieManager: inject_into_request returned None (in-place assumed)")
-                        else:
-                            final_request_text = injected
-                        _log("CookieManager: injected cookies -> now final_request length: %d" % len(final_request_text))
+                        t_ms = int(self.timeoutField.getText())
                     except Exception as e:
-                        _log("CookieManager inject error: %s" % str(e))
+                        print("[Timeout field reading] ERROR: %s" % e)
+                        try:
+                            t_ms = self.custom_timeout_ms
+                            print("[Default timeout value reading] OK: %s" % t_ms)
+                        except Exception as e:                           
+                            print("[Default timeout value reading] ERROR: %s" % e)
+
+                    if csrf_token is not None:
+                        ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, csrf_token)
+                        print("[run_user_code] OK")
+                    else:
+                        ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, None)
+                        print("[run_user_code] OK")
+                except Exception as e:
+                    ok = False
+                    out = None
+                    err = "user code exception"
+                    print("[run_user_code] ERROR: %s" % e)
+
+                if ok and out is not None and isinstance(out, (list, tuple)):
+                    if len(out) == 3:
+                        outgoing_payload1 = out[0] or ""
+                        outgoing_payload2 = out[1] or ""
+                        csrf_token = out[2]
+                    elif len(out) == 2:
+                        outgoing_payload1 = out[0] or ""
+                        outgoing_payload2 = out[1] or ""
+                        csrf_token = csrf_token
+            else:            
+                outgoing_payload1 = incoming_payload1
+                outgoing_payload2 = incoming_payload2
+                csrf_token = csrf_token
+
+
+            # 2) Replace payload markers (safe replace even if missing)
+            try:
+                final_request_text = template_text.replace(payload_marker, outgoing_payload1 or "")
+                final_request_text = final_request_text.replace(payload_marker2, outgoing_payload2 or "")
+                print("[Replace payload markers] OK, length: %d" % len(final_request_text))
+            except Exception as e:
+                print("[Replace payload markers] ERROR: %s" % str(e))
+                return (fallback_resp)
+
+            # 3) Cookie injection (if enabled)
+            try:
+                if auto_update_cookies and cookie_manager is not None:
+                    try:
+                        injected = cookie_manager.inject_into_request(final_request_text)
+                        if injected is not None:
+                            # inject_into_request returns str
+                            final_request_text = injected if isinstance(injected, str) else (injected.decode("latin-1", "replace") if isinstance(injected, (bytes, bytearray)) else str(injected))
+                        print("CookieManager: injected cookies -> final_request length: %d" % len(final_request_text))
+                    except Exception as e:
+                        print("CookieManager inject error: %s" % str(e))
+                else:
+                    # diagnostic, if cookie_manager present but injection disabled, we do nothing
+                    pass
             except Exception:
                 pass
 
-            # --- DIAGNOSTIC LOG: cookie jar after inject ---
+            # 4) CSRF injection (if enabled)
             try:
-                try:
-                    _log("CookieManager.jar AFTER inject: %s" % (self.cookieManager.dump()))
-                except:
-                    _log("CookieManager.jar AFTER inject: <dump failed>")
-            except:
-                pass
-
-            # --- inject CSRF token marker c5rfm4rk3r if enabled ---
-            try:
-                if getattr(self, "autoUpdateCsrf", False):
+                if auto_update_csrf and csrf_manager is not None:
                     try:
-                        pname_csrf = str(self.csrfParamField.getText()).strip()
-                    except:
-                        pname_csrf = getattr(self, "csrf_param_name", "")
-                    if pname_csrf:
-                        token_val = self.csrfManager.get_token(pname_csrf)
+                        token_val = csrf_token
                         if token_val is not None:
                             try:
-                                final_request_text = final_request_text.replace("c5rfm4rk3r", token_val)
-                                _log("CsrfManager: injected token for '%s' (len=%d)" % (pname_csrf, len(token_val)))
+                                final_request_text = final_request_text.replace(csrf_marker, token_val)
+                                print("CsrfManager: injected token for %s" % (token_val))
                             except Exception as e:
-                                _log("CsrfManager inject error: %s" % str(e))
+                                print("CsrfManager inject error: %s" % str(e))
                         else:
-                            _log("CsrfManager: no cached token for '%s' to inject" % pname_csrf)
+                            print("CsrfManager: no cached token!")
+                    except Exception as e:
+                        print("Csrf injection outer error: %s" % str(e))
             except Exception:
                 pass
 
-            # --- FORCE HTTPS DETECTION (insert immediately after loading template_text, BEFORE normalization) ---
-            forced_https_flag = False
+
+            # 6) normalization hook
             try:
-                # peek first request-line without mutating template_text
-                first_line = ""
-                try:
-                    first_line = template_text.split("\r\n", 1)[0].strip()
-                except:
-                    first_line = ""
-
-                # if template explicitly used HTTP/2, treat as intent to use TLS
-                try:
-                    if "HTTP/2" in first_line.upper():
-                        forced_https_flag = True
-                except:
-                    pass
-
-                # if the request-line uses an absolute https URL: GET https://host/path HTTP/1.1
-                try:
-                    toks = first_line.split()
-                    if len(toks) >= 2:
-                        maybe_url = toks[1].lower()
-                        if maybe_url.startswith("https://"):
-                            forced_https_flag = True
-                            # optionally extract host/port now (we may still rely on analyzeRequest later)
-                except:
-                    pass
-
-                # also detect explicit X-Force-Scheme header in template (optional user marker)
-                try:
-                    for ln in template_text.split("\r\n"):
-                        if ln.lower().startswith("x-force-scheme:"):
-                            v = ln.split(":",1)[1].strip().lower()
-                            if v == "https":
-                                forced_https_flag = True
-                            break
-                except:
-                    pass
-
-                # debug log for visibility
-                try:
-                    _log("forced_https_flag detected = %s, first_line='%s'" % (str(forced_https_flag), first_line))
-                except:
-                    pass
+                if callable(normalize_func):
+                    final_request_text = normalize_func(final_request_text)
             except Exception:
-                forced_https_flag = False
-            # --- end FORCE HTTPS DETECTION ---
-
-
-            try:
-                final_request_text = _normalize_template_text(final_request_text)
-            except:
                 pass
 
-            # --- 4) build request bytes and headers/body properly ---
+            # 7) build request bytes (helpers preferred)
             try:
-                try:
-                    request_bytes = self.helpers.stringToBytes(final_request_text)
-                except:
-                    request_bytes = final_request_text.encode("latin-1")
+                if helpers is not None:
+                    try:
+                        request_bytes = helpers.stringToBytes(final_request_text)
+                    except Exception:
+                        request_bytes = final_request_text.encode("latin-1", "replace")
+                else:
+                    request_bytes = final_request_text.encode("latin-1", "replace")
             except Exception:
-                request_bytes = final_request_text.encode("latin-1")
+                request_bytes = final_request_text.encode("latin-1", "replace")
 
-            # Try parse with helpers to get headers and body
+            # 8) parse headers/body: prefer helpers.analyzeRequest, fallback simple split
             headers = []
             body_bytes = b""
             try:
-                parsed_req = self.helpers.analyzeRequest(request_bytes)
-                headers = list(parsed_req.getHeaders())
-                bo = parsed_req.getBodyOffset()
-                body_bytes = request_bytes[bo:]
-            except Exception:
-                try:
-                    s = request_bytes
-                    sep = b"\r\n\r\n"
-                    idx = s.find(sep)
-                    if idx >= 0:
-                        hdrs_block = s[:idx].decode("latin-1", "replace").split("\r\n")
-                        headers = hdrs_block
-                        body_bytes = s[idx+4:]
-                    else:
+                parsed_req = None
+                if helpers is not None:
+                    try:
+                        parsed_req = helpers.analyzeRequest(request_bytes)
+                    except Exception:
+                        parsed_req = None
+
+                if parsed_req:
+                    try:
+                        headers = list(parsed_req.getHeaders())
+                        bo = parsed_req.getBodyOffset()
+                        body_bytes = request_bytes[bo:]
+                    except Exception:
                         headers = []
                         body_bytes = b""
-                except:
-                    headers = []
-                    body_bytes = b""
+                else:
+                    # simple split
+                    try:
+                        s = request_bytes if isinstance(request_bytes, (bytes, bytearray)) else (request_bytes.encode("latin-1", "replace"))
+                        sep = b"\r\n\r\n"
+                        idx = s.find(sep)
+                        if idx >= 0:
+                            hdrs_block = s[:idx].decode("latin-1", "replace").split("\r\n")
+                            headers = hdrs_block
+                            body_bytes = s[idx+4:]
+                        else:
+                            headers = []
+                            body_bytes = b""
+                    except Exception:
+                        headers = []
+                        body_bytes = b""
+            except Exception:
+                headers = []
+                body_bytes = b""
 
-            # Fix Content-Length if present or add it
+            # 9) ensure Content-Length is correct (if body present)
             new_headers = []
             cl_handled = False
             for h in headers:
@@ -3734,575 +2862,286 @@ class LoggerUI(ITab):
                         cl_handled = True
                     else:
                         new_headers.append(hs)
-                except:
+                except Exception:
                     try:
                         new_headers.append(str(h))
-                    except:
+                    except Exception:
                         pass
             if not cl_handled and len(body_bytes) > 0:
                 new_headers.append("Content-Length: %d" % len(body_bytes))
 
+            # 10) try to rebuild http message via helpers.buildHttpMessage
             try:
-                request_bytes = self.helpers.buildHttpMessage(new_headers, body_bytes)
-            except Exception:
-                # keep current request_bytes if build fails
-                pass
-
-            # --- 5) determine target host/port/protocol ---
-            target_host = None
-            target_port = None
-            target_https = False
-            try:
-                parsed_req2 = self.helpers.analyzeRequest(request_bytes)
-                url = parsed_req2.getUrl()
-                if url:
-                    target_host = url.getHost()
-                    target_port = url.getPort()
-                    proto = url.getProtocol()
-                    target_https = (str(proto).lower() == "https")
-            except:
-                pass
-
-
-            # --- APPLY forced_https_flag if present and no explicit https detected ---
-            try:
-                # If we detected intent from template but parsed result did not indicate https, enforce it
-                if forced_https_flag:
+                if helpers is not None:
                     try:
-                        # If parsed code set target_https already, keep it; otherwise force it
-                        if not target_https:
-                            target_https = True
-                            if not target_port or int(target_port) <= 0:
-                                target_port = 443
-                            _log("forced_https_flag: forcing target to https on %s:%s" % (str(target_host), str(target_port)))
+                        request_bytes = helpers.buildHttpMessage(new_headers, body_bytes)
                     except Exception:
-                        try:
-                            target_https = True
-                            target_port = 443
-                        except:
-                            pass
+                        # leave request_bytes as-is if rebuild fails
+                        pass
+                else:
+                    # no helpers: keep request_bytes as-is (already bytes)
+                    pass
             except Exception:
                 pass
-            # --- end APPLY forced_https_flag ---
 
-
-            # fallback: Host: header from template or original
-            if not target_host:
-                try:
-                    txt = final_request_text
-                    for line in txt.split("\r\n"):
-                        if line.lower().startswith("host:"):
-                            host_val = line.split(":",1)[1].strip()
-                            if ":" in host_val:
-                                h,p = host_val.split(":",1)
-                                target_host = h.strip()
-                                try:
-                                    target_port = int(p.strip())
-                                except:
-                                    target_port = 443 if "https" in line.lower() else 80
-                            else:
-                                target_host = host_val
-                                target_port = 443 if "https" in line.lower() else 80
-                            break
-                except:
-                    pass
-
-            if not target_host:
-                try:
-                    for line in req_text.split("\r\n"):
-                        if line.lower().startswith("host:"):
-                            host_val = line.split(":",1)[1].strip()
-                            if ":" in host_val:
-                                h,p = host_val.split(":",1)
-                                target_host = h.strip()
-                                try:
-                                    target_port = int(p.strip())
-                                except:
-                                    target_port = 80
-                            else:
-                                target_host = host_val
-                                target_port = 80
-                            break
-                except:
-                    pass
-
-            # --- CONSISTENCY FIX: if we forced https, ensure port is consistent with https
-            try:
-                # If forced https but host was only discovered via Host header and port is 80 (or missing),
-                # prefer port 443 so we don't attempt TLS on port 80.
-                if forced_https_flag:
-                    try:
-                        # If no host was known earlier but we discovered it via fallback, ensure port aligns
-                        if target_host and (not target_port or int(target_port) == 80):
-                            target_port = 443
-                            _log("forced_https_flag: adjusted port to 443 for host=%s" % str(target_host))
-                    except Exception:
-                        try:
-                            target_port = 443
-                        except:
-                            pass
-            except Exception:
-                pass
-            # --- end consistency fix ---
-
-
-            if not target_host:
-                try:
-                    self.customStatusArea.setText("Unable to determine target host for template request; skipping send.")
-                except:
-                    pass
-                _log("RETURN: no target_host")
-                return fallback_resp
-
-            if not target_port:
-                target_port = 443 if target_https else 80
-
-
-            # --- DIAGNOSTIC: final send decision ---
-            try:
-                _log("FINAL SEND DECISION: host=%s port=%s target_https=%s (forced_https=%s)" %
-                    (str(target_host), str(target_port), str(bool(target_https)), str(bool(forced_https_flag))))
-            except:
-                pass
-            # --- end diagnostic ---
-
-
-            _log("Will send to %s:%s https=%s" % (target_host, target_port, target_https))
-
-            # --- 6) send via Burp callbacks.makeHttpRequest ---
-            try:
-                resp_obj = None
-                try:
-                    svc = self.helpers.buildHttpService(target_host, int(target_port), "https" if target_https else "http")
-                    resp_obj = self.callbacks.makeHttpRequest(svc, request_bytes)
-                except Exception:
-                    try:
-                        resp_obj = self.callbacks.makeHttpRequest(target_host, int(target_port), bool(target_https), request_bytes)
-                    except Exception:
-                        resp_obj = None
-
-                if not resp_obj:
-                    try:
-                        self.customStatusArea.setText("makeHttpRequest failed (no resp object).")
-                    except:
-                        pass
-                    _log("RETURN: resp_obj is None")
-                    return fallback_resp
-
-                # poll getResponse()
-                response_bytes = None
-                attempts = 20
-                sleep_s = 0.08
-                for i in range(attempts):
-                    try:
-                        response_bytes = resp_obj.getResponse()
-                    except Exception as e:
-                        _log("getResponse() exception: %s" % str(e))
-                        response_bytes = None
-                    if response_bytes:
-                        # update cookie jar
-                        try:
-                            if getattr(self, "autoUpdateCookies", False):
-                                try:
-                                    try:
-                                        resp_text = self.helpers.bytesToString(response_bytes)
-                                    except Exception:
-                                        # fallback: best-effort conversion
-                                        resp_text = str(response_bytes)
-                                    changes = self.cookieManager.update_from_response(resp_text)
-                                    if changes:
-                                        for ch in changes:
-                                            try:
-                                                self.customStatusArea.setText("Cookie update: %s -> %s" % (ch[1], ch[3]))
-                                            except:
-                                                pass
-                                        _log("CookieManager: updated from response: %s" % str(changes))
-                                except Exception as e:
-                                    _log("CookieManager update error: %s" % str(e))
-                        except Exception:
-                            pass
-
-                        # CSRF extraction
-                        try:
-                            if getattr(self, "autoUpdateCsrf", False):
-                                pname_csrf = ""
-                                try:
-                                    pname_csrf = str(self.csrfParamField.getText()).strip()
-                                except:
-                                    pname_csrf = self.csrf_param_name
-                                if pname_csrf:
-                                    try:
-                                        custom_pat = str(self.csrfRegexArea.getText() or "").strip()
-                                        if custom_pat:
-                                            self.csrfManager.pattern_to_use = custom_pat
-                                        else:
-                                            self.csrfManager.pattern_to_use = None
-                                    except:
-                                        self.csrfManager.pattern_to_use = None
-                                    try:
-                                        ok, val = self.csrfManager.update_from_response(response_bytes, pname_csrf)
-                                        if ok:
-                                            _log("CsrfManager: extracted token for '%s' (len=%d)" % (pname_csrf, len(val)))
-                                            try:
-                                                self.customStatusArea.setText("CSRF token updated: %s" % (pname_csrf))
-                                            except:
-                                                pass
-                                        else:
-                                            _log("CsrfManager: no token found for '%s' in response" % pname_csrf)
-                                    except Exception as e:
-                                        _log("CsrfManager update_from_response exception: %s" % str(e))
-                        except Exception:
-                            pass
-                        
-                        # --- Follow redirects for Request Template if per-template option is selected ---
-                        try:
-                            if getattr(self, "autoFollowRTChk", None) and bool(self.autoFollowRTChk.isSelected()):
-                                try:
-                                    # call helper to follow redirects starting from this response
-                                    final_bytes = self._follow_redirects_chain(request_bytes, response_bytes, target_host, target_port, target_https, max_redirects=10)
-                                    if final_bytes:
-                                        # replace response_bytes with final_bytes for subsequent processing
-                                        response_bytes = final_bytes
-                                except Exception as e:
-                                    _log("autoFollowRTChk follow error: %s" % str(e))
-                        except Exception:
-                            pass
-
-                        _log("getResponse succeeded on attempt %d, len guess=%d" % (i, (len(response_bytes) if hasattr(response_bytes, "__len__") else -1)))
-                        break
-
-                    time.sleep(sleep_s)
-
-                if not response_bytes:
-                    try:
-                        self.customStatusArea.setText("No response bytes returned from target.")
-                    except:
-                        pass
-                    _log("RETURN: no response_bytes after polling")
-                    return fallback_resp
-
-                time.sleep(self.checkpageWaitSeconds)
-
-                # CheckPageTemplate follow-up (before conversion)
-                try:
-                    if getattr(self, "useCheckPageTemplate", False):
-                        try:
-                            if hasattr(self, "checkPageEditor"):
-                                cb = self.checkPageEditor.getMessage()
-                                if cb is None:
-                                    check_tmpl = ""
-                                else:
-                                    try:
-                                        check_tmpl = self.helpers.bytesToString(cb)
-                                    except:
-                                        check_tmpl = str(cb)
-                            else:
-                                check_tmpl = str(getattr(self, "checkPageArea", None) and self.checkPageArea.getText() or "")
-                        except:
-                            check_tmpl = ""
-                        if check_tmpl:
-                            _log("CheckPageTemplate: preparing follow-up request")
-                            final_check = check_tmpl
-                            try:
-                                final_check = final_check.replace("p4yl04dm4rk3r", outgoing_payload1)
-                            except:
-                                pass
-                            try:
-                                final_check = final_check.replace("53c0undm4rk3r", outgoing_payload2)
-                            except:
-                                pass
-                            try:
-                                injected = self.cookieManager.inject_into_request(final_check)
-                                if injected is None:
-                                    _log("CheckPageTemplate: cookie inject returned None (in-place assumed)")
-                                else:
-                                    final_check = injected
-                                _log("CheckPageTemplate: cookies injected (or attempted)")
-                            except Exception as e:
-                                _log("CheckPageTemplate: cookie injection failed: %s" % str(e))
-
-                            try:
-                                token_name = str(self.csrfParamField.getText()).strip() if hasattr(self, "csrfParamField") else getattr(self, "csrf_param_name", "")
-                            except:
-                                token_name = getattr(self, "csrf_param_name", "")
-                            try:
-                                token_val = None
-                                if token_name:
-                                    try:
-                                        token_val = self.csrfManager.get_token(token_name)
-                                    except:
-                                        try:
-                                            token_val = getattr(self.csrfManager, "jar", {}).get(token_name)
-                                        except:
-                                            token_val = None
-                                if token_val:
-                                    final_check = final_check.replace("c5rfm4rk3r", token_val)
-                                    _log("CheckPageTemplate: CSRF token inserted for '%s'" % token_name)
-                            except Exception as e:
-                                _log("CheckPageTemplate: csrf insertion error: %s" % str(e))
-
-
-                            # --- FORCE HTTPS DETECTION (insert immediately after loading template_text, BEFORE normalization) ---
-                            forced_https_flag = False
-                            try:
-                                # peek first request-line without mutating template_text
-                                first_line = ""
-                                try:
-                                    first_line = template_text.split("\r\n", 1)[0].strip()
-                                except:
-                                    first_line = ""
-
-                                # if template explicitly used HTTP/2, treat as intent to use TLS
-                                try:
-                                    if "HTTP/2" in first_line.upper():
-                                        forced_https_flag = True
-                                except:
-                                    pass
-
-                                # if the request-line uses an absolute https URL: GET https://host/path HTTP/1.1
-                                try:
-                                    toks = first_line.split()
-                                    if len(toks) >= 2:
-                                        maybe_url = toks[1].lower()
-                                        if maybe_url.startswith("https://"):
-                                            forced_https_flag = True
-                                            # optionally extract host/port now (we may still rely on analyzeRequest later)
-                                except:
-                                    pass
-
-                                # also detect explicit X-Force-Scheme header in template (optional user marker)
-                                try:
-                                    for ln in template_text.split("\r\n"):
-                                        if ln.lower().startswith("x-force-scheme:"):
-                                            v = ln.split(":",1)[1].strip().lower()
-                                            if v == "https":
-                                                forced_https_flag = True
-                                            break
-                                except:
-                                    pass
-
-                                # debug log for visibility
-                                try:
-                                    _log("forced_https_flag detected = %s, first_line='%s'" % (str(forced_https_flag), first_line))
-                                except:
-                                    pass
-                            except Exception:
-                                forced_https_flag = False
-                            # --- end FORCE HTTPS DETECTION ---
-
-
-                            try:
-                                final_check = _normalize_template_text(final_check)
-                            except:
-                                pass
-
-                            try:
-                                req_bytes = self.helpers.stringToBytes(final_check)
-                            except Exception:
-                                try:
-                                    req_bytes = final_check.encode("latin-1")
-                                except:
-                                    req_bytes = None
-
-                            if req_bytes is not None:
-
-                                try:
-                                    # --- TRY TO NORMALIZE REQUEST BY ENSURING CORRECT CONTENT-LENGTH ---
-                                    # req_bytes is produced above via stringToBytes / encode
-                                    # We will parse headers/body defensively and rebuild with helpers.buildHttpMessage
-                                    parsed_headers = []
-                                    body_bytes = b""
-                                    try:
-                                        parsed = self.helpers.analyzeRequest(req_bytes)
-                                        parsed_headers = list(parsed.getHeaders())
-                                        bo = parsed.getBodyOffset()
-                                        body_bytes = req_bytes[bo:]
-                                    except Exception:
-                                        try:
-                                            s = req_bytes
-                                            sep = b"\r\n\r\n"
-                                            idx = s.find(sep)
-                                            if idx >= 0:
-                                                hdrs_block = s[:idx].decode("latin-1", "replace").split("\r\n")
-                                                parsed_headers = hdrs_block
-                                                body_bytes = s[idx+4:]
-                                            else:
-                                                parsed_headers = []
-                                                body_bytes = b""
-                                        except Exception:
-                                            parsed_headers = []
-                                            body_bytes = b""
-
-                                    # rebuild headers while fixing Content-Length header
-                                    new_headers = []
-                                    cl_handled = False
-                                    for h in parsed_headers:
-                                        try:
-                                            hs = str(h)
-                                        except:
-                                            hs = h
-                                        try:
-                                            if hs.lower().startswith("content-length:"):
-                                                new_headers.append("Content-Length: %d" % len(body_bytes))
-                                                cl_handled = True
-                                            else:
-                                                new_headers.append(hs)
-                                        except:
-                                            try:
-                                                new_headers.append(str(hs))
-                                            except:
-                                                pass
-                                    if not cl_handled and len(body_bytes) > 0:
-                                        new_headers.append("Content-Length: %d" % len(body_bytes))
-
-                                    # attempt to rebuild using Burp helper (preferred)
-                                    try:
-                                        req_bytes = self.helpers.buildHttpMessage(new_headers, body_bytes)
-                                    except Exception:
-                                        # fallback: keep existing req_bytes (already created from final_check)
-                                        pass
-                                except Exception:
-                                    # non-fatal: ha valami elromlik, ne szakítsuk meg a check flow-t
-                                    pass
-
-
-                                _log("CheckPageTemplate: Will send check request to %s:%s https=%s" % (target_host, target_port, str(target_https)))
-                                check_resp = None
-                                try:
-                                    try:
-                                        svc2 = self.helpers.buildHttpService(target_host, int(target_port), "https" if target_https else "http")
-                                        check_resp_msg = self.callbacks.makeHttpRequest(svc2, req_bytes)
-                                    except Exception:
-                                        try:
-                                            check_resp_msg = self.callbacks.makeHttpRequest(target_host, int(target_port), bool(target_https), req_bytes)
-                                        except Exception as e:
-                                            check_resp_msg = None
-                                            _log("CheckPageTemplate: makeHttpRequest failed: %s" % str(e))
-
-                                    if check_resp_msg:
-                                        check_attempts = 15
-                                        check_sleep = 0.06
-                                        for ci in range(check_attempts):
-                                            try:
-                                                cr = check_resp_msg.getResponse()
-                                            except Exception as e:
-                                                _log("CheckPageTemplate: getResponse() exception: %s" % str(e))
-                                                cr = None
-                                            if cr:
-                                                check_resp = cr
-                                                break
-                                            time.sleep(check_sleep)
-                                except Exception as e:
-                                    _log("CheckPageTemplate: make/send exception: %s" % str(e))
-
-
-                                try:
-                                    if getattr(self, "autoFollowCPTChk", None) and bool(self.autoFollowCPTChk.isSelected()):
-                                        try:
-                                            # follow redirects for check request too
-                                            final_check_bytes = self._follow_redirects_chain(req_bytes, check_resp, target_host, target_port, target_https, max_redirects=10)
-                                            if final_check_bytes:
-                                                check_resp = final_check_bytes
-                                        except Exception as e:
-                                            _log("autoFollowCPTChk follow error: %s" % str(e))
-                                except Exception:
-                                    pass
-
-
-                                if check_resp:
-                                    try:
-                                        if getattr(self, "autoUpdateCookies", False):
-                                            try:
-                                                try:
-                                                    check_text = self.helpers.bytesToString(check_resp)
-                                                except Exception:
-                                                    check_text = str(check_resp)
-                                                changes2 = self.cookieManager.update_from_response(check_text)
-                                                _log("CheckPageTemplate: cookie changes from check response: %s" % str(changes2))
-                                            except:
-                                                pass
-                                    except:
-                                        pass
-                                    try:
-                                        _ = self.csrfManager.update_from_response(check_resp)
-                                    except:
-                                        pass
-                                    response_bytes = check_resp
-                                    _log("CheckPageTemplate: using check response instead of original response")
-                                else:
-                                    _log("CheckPageTemplate: no response from check request, keeping original response")
-                except Exception:
-                    _log("CheckPageTemplate: unexpected error in follow-up flow",)
-
-
-                # Convert Java byte[] (iterable with possibly signed ints) to Python bytes
-                try:
-                    if isinstance(response_bytes, (bytes, bytearray)):
-                        outb = bytes(response_bytes)
-                        _log("response already bytes-like, len=%d" % len(outb))
-                        try:
-                            self.customStatusArea.setText("Template sent and response forwarded (raw).")
-                        except:
-                            pass
-                        return outb
-                    # conversion of iterable byte-like -> Python bytes
-                    out_arr = bytearray()
-                    for b in response_bytes:
-                        try:
-                            iv = int(b)
-                        except Exception:
-                            try:
-                                iv = ord(b)
-                            except Exception:
-                                iv = 0
-                        if iv < 0:
-                            iv += 256
-                        out_arr.append(iv)
-                    outb = bytes(out_arr)
-                    _log("Converted response iterable -> len=%d" % len(outb))
-                    try:
-                        self.customStatusArea.setText("Template sent and response forwarded (raw).")
-                    except:
-                        pass
-                    return outb
-
-                except Exception as e:
-                    _log("conversion failed: %s" % str(e))
-                    try:
-                        s = self.helpers.bytesToString(response_bytes)
-                        _log("helpers.bytesToString len=%d" % (len(s) if s is not None else 0))
-                    except Exception as e2:
-                        _log("helpers.bytesToString failed: %s" % str(e2))
-                    _log("RETURN: conversion failed -> fallback")
-                    return fallback_resp
-
-            except Exception as e:
-                try:
-                    self.customStatusArea.setText("Network error sending template: %s" % str(e))
-                except:
-                    pass
-                _log("SEND BLOCK EXCEPTION: %s" % str(e))
-                try:
-                    traceback.print_exc()
-                except:
-                    pass
-                _log("RETURN: network/send exception -> fallback")
-                return fallback_resp
+            # success: return
+            return (request_bytes)
 
         except Exception as e:
             try:
-                self.customStatusArea.setText("Internal handler error: %s" % str(e))
-            except:
+                print("build_request_from_template: unexpected error: %s" % str(e))
+            except Exception:
                 pass
-            _log("TOP-LEVEL EXCEPTION: %s" % str(e))
-            try:
-                traceback.print_exc()
-            except:
-                pass
-            _log("RETURN: top-level exception -> fallback")
-            return fallback_resp
+            return (fallback_resp)
 
-class BurpExtender(IBurpExtender, IHttpListener):
+
+    def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https):
+        """
+        Main proxy-side mini-workflow.
+        Input: raw_request_bytes from intercepted proxy message.
+        Returns: (final_request_bytes, target_host, target_port, target_https, final_request_text, fallback_resp)
+        If something fails or no payload found -> returns (None, None, None, None, None, fallback_resp)
+        """
+        # fallback response (kept for compatibility though proxy branch returns bytes only)
+        fallback_resp = None
+
+        try:
+            if not raw_request_bytes:
+                return (None)
+
+            # decode safely for parsing
+            try:
+                req_text = self._to_text(raw_request_bytes)
+            except:
+                try:
+                    req_text = raw_request_bytes.decode("latin-1", "replace")
+                except:
+                    req_text = str(raw_request_bytes)
+
+            # --- extract payload param names ---
+            try:
+                pname1 = str(self.payloadParamField.getText()).strip()
+            except:
+                pname1 = getattr(self, "payload_param_name", "q")
+            try:
+                pname2 = str(self.payloadParam2Field.getText()).strip()
+            except:
+                pname2 = getattr(self, "payload_param2_name", "w")
+
+            # --- extract incoming payloads from query/body (robust) ---
+            incoming_payload1 = ""
+            incoming_payload2 = ""
+            try:
+                # prefer HTTP/2 pseudo :path if present
+                first_line = req_text.split("\r\n", 1)[0]
+                parts = first_line.split()
+                path = parts[1] if len(parts) >= 2 else "/"
+                # parse query string
+                if "?" in path:
+                    qstr = path.split("?", 1)[1]
+                    for kv in qstr.split("&"):
+                        if "=" in kv:
+                            k, v = kv.split("=", 1)
+                            if k == pname1 and not incoming_payload1:
+                                incoming_payload1 = v
+                            elif k == pname2 and not incoming_payload2:
+                                incoming_payload2 = v
+                # fallback: also check body if present
+                hdr_body = req_text.split("\r\n\r\n", 1)
+                body_text = hdr_body[1] if len(hdr_body) > 1 else ""
+                # form-urlencoded detection
+                if body_text and ("=" in body_text) and ("application/x-www-form-urlencoded" in req_text.lower()):
+                    for kv in body_text.split("&"):
+                        if "=" in kv:
+                            k, v = kv.split("=", 1)
+                            if k == pname1 and not incoming_payload1:
+                                incoming_payload1 = v
+                            elif k == pname2 and not incoming_payload2:
+                                incoming_payload2 = v
+            except Exception:
+                pass
+
+            incoming_payload1 = incoming_payload1 or ""
+            incoming_payload2 = incoming_payload2 or ""
+
+
+            # --- If no payloads at all, do not interfere (let proxy forward original) ---
+            if not incoming_payload1 and not incoming_payload2:
+                return (None)
+
+
+            # --- Build Request Template request bytes (do not send it yet) ---
+            try:
+                request_bytes = self.build_request_from_template(
+                    get_editor_message=lambda: self.reqTemplateEditor.getMessage() if hasattr(self, "reqTemplateEditor") else None,
+                    helpers=self.helpers,
+                    cookie_manager=self.cookieManager,
+                    csrf_manager=self.csrfManager,
+                    auto_update_cookies=getattr(self, "autoUpdateCookies", False),
+                    auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
+                    normalize_func=None,
+                    custom_status_setter=lambda s: None,
+                    incoming_payload1=incoming_payload1,
+                    incoming_payload2=incoming_payload2,
+                    fallback_resp=fallback_resp
+                )
+            except Exception as e:
+                try:
+                    print("proxy_flow_process_request: request template build failed:", e)
+                except:
+                    pass
+                return (None)
+
+            if not request_bytes:
+                return (None)
+
+
+            # If CheckPage NOT used: return the request template as final
+            try:
+                use_cpt = bool(getattr(self, "useCheckPageTemplate", False)) or bool(getattr(self, "checkPageTemplateCheckbox", False) and self.checkPageTemplateCheckbox.isSelected())
+            except:
+                use_cpt = False
+
+            if not use_cpt:
+                return (request_bytes)
+
+            target_host = orig_host
+            target_port = orig_port
+            target_https = orig_https
+
+            # --- ELSE: CheckPage is used -> we must run the small internal flow:
+            # 1) send the Request Template (so we can update cookies/csrf and follow redirects if requested)
+            # 2) build the CheckPage request using updated state
+            resp_obj = None
+            try:
+                # build service & send (prefer buildHttpService + makeHttpRequest)
+                try:
+                    svc = self.helpers.buildHttpService(target_host, int(target_port), "https" if target_https else "http")
+                    # mark_request_as_workflow_generated is not required in the new flow
+                    resp_obj = self.callbacks.makeHttpRequest(svc, request_bytes)
+                except Exception:
+                    # fallback older API
+                    try:
+                        resp_obj = self.callbacks.makeHttpRequest(target_host, int(target_port), bool(target_https), request_bytes)
+                    except Exception as e:
+                        resp_obj = None
+                        try:
+                            print("proxy_flow_process_request: makeHttpRequest failed:", e)
+                        except:
+                            pass
+
+                # poll for response bytes
+                response_bytes = None
+                if resp_obj:
+                    attempts = 20
+                    sleep_s = 0.08
+                    for _ in range(attempts):
+                        try:
+                            response_bytes = resp_obj.getResponse()
+                        except Exception:
+                            response_bytes = None
+                        if response_bytes:
+                            break
+                        time.sleep(sleep_s)
+            except Exception as e:
+                try:
+                    print("proxy_flow_process_request: sending request-template failed:", e)
+                except:
+                    pass
+                response_bytes = None
+
+            # If we couldn't get response, we still can attempt to build CheckPage (best-effort) OR abort
+            if response_bytes:
+                # update cookie manager / csrf from response if options enabled
+                self._update_cookies_and_csrf(response_bytes)
+
+                # optionally follow redirects for request template if user requested it (allowed when CheckPage active)
+                try:
+                    if self.autoFollowRTChk.isEnabled():
+                        print("autoFollowRTChk:", self.autoFollowRTChk.isEnabled())
+                        # attempt to follow redirect chain using helper (reuse existing logic if present)
+                        try:
+                            final_bytes = self._follow_redirects_chain(request_bytes, response_bytes, target_host, target_port, target_https, max_redirects=10)
+                            if final_bytes:
+                                response_bytes = final_bytes
+                        except:
+                            pass
+                except:
+                    pass
+
+            # --- Build CheckPage request now, using updated cookie/csrf state and outgoing payloads ---
+            try:
+                cp_bytes = self.build_checkpage_request(incoming_payload1=incoming_payload1, incoming_payload2=incoming_payload2)
+            except Exception as e:
+                try:
+                    print("proxy_flow_process_request: build_checkpage_request failed:", e)
+                except:
+                    pass
+                cp_bytes = None
+
+            if not cp_bytes:
+                # fallback -> use the request template
+                return (request_bytes)
+
+            # success: return the CheckPage request as the final request to give to the proxy
+            return (cp_bytes)
+
+        except Exception as e:
+            try:
+                print("proxy_flow_process_request top-level exception:", e)
+            except:
+                pass
+            return (None)
+
+    def build_checkpage_request(self, incoming_payload1="", incoming_payload2=""):
+        """
+        Build CheckPage request bytes from the CheckPage editor/template.
+        Returns (request_bytes, forced_https_flag, final_request_text) or (None,None,None) on failure.
+        """
+        try:
+            # get editor content
+            try:
+                editor_msg = self.checkPageEditor.getMessage() if hasattr(self, "checkPageEditor") else None
+            except:
+                editor_msg = None
+
+            # call existing template builder (keeps behavior consistent)
+            try:
+                request_bytes = self.build_request_from_template(
+                    get_editor_message=lambda: editor_msg,
+                    helpers=self.helpers,
+                    cookie_manager=self.cookieManager,
+                    csrf_manager=self.csrfManager,
+                    auto_update_cookies=getattr(self, "autoUpdateCookies", False),
+                    auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
+                    normalize_func=None,
+                    custom_status_setter=lambda s: None,
+                    incoming_payload1=incoming_payload1 or "",
+                    incoming_payload2=incoming_payload2 or "",                 
+                    fallback_resp=None
+                )
+            except Exception as e:
+                try:
+                    print("build_checkpage_request: build_request_from_template error:", e)
+                except:
+                    pass
+                return (None)
+
+            if not request_bytes:
+                return (None)
+
+            return (request_bytes)
+
+        except Exception as e:
+            try:
+                print("build_checkpage_request top-level exception:", e)
+            except:
+                pass
+            return (None)
+
+
+
+class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
     def registerExtenderCallbacks(self, callbacks):
         self.callbacks = callbacks
         callbacks.setExtensionName("BoberProxy")
@@ -4319,9 +3158,18 @@ class BurpExtender(IBurpExtender, IHttpListener):
         callbacks.addSuiteTab(self.ui)
 
         callbacks.registerHttpListener(self)
+
+        # register proxy listener so we can intercept proxy messages when Proxy Mode ON
+        try:
+            callbacks.registerProxyListener(self)
+        except Exception as e:
+            print("registerProxyListener failed (ignored):", e)
+
         print("BoberProxy loaded")
 
+
     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
+
         try:
             host = method = path = ""
             status = None
@@ -4359,76 +3207,6 @@ class BurpExtender(IBurpExtender, IHttpListener):
             except:
                 pass
 
-            # --- Custom codeblock transform step (NEW) ---
-            outgoing_payload_from_custom = None
-            try:
-                try:
-                    use_custom = bool(self.ui.useCustomChk.isSelected())
-                except:
-                    use_custom = False
-                if use_custom:
-                    pname = ""
-                    try:
-                        pname = str(self.ui.payloadParamField.getText()).strip()
-                    except:
-                        pname = self.ui.payload_param_name
-                    incoming_payload = self.ui.extract_param_from_request(messageInfo, pname)
-
-                    # add:
-                    pname2 = ""
-                    try:
-                        pname2 = str(self.ui.payloadParam2Field.getText()).strip()
-                    except:
-                        pname2 = getattr(self.ui, "payload_param2_name", "w")
-                    incoming_payload2 = self.ui.extract_param_from_request(messageInfo, pname2)
-
-                    try:
-                        t_ms = int(self.ui.timeoutField.getText())
-                    except:
-                        t_ms = self.ui.custom_timeout_ms
-
-                    # Always pass the current CSRF token value to the custom codeblock
-                    try:
-                        csrf_name = str(self.ui.csrfParamField.getText()).strip()
-                    except:
-                        csrf_name = getattr(self.ui, "csrf_param_name", "csrfmiddlewaretoken")
-
-                    try:
-                        cached_csrf = self.ui.csrfManager.get_token(csrf_name)
-                    except:
-                        try:
-                            cached_csrf = getattr(self.ui.csrfManager, "jar", {}).get(csrf_name)
-                        except:
-                            cached_csrf = None
-
-                    ok, out, err = self.ui.run_user_code(incoming_payload, t_ms, incoming_payload2, cached_csrf)
-
-                    if ok and out is not None:
-                        outgoing_payload_from_custom = out
-                    else:
-                        # show brief error in UI label (do not block)
-                        try:
-                            if err is None:
-                                self.ui.customStatusLabel.setText("User code: timeout")
-                            else:
-                                # keep message short
-                                txt = str(err)
-                                if len(txt) > 200:
-                                    txt = txt[:200] + "..."
-                                self.ui.customStatusLabel.setText("User code error: %s" % txt)
-                        except:
-                            pass
-                        outgoing_payload_from_custom = incoming_payload  # fallback
-            except Exception:
-                try:
-                    self.ui.customStatusLabel.setText("User code error (internal)")
-                except:
-                    pass
-                outgoing_payload_from_custom = None
-            # Note: outgoing_payload_from_custom now contains the transformed payload (or fallback)
-            # How to use it depends on the template insertion point — here we attach it to messageInfo metadata
-            # so other code (template engine) can pick it up. For now, we just log it as part of the entry if present.
-
             try:
                 should = self.ui.should_log(toolFlag, messageIsRequest, messageInfo)
             except:
@@ -4441,13 +3219,120 @@ class BurpExtender(IBurpExtender, IHttpListener):
                         # For requests, show the outgoing_payload_from_custom (if set) in the detail view only when selected.
                         self.ui.append_log_row(toolFlag, host, method, path, status, length, messageInfo, messageIsRequest)
                         # Optionally annotate latest row's status label if transform exists
-                        if outgoing_payload_from_custom is not None:
-                            try:
-                                self.ui.customStatusLabel.setText("Last transform applied")
-                            except:
-                                pass
                     except Exception as e:
                         print("append invoke error:", e)
                 swing.SwingUtilities.invokeLater(_append)
         except Exception as e:
             print("processHttpMessage error:", e)
+
+
+    def processProxyMessage(self, messageIsRequest, interceptedMessage):
+        """
+        Proxy listener: single-entry request-branch implementation.
+        Build the final request (RequestTemplate or CheckPage) synchronously,
+        then replace the proxied request and let Burp forward it.
+        """
+        try:
+            # ====================================================
+            # RESPONSE BRANCH – update cookie / csrf from server
+            # ====================================================
+            if not messageIsRequest:
+
+                # extract response
+                # ---------------------------------------------------------------
+                # UNIFIED COOKIE + CSRF UPDATE BLOCK (FINAL VERSION)
+                # ---------------------------------------------------------------
+
+                try:
+                    msg_info = interceptedMessage.getMessageInfo()
+                    if not msg_info:
+                        interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                        return
+
+                    resp_bytes = msg_info.getResponse()
+                    if not resp_bytes:
+                        interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                        return
+                except:
+                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                    return
+                # update cookie manager / csrf from response if options enabled
+                self.ui._update_cookies_and_csrf(resp_bytes)
+
+                # proxy continue on its way
+                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                return
+
+
+            # UI readiness + proxy mode enabled?
+            try:
+                if not getattr(self, "ui", None):
+                    return
+                if not getattr(self.ui, "_proxy_mode_active", False):
+                    return
+            except:
+                return
+
+            # get message info and raw request bytes and service
+            try:
+                msg_info = interceptedMessage.getMessageInfo()
+                if not msg_info:
+                    return
+                raw_req = msg_info.getRequest()
+                if not raw_req:
+                    return
+                service = msg_info.getHttpService()
+                if not service:
+                    return
+            except:
+                return
+
+            # get orig_hos, torig_port, orig_https            
+            orig_host  = service.getHost()
+            orig_port  = service.getPort()
+            orig_https = (service.getProtocol().lower() == "https")
+
+
+            # run the unified proxy-workflow on this raw request (implemented on UI)
+            try:
+                final_req = self.ui.proxy_flow_process_request(raw_req, orig_host, orig_port, orig_https)
+            except Exception as e:
+                # on any internal error, let Burp forward the original request
+                try:
+                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                except:
+                    pass
+                try:
+                    print("processProxyMessage: proxy_flow_process_request exception:", e)
+                except:
+                    pass
+                return
+
+            # If the workflow decided not to replace the request, let it pass unchanged
+            if not final_req:
+                try:
+                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                except:
+                    pass
+                return
+
+            # Replace the proxy's request with our final request and let Burp forward it
+            try:
+                msg_info.setRequest(final_req)
+                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+            except Exception as e:
+                try:
+                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                except:
+                    pass
+                try:
+                    print("processProxyMessage: setRequest/setAction failed:", e)
+                except:
+                    pass
+            return
+
+        except Exception as e:
+            try:
+                print("processProxyMessage outer exception:", e)
+            except:
+                pass
