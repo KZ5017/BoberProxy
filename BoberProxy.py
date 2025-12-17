@@ -3,8 +3,8 @@
 from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener
 
 from javax import swing
-from javax.swing import SortOrder, RowSorter, SwingUtilities
-from javax.swing.table import DefaultTableModel, TableRowSorter
+from javax.swing import SortOrder, RowSorter, SwingUtilities, JTable, ListSelectionModel
+from javax.swing.table import DefaultTableModel, TableRowSorter, AbstractTableModel
 from javax.swing.text import DefaultHighlighter
 from javax.swing.event import ChangeListener
 
@@ -15,6 +15,7 @@ from java.awt import (
 from java.awt.event import MouseAdapter, ComponentAdapter
 from java.util import Comparator
 from java.util.regex import Pattern
+from java.lang import Integer
 
 import sys, threading, time, os, socket, traceback, jarray, binascii, hashlib, re
 
@@ -23,6 +24,129 @@ import sys, threading, time, os, socket, traceback, jarray, binascii, hashlib, r
 from urlparse import urljoin, urlparse
 # Python 3 (Jython and newer versions):
 #from urllib.parse import urljoin, urlparse
+
+class LogEntry(object):
+    def __init__(self, index, ts, host, method, path,
+                 status, total_len, body_len, messageInfo):
+
+        self.index = index
+        self.ts = ts
+        self.host = host
+        self.method = method
+        self.path = path
+        self.status = status
+        self.total_len = total_len
+        self.body_len = body_len
+        self.messageInfo = messageInfo
+
+
+class LogStore:
+    def __init__(self):
+        self.entries = []
+        self._counter = 0
+
+    def add(self, ts, host, method, path, status,
+            total_len, body_len, messageInfo):
+
+        self._counter += 1
+
+        e = LogEntry(
+            index=self._counter,
+            ts=ts,
+            host=host,
+            method=method,
+            path=path,
+            status=status,
+            total_len=total_len,
+            body_len=body_len,
+            messageInfo=messageInfo
+        )
+
+        self.entries.insert(0, e)
+        return e
+
+    def clear(self):
+        self.entries = []
+        self._counter = 0
+
+
+class LogTableModel(AbstractTableModel):
+
+    COLUMNS = [
+        "#", "Time", "Host", "Method", "Path",
+        "Status", "Total Len", "Body Len"
+    ]
+
+    def __init__(self, logStore):
+        AbstractTableModel.__init__(self)
+        self.logStore = logStore
+        self.displayed = []   # List[LogEntry]
+
+    # ---------- JTable API ----------
+
+    def getRowCount(self):
+        return len(self.displayed)
+
+    def getColumnCount(self):
+        return len(self.COLUMNS)
+
+    def getColumnName(self, col):
+        return self.COLUMNS[col]
+
+    def getValueAt(self, row, col):
+        try:
+            e = self.displayed[row]
+            values = (
+                Integer(e.index),
+                e.ts,
+                e.host,
+                e.method,
+                e.path,
+                Integer(e.status) if e.status != "" else Integer(0),
+                Integer(e.total_len) if e.total_len != "" else Integer(0),
+                Integer(e.body_len) if e.body_len != "" else Integer(0),
+            )
+            return values[col]
+        except:
+            return ""
+
+    def getColumnClass(self, col):
+        if col in (0, 5, 6, 7):
+            return Integer
+        return str
+
+
+    def isCellEditable(self, row, col):
+        return False
+
+    # ---------- Data control ----------
+
+    def rebuild(self, filter_fn=None):
+        if filter_fn:
+            self.displayed = [
+                e for e in self.logStore.entries
+                if filter_fn(e)
+            ]
+        else:
+            self.displayed = list(self.logStore.entries)
+
+        self.fireTableDataChanged()
+
+
+    def add_entry_top(self, entry, show):
+        if not show:
+            return
+
+        self.displayed.insert(0, entry)
+
+        # Swing értesítés
+        self.fireTableRowsInserted(0, 0)
+
+
+    def clear(self):
+        self.displayed = []
+        self.fireTableDataChanged()
+
 
 class CsrfManager(object):
 
@@ -460,6 +584,30 @@ class LoggerUI(ITab):
         self.callbacks_ref = callbacks_ref
         self._suspend_selection_events = False
 
+        #------------------NEW---------------------------
+        #  LogStore
+        self.logStore = LogStore()
+
+        #  LogTableModel
+        self.logTableModel = LogTableModel(self.logStore)
+
+        #  JTable
+        self.table = JTable(self.logTableModel)
+        self.table.setSelectionMode(
+            ListSelectionModel.SINGLE_SELECTION
+        )
+
+        #  Sorter
+        self.rowSorter = TableRowSorter(self.logTableModel)
+        self.table.setRowSorter(self.rowSorter)
+        self.table.setAutoCreateRowSorter(True)
+
+        # 5 Selection listener
+        self.table.getSelectionModel().addListSelectionListener(
+            self.on_table_select
+        )
+        #------------------NEW---------------------------
+
         self._init_display_filters()
 
         # search / highlight state
@@ -472,7 +620,6 @@ class LoggerUI(ITab):
         # other flags / storage
         self.paused = False
         self.running = False
-        self.log_entries = []
 
 
         # Custom codeblock defaults
@@ -669,114 +816,10 @@ class LoggerUI(ITab):
 
         self.leftSplit.setLeftComponent(self.tabbed)
 
-        # --- LOG table on left-bottom ---
-        cols = ["#","Time","Host","Method","Path","Status","Len","BodyLen"]
-        self.tableModel = DefaultTableModel([], cols)
-        # Create main log table
-        self.table = swing.JTable(self.tableModel)
-
-        # sorter
-        self.rowSorter = TableRowSorter(self.tableModel)
-        self.table.setRowSorter(self.rowSorter)
-
-        # -----------------------------
-        # Table and row-sorting helpers
-        # -----------------------------
-        # (place this block right after self.table = swing.JTable(self.tableModel)
-        #  and after you set up the rowSorter / auto-create flag)
-
-        # ensure auto sorter is enabled (optional, but recommended)
-        try:
-            self.table.setAutoCreateRowSorter(True)
-        except:
-            pass
-
-        # create & attach explicit row sorter if you use one
-        try:
-            self.rowSorter = TableRowSorter(self.tableModel)
-            self.table.setRowSorter(self.rowSorter)
-        except:
-            # fallback: ignore if cannot create sorter
-            pass
-
-        # helper to reset sorting back to model order
-        def reset_sorting_to_model_order():
-            try:
-                # If a sorter exists, clear its sort keys (this should reset visual sort)
-                rs = self.table.getRowSorter()
-                if rs is not None:
-                    try:
-                        rs.setSortKeys(None)
-                        # refresh the view by re-setting the model (safe approach)
-                        # we remove and reattach the sorter to force recalculation
-                        self.table.setRowSorter(None)
-                        self.table.setRowSorter(self.rowSorter)
-                    except:
-                        # best-effort fallback: remove sorter entirely (still a reset)
-                        try:
-                            self.table.setRowSorter(None)
-                        except:
-                            pass
-                else:
-                    # no sorter -> nothing to do
-                    pass
-            except Exception as e:
-                # swallow errors but optionally log for debug
-                try:
-                    self._log("reset_sorting_to_model_order failed: %s" % str(e))
-                except:
-                    pass
-
-        # capture table reference for inner listener (avoid 'self' confusion)
-        _table_ref = self.table
-
-        # Add header mouse listener: clicking first column ("#") resets order.
-
-        class HeaderClickListener(MouseAdapter):
-            def mouseClicked(this, event):
-                try:
-                    # use captured table ref
-                    col = _table_ref.columnAtPoint(event.getPoint())
-                except Exception as e:
-                    try:
-                        self._log("HeaderClickListener: cannot determine column: %s" % e)
-                    except:
-                        pass
-                    return
-
-                # if first column (index 0) clicked -> schedule reset after built-in sorter runs
-                if col == 0:
-                    def later():
-                        try:
-                            reset_sorting_to_model_order()
-                            try:
-                                self._log("[DEBUG] Sorting reset to model order")
-                            except:
-                                pass
-                        except Exception as e:
-                            try:
-                                self._log("[DEBUG] Sorting reset error: %s" % e)
-                            except:
-                                pass
-                    # ensure our reset runs after Swing's default sorter
-                    try:
-                        SwingUtilities.invokeLater(later)
-                    except:
-                        # final fallback: call immediately
-                        try:
-                            later()
-                        except:
-                            pass
-
-        try:
-            header = self.table.getTableHeader()
-            header.addMouseListener(HeaderClickListener())
-        except:
-            pass
-
 
         self.table.setSelectionMode(swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
         self.table.getSelectionModel().addListSelectionListener(self.on_table_select)
+
         self.leftSplit.setRightComponent(swing.JScrollPane(self.table))
 
         # attach left split to main split
@@ -789,6 +832,8 @@ class LoggerUI(ITab):
 
         # Inner grid content (kept same as before)        
         rightContent = swing.JPanel(GridBagLayout())
+        # FIX minimum width – NO dynamic resizing
+        rightContent.setMinimumSize(Dimension(610, 0))
         c = GridBagConstraints()
         c.insets = Insets(4,4,4,4)
         c.fill = GridBagConstraints.HORIZONTAL
@@ -1090,35 +1135,6 @@ class LoggerUI(ITab):
         # scroll pane around the wrapper (not directly rightContent!)
         self.rightScroll = swing.JScrollPane(rightWrapper)
         
-        # --- (Jython-kompatibilis) dynamic resize hookup for rightContent ---
-
-        def _update_preferred_size(evt=None):
-            try:
-                viewport = self.rightScroll.getViewport()
-                size = viewport.getExtentSize()
-                if size.width > 0:
-                    pref = rightContent.getPreferredSize()
-
-                    # --- minimum width setting ---
-                    MIN_WIDTH = 610   # below this value, do not shrink further (scrollbar comes)
-                    new_w = max(MIN_WIDTH, size.width - 20)
-
-                    # we only update if it really has changed
-                    if pref.width != new_w:
-                        rightContent.setPreferredSize(Dimension(new_w, pref.height))
-                        rightContent.revalidate()
-            except Exception:
-                pass
-
-        # ComponentAdapter descendant in Jython
-        class _RightViewportListener(ComponentAdapter):
-            def componentResized(self, e):
-                _update_preferred_size(e)
-
-        # add listener and one-time initializer call
-        self.rightScroll.getViewport().addComponentListener(_RightViewportListener())
-        _update_preferred_size()
-
         self.rightScroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)
         self.rightScroll.setVerticalScrollBarPolicy(swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED)
         self.rightScroll.getViewport().setScrollMode(swing.JViewport.SIMPLE_SCROLL_MODE)
@@ -1286,26 +1302,27 @@ class LoggerUI(ITab):
 
     def _get_request_text_from_selected(self):
         try:
-            view_sel = self.table.getSelectedRow()
-            if view_sel < 0:
+            view_row = self.table.getSelectedRow()
+            if view_row < 0:
                 return ""
-            model_sel = self.table.convertRowIndexToModel(view_sel)
-            # use self.displayed_entries if it exists
-            if hasattr(self, "displayed_entries") and 0 <= model_sel < len(self.displayed_entries):
-                entry = self.displayed_entries[model_sel]
-            else:
-                # fallback: full log_entries (security)
-                entry = self.log_entries[model_sel]
-            messageInfo = entry[0]
-            try:
-                reqb = messageInfo.getRequest()
-                if reqb:
-                    return self.helpers.bytesToString(reqb)
-            except:
+
+            model_row = self.table.convertRowIndexToModel(view_row)
+
+            if not (0 <= model_row < len(self.logTableModel.displayed)):
                 return ""
-        except:
+
+            entry = self.logTableModel.displayed[model_row]
+            msg = entry.messageInfo
+
+            reqb = msg.getRequest()
+            if not reqb:
+                return ""
+
+            return self.helpers.bytesToString(reqb)
+
+        except Exception as e:
+            print("_get_request_text_from_selected error:", e)
             return ""
-        return ""
 
 
     def _load_template_from_viewer(self, event=None):
@@ -1391,7 +1408,6 @@ class LoggerUI(ITab):
                 pass
 
 
-
     def getTabCaption(self): return "BoberProxy"
     def getUiComponent(self): return self._component
 
@@ -1420,227 +1436,111 @@ class LoggerUI(ITab):
 
 
     def _row_matches_filters(self, entry):
-        # entry is a tuple as stored in log_entries: (messageInfo, toolFlag, ts, isRequest, total_length, body_len)
-        # map fields
+        """
+        entry: LogEntry
+        """
         try:
-            msg, tool, ts, isReq, total_length, body_len = entry
+            method = entry.method or ""
+            host = entry.host or ""
+            path = entry.path or ""
+            status = str(entry.status or "")
+            body_len = entry.body_len
+            msg = entry.messageInfo
         except:
             return True
-        # obtain values defensively
-        try:
-            analyzedReq = None
-            method = ""
-            host = ""
-            path = ""
-            status = ""
-            try:
-                analyzedReq = self.helpers.analyzeRequest(msg)
-            except:
-                analyzedReq = None
-            if analyzedReq:
-                try:
-                    method = analyzedReq.getMethod()
-                except:
-                    method = ""
-                try:
-                    url = analyzedReq.getUrl()
-                    if url:
-                        host = url.getHost() or ""
-                        q = url.getQuery()
-                        path = (url.getPath() or "") + (("?" + q) if q else "")
-                except:
-                    pass
-            # status only for responses
-            try:
-                resp = msg.getResponse()
-                if resp:
-                    try:
-                        analyzedResp = self.helpers.analyzeResponse(resp)
-                        try:
-                            status = str(analyzedResp.getStatusCode() or "")
-                        except:
-                            status = ""
-                    except:
-                        status = ""
-            except:
-                status = ""
-        except:
-            method = host = path = status = ""
 
         field_map = {
-            "Host": host or "",
-            "Method": method or "",
-            "Path": path or "",
-            "Status": status or "",
+            "Host": host,
+            "Method": method,
+            "Path": path,
+            "Status": status,
         }
 
-        # iterate active filters: all must pass (AND)
         try:
             for fname, cfg in self.display_filters.items():
                 if not cfg.get("active"):
                     continue
+
                 mode = cfg.get("mode", "eq")
                 vals = cfg.get("values", [])
-                cell = str(field_map.get(fname, "")).strip()
                 if not vals:
                     return False
 
                 matched = False
+                cell = str(field_map.get(fname, "")).strip()
 
-                # BodyLen: numeric comparisons (vals are CSV of ints or ranges — we'll treat as list of ints like earlier)
+                # --- BodyLen ---
                 if fname == "BodyLen":
                     try:
-                        # body_len may be "" for requests or missing; treat as no-match
                         if body_len == "" or body_len is None:
                             matched = False
                         else:
-                            actual_bl = int(body_len)
-                            # try matching any provided numeric value
+                            actual = int(body_len)
                             for v in vals:
                                 try:
-                                    vi = int(v)
-                                    if vi == actual_bl:
+                                    if int(v) == actual:
                                         matched = True
                                         break
                                 except:
-                                    # ignore non-int entries
                                     pass
                     except:
                         matched = False
 
-                # ResponseContent: vals are regex patterns; if any pattern matches the response text we consider matched
+                # --- ResponseContent ---
                 elif fname == "ResponseContent":
                     try:
-                        # build hay from response bytes if possible
-                        resp_bytes = None
-                        try:
-                            resp_bytes = msg.getResponse()
-                        except:
-                            resp_bytes = None
+                        resp = msg.getResponse()
                         hay = ""
-                        try:
-                            if resp_bytes:
-                                hay = self.helpers.bytesToString(resp_bytes)
-                            else:
-                                # fallback to request text
-                                req_bytes = msg.getRequest()
-                                if req_bytes:
-                                    hay = self.helpers.bytesToString(req_bytes)
-                        except:
-                            hay = ""
+                        if resp:
+                            hay = self.helpers.bytesToString(resp)
                         for v in vals:
-                            v = v.strip()
                             if not v:
                                 continue
                             try:
-                                # use Java Pattern via imported Pattern earlier; compile per value
                                 pat = Pattern.compile(v, Pattern.CASE_INSENSITIVE | Pattern.DOTALL)
-                                m = pat.matcher(hay)
-                                if m.find():
+                                if pat.matcher(hay).find():
                                     matched = True
                                     break
                             except:
-                                # if invalid Java regex, try Python re as fallback
-                                try:
-                                    if re.search(v, hay, flags=re.IGNORECASE|re.DOTALL):
-                                        matched = True
-                                        break
-                                except:
-                                    pass
+                                pass
                     except:
                         matched = False
 
-                # Path partial-match behavior kept as before
+                # --- Path partial ---
                 elif fname == "Path":
                     for v in vals:
-                        v = str(v).strip()
                         if v and v in cell:
                             matched = True
                             break
 
-                # Default: exact match against host/method/status
+                # --- Default exact ---
                 else:
                     for v in vals:
-                        v = str(v).strip()
                         if v and cell == v:
                             matched = True
                             break
 
-                # apply mode
+                # --- apply mode ---
                 if mode == "eq":
                     if not matched:
                         return False
-                else:  # not eq
+                else:
                     if matched:
                         return False
 
             return True
+
         except:
             return True
 
+
     def _refresh_table_display(self):
         try:
-            col_count = self.tableModel.getColumnCount()
-            column_names = [self.tableModel.getColumnName(c) for c in range(col_count)]
-            new_rows = []
-            # NEW: maintained list for visible (filtered) entries
-            self.displayed_entries = []
-            for entry in self.log_entries:
-                if self._row_matches_filters(entry):
-                    try:
-                        messageInfo = entry[0]
-                        ts = entry[2]
-                        host = ""
-                        method = ""
-                        path = ""
-                        status = ""
-                        total_length = entry[4]
-                        body_len = entry[5]
-                        try:
-                            analyzedReq = self.helpers.analyzeRequest(messageInfo)
-                            method = analyzedReq.getMethod()
-                            url = analyzedReq.getUrl()
-                            if url:
-                                host = url.getHost() or ""
-                                q = url.getQuery()
-                                path = (url.getPath() or "") + (("?" + q) if q else "")
-                        except:
-                            pass
-                        try:
-                            resp = messageInfo.getResponse()
-                            if resp:
-                                ar = self.helpers.analyzeResponse(resp)
-                                try:
-                                    status = ar.getStatusCode()
-                                except:
-                                    status = ""
-                        except:
-                            status = ""
-                        row = ["", ts, host, method, path, status if status is not None else "", total_length if total_length is not None else "", body_len if body_len is not None else ""]
-                        new_rows.append(row)
-                        # KEY: stores the reference of the displayed entry
-                        self.displayed_entries.append(entry)
-                    except:
-                        pass
-        
-            new_model = DefaultTableModel(new_rows, column_names)
-            self.table.setModel(new_model)
-            self.tableModel = new_model
-            try:
-                self.rowSorter = TableRowSorter(self.tableModel)
-                self.table.setRowSorter(self.rowSorter)
-                self.table.setAutoCreateRowSorter(True)
-            except:
-                pass
-            try:
-                self._renumber_table()
-            except:
-                pass
+            self.logTableModel.rebuild(self._row_matches_filters)
         except Exception as e:
-            try:
-                self.customStatusArea.append("refresh_table_display error: %s\n" % e)
-            except:
-                pass
+            self.customStatusArea.append(
+                "refresh error: %s\n" % e
+            )
 
 
 
@@ -1683,102 +1583,62 @@ class LoggerUI(ITab):
             pass
 
     def clear_log(self, evt=None):
-        self.log_entries = []
-        self.tableModel.setRowCount(0)
         try:
-            self.lineNums.setText("")
-        except:
-            pass
-        self.set_status("Log cleared")
+            self.logStore.clear()
+            self.logTableModel.clear()
+            self._log("Log cleared OK!")
+        except Exception as e:
+            try:
+                self._log("Log cleared ERROR: %s\n" % str(e))
+            except:
+                pass
+
         
     def clear_selected(self, evt=None):
-        """
-        Optimized deletion of selected rows from JTable + log_entries.
-        Keeps data perfectly aligned and avoids Swing repaint per row.
-        """
         try:
-            sel_view_rows = list(self.table.getSelectedRows())
-            if not sel_view_rows:
+            view_rows = self.table.getSelectedRows()
+            if not view_rows:
                 swing.JOptionPane.showMessageDialog(None, "No rows selected.")
                 return
 
-            # Convert to model indices (ascending order)
-            sel_model_indices = sorted(
-                [self.table.convertRowIndexToModel(r) for r in sel_view_rows]
+            # view -> model index
+            model_rows = sorted(
+                [self.table.convertRowIndexToModel(v) for v in view_rows],
+                reverse=True
             )
 
-            # Disable sorting and updates for speed
-            sorter_was_enabled = self.table.getAutoCreateRowSorter()
-            if sorter_was_enabled:
-                self.table.setAutoCreateRowSorter(False)
+            removed = 0
 
-            self.table.setEnabled(False)
+            for r in model_rows:
+                try:
+                    entry = self.logTableModel.displayed[r]
+                    # törlés a LogStore-ból (objektum alapon!)
+                    if entry in self.logStore.entries:
+                        self.logStore.entries.remove(entry)
+                        removed += 1
+                except:
+                    pass
 
-            # --- Remove from log_entries efficiently ---
-            delete_set = set(sel_model_indices)
-            self.log_entries[:] = [
-                entry for i, entry in enumerate(self.log_entries)
-                if i not in delete_set
-            ]
-            # after: self.log_entries[:] = [ ... ] (this can remain)
-            # DELETE from displayed_entries too, if any
+            # tábla újraépítése (filterek megtartása)
             try:
-                if hasattr(self, "displayed_entries"):
-                    self.displayed_entries = [e for i,e in enumerate(self.displayed_entries) if i not in delete_set]
+                self.logTableModel.rebuild(self._row_matches_filters)
             except:
-                pass
+                self.logTableModel.rebuild()
 
-            # --- Build new table data from current tableModel ---
-            row_count = self.tableModel.getRowCount()
-            col_count = self.tableModel.getColumnCount()
-            new_rows = []
-            for i in range(row_count):
-                if i not in delete_set:
-                    new_rows.append([
-                        self.tableModel.getValueAt(i, j)
-                        for j in range(col_count)
-                    ])
-
-            # --- Replace the model in one step ---
-            column_names = [self.tableModel.getColumnName(c) for c in range(col_count)]
-            new_model = DefaultTableModel(new_rows, column_names)
-            self.table.setModel(new_model)
-            self.tableModel = new_model
-
-            # --- Restore sorting & renumber ---
-            if sorter_was_enabled:
-                self.rowSorter = swing.table.TableRowSorter(self.tableModel)
-                self.table.setRowSorter(self.rowSorter)
-                self.table.setAutoCreateRowSorter(True)
-
-            try:
-                self._renumber_table()
-            except:
-                pass
-
-            # --- Cleanup ---
-            self.table.setEnabled(True)
-
-            try:
-                self.lineNums.setText("")
-            except:
-                pass
-
-            self.set_status("Cleared %d selected" % len(sel_model_indices))
+            self._log("Cleared %d selected" % removed)
 
         except Exception as e:
             try:
-                self.customStatusArea.append("clear_selected error: %s\n" % str(e))
+                self._log("clear_selected error: %s\n" % str(e))
             except:
                 pass
+
 
     def toggle_pause(self, evt=None):
         self.paused = bool(self.pauseBtn.isSelected())
         self.set_status("Paused" if self.paused else "Running")
 
-    # --------------------------------------------
-    # Table sorting helpers (manual control)
-    # --------------------------------------------
+
     def reset_sorting_to_model_order(self):
         """Reset JTable sorter to the model's natural order (disable sorting)."""
         try:
@@ -1799,154 +1659,103 @@ class LoggerUI(ITab):
                 sorter.setSortKeys([RowSorter.SortKey(0, SortOrder.ASCENDING)])
         except Exception as e:
             try:
-                self.customStatusArea.append("sort_by_index_asc error: %s\n" % str(e))
+                self._log("sort_by_index_asc ERROR: %s\n" % str(e))
             except:
                 pass
 
 
     def add_selected_to_sitemap(self, event=None):
-        view_sel = self.table.getSelectedRows()
-        if not view_sel or len(view_sel) == 0:
+        view_rows = self.table.getSelectedRows()
+        if not view_rows:
             swing.JOptionPane.showMessageDialog(None, "No rows selected.")
             return
-        model_sel = [self.table.convertRowIndexToModel(v) for v in view_sel]
+
         count = 0
-        for r in model_sel:
+
+        for view_row in view_rows:
             try:
-                entry = self.log_entries[r]
-                msg = entry[0]
+                model_row = self.table.convertRowIndexToModel(view_row)
+
+                if not (0 <= model_row < len(self.logTableModel.displayed)):
+                    continue
+
+                entry = self.logTableModel.displayed[model_row]
+                msg = entry.messageInfo
+
+                self.callbacks_ref.addToSiteMap(msg)
+
                 try:
-                    self.callbacks_ref.addToSiteMap(msg)
-                    try:
-                        url = self.helpers.analyzeRequest(msg).getUrl()
-                        if url:
-                            self.callbacks_ref.includeInScope(url)
-                    except:
-                        pass
-                    count += 1
-                except Exception as e:
-                    print("addToSiteMap error:", e)
+                    url = self.helpers.analyzeRequest(msg).getUrl()
+                    if url:
+                        self.callbacks_ref.includeInScope(url)
+                except:
+                    pass
+
+                count += 1
+
             except Exception as e:
-                print("mapping error:", e)
-        self.set_status("Added %d selected to Site map" % count)
-    
+                self._log("add_selected_to_sitemap ERROR: %s\n" % str(e))
 
-    def _on_clear_cookies(self, evt=None):
-        try:
-            self.cookieManager.clear()
-            self.customStatusArea.setText("Cookies cleared.")
-        except Exception as e:
-            try:
-                self.customStatusArea.setText("Error clearing cookies: %s" % e)
-            except:
-                pass
-
-    def _on_show_cookies(self, evt=None):
-        try:
-            txt = self.cookieManager.dump()
-            # put into customStatusArea so user sees current jar
-            self.customStatusArea.setText("Current cookies:\n%s" % txt)
-        except Exception as e:
-            try:
-                self.customStatusArea.setText("Error showing cookies: %s" % e)
-            except:
-                pass
-
-    def _on_clear_csrf(self, evt=None):
-        try:
-            self.csrfManager.clear()
-            self.customStatusArea.setText("CSRF_token cleared")
-        except Exception as e:
-            try:
-                self.customStatusArea.setText("Error clearing CSRF: %s" % e)
-            except:
-                pass
-
-    def _on_show_csrf(self, evt=None):
-        try:
-            txt = self.csrfManager.dump()
-            # put into customStatusArea so user sees current jar
-            self.customStatusArea.setText("CSRF_token:\n%s" % txt)
-        except Exception as e:
-            try:
-                self.customStatusArea.setText("Error showing CSRF: %s" % e)
-            except:
-                pass
-
-    def _on_reset_csrf_regex(self, evt=None):
-        try:
-            self.csrfRegexArea.setText(self.csrf_default_pattern)
-            self.customStatusArea.setText("CSRF regex reset to default.")
-        except Exception as e:
-            try:
-                self.customStatusArea.setText("Error resetting CSRF regex: %s" % e)
-            except:
-                pass
+        self._log("Added %d selected to Site map" % count)
 
 
-    # selection -> show request/response and caret default behavior
     def on_table_select(self, event):
-        if getattr(self, "_suspend_selection_events", False):
+        row = self.table.getSelectedRow()
+        if row < 0:
             return
 
-        view_sel = self.table.getSelectedRow()
-        if view_sel < 0:
-            # clear viewers
-            try:
-                if hasattr(self, "reqViewer"):
-                    self.controller.setMessageInfo(None)
-                    self.reqViewer.setMessage(None)
-                    self.respViewer.setMessage(None)
-            except:
-                pass
-            return
+        model_row = self.table.convertRowIndexToModel(row)
         try:
-            model_sel = self.table.convertRowIndexToModel(view_sel)
-            if hasattr(self, "displayed_entries") and 0 <= model_sel < len(self.displayed_entries):
-                entry = self.displayed_entries[model_sel]
-            else:
-                entry = self.log_entries[model_sel]
-            messageInfo = entry[0]
-            # ... continue using messageInfo in the same way
-            # set controller messageInfo so MessageEditor can query request/response via controller
-            try:
-                self.controller.setMessageInfo(messageInfo)
-            except:
-                pass
+            entry = self.logTableModel.displayed[model_row]
+            msg = entry.messageInfo
+        except:
+            return
 
-            # Update request viewer: show request bytes
-            try:
-                if hasattr(self, "reqViewer"):
-                    # IMessageEditor.setMessage(messageBytes, isRequest) -> show relevant part
-                    req_bytes = None
-                    try:
-                        req_bytes = messageInfo.getRequest()
-                    except:
-                        req_bytes = None
-                    if req_bytes:
-                        self.reqViewer.setMessage(req_bytes, True)
-                    else:
-                        self.reqViewer.setMessage(None, True)
-            except:
-                pass
+        self.controller.setMessageInfo(msg)
+        self.reqViewer.setMessage(msg.getRequest(), True)
+        self.respViewer.setMessage(msg.getResponse(), False)
 
-            # Update response viewer: show response bytes
-            try:
-                if hasattr(self, "respViewer"):
-                    resp_bytes = None
-                    try:
-                        resp_bytes = messageInfo.getResponse()
-                    except:
-                        resp_bytes = None
-                    if resp_bytes:
-                        self.respViewer.setMessage(resp_bytes, False)
-                    else:
-                        self.respViewer.setMessage(None, False)
-            except:
-                pass
 
-        except Exception as e:
-            print("on_table_select error:", e)
+    # append_log_row (filter-aware)
+    # append_log_row (LogStore-alapú, de UI-kompatibilis)
+    def append_log_row(self, toolFlag, host, method, path,
+                    status, total_length, messageInfo, isRequest):
+
+        if self.paused:
+            return
+
+        ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+        body_len = ""
+        try:
+            if not isRequest and messageInfo.getResponse():
+                ar = self.helpers.analyzeResponse(messageInfo.getResponse())
+                body_len = len(messageInfo.getResponse()) - ar.getBodyOffset()
+        except:
+            pass
+
+        entry = self.logStore.add(
+            ts, host, method, path,
+            status or "",
+            total_length or "",
+            body_len or "",
+            messageInfo
+        )
+
+        show = True
+        try:
+            if hasattr(self, "_row_matches_filters"):
+                show = self._row_matches_filters(entry)
+        except:
+            pass
+
+        self.logTableModel.add_entry_top(entry, show)
+
+        try:
+            self.set_status("Logged: %s" % path)
+        except:
+            pass
+
 
 
     def should_log(self, toolFlag, messageIsRequest, messageInfo):
@@ -2030,109 +1839,60 @@ class LoggerUI(ITab):
                 return False
         return True
 
-    # append_log_row (filter-aware)
-    def append_log_row(self, toolFlag, host, method, path, status, total_length, messageInfo, isRequest):
+
+    # COOKIE and CSRF HELPERS
+    def _on_clear_cookies(self, evt=None):
         try:
-            self._suspend_selection_events = True
-            ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-            body_len = ""
+            self.cookieManager.clear()
+            self.customStatusArea.setText("Cookies cleared.")
+        except Exception as e:
             try:
-                if not isRequest and messageInfo.getResponse():
-                    analyzedResp = self.helpers.analyzeResponse(messageInfo.getResponse())
-                    bo = analyzedResp.getBodyOffset()
-                    body_len = len(messageInfo.getResponse()) - bo
-                else:
-                    body_len = ""
-            except:
-                body_len = ""
-
-            # 1) Always insert into full log storage (newest first)
-            self.log_entries.insert(0, (messageInfo, toolFlag, ts, isRequest, total_length, body_len))
-
-            # 2) Build the row as before (for potential table insertion)
-            row = ["", ts, host, method, path,
-                status if status is not None else "",
-                total_length if total_length is not None else "",
-                body_len if body_len is not None else ""]
-
-            # 3) Decide whether to show it immediately based on display filters
-            try:
-                # if _row_matches_filters not defined or filters not initialized, assume match
-                should_show = True
-                if hasattr(self, "_row_matches_filters") and hasattr(self, "display_filters"):
-                    # note: _row_matches_filters expects an entry tuple like in self.log_entries
-                    should_show = self._row_matches_filters(self.log_entries[0])
-            except:
-                should_show = True
-
-            # 4) Insert into table only if it should be displayed
-            try:
-                if should_show:
-                    try:
-                        self.tableModel.insertRow(0, row)
-                    except Exception:
-                        self.tableModel.addRow(row)
-                    # after you put the row in the tableModel:
-                    try:
-                        # make sure self.display entries exist and insert them as the first elements of the table
-                        if not hasattr(self, "displayed_entries"):
-                            self.displayed_entries = []
-                        # in the case of insertRow(0, row) the new element is placed at index 0 in the table -> we insert it into displayed_entries in the same way
-                        self.displayed_entries.insert(0, self.log_entries[0])
-                    except:
-                        pass
-
-                    # restore/refresh sorter model behavior if needed (keeps ui consistent)
-                    try:
-                        # if rowSorter exists, reattach to keep sorting functional
-                        if getattr(self, "rowSorter", None) is not None:
-                            # best-effort: ensure table model and sorter are synchronized
-                            self.table.setRowSorter(None)
-                            self.rowSorter = TableRowSorter(self.tableModel)
-                            self.table.setRowSorter(self.rowSorter)
-                            self.table.setAutoCreateRowSorter(True)
-                    except:
-                        pass
-                    # renumber visible table
-                    try:
-                        self._renumber_table()
-                    except:
-                        pass
-                else:
-                    # If not shown, do nothing to the visible table (entry is in log_entries)
-                    # Optionally: keep status or UI hint that entry was logged but filtered out
-                    pass
-            except Exception:
-                # fallback: always insert to table if something goes wrong with filtering
-                try:
-                    self.tableModel.insertRow(0, row)
-                except Exception:
-                    try:
-                        self.tableModel.addRow(row)
-                    except:
-                        pass
-                try:
-                    self._renumber_table()
-                except:
-                    pass
-
-            # 5) Update status
-            try:
-                self.set_status("Logged: %s" % path)
+                self.customStatusArea.setText("Error clearing cookies: %s" % e)
             except:
                 pass
 
-        finally:
-            self._suspend_selection_events = False
-
-
-    def _renumber_table(self):
+    def _on_show_cookies(self, evt=None):
         try:
-            rc = self.tableModel.getRowCount()
-            for i in range(rc):
-                self.tableModel.setValueAt(i+1, i, 0)
+            txt = self.cookieManager.dump()
+            # put into customStatusArea so user sees current jar
+            self.customStatusArea.setText("Current cookies:\n%s" % txt)
         except Exception as e:
-            print("renumber error:", e)
+            try:
+                self.customStatusArea.setText("Error showing cookies: %s" % e)
+            except:
+                pass
+
+    def _on_clear_csrf(self, evt=None):
+        try:
+            self.csrfManager.clear()
+            self.customStatusArea.setText("CSRF_token cleared")
+        except Exception as e:
+            try:
+                self.customStatusArea.setText("Error clearing CSRF: %s" % e)
+            except:
+                pass
+
+    def _on_show_csrf(self, evt=None):
+        try:
+            txt = self.csrfManager.dump()
+            # put into customStatusArea so user sees current jar
+            self.customStatusArea.setText("CSRF_token:\n%s" % txt)
+        except Exception as e:
+            try:
+                self.customStatusArea.setText("Error showing CSRF: %s" % e)
+            except:
+                pass
+
+    def _on_reset_csrf_regex(self, evt=None):
+        try:
+            self.csrfRegexArea.setText(self.csrf_default_pattern)
+            self.customStatusArea.setText("CSRF regex reset to default.")
+        except Exception as e:
+            try:
+                self.customStatusArea.setText("Error resetting CSRF regex: %s" % e)
+            except:
+                pass
+
 
     # ---------------------------
     # Custom codeblock helpers
