@@ -4,6 +4,12 @@ A powerful Burp Suite extension providing customizable request/response manipula
 
 ---
 
+## **Warning**
+
+Based on experience, this extension affects the correct functioning of the built-in intercepting functionality. **It is recommended to deactivate this extension while using the burp proxy intercepting feature.**
+
+---
+
 ## **Table of Contents**
 
 1. [Overview](#overview)
