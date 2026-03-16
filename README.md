@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="767" height="512" alt="BoberProxy" src="https://github.com/user-attachments/assets/53abcb60-e218-4153-823f-d5c2a2f902d0" />
+</p>
+
 # **BoberProxy – Advanced Burp Suite Proxy Extension**
 
 A powerful Burp Suite extension providing customizable request/response manipulation, cookie & CSRF management, redirect following, logging, filtering, and a fully programmable custom code execution engine — all through an integrated GUI tab.
