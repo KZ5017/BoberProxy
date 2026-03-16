@@ -1,29 +1,44 @@
 # -*- coding: latin-1 -*-
-# Extender.py — BoberProxy (updated: tabs, template controls, custom codeblock)
+# Extender.py - BoberProxy (updated: tabs, template controls, custom codeblock)
 from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener
 
 from javax import swing
-from javax.swing import SortOrder, RowSorter, SwingUtilities, JTable, ListSelectionModel
-from javax.swing.table import DefaultTableModel, TableRowSorter, AbstractTableModel
-from javax.swing.text import DefaultHighlighter
-from javax.swing.event import ChangeListener
+from javax.swing import SortOrder, RowSorter, JTable, ListSelectionModel
+from javax.swing.table import TableRowSorter, AbstractTableModel
 
 from java.awt import (
     GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout,
     Color, Dimension, BorderLayout
 )
-from java.awt.event import MouseAdapter, ComponentAdapter
-from java.util import Comparator
+from java.awt.event import MouseAdapter
 from java.util.regex import Pattern
 from java.lang import Integer
 
-import sys, threading, time, os, socket, traceback, jarray, binascii, hashlib, re
+import threading, time, traceback, re
 
-# URL parsing – choose one, depending on which one works in your environment
+# URL parsing - choose one, depending on which one works in your environment
 # Python 2 (old Jython versions):
 from urlparse import urljoin, urlparse
 # Python 3 (Jython and newer versions):
 #from urllib.parse import urljoin, urlparse
+
+
+TEMPLATE_PAYLOAD_MARKER_1 = "p4yl04dm4rk3r"
+TEMPLATE_PAYLOAD_MARKER_2 = "53c0undm4rk3r"
+TEMPLATE_CSRF_MARKER = "c5rfm4rk3r"
+TEMPLATE_MARKER_HINT = "Markers: %s, %s, %s " % (
+    TEMPLATE_PAYLOAD_MARKER_1,
+    TEMPLATE_PAYLOAD_MARKER_2,
+    TEMPLATE_CSRF_MARKER,
+)
+DISPLAY_FILTER_FIELDS = (
+    "Host",
+    "Method",
+    "Path",
+    "Status",
+    "BodyLen",
+    "ResponseContent",
+)
 
 class LogEntry(object):
     def __init__(self, index, ts, host, method, path,
@@ -41,6 +56,8 @@ class LogEntry(object):
 
 
 class LogStore:
+    """Keeps the log entries in display order and assigns stable row indices."""
+
     def __init__(self):
         self.entries = []
         self._counter = 0
@@ -122,6 +139,7 @@ class LogTableModel(AbstractTableModel):
     # ---------- Data control ----------
 
     def rebuild(self, filter_fn=None):
+        # Rebuild the displayed slice from the backing store to keep filtering centralized.
         if filter_fn:
             self.displayed = [
                 e for e in self.logStore.entries
@@ -149,6 +167,7 @@ class LogTableModel(AbstractTableModel):
 
 
 class CsrfManager(object):
+    """Stores the latest extracted CSRF token and the regex used to capture it."""
 
     def __init__(self):
         self.lock = threading.Lock()
@@ -429,13 +448,11 @@ class FilterDialog(object):
         p.add(swing.JLabel("Select the options you want to filter by"), c)
         c.gridwidth = 1; row += 1
 
-        # for each filter field create: checkbox, mode combo (eq/not eq), values field
+        # Build one control row per supported display filter.
         self.controls = {}
-        # add new fields BodyLen and ResponseContent
-        for fname in ["Host","Method","Path","Status","BodyLen","ResponseContent"]:
+        for fname in DISPLAY_FILTER_FIELDS:
             cb = swing.JCheckBox("", False)
             mode = swing.JComboBox(["eq","not eq"])
-            # for ResponseContent we want a single-line long text (regex); for BodyLen numeric list like others
             vals = swing.JTextField("", 40)
             c.gridx = 0; c.gridy = row; c.weightx = 0.0
             p.add(cb, c)
@@ -575,6 +592,8 @@ class FilterDialog(object):
 
 
 class LoggerUI(ITab):
+    """Burp tab implementation that owns the UI state and the proxy workflow."""
+
     def __init__(self, callbacks, controller, msgEditor, callbacks_ref):
         # -------- core references / state ----------
         self.callbacks = callbacks
@@ -719,7 +738,7 @@ class LoggerUI(ITab):
         rpc.gridy = 0
 
         # right: tooltip text field (non-editable) that expands to fill remaining width
-        self.reqTooltipField = swing.JTextField("Markers: p4yl04dm4rk3r, 53c0undm4rk3r, c5rfm4rk3r ")
+        self.reqTooltipField = swing.JTextField(TEMPLATE_MARKER_HINT)
         self.reqTooltipField.setEditable(False)
         self.reqTooltipField.setFont(Font("Dialog", Font.PLAIN, 12))
         self.reqTooltipField.setBorder(None)
@@ -776,7 +795,7 @@ class LoggerUI(ITab):
         crpc.gridy = 0
 
         # right: tooltip text field (non-editable) that expands to fill remaining width
-        self.checkTooltipField = swing.JTextField("Markers: p4yl04dm4rk3r, 53c0undm4rk3r, c5rfm4rk3r ")
+        self.checkTooltipField = swing.JTextField(TEMPLATE_MARKER_HINT)
         self.checkTooltipField.setEditable(False)
         self.checkTooltipField.setFont(Font("Dialog", Font.PLAIN, 12))
         self.checkTooltipField.setBorder(None)
@@ -1044,7 +1063,7 @@ class LoggerUI(ITab):
         row += 1
 
         c.gridy = row; c.gridx = 0
-        rightContent.add(swing.JLabel("Payload1 param name (p4yl04dm4rk3r):"), c)
+        rightContent.add(swing.JLabel("Payload1 param name (%s):" % TEMPLATE_PAYLOAD_MARKER_1), c)
         self.payloadParamField = swing.JTextField(self.payload_param_name, 10)
         c.gridx = 1
         rightContent.add(self.payloadParamField, c)
@@ -1055,7 +1074,7 @@ class LoggerUI(ITab):
 
         # UI: second payload param name field (next to payloadParamField)
         c.gridy = row; c.gridx = 0
-        rightContent.add(swing.JLabel("Payload2 param name (53c0undm4rk3r):"), c)
+        rightContent.add(swing.JLabel("Payload2 param name (%s):" % TEMPLATE_PAYLOAD_MARKER_2), c)
         self.payloadParam2Field = swing.JTextField(self.payload_param2_name, 10)
         c.gridx = 1
         rightContent.add(self.payloadParam2Field, c)
@@ -1544,38 +1563,6 @@ class LoggerUI(ITab):
 
 
 
-    # read template content from editor as python string (utf-8/latin-1 tolerant)
-    def _editor_get_text(self, editor):
-        try:
-            # editor.getMessage() returns Java byte[] or None
-            mb = editor.getMessage()
-            if mb is None:
-                return ""
-            try:
-                return self.helpers.bytesToString(mb)
-            except:
-                try:
-                    return str(mb)
-                except:
-                    return ""
-        except:
-            pass
-
-    # set template editor content from bytes/string
-    def _editor_set_text(self, editor, text_or_bytes):
-        try:
-            if isinstance(text_or_bytes, (bytes, bytearray)):
-                b = text_or_bytes
-            else:
-                try:
-                    b = self.helpers.stringToBytes(str(text_or_bytes))
-                except:
-                    b = str(text_or_bytes).encode("latin-1", "replace")
-            editor.setMessage(b, True)  # note: second arg 'isRequest' only affects highlighting in Burp editor
-        except:
-            pass
-
-
     def set_status(self, txt):
         try:
             self.statusLabel.setText(txt)
@@ -1761,7 +1748,6 @@ class LoggerUI(ITab):
     def should_log(self, toolFlag, messageIsRequest, messageInfo):
         if self.paused:
             return False
-        mode = True
         if messageIsRequest:
             return False
         resp = messageInfo.getResponse()
@@ -2448,9 +2434,9 @@ class LoggerUI(ITab):
             except Exception:
                 template_text = ""
 
-            payload_marker = "p4yl04dm4rk3r"
-            payload_marker2 = "53c0undm4rk3r"
-            csrf_marker = "c5rfm4rk3r"
+            payload_marker = TEMPLATE_PAYLOAD_MARKER_1
+            payload_marker2 = TEMPLATE_PAYLOAD_MARKER_2
+            csrf_marker = TEMPLATE_CSRF_MARKER
 
             if not template_text or not template_text.strip():
                 self._log("No Request Template configured; Incoming request forwarded.")
