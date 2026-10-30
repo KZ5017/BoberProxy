@@ -269,6 +269,14 @@ def custom_codeblock(payload1, payload2, csrf_token):
 * Must execute under a timeout (default 500 ms)
 * Errors are displayed in the UI
 
+Return a tuple/list of three byte or text values. `None` means an empty payload;
+for the CSRF token it means no token, so its template marker remains. Text uses
+byte-valued code points 0–255, matching Burp's byte/string conversion. For other
+Unicode characters, return explicitly encoded bytes, such as
+`u'\u20ac'.encode('utf-8')`. Numbers, booleans and arbitrary objects are rejected
+with a visible transformation error. Inserted payloads and token values are never
+scanned again for template markers.
+
 This allows:
 
 * Dynamic encryption/signing

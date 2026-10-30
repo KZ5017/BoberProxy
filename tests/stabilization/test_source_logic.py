@@ -58,14 +58,6 @@ class SourceCase(unittest.TestCase):
 
 
 class KnownDefects(SourceCase):
-    @unittest.expectedFailure
-    def test_P01_custom_error_preserves_original_diagnostic(self):
-        self.ui.custom_codeblock_status = True
-        self.ui.run_user_code = lambda *args: (False, None, 'SENTINEL_CUSTOM_ERROR')
-        self.build()
-        diagnostic = self.capture.text() + self.ui.customStatusArea.getText()
-        self.assertIn('SENTINEL_CUSTOM_ERROR', diagnostic)
-        self.assertNotIn('outgoing_payload1', diagnostic)
 
     @unittest.expectedFailure
     def test_P03_unselected_autofollow_does_not_follow(self):
@@ -107,22 +99,7 @@ class KnownDefects(SourceCase):
         request = self.ui.cookieManager.inject_into_request('GET / HTTP/1.1\r\nHost: demo\r\nCookie: sid=old\r\n\r\n')
         self.assertNotIn('sid=old', request)
 
-    @unittest.expectedFailure
-    def test_P11_inserted_payload_is_not_replaced_again(self):
-        request = self.build('53c0undm4rk3r', 'SECOND')
-        self.assertIn(as_bytes('a=53c0undm4rk3r&b=SECOND'), request)
 
-    @unittest.expectedFailure
-    def test_P12_zero_body_length_is_not_missing(self):
-        ui = self.ui
-        ui.logStore = self.ns['LogStore']()
-        ui.logTableModel = self.ns['LogTableModel'](ui.logStore)
-        ui.set_status = lambda text: None
-        response = as_bytes('HTTP/1.1 204 No Content\r\n\r\n')
-        ui.append_log_row(0, 'demo', 'GET', '/', 204, len(response), Response(response), False)
-        ui.display_filters = {'BodyLen': {'active': True, 'mode': 'eq', 'values': ['0']}}
-        self.assertEqual(ui.logStore.entries[0].body_len, 0)
-        self.assertTrue(ui._row_matches_filters(ui.logStore.entries[0]))
 
     @unittest.expectedFailure
     def test_P13_timeout_covers_top_level_user_code(self):
@@ -143,6 +120,29 @@ class KnownDefects(SourceCase):
 
 
 class FixedRegressions(SourceCase):
+    def test_P01_custom_error_preserves_original_diagnostic(self):
+        self.ui.custom_codeblock_status = True
+        self.ui.run_user_code = lambda *args: (False, None, 'SENTINEL_CUSTOM_ERROR')
+        self.build()
+        diagnostic = self.capture.text() + self.ui.customStatusArea.getText()
+        self.assertIn('SENTINEL_CUSTOM_ERROR', diagnostic)
+        self.assertNotIn('outgoing_payload1', diagnostic)
+
+    def test_P11_inserted_payload_is_not_replaced_again(self):
+        request = self.build('53c0undm4rk3r', 'SECOND')
+        self.assertIn(as_bytes('a=53c0undm4rk3r&b=SECOND'), request)
+
+    def test_P12_zero_body_length_is_not_missing(self):
+        ui = self.ui
+        ui.logStore = self.ns['LogStore']()
+        ui.logTableModel = self.ns['LogTableModel'](ui.logStore)
+        ui.set_status = lambda text: None
+        response = as_bytes('HTTP/1.1 204 No Content\r\n\r\n')
+        ui.append_log_row(0, 'demo', 'GET', '/', 204, len(response), Response(response), False)
+        ui.display_filters = {'BodyLen': {'active': True, 'mode': 'eq', 'values': ['0']}}
+        self.assertEqual(ui.logStore.entries[0].body_len, 0)
+        self.assertTrue(ui._row_matches_filters(ui.logStore.entries[0]))
+
     def test_P02_sent_request_not_returned_after_checkpage_error(self):
         self.ui.build_checkpage_request = lambda **kwargs: None
         self.ui.useCheckPageTemplate = True

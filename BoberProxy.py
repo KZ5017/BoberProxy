@@ -40,6 +40,76 @@ DISPLAY_FILTER_FIELDS = (
     "ResponseContent",
 )
 
+class TemplateBuildError(Exception):
+    """A failed transformation must not produce a partially rebuilt request."""
+    def __init__(self, code, detail):
+        Exception.__init__(self, detail)
+        self.code = code
+        self.detail = detail
+
+
+def _wire_text(value, helpers=None):
+    """Map supported HTTP byte containers to Latin-1 text, without data loss.
+
+    Unicode/Java String use byte-valued code points (0..255), as Burp's
+    bytesToString/stringToBytes pair does. Encode real Unicode to UTF-8
+    explicitly in custom code when UTF-8 wire bytes are wanted.
+    """
+    if isinstance(value, (bytes, bytearray)):
+        return value.decode("latin-1")
+    try:
+        text_type = unicode
+    except NameError:
+        text_type = str
+    if isinstance(value, text_type):
+        value.encode("latin-1")  # validate; never use replacement characters
+        return value
+    try:
+        java_type = value.getClass().getName()
+    except (AttributeError, TypeError):
+        java_type = None
+    if java_type == "java.lang.String":
+        result = text_type(value)
+        result.encode("latin-1")
+        return result
+    if (java_type == "[B" or getattr(value, "typecode", None) == "b") and helpers is not None:
+        return _wire_text(helpers.bytesToString(value))
+    if java_type == "[B" or getattr(value, "typecode", None) == "b":
+        return bytearray((int(part) & 255 for part in value)).decode("latin-1")
+    raise TypeError("Expected byte string, bytearray, byte-valued Unicode, Java String or byte[]")
+
+
+def _custom_value(value, helpers=None):
+    # None has historically meant an empty value. False/0 are invalid types.
+    return "" if value is None else _wire_text(value, helpers)
+
+
+def _extract_raw_payloads(request_text, name1, name2):
+    """Keep the historical query/form, nonempty and equal-name priorities."""
+    payload1, payload2 = "", ""
+    first_line = request_text.split("\r\n", 1)[0]
+    parts = first_line.split()
+    target = parts[1] if len(parts) >= 2 else "/"
+    sources = []
+    if "?" in target:
+        sources.append(target.split("?", 1)[1])
+    separated = request_text.split("\r\n\r\n", 1)
+    body = separated[1] if len(separated) > 1 else ""
+    # Preserve the existing content-type detection; adding parsers is out of scope.
+    if body and "=" in body and "application/x-www-form-urlencoded" in request_text.lower():
+        sources.append(body)
+    for source in sources:
+        for pair in source.split("&"):
+            if "=" not in pair:
+                continue
+            name, value = pair.split("=", 1)
+            if name == name1 and not payload1:
+                payload1 = value
+            elif name == name2 and not payload2:
+                payload2 = value
+    return payload1, payload2
+
+
 class HttpSendResult(object):
     """A completed synchronous API call; attempted does not prove delivery."""
     def __init__(self, attempted=False, response_bytes=None, error_code=None, error_type=None):
@@ -111,12 +181,13 @@ class ProxyWorkflowResult(object):
     ERROR_BEFORE_SEND = "error_before_send"
     ERROR_AFTER_SEND = "error_after_send"
 
-    def __init__(self, status, request_bytes=None, workflow_id=None, error_code=None, error_type=None):
+    def __init__(self, status, request_bytes=None, workflow_id=None, error_code=None, error_type=None, error_detail=None):
         self.status = status
         self.request_bytes = request_bytes
         self.workflow_id = workflow_id
         self.error_code = error_code
         self.error_type = error_type
+        self.error_detail = error_detail
 
 
 class LogEntry(object):
@@ -200,7 +271,7 @@ class LogTableModel(AbstractTableModel):
                 e.path,
                 Integer(e.status) if e.status != "" else Integer(0),
                 Integer(e.total_len) if e.total_len != "" else Integer(0),
-                Integer(e.body_len) if e.body_len != "" else Integer(0),
+                Integer(e.body_len) if e.body_len not in ("", None) else None,
             )
             return values[col]
         except:
@@ -1807,7 +1878,7 @@ class LoggerUI(ITab):
             ts, host, method, path,
             status or "",
             total_length or "",
-            body_len or "",
+            body_len,
             messageInfo
         )
 
@@ -2050,7 +2121,7 @@ class LoggerUI(ITab):
         ns = {}
         try:
             _exec_in_namespace(user_code_text, ns)
-        except Exception as e:
+        except (Exception, JavaException) as e:
             return False, None, "Compilation error: %s\n%s" % (e, traceback.format_exc())
 
         if 'custom_codeblock' not in ns or not callable(ns.get('custom_codeblock')):
@@ -2065,7 +2136,7 @@ class LoggerUI(ITab):
                 out = fn(p1, p2, csrf)
                 result['out'] = out
                 result['ok'] = True
-            except Exception as e:
+            except (Exception, JavaException) as e:
                 try:
                     result['exc'] = str(e) + "\n" + traceback.format_exc()
                 except:
@@ -2089,11 +2160,13 @@ class LoggerUI(ITab):
             return False, None, "custom_codeblock must return a tuple/list of 3 elements: (payload1, payload2, csrf_token)"
         if len(out_obj) != 3:
             return False, None, "custom_codeblock must return exactly 3 elements in order: payload1, payload2, csrf_token"
-        # return normalized three-tuple
+        # Validate elements as well as sequence shape. Keep a missing token
+        # distinct from an explicit empty token for the injection switch.
         try:
-            return True, (out_obj[0], out_obj[1], out_obj[2]), None
-        except Exception as e:
-            return False, None, "Error normalizing return value: %s" % e
+            return True, (_custom_value(out_obj[0], self.helpers), _custom_value(out_obj[1], self.helpers),
+                          None if out_obj[2] is None else _custom_value(out_obj[2], self.helpers)), None
+        except (Exception, JavaException) as e:
+            return False, None, "Invalid custom return value: %s" % e
 
 
 
@@ -2469,252 +2542,114 @@ class LoggerUI(ITab):
         incoming_payload2="",
         fallback_resp=None
     ):
-        """
-        Clean, robust template -> request builder.
-        Returns:
-        (request_bytes, forced_https_flag, final_request_text)
-        or on error:
-        (fallback_resp)
-        """
+        """Return complete request bytes, or fallback_resp with TRANSFORM_ERROR.
 
+        Only markers in the original template are substituted. The public
+        bytes-or-fallback contract is retained for the workflow's send states.
+        """
         try:
-            # 1) load template text (editor preferred, textarea fallback)
-            template_text = ""
-            try:
-                if callable(get_editor_message):
-                    tb = get_editor_message()
-                    if tb is None:
-                        template_text = ""
-                    else:
-                        # helpers.bytesToString if available
-                        if helpers is not None:
-                            try:
-                                template_text = helpers.bytesToString(tb)
-                            except Exception:
-                                # tb lehet bytes/object
-                                try:
-                                    if isinstance(tb, (bytes, bytearray)):
-                                        template_text = tb.decode("latin-1", "replace")
-                                    else:
-                                        template_text = str(tb)
-                                except:
-                                    template_text = str(tb)
-                        else:
-                            try:
-                                if isinstance(tb, (bytes, bytearray)):
-                                    template_text = tb.decode("latin-1", "replace")
-                                else:
-                                    template_text = str(tb)
-                            except:
-                                template_text = str(tb)
-            except Exception:
-                template_text = ""
+            template = get_editor_message() if callable(get_editor_message) else None
+            if template is None or len(template) == 0:
+                raise TemplateBuildError("TEMPLATE_EMPTY", "No Request Template configured")
+            template_text = _wire_text(template, helpers)
+            csrf_token = csrf_manager.get_token() if csrf_manager is not None else None
+            outgoing_payload1, outgoing_payload2 = incoming_payload1, incoming_payload2
 
-            payload_marker = TEMPLATE_PAYLOAD_MARKER_1
-            payload_marker2 = TEMPLATE_PAYLOAD_MARKER_2
-            csrf_marker = TEMPLATE_CSRF_MARKER
-
-            if not template_text or not template_text.strip():
-                self._log("No Request Template configured; Incoming request forwarded.")
-                print("RETURN: template empty")
-                return (fallback_resp)
-
-
-            # --- CSRF token to pass to user-code (do not auto-update here) ---
-            csrf_token = None
-            try:
-                csrf_token = csrf_manager.get_token()
-                print("[CSRF token to pass to user-code] OK: %s" % csrf_token)
-            except Exception as e:
-                print("[CSRF token to pass to user-code] ERROR: %s" % e)
-
-
-            # 1,5) load template text (editor preferred, textarea fallback)
             if self.custom_codeblock_status and (incoming_payload1 or incoming_payload2):
-                # --- run user code (contract: returns tuple(payload1,payload2,csrf) ) ---
                 try:
-                    try:
-                        t_ms = int(self.timeoutField.getText())
-                    except Exception as e:
-                        print("[Timeout field reading] ERROR: %s" % e)
-                        try:
-                            t_ms = self.custom_timeout_ms
-                            print("[Default timeout value reading] OK: %s" % t_ms)
-                        except Exception as e:                           
-                            print("[Default timeout value reading] ERROR: %s" % e)
+                    t_ms = int(self.timeoutField.getText())
+                except (Exception, JavaException):
+                    t_ms = getattr(self, "custom_timeout_ms", 500)
+                ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, csrf_token)
+                if not ok:
+                    raise TemplateBuildError("CUSTOM_FAILED", err if err is not None else "Unknown custom error")
+                if not isinstance(out, (list, tuple)) or len(out) != 3:
+                    raise TemplateBuildError("CUSTOM_INVALID_RESULT", "custom_codeblock must return exactly 3 values")
+                outgoing_payload1, outgoing_payload2, csrf_token = out
 
-                    if csrf_token is not None:
-                        ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, csrf_token)
-                        print("[run_user_code] OK")
-                    else:
-                        ok, out, err = self.run_user_code(incoming_payload1, t_ms, incoming_payload2, None)
-                        print("[run_user_code] OK")
-                except Exception as e:
-                    ok = False
-                    out = None
-                    err = "user code exception"
-                    print("[run_user_code] ERROR: %s" % e)
-
-                if ok and out is not None and isinstance(out, (list, tuple)):
-                    if len(out) == 3:
-                        outgoing_payload1 = out[0] or ""
-                        outgoing_payload2 = out[1] or ""
-                        csrf_token = out[2]
-                    elif len(out) == 2:
-                        outgoing_payload1 = out[0] or ""
-                        outgoing_payload2 = out[1] or ""
-                        csrf_token = csrf_token
-            else:            
-                outgoing_payload1 = incoming_payload1
-                outgoing_payload2 = incoming_payload2
-                csrf_token = csrf_token
-
-
-            # 2) Replace payload markers (safe replace even if missing)
             try:
-                final_request_text = template_text.replace(payload_marker, outgoing_payload1 or "")
-                final_request_text = final_request_text.replace(payload_marker2, outgoing_payload2 or "")
-                print("[Replace payload markers] OK, length: %d" % len(final_request_text))
-            except Exception as e:
-                print("[Replace payload markers] ERROR: %s" % str(e))
-                return (fallback_resp)
+                values = {
+                    TEMPLATE_PAYLOAD_MARKER_1: _custom_value(outgoing_payload1, helpers),
+                    TEMPLATE_PAYLOAD_MARKER_2: _custom_value(outgoing_payload2, helpers),
+                }
+                if csrf_token is not None:
+                    csrf_token = _custom_value(csrf_token, helpers)
+                if auto_update_csrf and csrf_token is not None:
+                    values[TEMPLATE_CSRF_MARKER] = csrf_token
+            except (TypeError, ValueError, UnicodeError) as error:
+                raise TemplateBuildError("CUSTOM_VALUE_TYPE", str(error))
 
-            # 3) Cookie injection (if enabled)
-            try:
-                if auto_update_cookies and cookie_manager is not None:
-                    try:
-                        injected = cookie_manager.inject_into_request(final_request_text)
-                        if injected is not None:
-                            # inject_into_request returns str
-                            final_request_text = injected if isinstance(injected, str) else (injected.decode("latin-1", "replace") if isinstance(injected, (bytes, bytearray)) else str(injected))
-                        print("CookieManager: injected cookies -> final_request length: %d" % len(final_request_text))
-                    except Exception as e:
-                        print("CookieManager inject error: %s" % str(e))
-                else:
-                    # diagnostic, if cookie_manager present but injection disabled, we do nothing
-                    pass
-            except Exception:
-                pass
+            # A callback replacement treats backslashes literally and never scans
+            # inserted payloads, token values or injected cookie values again.
+            marker_pattern = "|".join(re.escape(marker) for marker in values)
+            final_request_text = re.sub(marker_pattern, lambda match: values[match.group(0)], template_text)
+            if auto_update_cookies and cookie_manager is not None:
+                injected = cookie_manager.inject_into_request(final_request_text)
+                if injected is not None:
+                    final_request_text = _wire_text(injected)
+            if callable(normalize_func):
+                final_request_text = _wire_text(normalize_func(final_request_text))
 
-            # 4) CSRF injection (if enabled)
-            try:
-                if auto_update_csrf and csrf_manager is not None:
-                    try:
-                        token_val = csrf_token
-                        if token_val is not None:
-                            try:
-                                final_request_text = final_request_text.replace(csrf_marker, token_val)
-                                print("CsrfManager: injected token for %s" % (token_val))
-                            except Exception as e:
-                                print("CsrfManager inject error: %s" % str(e))
-                        else:
-                            print("CsrfManager: no cached token!")
-                    except Exception as e:
-                        print("Csrf injection outer error: %s" % str(e))
-            except Exception:
-                pass
+            # Burp's conversion is byte-valued, not an implicit charset encoder.
+            request_bytes = (helpers.stringToBytes(final_request_text) if helpers is not None
+                             else final_request_text.encode("latin-1"))
+            if helpers is not None:
+                parsed = helpers.analyzeRequest(request_bytes)
+                if parsed is None:
+                    raise TemplateBuildError("REQUEST_PARSE_FAILED", "No request analysis result")
+                headers = list(parsed.getHeaders())
+                body_offset = parsed.getBodyOffset()
+                if body_offset <= 0 or body_offset > len(request_bytes):
+                    raise TemplateBuildError("REQUEST_PARSE_FAILED", "Invalid request body offset")
+                body_bytes = request_bytes[body_offset:]
+            else:
+                wire = _wire_text(request_bytes)
+                if "\r\n\r\n" not in wire:
+                    raise TemplateBuildError("REQUEST_PARSE_FAILED", "Missing HTTP header separator")
+                head, body = wire.split("\r\n\r\n", 1)
+                headers = head.split("\r\n")
+                body_bytes = body.encode("latin-1")
+            headers = [_wire_text(header) for header in headers]
+            parts = headers[0].split() if headers else []
+            if len(parts) != 3 or not parts[2].startswith("HTTP/"):
+                raise TemplateBuildError("REQUEST_PARSE_FAILED", "Invalid request line")
 
-
-            # 6) normalization hook
-            try:
-                if callable(normalize_func):
-                    final_request_text = normalize_func(final_request_text)
-            except Exception:
-                pass
-
-            # 7) build request bytes (helpers preferred)
-            try:
-                if helpers is not None:
-                    try:
-                        request_bytes = helpers.stringToBytes(final_request_text)
-                    except Exception:
-                        request_bytes = final_request_text.encode("latin-1", "replace")
-                else:
-                    request_bytes = final_request_text.encode("latin-1", "replace")
-            except Exception:
-                request_bytes = final_request_text.encode("latin-1", "replace")
-
-            # 8) parse headers/body: prefer helpers.analyzeRequest, fallback simple split
-            headers = []
-            body_bytes = b""
-            try:
-                parsed_req = None
-                if helpers is not None:
-                    try:
-                        parsed_req = helpers.analyzeRequest(request_bytes)
-                    except Exception:
-                        parsed_req = None
-
-                if parsed_req:
-                    try:
-                        headers = list(parsed_req.getHeaders())
-                        bo = parsed_req.getBodyOffset()
-                        body_bytes = request_bytes[bo:]
-                    except Exception:
-                        headers = []
-                        body_bytes = b""
-                else:
-                    # simple split
-                    try:
-                        s = request_bytes if isinstance(request_bytes, (bytes, bytearray)) else (request_bytes.encode("latin-1", "replace"))
-                        sep = b"\r\n\r\n"
-                        idx = s.find(sep)
-                        if idx >= 0:
-                            hdrs_block = s[:idx].decode("latin-1", "replace").split("\r\n")
-                            headers = hdrs_block
-                            body_bytes = s[idx+4:]
-                        else:
-                            headers = []
-                            body_bytes = b""
-                    except Exception:
-                        headers = []
-                        body_bytes = b""
-            except Exception:
-                headers = []
-                body_bytes = b""
-
-            # 9) ensure Content-Length is correct (if body present)
+            # Keep the existing framing normalization until real-helper evidence
+            # supports removing it. Duplicate length headers retain their shape.
             new_headers = []
-            cl_handled = False
-            for h in headers:
-                try:
-                    hs = str(h)
-                    if hs.lower().startswith("content-length:"):
-                        new_headers.append("Content-Length: %d" % len(body_bytes))
-                        cl_handled = True
-                    else:
-                        new_headers.append(hs)
-                except Exception:
-                    try:
-                        new_headers.append(str(h))
-                    except Exception:
-                        pass
-            if not cl_handled and len(body_bytes) > 0:
-                new_headers.append("Content-Length: %d" % len(body_bytes))
-
-            # 10) try to rebuild http message via helpers.buildHttpMessage
-            try:
-                if helpers is not None:
-                    try:
-                        request_bytes = helpers.buildHttpMessage(new_headers, body_bytes)
-                    except Exception:
-                        # leave request_bytes as-is if rebuild fails
-                        pass
+            has_length = False
+            for header in headers:
+                if header.lower().startswith("content-length:"):
+                    new_headers.append("Content-Length: %d" % len(body_bytes))
+                    has_length = True
                 else:
-                    # no helpers: keep request_bytes as-is (already bytes)
-                    pass
-            except Exception:
-                pass
-
-            # success: return
-            return (request_bytes)
-
-        except Exception as e:
+                    new_headers.append(header)
+            if not has_length and len(body_bytes) > 0:
+                new_headers.append("Content-Length: %d" % len(body_bytes))
+            if helpers is not None:
+                request_bytes = helpers.buildHttpMessage(new_headers, body_bytes)
+            else:
+                request_bytes = ("\r\n".join(new_headers) + "\r\n\r\n").encode("latin-1") + body_bytes
+            if request_bytes is None or len(request_bytes) == 0:
+                raise TemplateBuildError("REQUEST_BUILD_FAILED", "Empty HTTP rebuild result")
+            _wire_text(request_bytes, helpers)  # reject accidental object/string representations
+            return request_bytes
+        except (Exception, JavaException) as error:
+            code = error.code if isinstance(error, TemplateBuildError) else "TEMPLATE_BUILD_FAILED"
+            detail = error.detail if isinstance(error, TemplateBuildError) else str(error)
+            diagnostic = "TRANSFORM_ERROR [%s]\n%s" % (code, detail)
             try:
-                print("build_request_from_template: unexpected error: %s" % str(e))
-            except Exception:
+                if callable(custom_status_setter):
+                    custom_status_setter(diagnostic)
+                else:
+                    self._log(diagnostic)
+            except (Exception, JavaException):
                 pass
-            return (fallback_resp)
+            try:
+                print("[BoberProxy template] TRANSFORM_ERROR %s" % code)
+            except (Exception, JavaException):
+                pass
+            return fallback_resp
 
 
     def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https):
@@ -2727,14 +2662,7 @@ class LoggerUI(ITab):
             if not raw_request_bytes:
                 return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH, workflow_id=workflow_id)
 
-            # decode safely for parsing
-            try:
-                req_text = self._to_text(raw_request_bytes)
-            except:
-                try:
-                    req_text = raw_request_bytes.decode("latin-1", "replace")
-                except:
-                    req_text = str(raw_request_bytes)
+            req_text = _wire_text(raw_request_bytes, self.helpers)
 
             # --- extract payload param names ---
             try:
@@ -2746,42 +2674,7 @@ class LoggerUI(ITab):
             except:
                 pname2 = getattr(self, "payload_param2_name", "w")
 
-            # --- extract incoming payloads from query/body (robust) ---
-            incoming_payload1 = ""
-            incoming_payload2 = ""
-            try:
-                # prefer HTTP/2 pseudo :path if present
-                first_line = req_text.split("\r\n", 1)[0]
-                parts = first_line.split()
-                path = parts[1] if len(parts) >= 2 else "/"
-                # parse query string
-                if "?" in path:
-                    qstr = path.split("?", 1)[1]
-                    for kv in qstr.split("&"):
-                        if "=" in kv:
-                            k, v = kv.split("=", 1)
-                            if k == pname1 and not incoming_payload1:
-                                incoming_payload1 = v
-                            elif k == pname2 and not incoming_payload2:
-                                incoming_payload2 = v
-                # fallback: also check body if present
-                hdr_body = req_text.split("\r\n\r\n", 1)
-                body_text = hdr_body[1] if len(hdr_body) > 1 else ""
-                # form-urlencoded detection
-                if body_text and ("=" in body_text) and ("application/x-www-form-urlencoded" in req_text.lower()):
-                    for kv in body_text.split("&"):
-                        if "=" in kv:
-                            k, v = kv.split("=", 1)
-                            if k == pname1 and not incoming_payload1:
-                                incoming_payload1 = v
-                            elif k == pname2 and not incoming_payload2:
-                                incoming_payload2 = v
-            except Exception:
-                pass
-
-            incoming_payload1 = incoming_payload1 or ""
-            incoming_payload2 = incoming_payload2 or ""
-
+            incoming_payload1, incoming_payload2 = _extract_raw_payloads(req_text, pname1, pname2)
 
             # --- If no payloads at all, do not interfere (let proxy forward original) ---
             if not incoming_payload1 and not incoming_payload2:
@@ -2805,17 +2698,19 @@ class LoggerUI(ITab):
                     return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
                                                error_code="CP_TEMPLATE_" + template_error)
 
+            build_errors = []
             request_bytes = self.build_request_from_template(
                 get_editor_message=lambda: request_template,
                 helpers=self.helpers, cookie_manager=self.cookieManager, csrf_manager=self.csrfManager,
                 auto_update_cookies=getattr(self, "autoUpdateCookies", False),
                 auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
-                normalize_func=None, custom_status_setter=lambda s: None,
+                normalize_func=None, custom_status_setter=build_errors.append,
                 incoming_payload1=incoming_payload1, incoming_payload2=incoming_payload2,
                 fallback_resp=None)
             if not request_bytes:
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
-                                           error_code="RT_BUILD_FAILED")
+                                           error_code="RT_BUILD_FAILED",
+                                            error_detail=build_errors[-1] if build_errors else None)
             if not use_cpt:
                 return ProxyWorkflowResult(ProxyWorkflowResult.READY, request_bytes, workflow_id)
 
@@ -2836,17 +2731,19 @@ class LoggerUI(ITab):
 
             cp_bytes = self.build_checkpage_request(incoming_payload1=incoming_payload1,
                                                     incoming_payload2=incoming_payload2,
-                                                    template_bytes=check_template)
+                                                    template_bytes=check_template,
+                                                    custom_status_setter=build_errors.append)
             if not cp_bytes:
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
-                                           error_code="CP_BUILD_FAILED")
+                                           error_code="CP_BUILD_FAILED",
+                                            error_detail=build_errors[-1] if build_errors else None)
             return ProxyWorkflowResult(ProxyWorkflowResult.READY, cp_bytes, workflow_id)
         except (Exception, JavaException) as error:
             status = ProxyWorkflowResult.ERROR_AFTER_SEND if sent_or_uncertain else ProxyWorkflowResult.ERROR_BEFORE_SEND
             return ProxyWorkflowResult(status, workflow_id=workflow_id,
                                        error_code="WORKFLOW_FAILED", error_type=type(error).__name__)
 
-    def build_checkpage_request(self, incoming_payload1="", incoming_payload2="", template_bytes=None):
+    def build_checkpage_request(self, incoming_payload1="", incoming_payload2="", template_bytes=None, custom_status_setter=None):
         """
         Build CheckPage request bytes from the CheckPage editor/template.
         Returns request bytes or None on failure; an optional captured template avoids rereading the editor.
@@ -2870,7 +2767,7 @@ class LoggerUI(ITab):
                     auto_update_cookies=getattr(self, "autoUpdateCookies", False),
                     auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
                     normalize_func=None,
-                    custom_status_setter=lambda s: None,
+                    custom_status_setter=custom_status_setter,
                     incoming_payload1=incoming_payload1 or "",
                     incoming_payload2=incoming_payload2 or "",                 
                     fallback_resp=None
@@ -2920,7 +2817,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
         except Exception as e:
             print("registerProxyListener failed (ignored):", e)
 
-        print("BoberProxy loaded (stabilization K01)")
+        print("BoberProxy loaded (stabilization K02)")
 
 
     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
@@ -2987,7 +2884,9 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
             message += " (%s)" % result.error_type
         print(message)
         try:
-            swing.SwingUtilities.invokeLater(lambda: self.ui._log(message))
+            detail = getattr(result, "error_detail", None)
+            diagnostic = message + ("\n" + detail if detail else "")
+            swing.SwingUtilities.invokeLater(lambda: self.ui._log(diagnostic))
         except (Exception, JavaException):
             pass
 

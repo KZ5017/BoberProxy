@@ -1,6 +1,15 @@
 # AI_NOTES.md
 
-## Stabilization Work In Progress (2026-10-29)
+## Stabilization Work In Progress (2026-10-30)
+
+- K00/K01 were committed and pushed as `04d6398` on `origin/main`; the worktree was clean on K02 entry. The user authorized continuation and confirmed all options OFF.
+- K02 is closed in the tested Burp environment: [K02 evidence](docs/stabilizacios-terv/eredmenyek/K02/README.md). Current source SHA-256: `2A5E783AB7B34BE8CD3D49909E5DAED755E2DF1DBD994F6C02A8B0DD83A103E9`; startup marker `BoberProxy loaded (stabilization K02)`. CPython/Jython: 74 cases, 65 pass, 9 known later-round defects. Native byte tests and full API/Swing import pass for that hash.
+- All eight template traffic scenarios and active unmatched controls passed on the preceding B80A... candidate; the user copied the original custom diagnostic. The after-RT failure had an empty initial token, exactly one action and DROP. Reports are retained under K02/before-bodylen-display.
+- A final E12 gap was fixed: unknown body length now renders blank instead of zero. The user confirmed the final main/helper reload and setup, then all eight template scenarios and five active unmatched controls passed again for the final hash; 23 actual-helper/Swing checks pass. No K02 manual confirmation remains pending. K03 has not started. The user requested a separate K02 commit/push checkpoint before continuing in a later round; its revision is recorded in Git history.
+- Current Burp state: K02 loaded, both normal HTTP fixtures and generated custom-k02-cases.py; template injection, CheckPage, custom and cookie/CSRF options ON, timeout 2000 ms; AutoFollow and Burp Intercept OFF. The last request was the normal successful workflow; cached fixture cookie/token remain. The separate no-traffic helper extension may still be loaded and can be removed. Confirm settings before K03 traffic.
+- K02 traffic uses generated `tests/stabilization/runtime/custom-k02-cases.py`, never `.py.in`. `prepare_k02.py` also generates the exact K01 framing baseline. Read K02 evidence and wait for UI confirmation before traffic.
+
+### Prior K00/K01 handoff (historical)
 
 - The user authorized execution of the [stabilization plan](docs/stabilizacios-terv/README.md). K00 and K01 are recorded as complete in the tested environment; K02 has not started. The running Burp has K01 loaded.
 - Reusable helpers now exist under [tests/stabilization](tests/stabilization/README.md). The original snapshot below is historical.

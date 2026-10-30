@@ -1,0 +1,151 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000224,
+      "test": "test_templates.TemplateTests.test_all_original_markers_are_replaced_once"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.004064,
+      "test": "test_templates.TemplateTests.test_bad_custom_types_do_not_become_repr_or_empty"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000178,
+      "test": "test_templates.TemplateTests.test_binary_and_utf8_payload_bytes_are_preserved"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 5.8e-05,
+      "test": "test_templates.TemplateTests.test_binary_template_body_is_preserved"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 4.9e-05,
+      "test": "test_templates.TemplateTests.test_byte_valued_unicode_has_explicit_latin1_mapping"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000135,
+      "test": "test_templates.TemplateTests.test_content_length_counts_bytes_after_replacement"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000117,
+      "test": "test_templates.TemplateTests.test_cookie_injection_preserves_binary_and_utf8_bodies"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 6.1e-05,
+      "test": "test_templates.TemplateTests.test_cookie_value_is_not_scanned_for_markers"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001586,
+      "test": "test_templates.TemplateTests.test_custom_failures_preserve_the_original_reason"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000518,
+      "test": "test_templates.TemplateTests.test_custom_none_and_empty_values_remain_empty"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000137,
+      "test": "test_templates.TemplateTests.test_custom_runs_twice_with_step_specific_token_and_raw_inputs"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 7.8e-05,
+      "test": "test_templates.TemplateTests.test_disabled_csrf_and_missing_token_keep_original_marker"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.080571,
+      "test": "test_templates.TemplateTests.test_finite_custom_timeout_is_a_transform_failure"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000111,
+      "test": "test_templates.TemplateTests.test_helper_parse_failure_does_not_produce_an_empty_request"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000663,
+      "test": "test_templates.TemplateTests.test_list_and_tuple_outputs_are_supported"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000221,
+      "test": "test_templates.TemplateTests.test_missing_or_invalid_analysis_is_an_explicit_error"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000565,
+      "test": "test_templates.TemplateTests.test_non_byte_unicode_requires_explicit_encoding"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000571,
+      "test": "test_templates.TemplateTests.test_original_custom_diagnostic_survives_proxy_error_reporting"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 7.7e-05,
+      "test": "test_templates.TemplateTests.test_raw_parameter_priorities_and_activation_are_unchanged"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 8e-05,
+      "test": "test_templates.TemplateTests.test_rebuild_failure_does_not_return_stale_content_length"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_templates.py\", line 244, in test_table_distinguishes_unknown_body_length_from_zero\n    self.assertIsNone(model.getValueAt(0, 7))\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 is not None\n",
+      "outcome": "failed",
+      "seconds": 0.000572,
+      "test": "test_templates.TemplateTests.test_table_distinguishes_unknown_body_length_from_zero"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 3.9e-05,
+      "test": "test_templates.TemplateTests.test_unknown_editor_object_is_not_stringified"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000116,
+      "test": "test_templates.TemplateTests.test_zero_nonzero_and_missing_body_lengths_filter_distinctly"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 22,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "b80a0d6293b430800335c20c76ff6ca7d7252dd4cf9ef2ee7d87c3bbffe0f3fd",
+  "successful_baseline_run": false,
+  "suite": "templates",
+  "total": 23
+}

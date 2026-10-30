@@ -1,5 +1,16 @@
 # Stabilizálási tesztkörnyezet
 
+## K02 kiegészítés (2026-10-30)
+
+- `run_logic.py --suite all`: jelenleg 74 eset, 65 siker és 9 külön jelölt, későbbi körben javítandó hiba. P01/P11/P12 már sikeres regresszió. A `--suite templates` a K02 célzott logikát futtatja.
+- `test_templates.py`: marker-, típus-, Unicode/bájt-, eredeti hibadiagnosztika, nyers paraméterprioritás, framinghiba, két custom hívás és BodyLen=0 ellenőrzés. Helperhelyettesítőkkel fut.
+- `prepare_k02.py`: a Gitben rögzített K01 forrást és az abszolút trace-útvonalú `runtime/custom-k02-cases.py` kódot készíti elő. A `.py.in` nem betöltendő kód.
+- `probe_template_native.py`: külön Jython JVM-ben a valódi forrást és natív Java adattípusokat vizsgálja; a helper ilyenkor helyettesítő. Az API-classpath ugyanaz, mint `probe_jython_import.py` esetén.
+- `burp_k02_probe.py`: külön, ideiglenes Python extensionként betöltve a valódi Burp helperekkel futtatja a natív próbát és nyolc K01/K02 framing-paritást. Nincs listener/HTTP-küldés; a `runtime/k02-burp-helper.json` riport és az Output PASS/FAIL sora az eredmény. Előtte `prepare_k02.py` szükséges. A probe ezután eltávolítható.
+- `probe_templates.py`: visszaigazolt RT/CheckPage, cookie/CSRF és generált custom beállítások mellett egyetlen, nem ismételt forgalmi eset. Az `after-rt-error` előtt Clear CSRF kell. A pontos beállítások és eredmények a [K02 eredményjegyzékben](../../docs/stabilizacios-terv/eredmenyek/K02/README.md) szerepelnek.
+
+Az alábbi K00/K01 leírások történeti körállapotot is tartalmaznak; a jelenlegi futtatási kapu a K02 eredményjegyzéke és a felhasználó legutóbbi UI-visszaigazolása.
+
 K00/K01 segédletek; a tesztek nem módosítják a `BoberProxy.py` fájlt. A helyettesítő Burp-objektumos logikai teszt, a valódi Java/Swing importpróba és a futó Burpon átmenő forgalom három külön bizonyíték.
 
 ## Fájlok

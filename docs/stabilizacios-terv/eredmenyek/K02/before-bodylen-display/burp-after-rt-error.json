@@ -1,0 +1,176 @@
+{
+  "kind": "external-burp-template-scenario",
+  "scenario": "after-rt-error",
+  "source_on_disk_sha256": "b80a0d6293b430800335c20c76ff6ca7d7252dd4cf9ef2ee7d87c3bbffe0f3fd",
+  "passed": true,
+  "checks": {
+    "one_action": true,
+    "only_rt": true,
+    "two_custom_calls": true,
+    "initial_token_empty": true,
+    "terminal_drop": true,
+    "trace_inputs_unchanged": true,
+    "no_transport_error": true
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 1,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 15,
+        "time_ns": 1793379954757175200,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "24"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAyNA0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPUswMl9BRlRFUl9SVCZ0d289VFdP",
+        "body_base64": "b25lPUswMl9BRlRFUl9SVCZ0d289VFdP"
+      }
+    ],
+    "session": [
+      "sid.k00-workflow.1",
+      "csrf.k00-workflow.1"
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Cache-control",
+        "no-cache, no-store"
+      ],
+      [
+        "Pragma",
+        "no-cache"
+      ],
+      [
+        "X-Frame-Options",
+        "DENY"
+      ],
+      [
+        "Content-Type",
+        "text/html; charset=utf-8"
+      ],
+      [
+        "X-Content-Type-Options",
+        "nosniff"
+      ]
+    ],
+    "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+    "seconds": 0.032521
+  },
+  "transport_error": null,
+  "custom_records": [
+    {
+      "max_heap_bytes": 17112760320,
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+      "payload1": "K02_AFTER_RT",
+      "payload2": "TWO",
+      "kind": "burp-live-custom-passthrough",
+      "csrf_token": null,
+      "jython_paths": [
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar\\Lib"
+      ],
+      "java_vendor": "Oracle Corporation",
+      "heap_arguments": [
+        "-XX:MaxRAMPercentage=50"
+      ],
+      "java_version": "26.0.2"
+    },
+    {
+      "max_heap_bytes": 17112760320,
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+      "payload1": "K02_AFTER_RT",
+      "payload2": "TWO",
+      "kind": "burp-live-custom-passthrough",
+      "csrf_token": "csrf.k00-workflow.1",
+      "jython_paths": [
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar\\Lib"
+      ],
+      "java_vendor": "Oracle Corporation",
+      "heap_arguments": [
+        "-XX:MaxRAMPercentage=50"
+      ],
+      "java_version": "26.0.2"
+    }
+  ],
+  "observation_samples": [
+    {
+      "seconds": 0.102,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.204,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.305,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.406,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.507,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.611,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.714,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.817,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 0.922,
+      "count": 1,
+      "actions": 1
+    },
+    {
+      "seconds": 1.026,
+      "count": 1,
+      "actions": 1
+    }
+  ],
+  "note": "UI state and loaded source require user confirmation. No retries."
+}

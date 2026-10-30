@@ -1,0 +1,110 @@
+{
+  "kind": "external-burp-template-scenario",
+  "scenario": "badtype",
+  "source_on_disk_sha256": "b80a0d6293b430800335c20c76ff6ca7d7252dd4cf9ef2ee7d87c3bbffe0f3fd",
+  "passed": true,
+  "checks": {
+    "no_action": true,
+    "original_once": true,
+    "original_response": true,
+    "one_custom_call": true,
+    "trace_inputs_unchanged": true,
+    "no_transport_error": true
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793379961574472200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=K02_BADTYPE&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPUswMl9CQURUWVBFJnc9VFdPIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "452"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE2LCAidGltZV9ucyI6IDE3OTMzNzk5NjE1NzQ0NzIyMDAsICJydW4iOiAiazAwLXdvcmtmbG93IiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPUswMl9CQURUWVBFJnc9VFdPIiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc2NSJdLCBbIkNvbm5lY3Rpb24iLCAia2VlcC1hbGl2ZSJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazAwLXdvcmtmbG93Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bGJuUnllVDl4UFVzd01sOUNRVVJVV1ZCRkpuYzlWRmRQSUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM05qVU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dNQzEzYjNKclpteHZkdzBLRFFvPSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+    "seconds": 0.022555,
+    "json": {
+      "request": {
+        "sequence": 16,
+        "time_ns": 1793379961574472200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=K02_BADTYPE&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPUswMl9CQURUWVBFJnc9VFdPIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KDQo=",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "custom_records": [
+    {
+      "max_heap_bytes": 17112760320,
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+      "payload1": "K02_BADTYPE",
+      "payload2": "TWO",
+      "kind": "burp-live-custom-passthrough",
+      "csrf_token": "csrf.k00-workflow.1",
+      "jython_paths": [
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar\\Lib"
+      ],
+      "java_vendor": "Oracle Corporation",
+      "heap_arguments": [
+        "-XX:MaxRAMPercentage=50"
+      ],
+      "java_version": "26.0.2"
+    }
+  ],
+  "observation_samples": [],
+  "note": "UI state and loaded source require user confirmation. No retries."
+}

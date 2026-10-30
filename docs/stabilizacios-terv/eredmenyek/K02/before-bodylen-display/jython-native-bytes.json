@@ -1,0 +1,25 @@
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "framing": [], 
+  "kind": "standalone-native-jython-fake-helpers", 
+  "transport_callbacks_are_doubles": true, 
+  "checks": {
+    "java_byte_array_all_256_bytes": true, 
+    "java_byte_array_template_body": true, 
+    "array_repr_remains_literal_text": true, 
+    "native_binary_with_cookie_injection": true, 
+    "jython_str_all_256_bytes": true, 
+    "java_string_non_byte_unicode_rejected": true, 
+    "native_custom_return_types": true, 
+    "jython_unicode_all_256_bytes": true, 
+    "java_array_uses_helper_conversion": true, 
+    "bytearray_all_256_bytes": true, 
+    "java_string_all_256_bytes": true
+  }, 
+  "source_sha256": "b80a0d6293b430800335c20c76ff6ca7d7252dd4cf9ef2ee7d87c3bbffe0f3fd", 
+  "java_version": "26.0.2", 
+  "passed": true, 
+  "actual_burp_helpers": false, 
+  "http2_network_tested": false, 
+  "errors": []
+}

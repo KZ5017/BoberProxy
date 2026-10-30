@@ -230,6 +230,7 @@ def load_namespace():
     wanted = set(['LogEntry', 'LogStore', 'LogTableModel', 'CsrfManager',
                   'CookieManager', 'LoggerUI', '_exec_in_namespace',
                   'HttpSendResult', 'HttpRequestSender', 'ProxyWorkflowResult', 'BurpExtender'])
+    wanted.update(['TemplateBuildError', '_wire_text', '_custom_value', '_extract_raw_payloads'])
     starts = list(re.finditer(r'^(?:class|def)\s+(\w+)\b', source, re.M))
     blocks = []
     for i, match in enumerate(starts):

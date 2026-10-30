@@ -1,8 +1,8 @@
 # Végrehajtási napló
 
-Utoljára frissítve: 2026-10-29.
+Utoljára frissítve: 2026-10-30.
 
-**K00 alapállapot-felmérés és K01 lezárva a rögzített célkörnyezetben; K02 még nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a K00 eredményjegyzékében szerepelnek.
+**K00 alapállapot-felmérés, K01 és K02 lezárva a rögzített célkörnyezetben; K03 még nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a K00 eredményjegyzékében szerepelnek.
 
 ## Aktuális állapot
 
@@ -10,7 +10,7 @@ Utoljára frissítve: 2026-10-29.
 | --- | --- | --- |
 | K00 | Lezárt alapállapot | [K00 bizonyítékok](eredmenyek/K00/README.md); 10–10 alapműködés és 14–14 ismert hiba CPython/Jython alatt; valódi passzív/RT/CP/custom próbák. E60–E63 megmaradó részei külön rögzítettek. |
 | K01 | Lezárt a célkörnyezetben | [K01 eredmények](eredmenyek/K01/README.md): 51 esetből 39 megfelelt, 12 ismert hiba külön jelölt CPython/Jython alatt; újratöltés, passzív/normál CheckPage, preflight, post-build és kapcsolatzárásos DROP, valamint a végső két custom meghívás igazolt. |
-| K02 | Nem indult | K01; D02/D07/D13. |
+| K02 | Lezárt a célkörnyezetben | [K02 bizonyítékok](eredmenyek/K02/README.md): 74 esetből 65 teljesült mindkét runtime-on, 9 későbbi ismert hiba. Végső betöltés, 23 helper/Swing ellenőrzés, nyolc sablonos forgatókönyv és öt aktív/nem illeszkedő bájtkontroll sikeres. |
 | K03 | Nem indult | K01–K02; D03/D04/D12. |
 | K04 | Nem indult | K02–K03; D05/D06/D14. |
 | K05 | Nem indult | K02/K04; D08/D13. |
@@ -63,6 +63,22 @@ Minden tényleges döntéshez külön sor kell. A javaslat nem számít elfogado
 - A generált kóddal végzett ismétlés sikeres: pontosan két új custom hívás, változatlan payloadok, helyes második token. A futó Burp JVM/Jython-adatai is rögzítettek.
 - Következő kör: K01; az aktív Burp jelenleg még a K00 forrást futtatja, custom pass-through ON, timeout 2000 ms, RT/CP és mindkét automatika ON. Új kód forgalmi ellenőrzése előtt külön újratöltés szükséges.
 
+## K02 — Lezárt kör (2026-10-30)
+
+- Felhatalmazás: a felhasználó „mehetünk tovább” utasítása; belépéskor a K01 betöltve, minden kapcsoló OFF.
+- Kiindulás: tiszta munkafa; `04d6398a14c412800a4a03a2268877cfa9305de7` K00/K01 Git-ellenőrzőpont, sikeres push az origin/main ágra.
+- D02/D07/D13: kompatibilitást őrző működés; nyers query/form prioritás, üres/hiányzó aktiválás és két custom hívás megmarad. Byte-valued Unicode/Java String 0–255 közvetlen bájtérték; magasabb kódpont explicit hiba, igény esetén explicit custom UTF-8 encode. Nincs új JSON/multipart parser.
+- Javított K02 részek: F06/F07/F29/F30; F31 karakterizált és rögzített; F41/F45 további körökkel közös feladatai külön nyitva maradnak. A sablonépítő hibából nem készít részleges HTTP-kérést; az eredeti custom hibát a workflow/UI is megőrzi. A markerhelyettesítés egyszeri; a hiányzó/nulla bodyhossz tárolásban, táblázatban és szűrésben különbözik.
+- Végső forrás: `2A5E783AB7B34BE8CD3D49909E5DAED755E2DF1DBD994F6C02A8B0DD83A103E9`. Saját source-only diff: [K02 patch](eredmenyek/K02/BoberProxy.patch), fordított alkalmazhatósági próba sikeres; tényleges visszaállítás nem történt.
+- CPython és Jython 2.7.4: egyenként 74 eset, 65 siker és 9 későbbi ismert hiba. P01/P11/P12 normál regressziós teszt. A teljes Burp API/Swing import és natív Java byte[]/String próbák a végső hash-sel sikeresek.
+- Korábbi helpereltérések és a BodyLen-megjelenítés előtti teljes forgalmi eredmények saját hash-ükkel megőrzöttek. A hiányzó bodyhossz téves nullás megjelenítését külön új teszt mutatta ki; a végső egy soros javítás után natív Swing cella/rendezési próbák is futottak.
+- A felhasználó visszaigazolta a végső `BoberProxy loaded (stabilization K02)` és `K02_HELPERS PASS (23 checks)` sorokat, majd a sablon/custom/kapcsoló/Clear állapotot. A helper riportja a végső forráshash-sel egyezik.
+- A végső verzión mind a nyolc sablonos eset sikeres: marker, bináris, UTF-8, custom előhiba, hibás elemtípus, nem byte-valued Unicode, CheckPage utóhiba és normál regresszió. Utóhibánál az első token null, egy action és terminális DROP, utómegfigyelésben is ismétlés nélkül. Előhibáknál nulla action, eredeti GET egyszer. Sikeres úton egy action/két POST/két custom hívás és helyes token/cookie/body.
+- Az öt aktív/nem illeszkedő kontroll (204/üres, bináris válasz/kérés, JSON és multipart) szintén változatlan. A /empty BodyLen=0 és a /bytes nézet korábbi manuális visszaigazolása megőrzött; a végső helper külön igazolja az üres/nulla cellát és a rendezést.
+- Részletes bizonyítékok, E-lefedettség és korlátok: [K02](eredmenyek/K02/README.md). HTTP/2/TLS integráció és más Burp-verzió nem igazolt. E27 kódverzió-befagyasztás K05/K06, teljes custom határidő/kapacitás K05 feladat; ezek nem váltak késznek ettől a körzárástól.
+- Átadott Burp-állapot: végső K02; normál RT/CheckPage fixture; generált runtime/custom-k02-cases.py; sablonos mód, CheckPage, custom és két automatika ON; timeout 2000 ms; AutoFollow és Burp Intercept OFF. A normál végpróba fixture cookie/token értéke a cache-ben maradt. A külön helper tesztbővítmény még betöltve lehet, nem küld forgalmat és eltávolítható.
+- CHANGELOG, döntések, tesztleírás és AI_NOTES frissítve. Nincs függőben K02 UI-kérés. A felhasználó külön K02 commit/push ellenőrzőpontot kért; a pontos revízió a Git-naplóban szerepel. Következő kör: K03, külön későbbi menetben, még nem indult.
+
 ## Körátadási sablon
 
 Lezárt K01 forrás: `3BF88A21442683C6135895125AAC49AC09BD52A31BE13B9FF75DAAF8FCDFB111`. Az újratöltés, a passzív és normál CheckPage-forgalom sikeres. E03-nál a felhasználó CP_TEMPLATE_EMPTY kódot igazolt vissza. Az E04 első kísérlete régi token miatt még az első kérés előtt megállt; Show CSRF-fel igazolt Clear után egy művelet és valódi Burp DROP-oldal látszott. Az E06 kapcsolatzárásos próba is egyszeri műveletet és DROP-oldalt adott. A végső normál custom regresszió sikeres, pontosan két új trace-rekorddal. A kör forrásdiffje külön patch-ben megőrzött; a felhasználó a teljes K00/K01 állapot Git commit/push mentését kérte a későbbi folytatáshoz.
@@ -106,7 +122,14 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 | F01/F02/F10 | Javítva és ellenőrizve a rögzített környezetben | K01 Git-ellenőrzőpont; revízió a Git-naplóban | K01 logikai, Java/Swing és valódi forgalmi bizonyítékok | Legacy byte[] adattípus natív Jython alatt tesztelt; más Burp-verzió alatti legacy hálózati integráció nem állított. |
 | F11 | Részben javított | K01 polling eltávolítva | Legacy/null-válasz és egyszeri küldési tesztek | Teljes hálózati/redirect határidő K03 feladata. |
 | F33/F34/F40 | Csak a K01 útvonalon érintett részek javítva | K01 | Hibakódos diagnosztika, proxyakció, valós workflow-eredménytípus | A teljes fájl takarítása/dokumentálása továbbra is nyitott. |
-| A többi F-azonosító | Nyitott | K02–K11 | K00 alapállapot/reprodukció | A tételes feladatok az 01-es dokumentumban. |
+| F06 | Javítva és ellenőrizve | K02, 2A5E... forrás | E10/E04: logika, eredeti felületi trace, forgalmi elő-/utóhiba | Teljes exec-határidő és kapacitás K05; a diagnosztikai hiba nem indít újraküldést. |
+| F07 | Javítva és ellenőrizve | K02, 2A5E... forrás | E11/E41: elemtípusok CPython/Jython/natív Java alatt, valódi hibás típus/Unicode forgalom | Byte-valued Unicode; más charset explicit custom encode. |
+| F29 | Javítva és ellenőrizve | K02, 2A5E... forrás | E12: nulla/hiányzó tárolás, eq/not eq 0; valódi Swing üres/nulla cella és rendezés | A korábbi UI-eltérés külön reprodukcióval megőrzött. |
+| F30 | Javítva és ellenőrizve | K02, 2A5E... forrás | E09: egymásba ágyazott payload/token/cookie markerek, valódi markeres forgalom | Csak az eredeti sablon helyei cserélődnek. |
+| F31 | Karakterizált, működési szerződés rögzítve | K02; D07 | E08: query/form prioritás, ismétlődő/azonos név, üres/hiányzó, JSON/multipart kontroll | A nyers és első nem üres érték szerződése szándékosan megmarad; nincs új parser/dekódolás. |
+| F41 | K02 sablonútvonal javítva; összesített ügy nyitott | K02/K10 | E41–E43: natív bájtpontosság, 8 helperes framing-paritás; parse/build hiba | A fájl más konverziói és HTTP/2/TLS integráció további körök feladata; kézi CL-kezelés megmaradt. |
+| F45 | Kétlépéses szerződés ellenőrizve; összesített ügy nyitott | K02/K05/K06; D13 | E27: két hívás, eredeti nyers bemenetek és lépésenként helyes token | A custom kód verziójának workflow-szintű befagyasztása még nyitott. |
+| A többi F-azonosító | Nyitott | K03–K11 | K00 alapállapot/reprodukció | A tételes feladatok az 01-es dokumentumban. |
 
 ## Végső átadás kötelező tartalma
 

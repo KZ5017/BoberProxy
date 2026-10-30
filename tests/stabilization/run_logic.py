@@ -57,7 +57,7 @@ class ReportResult(unittest.TextTestResult):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--report', help='Optional JSON report path (parent must exist)')
-    parser.add_argument('--suite', choices=['source', 'transport', 'all'], default='source')
+    parser.add_argument('--suite', choices=['source', 'transport', 'templates', 'all'], default='source')
     args = parser.parse_args()
     suite = unittest.TestSuite()
     if args.suite in ('source', 'all'):
@@ -65,6 +65,9 @@ def main():
     if args.suite in ('transport', 'all'):
         import test_transport
         suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_transport))
+    if args.suite in ('templates', 'all'):
+        import test_templates
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_templates))
     result = unittest.TextTestRunner(verbosity=2, resultclass=ReportResult).run(suite)
     with open(SOURCE, 'rb') as handle:
         digest = hashlib.sha256(handle.read()).hexdigest()

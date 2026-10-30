@@ -1,0 +1,195 @@
+{
+  "kind": "external-burp-template-scenario",
+  "scenario": "utf8",
+  "source_on_disk_sha256": "2a5e783ab7b34be8cd3d49909e5daed755e2df1dbd994f6c02a8b0dd83a103e9",
+  "passed": true,
+  "checks": {
+    "one_action": true,
+    "rt_then_cp": true,
+    "methods": true,
+    "rt_body": true,
+    "cp_body": true,
+    "two_custom_calls": true,
+    "correct_step_token": true,
+    "correct_response": true,
+    "trace_inputs_unchanged": true,
+    "no_transport_error": true
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 1,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 33,
+        "time_ns": 1793380349136642800,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "17"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvb2tpZTogc2lkPXNpZC5rMDAtd29ya2Zsb3cuMQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDE3DQpDb25uZWN0aW9uOiBjbG9zZQ0KDQpvbmU9w6HigqwmdHdvPVRXTw==",
+        "body_base64": "b25lPcOh4oKsJnR3bz1UV08="
+      },
+      {
+        "sequence": 34,
+        "time_ns": 1793380349145566500,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/check",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "42"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2sgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29va2llOiBzaWQ9c2lkLmswMC13b3JrZmxvdy4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDINCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9Y3NyZi5rMDAtd29ya2Zsb3cuMSZvbmU9w6HigqwmdHdvPVRXTw==",
+        "body_base64": "Y3NyZj1jc3JmLmswMC13b3JrZmxvdy4xJm9uZT3DoeKCrCZ0d289VFdP"
+      }
+    ],
+    "session": [
+      "sid.k00-workflow.1",
+      "csrf.k00-workflow.1"
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "840"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDM0LCAidGltZV9ucyI6IDE3OTMzODAzNDkxNDU1NjY1MDAsICJydW4iOiAiazAwLXdvcmtmbG93IiwgIm1ldGhvZCI6ICJQT1NUIiwgInRhcmdldCI6ICIvd29ya2Zsb3cvY2hlY2siLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29va2llIiwgInNpZD1zaWQuazAwLXdvcmtmbG93LjEiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswMC13b3JrZmxvdyJdLCBbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQiXSwgWyJDb250ZW50LUxlbmd0aCIsICI0MiJdLCBbIkNvbm5lY3Rpb24iLCAiY2xvc2UiXV0sICJyYXdfYmFzZTY0IjogIlVFOVRWQ0F2ZDI5eWEyWnNiM2N2WTJobFkyc2dTRlJVVUM4eExqRU5Da2h2YzNRNklERXlOeTR3TGpBdU1Ub3hPRGMyTlEwS1EyOXZhMmxsT2lCemFXUTljMmxrTG1zd01DMTNiM0pyWm14dmR5NHhEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURBdGQyOXlhMlpzYjNjTkNrTnZiblJsYm5RdFZIbHdaVG9nWVhCd2JHbGpZWFJwYjI0dmVDMTNkM2N0Wm05eWJTMTFjbXhsYm1OdlpHVmtEUXBEYjI1MFpXNTBMVXhsYm1kMGFEb2dORElOQ2tOdmJtNWxZM1JwYjI0NklHTnNiM05sRFFvTkNtTnpjbVk5WTNOeVppNXJNREF0ZDI5eWEyWnNiM2N1TVNadmJtVTl3NkhpZ3F3bWRIZHZQVlJYVHc9PSIsICJib2R5X2Jhc2U2NCI6ICJZM055WmoxamMzSm1MbXN3TUMxM2IzSnJabXh2ZHk0eEptOXVaVDNEb2VLQ3JDWjBkMjg5VkZkUCJ9LCAiYWN0aW9uX2NvdW50IjogMSwgImNvb2tpZV9vayI6IHRydWUsICJ0b2tlbl9vayI6IHRydWV9",
+    "seconds": 0.032081,
+    "json": {
+      "request": {
+        "sequence": 34,
+        "time_ns": 1793380349145566500,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/check",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "42"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2sgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29va2llOiBzaWQ9c2lkLmswMC13b3JrZmxvdy4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDINCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9Y3NyZi5rMDAtd29ya2Zsb3cuMSZvbmU9w6HigqwmdHdvPVRXTw==",
+        "body_base64": "Y3NyZj1jc3JmLmswMC13b3JrZmxvdy4xJm9uZT3DoeKCrCZ0d289VFdP"
+      },
+      "action_count": 1,
+      "cookie_ok": true,
+      "token_ok": true
+    }
+  },
+  "transport_error": null,
+  "custom_records": [
+    {
+      "max_heap_bytes": 17112760320,
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+      "payload1": "K02_UTF8",
+      "payload2": "TWO",
+      "kind": "burp-live-custom-passthrough",
+      "csrf_token": "csrf.k00-workflow.1",
+      "jython_paths": [
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar\\Lib"
+      ],
+      "java_vendor": "Oracle Corporation",
+      "heap_arguments": [
+        "-XX:MaxRAMPercentage=50"
+      ],
+      "java_version": "26.0.2"
+    },
+    {
+      "max_heap_bytes": 17112760320,
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+      "payload1": "K02_UTF8",
+      "payload2": "TWO",
+      "kind": "burp-live-custom-passthrough",
+      "csrf_token": "csrf.k00-workflow.1",
+      "jython_paths": [
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar\\Lib"
+      ],
+      "java_vendor": "Oracle Corporation",
+      "heap_arguments": [
+        "-XX:MaxRAMPercentage=50"
+      ],
+      "java_version": "26.0.2"
+    }
+  ],
+  "observation_samples": [],
+  "note": "UI state and loaded source require user confirmation. No retries."
+}

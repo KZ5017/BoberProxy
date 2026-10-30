@@ -1,0 +1,16 @@
+# Append to the generated trace function; use runtime/custom-k02-cases.py in Burp.
+def custom_codeblock(payload1, payload2, csrf_token):
+    _trace(payload1, payload2, csrf_token)
+    if payload1 == 'K02_FAIL':
+        raise ValueError('K02 controlled transform failure')
+    if payload1 == 'K02_BADTYPE':
+        return 0, payload2, csrf_token
+    if payload1 == 'K02_UNICODE':
+        return u'\u20ac', payload2, csrf_token
+    if payload1 == 'K02_AFTER_RT' and csrf_token is not None:
+        raise ValueError('K02 controlled CheckPage transform failure')
+    if payload1 == 'K02_BINARY':
+        return ''.join(chr(i) for i in range(256)), payload2, csrf_token
+    if payload1 == 'K02_UTF8':
+        return u'\u00e1\u20ac'.encode('utf-8'), payload2, csrf_token
+    return payload1, payload2, csrf_token

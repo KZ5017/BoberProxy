@@ -62,6 +62,7 @@ A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóáll
 - A jelenlegi query-első, majd form-body fallback szabályt karakterizálni kell. Az üres/hiányzó és az ismétlődő paraméter külön eset; a jelenlegi nem üres értékhez kötött aktiválás maradjon, amíg más döntés nincs.
 - Azonos payloadparaméternevek esetén a jelenlegi első/második prioritást rögzíteni kell; a UI ne vezessen be új elutasítást dokumentált döntés nélkül.
 - Bináris üzeneteket lehetőleg a Burp bytesToString/stringToBytes párosa kezelje. Tényleges Unicode custom kimenet esetén a választott kódolás explicit; Latin-1 `replace` alapú csendes adatvesztés nem elfogadható.
+- K02-ben választott szerződés (2026-10-30): a 0–255 Unicode/Java String kódpont közvetlen bájtérték, magasabb kódpont látható típus-/kódolási hiba. Más karakterkészlethez a custom kód explicit bájtokat ad vissza, például `u'\u20ac'.encode('utf-8')`. A Jython str, bytearray és Java byte[] eredeti bájtjai változatlanok; nincs automatikus UTF-8 újrakódolás egy byte-preserving szövegértéken.
 - JSON/multipart payloadkinyerés új képesség lenne, nem kötelező része ennek a stabilizálásnak. A változatlan továbbítást ezekre is ellenőrizni kell.
 
 ## D08 — Custom végrehajtás és valódi megszakítás

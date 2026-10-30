@@ -1,0 +1,80 @@
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "framing": [
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==", 
+      "case": "shorter"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMwMA0KDQpMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVI=", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMwMA0KDQpMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVI=", 
+      "case": "longer"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDANCg0K", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDANCg0K", 
+      "case": "empty_explicit_length"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KDQo=", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KDQo=", 
+      "case": "empty_without_length"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==", 
+      "case": "bad_length"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMNCkNvbnRlbnQtTGVuZ3RoOiAzDQoNClhZWg==", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMNCkNvbnRlbnQtTGVuZ3RoOiAzDQoNClhZWg==", 
+      "case": "duplicate_lengths"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K", 
+      "case": "chunked"
+    }, 
+    {
+      "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K", 
+      "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K", 
+      "case": "te_and_cl"
+    }
+  ], 
+  "kind": "in-burp-real-helpers-no-traffic", 
+  "transport_callbacks_are_doubles": true, 
+  "checks": {
+    "java_byte_array_all_256_bytes": true, 
+    "java_byte_array_template_body": true, 
+    "framing_parity_shorter": true, 
+    "framing_parity_bad_length": true, 
+    "array_repr_remains_literal_text": true, 
+    "native_binary_with_cookie_injection": true, 
+    "jython_str_all_256_bytes": true, 
+    "framing_parity_empty_without_length": true, 
+    "java_string_non_byte_unicode_rejected": true, 
+    "native_custom_return_types": true, 
+    "jython_unicode_all_256_bytes": true, 
+    "java_array_uses_helper_conversion": true, 
+    "framing_parity_te_and_cl": true, 
+    "framing_parity_chunked": true, 
+    "bytearray_all_256_bytes": true, 
+    "framing_parity_longer": true, 
+    "framing_parity_empty_explicit_length": true, 
+    "java_string_all_256_bytes": true, 
+    "baseline_source_is_checkpoint": true, 
+    "framing_parity_duplicate_lengths": true
+  }, 
+  "source_sha256": "b80a0d6293b430800335c20c76ff6ca7d7252dd4cf9ef2ee7d87c3bbffe0f3fd", 
+  "java_version": "26.0.2", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "passed": true, 
+  "actual_burp_helpers": true, 
+  "http2_network_tested": false, 
+  "errors": []
+}
