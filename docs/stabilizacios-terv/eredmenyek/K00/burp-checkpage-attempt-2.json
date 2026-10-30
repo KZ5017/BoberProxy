@@ -1,0 +1,117 @@
+{
+  "kind": "external-burp-traffic",
+  "scenario": "checkpage",
+  "run": "k00-workflow",
+  "checks": {
+    "http_200": true,
+    "no_transport_error": true,
+    "action_once": false,
+    "action_payload": true,
+    "two_steps": true,
+    "cookie_updated": false,
+    "csrf_updated": false,
+    "checkpage_last": false,
+    "checkpage_method": true,
+    "checkpage_payload": false
+  },
+  "passed": false,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "62"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "text/html"
+      ],
+      [
+        "Set-Cookie",
+        "sid=sid.k00-workflow.2; Path=/"
+      ]
+    ],
+    "body_base64": "PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJjc3JmLmswMC13b3JrZmxvdy4yIj4=",
+    "seconds": 0.046218
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 2,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 1804,
+        "time_ns": 1793306204645788800,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "21"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAyMQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPSUyNTJGKyUyQiZ0d289VFdP",
+        "body_base64": "b25lPSUyNTJGKyUyQiZ0d289VFdP"
+      },
+      {
+        "sequence": 1805,
+        "time_ns": 1793306204659210300,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "21"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAyMQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPSUyNTJGKyUyQiZ0d289VFdP",
+        "body_base64": "b25lPSUyNTJGKyUyQiZ0d289VFdP"
+      }
+    ],
+    "session": [
+      "sid.k00-workflow.2",
+      "csrf.k00-workflow.2"
+    ]
+  },
+  "transport_error": null,
+  "source_on_disk_sha256": "0dc376e392475fb1845d4b92a2006cd4ee36dd6fe1568e9c5057491a6d807371",
+  "note": "Loaded Burp source hash and UI settings require separate confirmation."
+}

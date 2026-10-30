@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# Use the generated runtime/custom-pass-through.py in Burp, not this template.
+def custom_codeblock(payload1, payload2, csrf_token):
+    """K00 synthetic-data trace, then return all three values unchanged."""
+    import json
+    import sys
+    from java.lang import Runtime, System
+    from java.lang.management import ManagementFactory
+
+    trace_path = "__TRACE_PATH__"
+    if trace_path.startswith('__TRACE_'):
+        raise ValueError('Run prepare_fixtures.py and paste runtime/custom-pass-through.py')
+    runtime = Runtime.getRuntime()
+    heap_args = [str(value) for value in ManagementFactory.getRuntimeMXBean().getInputArguments()
+                 if str(value).startswith(('-Xmx', '-Xms', '-XX:MaxRAM', '-XX:InitialRAM'))]
+    record = dict(kind='burp-live-custom-passthrough', payload1=payload1,
+                  payload2=payload2, csrf_token=csrf_token, python=sys.version,
+                  java_version=str(System.getProperty('java.version')),
+                  java_vendor=str(System.getProperty('java.vendor')),
+                  max_heap_bytes=runtime.maxMemory(), heap_arguments=heap_args,
+                  jython_paths=[str(value) for value in sys.path if 'jython' in str(value).lower()])
+    with open(trace_path, 'ab') as handle:
+        handle.write((json.dumps(record, ensure_ascii=True) + '\n').encode('utf-8'))
+    return payload1, payload2, csrf_token

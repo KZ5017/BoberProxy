@@ -358,3 +358,9 @@ MIT License
 Feel free to modify, extend, and redistribute.
 
 ---
+
+## **Project Notes**
+
+- [AGENTS.md](AGENTS.md)
+- [AI_NOTES.md](AI_NOTES.md)
+- [CHANGELOG.md](CHANGELOG.md)

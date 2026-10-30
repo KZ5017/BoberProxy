@@ -1,0 +1,141 @@
+{
+  "kind": "external-burp-transport-failure-scenario",
+  "scenario": "post-build-failure",
+  "passed": false,
+  "checks": {
+    "action_once": false,
+    "only_expected_operation": false,
+    "no_checkpage_or_original_forwarded": false
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 1818,
+        "time_ns": 1793308263444050600,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=%252F+%2B&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPSUyNTJGKyUyQiZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCg0K",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "448"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE4MTgsICJ0aW1lX25zIjogMTc5MzMwODI2MzQ0NDA1MDYwMCwgInJ1biI6ICJrMDAtd29ya2Zsb3ciLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VudHJ5P3E9JTI1MkYrJTJCJnc9VFdPIiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc2NSJdLCBbIkNvbm5lY3Rpb24iLCAia2VlcC1hbGl2ZSJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazAwLXdvcmtmbG93Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bGJuUnllVDl4UFNVeU5USkdLeVV5UWlaM1BWUlhUeUJJVkZSUUx6RXVNUTBLU0c5emREb2dNVEkzTGpBdU1DNHhPakU0TnpZMURRcERiMjV1WldOMGFXOXVPaUJyWldWd0xXRnNhWFpsRFFwWUxVSnZZbVZ5TFZSbGMzUXRVblZ1T2lCck1EQXRkMjl5YTJac2IzY05DZzBLIiwgImJvZHlfYmFzZTY0IjogIiJ9fQ==",
+    "seconds": 0.025647,
+    "json": {
+      "request": {
+        "sequence": 1818,
+        "time_ns": 1793308263444050600,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=%252F+%2B&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPSUyNTJGKyUyQiZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCg0K",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "observation_samples": [
+    {
+      "seconds": 0.101,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.203,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.305,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.418,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.519,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.623,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.727,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.831,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 0.936,
+      "event_count": 1,
+      "action_count": 0
+    },
+    {
+      "seconds": 1.037,
+      "event_count": 1,
+      "action_count": 0
+    }
+  ],
+  "client_timed_out": false,
+  "source_on_disk_sha256": "3bf88a21442683c6135895125aac49ac09bd52a31be13b9ff75daaf8fcdfb111",
+  "note": "UI setup and loaded revision must be confirmed separately. No client retries."
+}

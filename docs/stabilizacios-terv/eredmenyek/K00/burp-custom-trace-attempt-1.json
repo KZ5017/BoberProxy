@@ -1,0 +1,14 @@
+{
+  "kind": "live-burp-custom-trace",
+  "checks": {
+    "traffic_passed": true,
+    "exactly_two_custom_calls": false,
+    "payloads_preserved": false,
+    "first_token_empty": false,
+    "second_token_updated": false
+  },
+  "passed": false,
+  "records": [],
+  "trace_count_before": 0,
+  "trace_count_after": 0
+}

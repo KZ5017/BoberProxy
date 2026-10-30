@@ -1,0 +1,161 @@
+{
+  "kind": "external-burp-traffic",
+  "scenario": "checkpage",
+  "run": "k00-workflow",
+  "checks": {
+    "http_200": true,
+    "no_transport_error": true,
+    "action_once": true,
+    "action_payload": true,
+    "two_steps": true,
+    "cookie_updated": true,
+    "csrf_updated": true,
+    "checkpage_last": true,
+    "checkpage_method": true,
+    "checkpage_payload": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "854"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE4MTMsICJ0aW1lX25zIjogMTc5MzMwNjg0MTgzNjgyODMwMCwgInJ1biI6ICJrMDAtd29ya2Zsb3ciLCAibWV0aG9kIjogIlBPU1QiLCAidGFyZ2V0IjogIi93b3JrZmxvdy9jaGVjayIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb29raWUiLCAic2lkPXNpZC5rMDAtd29ya2Zsb3cuMSJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazAwLXdvcmtmbG93Il0sIFsiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJdLCBbIkNvbnRlbnQtTGVuZ3RoIiwgIjQ2Il0sIFsiQ29ubmVjdGlvbiIsICJjbG9zZSJdXSwgInJhd19iYXNlNjQiOiAiVUU5VFZDQXZkMjl5YTJac2IzY3ZZMmhsWTJzZ1NGUlVVQzh4TGpFTkNraHZjM1E2SURFeU55NHdMakF1TVRveE9EYzJOUTBLUTI5dmEybGxPaUJ6YVdROWMybGtMbXN3TUMxM2IzSnJabXh2ZHk0eERRcFlMVUp2WW1WeUxWUmxjM1F0VW5WdU9pQnJNREF0ZDI5eWEyWnNiM2NOQ2tOdmJuUmxiblF0Vkhsd1pUb2dZWEJ3YkdsallYUnBiMjR2ZUMxM2QzY3RabTl5YlMxMWNteGxibU52WkdWa0RRcERiMjUwWlc1MExVeGxibWQwYURvZ05EWU5Da052Ym01bFkzUnBiMjQ2SUdOc2IzTmxEUW9OQ21OemNtWTlZM055Wmk1ck1EQXRkMjl5YTJac2IzY3VNU1p2Ym1VOUpUSTFNa1lySlRKQ0puUjNiejFVVjA4PSIsICJib2R5X2Jhc2U2NCI6ICJZM055WmoxamMzSm1MbXN3TUMxM2IzSnJabXh2ZHk0eEptOXVaVDBsTWpVeVJpc2xNa0ltZEhkdlBWUlhUdz09In0sICJhY3Rpb25fY291bnQiOiAxLCAiY29va2llX29rIjogdHJ1ZSwgInRva2VuX29rIjogdHJ1ZX0=",
+    "seconds": 0.039915,
+    "json": {
+      "request": {
+        "sequence": 1813,
+        "time_ns": 1793306841836828300,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/check",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "46"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2sgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29va2llOiBzaWQ9c2lkLmswMC13b3JrZmxvdy4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDYNCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9Y3NyZi5rMDAtd29ya2Zsb3cuMSZvbmU9JTI1MkYrJTJCJnR3bz1UV08=",
+        "body_base64": "Y3NyZj1jc3JmLmswMC13b3JrZmxvdy4xJm9uZT0lMjUyRislMkImdHdvPVRXTw=="
+      },
+      "action_count": 1,
+      "cookie_ok": true,
+      "token_ok": true
+    }
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 1,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 1812,
+        "time_ns": 1793306841822400100,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "21"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvb2tpZTogc2lkPXNpZC5rMDAtd29ya2Zsb3cuMQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDIxDQpDb25uZWN0aW9uOiBjbG9zZQ0KDQpvbmU9JTI1MkYrJTJCJnR3bz1UV08=",
+        "body_base64": "b25lPSUyNTJGKyUyQiZ0d289VFdP"
+      },
+      {
+        "sequence": 1813,
+        "time_ns": 1793306841836828300,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/check",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "46"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2sgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29va2llOiBzaWQ9c2lkLmswMC13b3JrZmxvdy4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDYNCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9Y3NyZi5rMDAtd29ya2Zsb3cuMSZvbmU9JTI1MkYrJTJCJnR3bz1UV08=",
+        "body_base64": "Y3NyZj1jc3JmLmswMC13b3JrZmxvdy4xJm9uZT0lMjUyRislMkImdHdvPVRXTw=="
+      }
+    ],
+    "session": [
+      "sid.k00-workflow.1",
+      "csrf.k00-workflow.1"
+    ]
+  },
+  "transport_error": null,
+  "source_on_disk_sha256": "0dc376e392475fb1845d4b92a2006cd4ee36dd6fe1568e9c5057491a6d807371",
+  "note": "Loaded Burp source hash and UI settings require separate confirmation."
+}

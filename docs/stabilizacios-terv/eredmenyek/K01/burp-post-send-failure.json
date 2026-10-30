@@ -1,0 +1,145 @@
+{
+  "kind": "external-burp-transport-failure-scenario",
+  "scenario": "post-send-failure",
+  "passed": true,
+  "checks": {
+    "action_once": true,
+    "only_expected_operation": true,
+    "no_checkpage_or_original_forwarded": true,
+    "terminal_drop_observed": true
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 1,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 1820,
+        "time_ns": 1793308787362451900,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/accept-then-close",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "21"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvYWNjZXB0LXRoZW4tY2xvc2UgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29va2llOiBzaWQ9c2lkLmswMC13b3JrZmxvdy4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogMjENCkNvbm5lY3Rpb246IGNsb3NlDQoNCm9uZT0lMjUyRislMkImdHdvPVRXTw==",
+        "body_base64": "b25lPSUyNTJGKyUyQiZ0d289VFdP"
+      }
+    ],
+    "session": [
+      "sid.k00-workflow.1",
+      "csrf.k00-workflow.1"
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Cache-control",
+        "no-cache, no-store"
+      ],
+      [
+        "Pragma",
+        "no-cache"
+      ],
+      [
+        "X-Frame-Options",
+        "DENY"
+      ],
+      [
+        "Content-Type",
+        "text/html; charset=utf-8"
+      ],
+      [
+        "X-Content-Type-Options",
+        "nosniff"
+      ]
+    ],
+    "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+    "seconds": 0.018557
+  },
+  "transport_error": null,
+  "burp_drop_page": true,
+  "observation_samples": [
+    {
+      "seconds": 0.101,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.202,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.304,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.405,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.506,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.608,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.712,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.816,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 0.92,
+      "event_count": 1,
+      "action_count": 1
+    },
+    {
+      "seconds": 1.024,
+      "event_count": 1,
+      "action_count": 1
+    }
+  ],
+  "client_timed_out": false,
+  "source_on_disk_sha256": "3bf88a21442683c6135895125aac49ac09bd52a31be13b9ff75daaf8fcdfb111",
+  "note": "UI setup and loaded revision must be confirmed separately. No client retries."
+}

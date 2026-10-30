@@ -1,0 +1,497 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index c74b4cf..b001930 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -12,7 +12,7 @@ from java.awt import (
+ )
+ from java.awt.event import MouseAdapter
+ from java.util.regex import Pattern
+-from java.lang import Integer
++from java.lang import Integer, Exception as JavaException
+ 
+ import threading, time, traceback, re
+ 
+@@ -40,6 +40,85 @@ DISPLAY_FILTER_FIELDS = (
+     "ResponseContent",
+ )
+ 
++class HttpSendResult(object):
++    """A completed synchronous API call; attempted does not prove delivery."""
++    def __init__(self, attempted=False, response_bytes=None, error_code=None, error_type=None):
++        self.attempted = attempted
++        self.response_bytes = response_bytes
++        self.error_code = error_code
++        self.error_type = error_type
++
++
++class HttpRequestSender(object):
++    """Choose an API before sending and normalize its response without retries."""
++    def __init__(self, callbacks, helpers):
++        self.callbacks = callbacks
++        self.helpers = helpers
++        self.api_kind = None
++        self.detection_error = None
++        try:
++            signatures = []
++            for method in callbacks.getClass().getMethods():
++                if method.getName() == "makeHttpRequest":
++                    signatures.append(tuple(str(p.getName()) for p in method.getParameterTypes()))
++            if ("burp.IHttpService", "[B") in signatures:
++                self.api_kind = "service"
++            elif ("java.lang.String", "int", "boolean", "[B") in signatures:
++                self.api_kind = "legacy"
++        except (Exception, JavaException) as error:
++            self.detection_error = type(error).__name__
++
++    def _is_response_bytes(self, value):
++        if isinstance(value, (bytes, bytearray)):
++            return True
++        if getattr(value, "typecode", None) == "b":
++            return True
++        try:
++            return value.getClass().getName() == "[B"
++        except (Exception, JavaException):
++            return False
++
++    def send(self, host, port, https, request_bytes):
++        if self.api_kind is None:
++            return HttpSendResult(error_code="HTTP_API_UNAVAILABLE", error_type=self.detection_error)
++        attempted = False
++        try:
++            if self.api_kind == "service":
++                service = self.helpers.buildHttpService(host, int(port), "https" if https else "http")
++                attempted = True
++                response_object = self.callbacks.makeHttpRequest(service, request_bytes)
++                response = response_object.getResponse() if response_object is not None else None
++            else:
++                target_port = int(port)
++                attempted = True
++                response = self.callbacks.makeHttpRequest(host, target_port, bool(https), request_bytes)
++            if response is None:
++                return HttpSendResult(attempted=True, error_code="HTTP_NO_RESPONSE")
++            if not self._is_response_bytes(response):
++                return HttpSendResult(attempted=True, error_code="HTTP_INVALID_RESPONSE")
++            if len(response) == 0:
++                return HttpSendResult(attempted=True, error_code="HTTP_NO_RESPONSE")
++            return HttpSendResult(attempted=True, response_bytes=response)
++        except (Exception, JavaException) as error:
++            return HttpSendResult(attempted=attempted, error_code="HTTP_SEND_FAILED",
++                                  error_type=type(error).__name__)
++
++
++class ProxyWorkflowResult(object):
++    """Separate an unchanged request from failures before or after a send."""
++    NO_MATCH = "no_match"
++    READY = "ready"
++    ERROR_BEFORE_SEND = "error_before_send"
++    ERROR_AFTER_SEND = "error_after_send"
++
++    def __init__(self, status, request_bytes=None, workflow_id=None, error_code=None, error_type=None):
++        self.status = status
++        self.request_bytes = request_bytes
++        self.workflow_id = workflow_id
++        self.error_code = error_code
++        self.error_type = error_type
++
++
+ class LogEntry(object):
+     def __init__(self, index, ts, host, method, path,
+                  status, total_len, body_len, messageInfo):
+@@ -601,6 +680,9 @@ class LoggerUI(ITab):
+         self.controller = controller
+         self.msgEditor = msgEditor
+         self.callbacks_ref = callbacks_ref
++        self._http_sender = None
++        self._workflow_lock = threading.Lock()
++        self._workflow_counter = 0
+         self._suspend_selection_events = False
+ 
+         #------------------NEW---------------------------
+@@ -2082,6 +2164,24 @@ class LoggerUI(ITab):
+                 print("[CSRFUpdate] ERROR:", e)
+ 
+ 
++    def _send_http_request(self, host, port, https, request_bytes):
++        if self._http_sender is None:
++            self._http_sender = HttpRequestSender(self.callbacks, self.helpers)
++        return self._http_sender.send(host, port, https, request_bytes)
++
++    def _template_preflight_error(self, template_bytes):
++        if template_bytes is None or len(template_bytes) == 0:
++            return "EMPTY"
++        try:
++            text = self.helpers.bytesToString(template_bytes)
++            first_line = text.split("\n", 1)[0].rstrip("\r")
++            parts = first_line.split()
++            if len(parts) != 3 or not parts[2].startswith("HTTP/"):
++                return "INVALID"
++        except (Exception, JavaException):
++            return "INVALID"
++        return None
++
+     def _follow_redirects_chain(self, initial_request_bytes, initial_response_bytes, initial_target_host, initial_target_port, initial_https, max_redirects=10):
+         """
+         V4: simple, robust redirect-follow implementation.
+@@ -2324,39 +2424,15 @@ class LoggerUI(ITab):
+                     print("[inject cookies into the new request if cookie auto-update is enabled] ERROR: %s" % str(e))
+                     pass
+ 
+-                # send via Burp callbacks
++                # Send once using the API selected before any network attempt.
+                 try:
+-                    # prefer buildHttpService + makeHttpRequest
+-                    try:
+-                        svc = self.helpers.buildHttpService(new_host, int(new_port), "https" if scheme.lower()=="https" else "http")
+-                        resp_obj = self.callbacks.makeHttpRequest(svc, new_req_bytes)
+-                    except Exception:
+-                        resp_obj = None
+-                        try:
+-                            resp_obj = self.callbacks.makeHttpRequest(new_host, int(new_port), bool(scheme.lower()=="https"), new_req_bytes)
+-                        except:
+-                            resp_obj = None
+-
+-                    if not resp_obj:
+-                        return _to_pybytes(current_resp)
+-
+-                    # poll for response bytes
+-                    new_resp = None
+-                    attempts = 20
+-                    for _ in range(attempts):
+-                        try:
+-                            new_resp = resp_obj.getResponse()
+-                        except:
+-                            new_resp = None
+-                        if new_resp:
+-                            break
+-                        time.sleep(0.08)
+-
+-                    if not new_resp:
++                    sent = self._send_http_request(new_host, new_port, scheme.lower() == "https", new_req_bytes)
++                    if sent.error_code:
++                        print("[BoberProxy redirect] %s (%s)" % (sent.error_code, sent.error_type or "no detail"))
+                         return _to_pybytes(current_resp)
+ 
+                     # update loop state and continue
+-                    current_resp = new_resp
++                    current_resp = sent.response_bytes
+                     current_req = new_req_bytes
+                     current_host = new_host
+                     current_port = new_port
+@@ -2642,18 +2718,14 @@ class LoggerUI(ITab):
+ 
+ 
+     def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https):
+-        """
+-        Main proxy-side mini-workflow.
+-        Input: raw_request_bytes from intercepted proxy message.
+-        Returns: (final_request_bytes, target_host, target_port, target_https, final_request_text, fallback_resp)
+-        If something fails or no payload found -> returns (None, None, None, None, None, fallback_resp)
+-        """
+-        # fallback response (kept for compatibility though proxy branch returns bytes only)
+-        fallback_resp = None
+-
++        """Return an explicit result, preserving whether a send was attempted."""
++        with self._workflow_lock:
++            self._workflow_counter += 1
++            workflow_id = self._workflow_counter
++        sent_or_uncertain = False
+         try:
+             if not raw_request_bytes:
+-                return (None)
++                return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH, workflow_id=workflow_id)
+ 
+             # decode safely for parsing
+             try:
+@@ -2713,141 +2785,78 @@ class LoggerUI(ITab):
+ 
+             # --- If no payloads at all, do not interfere (let proxy forward original) ---
+             if not incoming_payload1 and not incoming_payload2:
+-                return (None)
+-
++                return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH, workflow_id=workflow_id)
+ 
+-            # --- Build Request Template request bytes (do not send it yet) ---
+-            try:
+-                request_bytes = self.build_request_from_template(
+-                    get_editor_message=lambda: self.reqTemplateEditor.getMessage() if hasattr(self, "reqTemplateEditor") else None,
+-                    helpers=self.helpers,
+-                    cookie_manager=self.cookieManager,
+-                    csrf_manager=self.csrfManager,
+-                    auto_update_cookies=getattr(self, "autoUpdateCookies", False),
+-                    auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
+-                    normalize_func=None,
+-                    custom_status_setter=lambda s: None,
+-                    incoming_payload1=incoming_payload1,
+-                    incoming_payload2=incoming_payload2,
+-                    fallback_resp=fallback_resp
+-                )
+-            except Exception as e:
+-                try:
+-                    print("proxy_flow_process_request: request template build failed:", e)
+-                except:
+-                    pass
+-                return (None)
+-
+-            if not request_bytes:
+-                return (None)
+-
+-
+-            # If CheckPage NOT used: return the request template as final
++            # Capture both templates before any user code or network operation.
+             try:
+                 use_cpt = bool(getattr(self, "useCheckPageTemplate", False)) or bool(getattr(self, "checkPageTemplateCheckbox", False) and self.checkPageTemplateCheckbox.isSelected())
+             except:
+                 use_cpt = False
+-
++            request_template = self.reqTemplateEditor.getMessage()
++            template_error = self._template_preflight_error(request_template)
++            if template_error:
++                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
++                                           error_code="RT_TEMPLATE_" + template_error)
++            check_template = None
++            if use_cpt:
++                check_template = self.checkPageEditor.getMessage()
++                template_error = self._template_preflight_error(check_template)
++                if template_error:
++                    return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
++                                               error_code="CP_TEMPLATE_" + template_error)
++
++            request_bytes = self.build_request_from_template(
++                get_editor_message=lambda: request_template,
++                helpers=self.helpers, cookie_manager=self.cookieManager, csrf_manager=self.csrfManager,
++                auto_update_cookies=getattr(self, "autoUpdateCookies", False),
++                auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
++                normalize_func=None, custom_status_setter=lambda s: None,
++                incoming_payload1=incoming_payload1, incoming_payload2=incoming_payload2,
++                fallback_resp=None)
++            if not request_bytes:
++                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
++                                           error_code="RT_BUILD_FAILED")
+             if not use_cpt:
+-                return (request_bytes)
+-
+-            target_host = orig_host
+-            target_port = orig_port
+-            target_https = orig_https
+-
+-            # --- ELSE: CheckPage is used -> we must run the small internal flow:
+-            # 1) send the Request Template (so we can update cookies/csrf and follow redirects if requested)
+-            # 2) build the CheckPage request using updated state
+-            resp_obj = None
+-            try:
+-                # build service & send (prefer buildHttpService + makeHttpRequest)
+-                try:
+-                    svc = self.helpers.buildHttpService(target_host, int(target_port), "https" if target_https else "http")
+-                    # mark_request_as_workflow_generated is not required in the new flow
+-                    resp_obj = self.callbacks.makeHttpRequest(svc, request_bytes)
+-                except Exception:
+-                    # fallback older API
+-                    try:
+-                        resp_obj = self.callbacks.makeHttpRequest(target_host, int(target_port), bool(target_https), request_bytes)
+-                    except Exception as e:
+-                        resp_obj = None
+-                        try:
+-                            print("proxy_flow_process_request: makeHttpRequest failed:", e)
+-                        except:
+-                            pass
+-
+-                # poll for response bytes
+-                response_bytes = None
+-                if resp_obj:
+-                    attempts = 20
+-                    sleep_s = 0.08
+-                    for _ in range(attempts):
+-                        try:
+-                            response_bytes = resp_obj.getResponse()
+-                        except Exception:
+-                            response_bytes = None
+-                        if response_bytes:
+-                            break
+-                        time.sleep(sleep_s)
+-            except Exception as e:
+-                try:
+-                    print("proxy_flow_process_request: sending request-template failed:", e)
+-                except:
+-                    pass
+-                response_bytes = None
+-
+-            # If we couldn't get response, we still can attempt to build CheckPage (best-effort) OR abort
+-            if response_bytes:
+-                # update cookie manager / csrf from response if options enabled
+-                self._update_cookies_and_csrf(response_bytes)
+-
+-                # optionally follow redirects for request template if user requested it (allowed when CheckPage active)
+-                try:
+-                    if self.autoFollowRTChk.isEnabled():
+-                        print("autoFollowRTChk:", self.autoFollowRTChk.isEnabled())
+-                        # attempt to follow redirect chain using helper (reuse existing logic if present)
+-                        try:
+-                            final_bytes = self._follow_redirects_chain(request_bytes, response_bytes, target_host, target_port, target_https, max_redirects=10)
+-                            if final_bytes:
+-                                response_bytes = final_bytes
+-                        except:
+-                            pass
+-                except:
+-                    pass
+-
+-            # --- Build CheckPage request now, using updated cookie/csrf state and outgoing payloads ---
+-            try:
+-                cp_bytes = self.build_checkpage_request(incoming_payload1=incoming_payload1, incoming_payload2=incoming_payload2)
+-            except Exception as e:
+-                try:
+-                    print("proxy_flow_process_request: build_checkpage_request failed:", e)
+-                except:
+-                    pass
+-                cp_bytes = None
+-
++                return ProxyWorkflowResult(ProxyWorkflowResult.READY, request_bytes, workflow_id)
++
++            # Conservatively retain uncertainty if an unexpected sender error escapes.
++            sent_or_uncertain = True
++            sent = self._send_http_request(orig_host, orig_port, orig_https, request_bytes)
++            sent_or_uncertain = sent.attempted
++            if sent.error_code:
++                status = ProxyWorkflowResult.ERROR_AFTER_SEND if sent.attempted else ProxyWorkflowResult.ERROR_BEFORE_SEND
++                return ProxyWorkflowResult(status, workflow_id=workflow_id,
++                                           error_code=sent.error_code, error_type=sent.error_type)
++
++            response_bytes = sent.response_bytes
++            self._update_cookies_and_csrf(response_bytes)
++            # Selection semantics and redirect state handling are addressed in K03.
++            if self.autoFollowRTChk.isEnabled():
++                self._follow_redirects_chain(request_bytes, response_bytes, orig_host, orig_port, orig_https, max_redirects=10)
++
++            cp_bytes = self.build_checkpage_request(incoming_payload1=incoming_payload1,
++                                                    incoming_payload2=incoming_payload2,
++                                                    template_bytes=check_template)
+             if not cp_bytes:
+-                # fallback -> use the request template
+-                return (request_bytes)
+-
+-            # success: return the CheckPage request as the final request to give to the proxy
+-            return (cp_bytes)
+-
+-        except Exception as e:
+-            try:
+-                print("proxy_flow_process_request top-level exception:", e)
+-            except:
+-                pass
+-            return (None)
+-
+-    def build_checkpage_request(self, incoming_payload1="", incoming_payload2=""):
++                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
++                                           error_code="CP_BUILD_FAILED")
++            return ProxyWorkflowResult(ProxyWorkflowResult.READY, cp_bytes, workflow_id)
++        except (Exception, JavaException) as error:
++            status = ProxyWorkflowResult.ERROR_AFTER_SEND if sent_or_uncertain else ProxyWorkflowResult.ERROR_BEFORE_SEND
++            return ProxyWorkflowResult(status, workflow_id=workflow_id,
++                                       error_code="WORKFLOW_FAILED", error_type=type(error).__name__)
++
++    def build_checkpage_request(self, incoming_payload1="", incoming_payload2="", template_bytes=None):
+         """
+         Build CheckPage request bytes from the CheckPage editor/template.
+-        Returns (request_bytes, forced_https_flag, final_request_text) or (None,None,None) on failure.
++        Returns request bytes or None on failure; an optional captured template avoids rereading the editor.
+         """
+         try:
+             # get editor content
+             try:
+-                editor_msg = self.checkPageEditor.getMessage() if hasattr(self, "checkPageEditor") else None
++                editor_msg = template_bytes
++                if editor_msg is None:
++                    editor_msg = self.checkPageEditor.getMessage() if hasattr(self, "checkPageEditor") else None
+             except:
+                 editor_msg = None
+ 
+@@ -2911,7 +2920,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
+         except Exception as e:
+             print("registerProxyListener failed (ignored):", e)
+ 
+-        print("BoberProxy loaded")
++        print("BoberProxy loaded (stabilization K01)")
+ 
+ 
+     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
+@@ -2972,6 +2981,16 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
+             print("processHttpMessage error:", e)
+ 
+ 
++    def _report_workflow_error(self, result):
++        message = "[BoberProxy workflow %s] %s" % (result.workflow_id, result.error_code)
++        if result.error_type:
++            message += " (%s)" % result.error_type
++        print(message)
++        try:
++            swing.SwingUtilities.invokeLater(lambda: self.ui._log(message))
++        except (Exception, JavaException):
++            pass
++
+     def processProxyMessage(self, messageIsRequest, interceptedMessage):
+         """
+         Proxy listener: single-entry request-branch implementation.
+@@ -3041,40 +3060,38 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
+ 
+             # run the unified proxy-workflow on this raw request (implemented on UI)
+             try:
+-                final_req = self.ui.proxy_flow_process_request(raw_req, orig_host, orig_port, orig_https)
+-            except Exception as e:
+-                # on any internal error, let Burp forward the original request
+-                try:
+-                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+-                except:
+-                    pass
+-                try:
+-                    print("processProxyMessage: proxy_flow_process_request exception:", e)
+-                except:
+-                    pass
++                result = self.ui.proxy_flow_process_request(raw_req, orig_host, orig_port, orig_https)
++            except (Exception, JavaException) as error:
++                # An unclassified failure cannot prove that nothing was sent.
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
++                print("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE (%s)" % type(error).__name__)
+                 return
+ 
+-            # If the workflow decided not to replace the request, let it pass unchanged
+-            if not final_req:
+-                try:
+-                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+-                except:
+-                    pass
++            if not isinstance(result, ProxyWorkflowResult):
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
++                print("[BoberProxy] WORKFLOW_INVALID_RESULT")
++                return
++            if result.status in (ProxyWorkflowResult.ERROR_BEFORE_SEND, ProxyWorkflowResult.ERROR_AFTER_SEND):
++                action = (interceptedMessage.ACTION_DROP if result.status == ProxyWorkflowResult.ERROR_AFTER_SEND
++                          else interceptedMessage.ACTION_DONT_INTERCEPT)
++                interceptedMessage.setInterceptAction(action)
++                self._report_workflow_error(result)
++                return
++            if result.status == ProxyWorkflowResult.NO_MATCH:
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
++                return
++            if result.status != ProxyWorkflowResult.READY or not result.request_bytes:
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
++                print("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
+                 return
+ 
+             # Replace the proxy's request with our final request and let Burp forward it
+             try:
+-                msg_info.setRequest(final_req)
++                msg_info.setRequest(result.request_bytes)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+-            except Exception as e:
+-                try:
+-                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+-                except:
+-                    pass
+-                try:
+-                    print("processProxyMessage: setRequest/setAction failed:", e)
+-                except:
+-                    pass
++            except (Exception, JavaException) as error:
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
++                print("[BoberProxy] PROXY_REPLACE_FAILED (%s)" % type(error).__name__)
+             return
+ 
+         except Exception as e:

@@ -1,0 +1,2 @@
+# HTTP fixtures must retain their exact CRLF bytes on every checkout.
+fixtures/*.http -text

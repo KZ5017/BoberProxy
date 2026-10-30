@@ -1,0 +1,8 @@
+POST /workflow/check HTTP/1.1
+Host: 127.0.0.1:18765
+X-Bober-Test-Run: k00-workflow
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 51
+Connection: close
+
+csrf=c5rfm4rk3r&one=p4yl04dm4rk3r&two=53c0undm4rk3r

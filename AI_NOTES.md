@@ -1,0 +1,89 @@
+# AI_NOTES.md
+
+## Stabilization Work In Progress (2026-10-29)
+
+- The user authorized execution of the [stabilization plan](docs/stabilizacios-terv/README.md). K00 and K01 are recorded as complete in the tested environment; K02 has not started. The running Burp has K01 loaded.
+- Reusable helpers now exist under [tests/stabilization](tests/stabilization/README.md). The original snapshot below is historical.
+- The archived K00 CPython/Jython baseline has 10 passing compatibility cases and 14 known defects. The current [K01 candidate](docs/stabilizacios-terv/eredmenyek/K01/README.md) has 51 cases: 39 passing and 12 remaining known defects on both runtimes. P02/P04 are now passing regressions; expected failures are not fixed acceptance cases.
+- The user confirmed Burp Community loading and the request/response viewer. Real passive, Request Template, cookie/CSRF-enabled CheckPage, and two-call custom pass-through traffic succeeded against the loopback fixture.
+- K01 real failure traffic also passed: empty CheckPage preflight, controlled post-build failure, and connection-close-after-acceptance each have target-side counters and explicit terminal outcomes. Burp may return its extension-drop error page with HTTP 200; status alone is not success.
+- K01 source SHA-256 is `3BF88A21442683C6135895125AAC49AC09BD52A31BE13B9FF75DAAF8FCDFB111`; its source-only patch is archived with the K01 results. The user requested a Git commit/push checkpoint of K00/K01, including the plan, test helpers and evidence. See the K01 result page for the exact current UI state before sending further requests.
+- Current results, incomplete checks, and active manual configuration requests are tracked in the [K00 evidence](docs/stabilizacios-terv/eredmenyek/K00/README.md) and [execution log](docs/stabilizacios-terv/05-vegrehajtasi-naplo.md). Read these before sending traffic: proxy/UI settings change between scenarios.
+- The fixture listens only on `127.0.0.1:18765`; Burp listens on `127.0.0.1:8080`. Generated runtime captures are ignored by Git. Do not auto-repeat a request after uncertain delivery.
+- Use exact visible checkbox/editor labels in requests to the user (for example `Use CheckPageTemplate` and `Injecting proxy from templates`), not unexplained `CP` or `atiras` shorthand. Keep manual setup requests focused.
+
+## Snapshot
+
+Repository snapshot reviewed on 2026-05-08.
+
+Observed top-level files:
+
+- `BoberProxy.py`
+- `README.md`
+- `AGENTS.md`
+- `AI_NOTES.md`
+- `CHANGELOG.md`
+
+No packaging files, dependency manifests, or automated tests were present at review time.
+
+## High-Confidence Understanding
+
+- This is a Burp Suite extension implemented as a single Jython-oriented Python file.
+- The extension registers Burp listeners and adds a custom UI tab.
+- Core behaviors appear to include logging, filtering, request templating, cookie handling, CSRF extraction, redirect following, and custom payload transformation.
+
+## Assumptions
+
+- Assumption: `BoberProxy.py` is the intended extension file to load in Burp.
+- Assumption: The runtime target is Jython 2.7.x or a very similar compatibility layer.
+- Assumption: The project is maintained through manual testing in Burp rather than automated CI.
+- Assumption: The current repository is intentionally minimal, not accidentally incomplete.
+
+## Unverified Items
+
+- Unverified: the extension loads successfully in the current Burp + Jython environment
+- Unverified: the README setup instructions are fully current
+- Unverified: the custom code execution timeout and thread behavior are stable under real load
+- Unverified: request rewriting behaves correctly for all content types and parameter layouts
+- Unverified: redirect-following behavior preserves all headers needed in real workflows
+- Unverified: there are no external local files normally used during development but absent from this repo
+
+## Notable Risks
+
+- Single-file architecture means small edits can have broad side effects.
+- Many broad exception handlers may hide errors and make regressions hard to spot.
+- The custom code path uses `exec(...)`, which is powerful but operationally risky.
+- UI code and network workflow logic are tightly coupled inside `LoggerUI`.
+- The README references `BoberProxy_final_v1.py`, but that file is not present in the repository.
+
+## Suggested Safe Validation Strategy
+
+- Prefer documentation changes first, then narrowly scoped code changes.
+- When code edits begin, validate extension load in Burp before deeper functional testing.
+- Test proxy-off behavior separately from proxy-on templating behavior.
+- Test cookie and CSRF updates on both response interception and internal redirect/request flows.
+- Exercise the custom codeblock path with both valid and intentionally failing user code.
+
+## Next Steps
+
+1. Confirm the intended extension filename and decide whether the README mismatch should be corrected later.
+2. Verify the expected runtime matrix: Burp version, Jython version, and whether Python 2 syntax is a hard requirement.
+3. Run a manual smoke test in Burp covering load, UI render, passive logging, and proxy toggle behavior.
+4. If active development continues, consider carving out a few behavior-focused notes or pseudo-tests for cookies, CSRF extraction, and template rewriting.
+5. If maintainability becomes a goal, plan a staged refactor that separates UI, request building, and state managers without changing behavior first.
+
+## Pointers Into The Code
+
+- Entry point: `BoberProxy.py` `BurpExtender.registerExtenderCallbacks(...)`
+- UI hub: `BoberProxy.py` `LoggerUI`
+- Proxy rewrite workflow: `BoberProxy.py` `proxy_flow_process_request(...)`
+- Request template construction: `BoberProxy.py` `build_request_from_template(...)`
+- User transform execution: `BoberProxy.py` `run_user_code(...)`
+- Redirect logic: `BoberProxy.py` `_follow_redirects_chain(...)`
+
+## Change Policy For Future AI Contributors
+
+- Do not assume modern Python tooling exists here.
+- Do not rewrite large portions of `BoberProxy.py` without a behavior-preserving plan.
+- Clearly label assumptions in any future handoff note or PR-style summary.
+- If adding tests later, keep them clearly separated from the Burp/Jython runtime path.

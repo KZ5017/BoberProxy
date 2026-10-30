@@ -1,0 +1,19 @@
+{
+  "table_errors": [], 
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "standalone-full-jython-import-with-real-burp-api", 
+  "not_in_application": true, 
+  "checks": {
+    "real_swing_model_sort": true, 
+    "java_bytes_csrf": true, 
+    "java_bytes_cookie": true, 
+    "extends_burp": true, 
+    "proxy_listener": true, 
+    "http_listener": true
+  }, 
+  "standalone_bootstrap": "Concrete javax.swing.JTable/TableRowSorter preimports", 
+  "java_vendor": "Oracle Corporation", 
+  "source_sha256": "0dc376e392475fb1845d4b92a2006cd4ee36dd6fe1568e9c5057491a6d807371", 
+  "java_version": "26.0.2", 
+  "passed": true
+}
