@@ -1,0 +1,144 @@
+{
+  "kind": "external-burp-k03-action-listeners",
+  "scenario": "response-drop",
+  "mode": "extension-off",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": false,
+  "checks": {
+    "no_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "prior_request_action_preserved": true,
+    "response_listener_pair": true,
+    "prior_response_drop_preserved": false,
+    "request_once": true,
+    "terminal_drop": false
+  },
+  "observed": {
+    "run": "k03-action-45b0264e6546",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 7,
+        "time_ns": 1793389170846786000,
+        "run": "k03-action-45b0264e6546",
+        "method": "GET",
+        "target": "/echo?case=response-drop",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-45b0264e6546"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "response-drop"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9cmVzcG9uc2UtZHJvcCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY2DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDMtYWN0aW9uLTQ1YjAyNjRlNjU0Ng0KWC1Cb2Jlci1LMDMtUHJvYmU6IHJlc3BvbnNlLWRyb3ANCg0K",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "567"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDcsICJ0aW1lX25zIjogMTc5MzM4OTE3MDg0Njc4NjAwMCwgInJ1biI6ICJrMDMtYWN0aW9uLTQ1YjAyNjRlNjU0NiIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz9jYXNlPXJlc3BvbnNlLWRyb3AiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY2Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDMtYWN0aW9uLTQ1YjAyNjRlNjU0NiJdLCBbIlgtQm9iZXItSzAzLVByb2JlIiwgInJlc3BvbnNlLWRyb3AiXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAyTmhjMlU5Y21WemNHOXVjMlV0WkhKdmNDQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkyRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURNdFlXTjBhVzl1TFRRMVlqQXlOalJsTmpVME5nMEtXQzFDYjJKbGNpMUxNRE10VUhKdlltVTZJSEpsYzNCdmJuTmxMV1J5YjNBTkNnMEsiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+    "seconds": 0.0252,
+    "json": {
+      "request": {
+        "sequence": 7,
+        "time_ns": 1793389170846786000,
+        "run": "k03-action-45b0264e6546",
+        "method": "GET",
+        "target": "/echo?case=response-drop",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-45b0264e6546"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "response-drop"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9cmVzcG9uc2UtZHJvcCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY2DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDMtYWN0aW9uLTQ1YjAyNjRlNjU0Ng0KWC1Cb2Jlci1LMDMtUHJvYmU6IHJlc3BvbnNlLWRyb3ANCg0K",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=response-drop HTTP/1.1",
+      "reference": 39,
+      "monotonic_ns": 69903528048900,
+      "after": 0,
+      "case": "response-drop"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=response-drop HTTP/1.1",
+      "reference": 39,
+      "monotonic_ns": 69903528896400,
+      "after": 0,
+      "case": "response-drop"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=response-drop HTTP/1.1",
+      "reference": 39,
+      "monotonic_ns": 69903531870900,
+      "after": 3,
+      "case": "response-drop"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=response-drop HTTP/1.1",
+      "reference": 39,
+      "monotonic_ns": 69903532695700,
+      "after": 0,
+      "case": "response-drop"
+    }
+  ],
+  "note": "Before/main/after load order, mode and manual Forward actions require user confirmation; no retries."
+}

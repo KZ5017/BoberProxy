@@ -1,0 +1,218 @@
+{
+  "kind": "external-burp-k03-redirect-workflow",
+  "scenario": "invalid",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": true,
+  "checks": {
+    "no_transport_error": true,
+    "action_once": true,
+    "request_count": true,
+    "redirect_get_count": true,
+    "rt_original_service": true,
+    "rt_raw_body": true,
+    "no_original_forwarded": true,
+    "custom_calls": true,
+    "custom_inputs_preserved": true,
+    "minimal_get_policy": true,
+    "terminal_drop": true,
+    "no_checkpage": true,
+    "no_origin_change": true
+  },
+  "observed": {
+    "18766": {
+      "run": "k03-workflow",
+      "action_count": 1,
+      "event_count": 1,
+      "recent_events": [
+        {
+          "sequence": 53,
+          "time_ns": 1793390840139549700,
+          "run": "k03-workflow",
+          "method": "POST",
+          "target": "/k03/a/start?case=invalid",
+          "headers": [
+            [
+              "Host",
+              "template.invalid:9"
+            ],
+            [
+              "Cookie",
+              "sid=sid.k03-workflow.h1"
+            ],
+            [
+              "User-Agent",
+              "K03-Fixture"
+            ],
+            [
+              "Authorization",
+              "Bearer K03-SYNTHETIC"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k03-workflow"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "25"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1pbnZhbGlkIEhUVFAvMS4xDQpIb3N0OiB0ZW1wbGF0ZS5pbnZhbGlkOjkNCkNvb2tpZTogc2lkPXNpZC5rMDMtd29ya2Zsb3cuaDENClVzZXItQWdlbnQ6IEswMy1GaXh0dXJlDQpBdXRob3JpemF0aW9uOiBCZWFyZXIgSzAzLVNZTlRIRVRJQw0KWC1Cb2Jlci1UZXN0LVJ1bjogazAzLXdvcmtmbG93DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDI1DQpDb25uZWN0aW9uOiBjbG9zZQ0KDQpvbmU9aW52YWxpZCZ0d289JTI1MkYrJTJC",
+          "body_base64": "b25lPWludmFsaWQmdHdvPSUyNTJGKyUyQg==",
+          "tls_version": null
+        }
+      ],
+      "session": [
+        "sid.k03-workflow.1",
+        "csrf.k03-workflow.1"
+      ]
+    },
+    "18767": {
+      "run": "k03-workflow",
+      "action_count": 0,
+      "event_count": 0,
+      "recent_events": [],
+      "session": null
+    },
+    "18768": {
+      "run": "k03-workflow",
+      "action_count": 0,
+      "event_count": 0,
+      "recent_events": [],
+      "session": null
+    }
+  },
+  "custom_records": [
+    {
+      "max_heap_bytes": 17112760320,
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+      "payload1": "invalid",
+      "payload2": "%252F+%2B",
+      "kind": "burp-live-custom-passthrough",
+      "csrf_token": "csrf.k03-workflow.h1",
+      "jython_paths": [
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar\\Lib"
+      ],
+      "java_vendor": "Oracle Corporation",
+      "heap_arguments": [
+        "-XX:MaxRAMPercentage=50"
+      ],
+      "java_version": "26.0.2"
+    }
+  ],
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Cache-control",
+        "no-cache, no-store"
+      ],
+      [
+        "Pragma",
+        "no-cache"
+      ],
+      [
+        "X-Frame-Options",
+        "DENY"
+      ],
+      [
+        "Content-Type",
+        "text/html; charset=utf-8"
+      ],
+      [
+        "X-Content-Type-Options",
+        "nosniff"
+      ]
+    ],
+    "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+    "seconds": 0.022934
+  },
+  "transport_error": null,
+  "observation_samples": [
+    {
+      "seconds": 0.113,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.257,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.361,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.466,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.589,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.712,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.857,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 0.984,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    },
+    {
+      "seconds": 1.107,
+      "counts": {
+        "18766": 1,
+        "18767": 0,
+        "18768": 0
+      }
+    }
+  ],
+  "preceding_state_report": null,
+  "note": "UI selection and loaded main extension confirmed separately. One client request, no automatic retries."
+}

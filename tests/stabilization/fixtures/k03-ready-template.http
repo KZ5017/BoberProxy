@@ -1,0 +1,11 @@
+POST /echo HTTP/1.1
+Host: template.invalid:9
+User-Agent: K03-Fixture
+Authorization: Bearer K03-SYNTHETIC
+X-Bober-Test-Run: k03-workflow
+X-Bober-K03-Probe: active-ready
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 35
+Connection: close
+
+one=p4yl04dm4rk3r&two=53c0undm4rk3r

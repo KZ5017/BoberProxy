@@ -1,0 +1,11 @@
+test_capture_is_exact_including_header_case_and_binary_body (__main__.FixtureWireTests.test_capture_is_exact_including_header_case_and_binary_body) ... ok
+test_connection_close_after_accept_is_counted_once (__main__.FixtureWireTests.test_connection_close_after_accept_is_counted_once) ... ok
+test_control_queries_are_not_application_events (__main__.FixtureWireTests.test_control_queries_are_not_application_events) ... ok
+test_second_fixture_cannot_silently_share_the_same_port (__main__.FixtureWireTests.test_second_fixture_cannot_silently_share_the_same_port) ... ok
+test_session_check_needs_the_action_cookie_and_token (__main__.FixtureWireTests.test_session_check_needs_the_action_cookie_and_token) ... ok
+test_unsupported_chunked_capture_is_explicitly_rejected (__main__.FixtureWireTests.test_unsupported_chunked_capture_is_explicitly_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.533s
+
+OK

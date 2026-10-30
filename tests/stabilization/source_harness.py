@@ -120,6 +120,9 @@ class RequestInfo(object):
     def getBodyOffset(self):
         return self.data.index(as_bytes('\r\n\r\n')) + 4
 
+    def getStatusCode(self):
+        return int(as_text(self.data).split('\r\n', 1)[0].split()[1])
+
     def getUrl(self):
         # The real analyzeRequest(byte[]) overload has no full service URL.
         raise ValueError('Full URL unavailable without HTTP service')
@@ -231,6 +234,8 @@ def load_namespace():
                   'CookieManager', 'LoggerUI', '_exec_in_namespace',
                   'HttpSendResult', 'HttpRequestSender', 'ProxyWorkflowResult', 'BurpExtender'])
     wanted.update(['TemplateBuildError', '_wire_text', '_custom_value', '_extract_raw_payloads'])
+    wanted.update(['RedirectResult', '_monotonic_ms', '_redirect_host_header',
+                   '_redirect_base', '_redirect_destination'])
     starts = list(re.finditer(r'^(?:class|def)\s+(\w+)\b', source, re.M))
     blocks = []
     for i, match in enumerate(starts):
@@ -270,6 +275,9 @@ def load_namespace():
 
     namespace['threading'] = ThreadingBridge
     namespace['_probe_threads'] = real_threads
+    match = re.search(r'^WORKFLOW_TIMEOUT_MS\s*=\s*(\d+)', source, re.M)
+    if match is not None:
+        namespace['WORKFLOW_TIMEOUT_MS'] = int(match.group(1))
     code = compile('\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')
     eval(code, namespace)
     return namespace

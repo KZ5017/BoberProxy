@@ -254,9 +254,11 @@ class Message(object):
 
 
 class Intercepted(object):
-    ACTION_DONT_INTERCEPT = 0
-    ACTION_DROP = 2
-    ACTION_FOLLOW_RULES = 3
+    # Native IInterceptedProxyMessage values, verified by the K03 Burp probe.
+    ACTION_DO_INTERCEPT = 1
+    ACTION_DONT_INTERCEPT = 2
+    ACTION_DROP = 3
+    ACTION_FOLLOW_RULES = 0
 
     def __init__(self):
         self.message = Message()
@@ -267,6 +269,9 @@ class Intercepted(object):
 
     def setInterceptAction(self, value):
         self.action = value
+
+    def getInterceptAction(self):
+        return self.action
 
 
 class ProxyActionTests(SourceCase):

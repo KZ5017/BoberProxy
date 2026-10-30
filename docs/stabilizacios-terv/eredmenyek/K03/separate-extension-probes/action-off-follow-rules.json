@@ -1,0 +1,142 @@
+{
+  "kind": "external-burp-k03-action-listeners",
+  "scenario": "follow-rules",
+  "mode": "extension-off",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": true,
+  "checks": {
+    "no_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "prior_request_action_preserved": true,
+    "successful_reply": true,
+    "request_once": true
+  },
+  "observed": {
+    "run": "k03-action-c7f325088bd0",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 5,
+        "time_ns": 1793389169318575800,
+        "run": "k03-action-c7f325088bd0",
+        "method": "GET",
+        "target": "/echo?case=follow-rules",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-c7f325088bd0"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "follow-rules"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9Zm9sbG93LXJ1bGVzIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjYNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMy1hY3Rpb24tYzdmMzI1MDg4YmQwDQpYLUJvYmVyLUswMy1Qcm9iZTogZm9sbG93LXJ1bGVzDQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "565"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDUsICJ0aW1lX25zIjogMTc5MzM4OTE2OTMxODU3NTgwMCwgInJ1biI6ICJrMDMtYWN0aW9uLWM3ZjMyNTA4OGJkMCIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz9jYXNlPWZvbGxvdy1ydWxlcyIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjYiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswMy1hY3Rpb24tYzdmMzI1MDg4YmQwIl0sIFsiWC1Cb2Jlci1LMDMtUHJvYmUiLCAiZm9sbG93LXJ1bGVzIl1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQMk5oYzJVOVptOXNiRzkzTFhKMWJHVnpJRWhVVkZBdk1TNHhEUXBJYjNOME9pQXhNamN1TUM0d0xqRTZNVGczTmpZTkNrTnZibTVsWTNScGIyNDZJR3RsWlhBdFlXeHBkbVVOQ2xndFFtOWlaWEl0VkdWemRDMVNkVzQ2SUdzd015MWhZM1JwYjI0dFl6ZG1NekkxTURnNFltUXdEUXBZTFVKdlltVnlMVXN3TXkxUWNtOWlaVG9nWm05c2JHOTNMWEoxYkdWekRRb05DZz09IiwgImJvZHlfYmFzZTY0IjogIiJ9fQ==",
+    "seconds": 0.018679,
+    "json": {
+      "request": {
+        "sequence": 5,
+        "time_ns": 1793389169318575800,
+        "run": "k03-action-c7f325088bd0",
+        "method": "GET",
+        "target": "/echo?case=follow-rules",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-c7f325088bd0"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "follow-rules"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9Zm9sbG93LXJ1bGVzIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjYNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMy1hY3Rpb24tYzdmMzI1MDg4YmQwDQpYLUJvYmVyLUswMy1Qcm9iZTogZm9sbG93LXJ1bGVzDQoNCg==",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 37,
+      "monotonic_ns": 69901998916600,
+      "after": 0,
+      "case": "follow-rules"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 37,
+      "monotonic_ns": 69902000470100,
+      "after": 0,
+      "case": "follow-rules"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 37,
+      "monotonic_ns": 69902003643100,
+      "after": 0,
+      "case": "follow-rules"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 37,
+      "monotonic_ns": 69902004891900,
+      "after": 0,
+      "case": "follow-rules"
+    }
+  ],
+  "note": "Before/main/after load order, mode and manual Forward actions require user confirmation; no retries."
+}

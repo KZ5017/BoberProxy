@@ -59,24 +59,8 @@ class SourceCase(unittest.TestCase):
 
 class KnownDefects(SourceCase):
 
-    @unittest.expectedFailure
-    def test_P03_unselected_autofollow_does_not_follow(self):
-        follows = []
-        self.ui._follow_redirects_chain = lambda *a, **kw: follows.append(True)
-        self.workflow()
-        self.assertEqual(follows, [])
 
-    @unittest.expectedFailure
-    def test_P05_relative_redirect_keeps_directory_and_port(self):
-        self.redirect()
-        service, request = self.ui.callbacks.calls[0]
-        self.assertEqual(service, ('demo', 8443, 'https'))
-        self.assertTrue(request.startswith(as_bytes('GET /a/next ')))
 
-    @unittest.expectedFailure
-    def test_P06_last_redirect_response_updates_cookie(self):
-        self.redirect()
-        self.assertEqual(self.ui.cookieManager.jar.get('sid'), 'last')
 
     @unittest.expectedFailure
     def test_P07_deleted_prefix_is_valid_cookie_value(self):
@@ -120,6 +104,22 @@ class KnownDefects(SourceCase):
 
 
 class FixedRegressions(SourceCase):
+    def test_P03_unselected_autofollow_does_not_follow(self):
+        follows = []
+        self.ui._follow_redirects_chain = lambda *a, **kw: follows.append(True)
+        self.workflow()
+        self.assertEqual(follows, [])
+
+    def test_P05_relative_redirect_keeps_directory_and_port(self):
+        self.redirect()
+        service, request = self.ui.callbacks.calls[0]
+        self.assertEqual(service, ('demo', 8443, 'https'))
+        self.assertTrue(request.startswith(as_bytes('GET /a/next ')))
+
+    def test_P06_last_redirect_response_updates_cookie(self):
+        self.redirect()
+        self.assertEqual(self.ui.cookieManager.jar.get('sid'), 'last')
+
     def test_P01_custom_error_preserves_original_diagnostic(self):
         self.ui.custom_codeblock_status = True
         self.ui.run_user_code = lambda *args: (False, None, 'SENTINEL_CUSTOM_ERROR')

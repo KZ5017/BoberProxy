@@ -1,0 +1,122 @@
+{
+  "kind": "external-burp-k03-same-callback-action-instrumentation",
+  "scenario": "manual-both",
+  "mode": "unmatched",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": true,
+  "checks": {
+    "no_unexpected_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "prior_request_action_preserved": true,
+    "successful_reply": true,
+    "request_once": true,
+    "response_intercept_preserved": true
+  },
+  "observed": {
+    "run": "k03-action-af2fb14747dc",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 19,
+        "time_ns": 1793390496046783100,
+        "run": "k03-action-af2fb14747dc",
+        "method": "GET",
+        "target": "/k03/a/next?case=relative&hop=1&run=k03-action-af2fb14747dc",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-af2fb14747dc"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "manual-both"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDMvYS9uZXh0P2Nhc2U9cmVsYXRpdmUmaG9wPTEmcnVuPWswMy1hY3Rpb24tYWYyZmIxNDc0N2RjIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjYNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMy1hY3Rpb24tYWYyZmIxNDc0N2RjDQpYLUJvYmVyLUswMy1Qcm9iZTogbWFudWFsLWJvdGgNCg0K",
+        "body_base64": "",
+        "tls_version": null
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "74"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Set-Cookie",
+        "sid=sid.k03-action-af2fb14747dc.h1; Path=/"
+      ],
+      [
+        "Content-Type",
+        "text/html"
+      ]
+    ],
+    "body_base64": "PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJjc3JmLmswMy1hY3Rpb24tYWYyZmIxNDc0N2RjLmgxIj4=",
+    "seconds": 33.009802
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /k03/a/next?case=relative&hop=1&run=k03-action-af2fb14747dc HTTP/1.1",
+      "reference": 49,
+      "monotonic_ns": 71196450235200,
+      "after": 0,
+      "case": "manual-both"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /k03/a/next?case=relative&hop=1&run=k03-action-af2fb14747dc HTTP/1.1",
+      "reference": 49,
+      "monotonic_ns": 71196451288600,
+      "after": 0,
+      "case": "manual-both"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /k03/a/next?case=relative&hop=1&run=k03-action-af2fb14747dc HTTP/1.1",
+      "reference": 49,
+      "monotonic_ns": 71228732111900,
+      "after": 1,
+      "case": "manual-both"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 1,
+      "first_line": "GET /k03/a/next?case=relative&hop=1&run=k03-action-af2fb14747dc HTTP/1.1",
+      "reference": 49,
+      "monotonic_ns": 71228736518800,
+      "after": 1,
+      "case": "manual-both"
+    }
+  ],
+  "stateful_response": true,
+  "expected_cookie": "sid.k03-action-af2fb14747dc.h1",
+  "expected_token": "csrf.k03-action-af2fb14747dc.h1",
+  "note": "Instrumented entry point calls the unchanged main method between before/after traces on the same real message. Mode/Forward require user confirmation; no retries."
+}

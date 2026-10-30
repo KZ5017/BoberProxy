@@ -1,0 +1,15 @@
+{
+  "real_network_tested": false, 
+  "kind": "standalone-wrapper-real-swing-callback-doubles", 
+  "checks": {
+    "no_registration_errors": true, 
+    "real_swing_tab_created": true, 
+    "instrumented_main_preserves_received_drop": true, 
+    "one_proxy_listener": true, 
+    "http_and_proxy_share_real_main": true
+  }, 
+  "source_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370", 
+  "passed": true, 
+  "native_probe_deliberately_stubbed": true, 
+  "errors": []
+}

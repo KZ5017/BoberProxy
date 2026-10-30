@@ -1,0 +1,8 @@
+test_chain_last_response_and_limit_input_are_distinct (__main__.RedirectFixtureTests.test_chain_last_response_and_limit_input_are_distinct) ... ok
+test_invalid_location_is_not_followed_by_the_fixture (__main__.RedirectFixtureTests.test_invalid_location_is_not_followed_by_the_fixture) ... ok
+test_relative_route_rotates_cookie_and_token_and_counts_only_post (__main__.RedirectFixtureTests.test_relative_route_rotates_cookie_and_token_and_counts_only_post) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.519s
+
+OK

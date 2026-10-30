@@ -1,0 +1,24 @@
+{
+  "source_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "burp_python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_version": "26.0.2",
+  "java_vendor": "Oracle Corporation",
+  "max_heap_bytes": 17112760320,
+  "heap_arguments": [
+    "-XX:MaxRAMPercentage=50"
+  ],
+  "client_python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "workflow_scheduling_budget_ms": 30000,
+  "native_probe_isolated_budget_ms": 100,
+  "tls_versions": [
+    "TLSv1.3"
+  ],
+  "local_certificate_sha256": "962b1ae08fbefbbd8ee051ad2a615c30829817ac851e863abd3b0cf8a909dc3a",
+  "private_test_key": "ignored runtime only; not part of repository evidence",
+  "burp_network_timeout": "Not read or changed; independent Burp setting, not the 30000 ms scheduling budget"
+}

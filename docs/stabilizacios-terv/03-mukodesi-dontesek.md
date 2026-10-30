@@ -28,6 +28,7 @@ A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóáll
 - A válaszok sütigyűjtése és a kézi interception elkerülése külön művelet. Sütigyűjtés önmagában nem indokol interception-felülbírálást.
 - Más proxy listener már módosíthatta a döntést: az eredeti aktuális értéket kell megőrizni, nem minden esetben újra `ACTION_FOLLOW_RULES` értéket beállítani.
 - Kapu: E14 minden kombinációja a tényleges Burpban.
+- K03 megvalósítás: a callbackben ténylegesen kapott akció megmarad passzív/nem illeszkedő kérésnél és válasznál; az aktív READY továbbra is automatikus. A külön legacy extensionök közti adapterállapot átadását a három-extension próba nem igazolta, ezért az instrumentált elfogadás ugyanazon valódi üzenet/callback előtti-utáni állapotát és a tényleges kézi Forwardot méri. Ez nem általános harmadikfél-kompatibilitási ígéret.
 
 ## D04 — Redirect metódus és fejlécek
 
@@ -36,6 +37,7 @@ A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóáll
 - Ez nem általános, szabványhű 307/308 követés. A korlátozást láthatóan dokumentálni kell; nem jelölhető teljes HTTP redirect-kompatibilitásként.
 - Metódus-/body-megőrző mód bevezetése csak külön döntéssel és regressziós esetekkel történhet. Ugyanígy döntendő az Authorization és további fejlécek továbbítása, különösen originváltáskor.
 - A jelenlegi tízes redirectlimit marad, de a limit elérése diagnosztikát kap. Más határérték vagy új UI-opció nem része a hibajavításnak.
+- K03-ban rögzített szabály: minden korábban követett 3xx + Location minimális GET; csak User-Agent és engedélyezett kezelt cookie kerül át, Authorization/body nem. Limit, ciklus és érvénytelen cél belső küldés után explicit DROP. A közös 30000 ms monotón scheduling-keret nem indul újra hoponként, és nem szakítja meg a blokkoló Burp-hívást vagy a Proxy által később küldött CP hálózati várakozását. A Burp hálózati timeoutja külön korlát marad.
 
 ## D05 — Sütitörlés és üres sütiérték
 

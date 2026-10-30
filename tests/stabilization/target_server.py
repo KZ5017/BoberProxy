@@ -9,6 +9,7 @@ import argparse
 import base64
 import json
 import re
+import socket
 import socketserver
 import threading
 import time
@@ -79,6 +80,9 @@ class FixtureState:
 
 
 class FixtureHandler(socketserver.StreamRequestHandler):
+    def handle_extra_route(self, url, method, event, headers, body, run):
+        return False
+
     def respond(self, status: int, body: bytes = b"", headers=()) -> None:
         reasons = {200: "OK", 204: "No Content", 302: "Found", 303: "See Other",
                    307: "Temporary Redirect", 308: "Permanent Redirect",
@@ -163,6 +167,8 @@ class FixtureHandler(socketserver.StreamRequestHandler):
             self.json_response(dict(fixture="BoberProxy-K00", status="ready", port=self.server.server_address[1]))
             return
         event = state.record(run, method, target, headers, raw, body)
+        if self.handle_extra_route(url, method, event, lower, body, run):
+            return
         if url.path in ("/echo", "/entry"):
             self.json_response(dict(request=event))
         elif url.path == "/workflow/action" and method == "POST":
@@ -202,14 +208,21 @@ class FixtureHandler(socketserver.StreamRequestHandler):
 
 
 class FixtureServer(socketserver.ThreadingTCPServer):
-    allow_reuse_address = True
+    # Windows SO_REUSEADDR permits competing listeners on one test port.
+    # A stale fixture must fail loudly instead of serving another revision.
+    allow_reuse_address = not hasattr(socket, 'SO_EXCLUSIVEADDRUSE')
     daemon_threads = True
     block_on_close = True
 
-    def __init__(self, port: int, capture: Path):
+    def server_bind(self):
+        if hasattr(socket, 'SO_EXCLUSIVEADDRUSE'):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+    def __init__(self, port: int, capture: Path, handler_class=FixtureHandler):
         self.state = FixtureState(capture)
         try:
-            super().__init__((HOST, port), FixtureHandler)
+            super().__init__((HOST, port), handler_class)
         except BaseException:
             self.state.close()
             raise

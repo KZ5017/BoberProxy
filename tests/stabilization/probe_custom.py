@@ -10,10 +10,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--directory', type=Path, required=True)
     parser.add_argument('--expect-empty-token', action='store_true')
+    parser.add_argument('--trace', type=Path, help='Optional generated pass-through trace path')
     args = parser.parse_args()
     args.directory.mkdir(parents=True, exist_ok=True)
     base = Path(__file__).resolve().parent
-    trace = base / 'runtime' / 'burp-custom-trace.jsonl'
+    trace = args.trace if args.trace is not None else base / 'runtime' / 'burp-custom-trace.jsonl'
     before = trace.read_text(encoding='utf-8').splitlines() if trace.exists() else []
     result = subprocess.run([sys.executable, '-B', str(base / 'probe_proxy.py'), '--scenario', 'checkpage',
                              '--report', str(args.directory / 'burp-checkpage-custom.json')],

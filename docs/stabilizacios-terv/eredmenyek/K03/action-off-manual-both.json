@@ -1,0 +1,143 @@
+{
+  "kind": "external-burp-k03-same-callback-action-instrumentation",
+  "scenario": "manual-both",
+  "mode": "extension-off",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": true,
+  "checks": {
+    "no_unexpected_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "prior_request_action_preserved": true,
+    "successful_reply": true,
+    "request_once": true,
+    "response_intercept_preserved": true
+  },
+  "observed": {
+    "run": "k03-action-0e031b76c7b2",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 15,
+        "time_ns": 1793389985538913900,
+        "run": "k03-action-0e031b76c7b2",
+        "method": "GET",
+        "target": "/echo?case=manual-both",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-0e031b76c7b2"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "manual-both"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9bWFudWFsLWJvdGggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2Ng0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAzLWFjdGlvbi0wZTAzMWI3NmM3YjINClgtQm9iZXItSzAzLVByb2JlOiBtYW51YWwtYm90aA0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "560"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE1LCAidGltZV9ucyI6IDE3OTMzODk5ODU1Mzg5MTM5MDAsICJydW4iOiAiazAzLWFjdGlvbi0wZTAzMWI3NmM3YjIiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VjaG8/Y2FzZT1tYW51YWwtYm90aCIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjYiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswMy1hY3Rpb24tMGUwMzFiNzZjN2IyIl0sIFsiWC1Cb2Jlci1LMDMtUHJvYmUiLCAibWFudWFsLWJvdGgiXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAyTmhjMlU5YldGdWRXRnNMV0p2ZEdnZ1NGUlVVQzh4TGpFTkNraHZjM1E2SURFeU55NHdMakF1TVRveE9EYzJOZzBLUTI5dWJtVmpkR2x2YmpvZ2EyVmxjQzFoYkdsMlpRMEtXQzFDYjJKbGNpMVVaWE4wTFZKMWJqb2dhekF6TFdGamRHbHZiaTB3WlRBek1XSTNObU0zWWpJTkNsZ3RRbTlpWlhJdFN6QXpMVkJ5YjJKbE9pQnRZVzUxWVd3dFltOTBhQTBLRFFvPSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+    "seconds": 22.936117,
+    "json": {
+      "request": {
+        "sequence": 15,
+        "time_ns": 1793389985538913900,
+        "run": "k03-action-0e031b76c7b2",
+        "method": "GET",
+        "target": "/echo?case=manual-both",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-0e031b76c7b2"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "manual-both"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9bWFudWFsLWJvdGggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2Ng0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAzLWFjdGlvbi0wZTAzMWI3NmM3YjINClgtQm9iZXItSzAzLVByb2JlOiBtYW51YWwtYm90aA0KDQo=",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=manual-both HTTP/1.1",
+      "reference": 45,
+      "monotonic_ns": 70697697463600,
+      "after": 0,
+      "case": "manual-both"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=manual-both HTTP/1.1",
+      "reference": 45,
+      "monotonic_ns": 70697698172700,
+      "after": 0,
+      "case": "manual-both"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=manual-both HTTP/1.1",
+      "reference": 45,
+      "monotonic_ns": 70718223960500,
+      "after": 1,
+      "case": "manual-both"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 1,
+      "first_line": "GET /echo?case=manual-both HTTP/1.1",
+      "reference": 45,
+      "monotonic_ns": 70718225365400,
+      "after": 1,
+      "case": "manual-both"
+    }
+  ],
+  "note": "Instrumented entry point calls the unchanged main method between before/after traces on the same real message. Mode/Forward require user confirmation; no retries."
+}

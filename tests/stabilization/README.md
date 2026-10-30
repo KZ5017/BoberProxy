@@ -1,8 +1,19 @@
 # Stabilizálási tesztkörnyezet
 
+## K03 aktuális kiegészítés (2026-10-30)
+
+- `run_logic.py --suite all`: 99 eset, 93 siker, 6 későbbi ismert hiba CPython/Jython alatt. `--suite redirects` csak a K03 célzott eseteket futtatja. P03/P05/P06 normál regresszió, a proxyakciók helyettesítő konstansai a tényleges Burp API-val egyeznek.
+- `prepare_k03.py`: CRLF-es K03 HTTP-fixture-ök és a generált `runtime/custom-k03-pass-through.py`; kizárólag runtime-ba kerülő helyi TLS-kulcs/tanúsítvány. A gépen lévő OpenSSL kell a generáláshoz; nincs termékkód-módosítás.
+- `target_server_k03.py`: 18766/18767 HTTP és opcionális 18768 TLS loopback cél, hoponként új token/cookie. A minimális GET miatt a tracing run a Location queryjében utazik. `test_k03_fixture.py` ezt fejléc nélküli GET-tel is ellenőrzi. A bázisfixture Windows alatt kizárólagos portfoglalást használ, és külön regresszió tiltja a csendes dupla listenert.
+- `probe_k03_native.py`: natív Jython/interfészek; Burp callbackkel két véges helyi késleltetett kérés a blokkolás és közös keret bizonyítására. Az izolált 100 ms csak a teszt-névtérben él; a fő forrásé 30000 ms marad.
+- `burp_k03_instrumented.py`: ideiglenes entrypoint a változatlan `BoberProxy.py` forráshoz; ugyanazon valódi Proxy callbackben hívja a before/main/after mérési pontokat. `probe_k03_wrapper.py` külön JVM-ben a regisztrációt/native Swinget ellenőrzi callbackhelyettesítőkkel. A végén a wrappert el kell távolítani, és a fő fájlt közvetlenül visszatölteni.
+- `burp_k03_before.py` / `burp_k03_after.py`: az eredeti külön-extension mérés reprodukciója; annak állapotátadási korlátai miatt nem a végső akcióelfogadás eszközei. A nyers próbák megőrzöttek.
+- `probe_k03_actions.py`: egy valódi tagged GET/aktív átírás, vagy két kézi Forward. `--stateful-response` friss sütit/tokent ad, amelyet a következő `probe_k03_redirects.py --case off --state-from-report ...` tényleges RT cookieja és custom tokenje ellenőrizhet. Ezekhez előzetes, konkrét UI-visszaigazolás kell.
+- `probe_k03_redirects.py`: egy kérés/futás az off/relative/chain10/chain11/loop/invalid/cross-port/cross-scheme esetekre. Szerveroldali darabszám, raw body, minimal GET, célservice és trace; nincs automatikus retry. A célkörnyezetet és aktív felületi állapotot a [K03 jegyzőkönyv](../../docs/stabilizacios-terv/eredmenyek/K03/README.md) rögzíti.
+
 ## K02 kiegészítés (2026-10-30)
 
-- `run_logic.py --suite all`: jelenleg 74 eset, 65 siker és 9 külön jelölt, későbbi körben javítandó hiba. P01/P11/P12 már sikeres regresszió. A `--suite templates` a K02 célzott logikát futtatja.
+- K02 zárásakor a `run_logic.py --suite all` 74 esetből 65 sikeres és 9 külön jelölt ismert hibát adott. P01/P11/P12 sikeres regresszió. A `--suite templates` a K02 célzott logikát futtatja.
 - `test_templates.py`: marker-, típus-, Unicode/bájt-, eredeti hibadiagnosztika, nyers paraméterprioritás, framinghiba, két custom hívás és BodyLen=0 ellenőrzés. Helperhelyettesítőkkel fut.
 - `prepare_k02.py`: a Gitben rögzített K01 forrást és az abszolút trace-útvonalú `runtime/custom-k02-cases.py` kódot készíti elő. A `.py.in` nem betöltendő kód.
 - `probe_template_native.py`: külön Jython JVM-ben a valódi forrást és natív Java adattípusokat vizsgálja; a helper ilyenkor helyettesítő. Az API-classpath ugyanaz, mint `probe_jython_import.py` esetén.

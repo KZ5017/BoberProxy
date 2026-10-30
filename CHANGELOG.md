@@ -2,6 +2,9 @@
 
 ## 2026-10-30
 
+- Started K03 at the user's request after the clean `1042978` checkpoint: captured AutoFollow selection, preserved passive Proxy actions, added service-based redirect resolution, once-only response updates, explicit loop/limit/invalid-target outcomes and a shared monotonic scheduling budget. K03 is now closed in the recorded environment.
+- Added K03 logic/native/loopback and action probes. CPython/Jython: 93 passing cases, 6 known later defects. Real blocking API deadline checks pass after correcting fixture tracking and Windows listener exclusivity. The same-real-callback instrumented action matrix, three manual request/response Forward pairs, all eight redirects including local TLSv1.3, and a final direct-entry normal/custom regression pass. Separate-extension action probes retain their topology limitation; no broad third-party listener or HTTP/2 compatibility claim is made.
+
 - Saved and pushed the full K00/K01 checkpoint as `04d6398` on `origin/main` before starting K02.
 - Implemented K02 lossless template conversion, single-pass marker substitution, custom element type validation, original diagnostics through workflow reporting, and zero response body lengths, with blank cells for unknown lengths and native Swing sorting coverage. Raw query/form priorities and send/fallback behavior remain unchanged.
 - Completed K02 in Burp Community 2026.10.1 / Jython 2.7.4 / Java 26.0.2: 65 of 74 cases pass on both runtimes, with 9 later-round defects explicitly retained; 23 actual-helper/native Swing checks and all eight final template traffic scenarios plus five active unmatched byte controls pass. Final reload, pre-/post-send failures, original custom diagnostics, exact request bytes and operation counts are recorded in the K02 evidence. Earlier candidates and the final source-only patch are retained. K03 has not started.

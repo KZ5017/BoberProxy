@@ -1,0 +1,115 @@
+{
+  "note": "The 100 ms budget belongs only to an isolated probe namespace; blocking calls are observed, never claimed interrupted.", 
+  "kind": "in-burp-native-helpers-and-bounded-loopback-api", 
+  "deadline_cases": [
+    {
+      "test_budget_ms": 100, 
+      "observed": {
+        "event_count": 1, 
+        "session": [
+          "sid.k03-budget-5e71096d4711.1", 
+          "csrf.k03-budget-5e71096d4711.1"
+        ], 
+        "run": "k03-budget-5e71096d4711", 
+        "action_count": 1, 
+        "recent_events": [
+          {
+            "headers": [
+              [
+                "Host", 
+                "127.0.0.1:18766"
+              ], 
+              [
+                "X-Bober-Test-Run", 
+                "k03-budget-5e71096d4711"
+              ], 
+              [
+                "Content-Length", 
+                "0"
+              ]
+            ], 
+            "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1zbG93LXJ0IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjYNClgtQm9iZXItVGVzdC1SdW46IGswMy1idWRnZXQtNWU3MTA5NmQ0NzExDQpDb250ZW50LUxlbmd0aDogMA0KDQo=", 
+            "method": "POST", 
+            "body_base64": "", 
+            "run": "k03-budget-5e71096d4711", 
+            "target": "/k03/a/start?case=slow-rt", 
+            "sequence": 1, 
+            "time_ns": 1793388653457989100
+          }
+        ]
+      }, 
+      "production_budget_ms": 30000, 
+      "scenario": "slow-rt", 
+      "elapsed_ms": 209.51360000669956, 
+      "error_code": "WORKFLOW_TIMEOUT", 
+      "cached_token": "csrf.k03-budget-5e71096d4711.h0", 
+      "status": "error_after_send"
+    }, 
+    {
+      "test_budget_ms": 100, 
+      "observed": {
+        "event_count": 1, 
+        "session": [
+          "sid.k03-budget-620696d32f7a.1", 
+          "csrf.k03-budget-620696d32f7a.1"
+        ], 
+        "run": "k03-budget-620696d32f7a", 
+        "action_count": 1, 
+        "recent_events": [
+          {
+            "headers": [
+              [
+                "Host", 
+                "127.0.0.1:18766"
+              ], 
+              [
+                "X-Bober-Test-Run", 
+                "k03-budget-620696d32f7a"
+              ], 
+              [
+                "Content-Length", 
+                "0"
+              ]
+            ], 
+            "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1zbG93LWhvcCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY2DQpYLUJvYmVyLVRlc3QtUnVuOiBrMDMtYnVkZ2V0LTYyMDY5NmQzMmY3YQ0KQ29udGVudC1MZW5ndGg6IDANCg0K", 
+            "method": "POST", 
+            "body_base64": "", 
+            "run": "k03-budget-620696d32f7a", 
+            "target": "/k03/a/start?case=slow-hop", 
+            "sequence": 2, 
+            "time_ns": 1793388653669410800
+          }
+        ]
+      }, 
+      "production_budget_ms": 30000, 
+      "scenario": "slow-hop", 
+      "elapsed_ms": 208.30539999902248, 
+      "error_code": "WORKFLOW_TIMEOUT", 
+      "cached_token": "csrf.untagged.h1", 
+      "status": "error_after_send"
+    }
+  ], 
+  "production_budget_ms": 30000, 
+  "checks": {
+    "ipv6_native_header": true, 
+    "blocking_api_slow-hop": false, 
+    "java_exception_cannot_change_passive_action": true, 
+    "real_helper_redirect_result": true, 
+    "jython_invalid_explicit_port_rejected": true, 
+    "service_directory_port_and_raw_query": true, 
+    "minimal_get_headers_and_cookie": true, 
+    "each_response_updates_once_including_last": true, 
+    "real_interface_prior_action_matrix": true, 
+    "blocking_api_slow-rt": true
+  }, 
+  "source_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "passed": false, 
+  "actual_burp_helpers": true, 
+  "errors": [], 
+  "synthetic_proxy_messages": true
+}

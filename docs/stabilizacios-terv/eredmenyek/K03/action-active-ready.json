@@ -1,0 +1,180 @@
+{
+  "kind": "external-burp-k03-same-callback-action-instrumentation",
+  "scenario": "active-ready",
+  "mode": "active",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": true,
+  "checks": {
+    "no_unexpected_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "guard_before_main": true,
+    "observer_after_main": true,
+    "active_automatic_forward": true,
+    "one_rewritten_request": true,
+    "successful_reply": true,
+    "request_once": true
+  },
+  "observed": {
+    "run": "k03-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 18,
+        "time_ns": 1793390253973828100,
+        "run": "k03-workflow",
+        "method": "POST",
+        "target": "/echo",
+        "headers": [
+          [
+            "Host",
+            "template.invalid:9"
+          ],
+          [
+            "User-Agent",
+            "K03-Fixture"
+          ],
+          [
+            "Authorization",
+            "Bearer K03-SYNTHETIC"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-workflow"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "active-ready"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "21"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogdGVtcGxhdGUuaW52YWxpZDo5DQpVc2VyLUFnZW50OiBLMDMtRml4dHVyZQ0KQXV0aG9yaXphdGlvbjogQmVhcmVyIEswMy1TWU5USEVUSUMNClgtQm9iZXItVGVzdC1SdW46IGswMy13b3JrZmxvdw0KWC1Cb2Jlci1LMDMtUHJvYmU6IGFjdGl2ZS1yZWFkeQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAyMQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPU9ORSZ0d289JTI1MkYrJTJC",
+        "body_base64": "b25lPU9ORSZ0d289JTI1MkYrJTJC"
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "868"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE4LCAidGltZV9ucyI6IDE3OTMzOTAyNTM5NzM4MjgxMDAsICJydW4iOiAiazAzLXdvcmtmbG93IiwgIm1ldGhvZCI6ICJQT1NUIiwgInRhcmdldCI6ICIvZWNobyIsICJoZWFkZXJzIjogW1siSG9zdCIsICJ0ZW1wbGF0ZS5pbnZhbGlkOjkiXSwgWyJVc2VyLUFnZW50IiwgIkswMy1GaXh0dXJlIl0sIFsiQXV0aG9yaXphdGlvbiIsICJCZWFyZXIgSzAzLVNZTlRIRVRJQyJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazAzLXdvcmtmbG93Il0sIFsiWC1Cb2Jlci1LMDMtUHJvYmUiLCAiYWN0aXZlLXJlYWR5Il0sIFsiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJdLCBbIkNvbnRlbnQtTGVuZ3RoIiwgIjIxIl0sIFsiQ29ubmVjdGlvbiIsICJjbG9zZSJdXSwgInJhd19iYXNlNjQiOiAiVUU5VFZDQXZaV05vYnlCSVZGUlFMekV1TVEwS1NHOXpkRG9nZEdWdGNHeGhkR1V1YVc1MllXeHBaRG81RFFwVmMyVnlMVUZuWlc1ME9pQkxNRE10Um1sNGRIVnlaUTBLUVhWMGFHOXlhWHBoZEdsdmJqb2dRbVZoY21WeUlFc3dNeTFUV1U1VVNFVlVTVU1OQ2xndFFtOWlaWEl0VkdWemRDMVNkVzQ2SUdzd015MTNiM0pyWm14dmR3MEtXQzFDYjJKbGNpMUxNRE10VUhKdlltVTZJR0ZqZEdsMlpTMXlaV0ZrZVEwS1EyOXVkR1Z1ZEMxVWVYQmxPaUJoY0hCc2FXTmhkR2x2Ymk5NExYZDNkeTFtYjNKdExYVnliR1Z1WTI5a1pXUU5Da052Ym5SbGJuUXRUR1Z1WjNSb09pQXlNUTBLUTI5dWJtVmpkR2x2YmpvZ1kyeHZjMlVOQ2cwS2IyNWxQVTlPUlNaMGQyODlKVEkxTWtZckpUSkMiLCAiYm9keV9iYXNlNjQiOiAiYjI1bFBVOU9SU1owZDI4OUpUSTFNa1lySlRKQyJ9fQ==",
+    "seconds": 0.031185,
+    "json": {
+      "request": {
+        "sequence": 18,
+        "time_ns": 1793390253973828100,
+        "run": "k03-workflow",
+        "method": "POST",
+        "target": "/echo",
+        "headers": [
+          [
+            "Host",
+            "template.invalid:9"
+          ],
+          [
+            "User-Agent",
+            "K03-Fixture"
+          ],
+          [
+            "Authorization",
+            "Bearer K03-SYNTHETIC"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-workflow"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "active-ready"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "21"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogdGVtcGxhdGUuaW52YWxpZDo5DQpVc2VyLUFnZW50OiBLMDMtRml4dHVyZQ0KQXV0aG9yaXphdGlvbjogQmVhcmVyIEswMy1TWU5USEVUSUMNClgtQm9iZXItVGVzdC1SdW46IGswMy13b3JrZmxvdw0KWC1Cb2Jlci1LMDMtUHJvYmU6IGFjdGl2ZS1yZWFkeQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAyMQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPU9ORSZ0d289JTI1MkYrJTJC",
+        "body_base64": "b25lPU9ORSZ0d289JTI1MkYrJTJC"
+      }
+    }
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /entry?q=ONE&w=%252F+%2B HTTP/1.1",
+      "reference": 48,
+      "monotonic_ns": 70986651008300,
+      "after": 3,
+      "case": "active-ready"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 2,
+      "first_line": "POST /echo HTTP/1.1",
+      "reference": 48,
+      "monotonic_ns": 70986655639600,
+      "after": 2,
+      "case": "active-ready"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "POST /echo HTTP/1.1",
+      "reference": 48,
+      "monotonic_ns": 70986658559300,
+      "after": 0,
+      "case": "active-ready"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 0,
+      "first_line": "POST /echo HTTP/1.1",
+      "reference": 48,
+      "monotonic_ns": 70986659160800,
+      "after": 0,
+      "case": "active-ready"
+    }
+  ],
+  "stateful_response": false,
+  "expected_cookie": null,
+  "expected_token": null,
+  "note": "Instrumented entry point calls the unchanged main method between before/after traces on the same real message. Mode/Forward require user confirmation; no retries."
+}

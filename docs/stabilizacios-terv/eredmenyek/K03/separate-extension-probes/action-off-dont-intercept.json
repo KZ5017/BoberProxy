@@ -1,0 +1,142 @@
+{
+  "kind": "external-burp-k03-action-listeners",
+  "scenario": "dont-intercept",
+  "mode": "extension-off",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": false,
+  "checks": {
+    "no_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "prior_request_action_preserved": false,
+    "successful_reply": true,
+    "request_once": true
+  },
+  "observed": {
+    "run": "k03-action-68cae3522ec7",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 6,
+        "time_ns": 1793389170080090700,
+        "run": "k03-action-68cae3522ec7",
+        "method": "GET",
+        "target": "/echo?case=dont-intercept",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-68cae3522ec7"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "dont-intercept"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9ZG9udC1pbnRlcmNlcHQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2Ng0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAzLWFjdGlvbi02OGNhZTM1MjJlYzcNClgtQm9iZXItSzAzLVByb2JlOiBkb250LWludGVyY2VwdA0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "573"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDYsICJ0aW1lX25zIjogMTc5MzM4OTE3MDA4MDA5MDcwMCwgInJ1biI6ICJrMDMtYWN0aW9uLTY4Y2FlMzUyMmVjNyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz9jYXNlPWRvbnQtaW50ZXJjZXB0IiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc2NiJdLCBbIkNvbm5lY3Rpb24iLCAia2VlcC1hbGl2ZSJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazAzLWFjdGlvbi02OGNhZTM1MjJlYzciXSwgWyJYLUJvYmVyLUswMy1Qcm9iZSIsICJkb250LWludGVyY2VwdCJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxZMmh2UDJOaGMyVTlaRzl1ZEMxcGJuUmxjbU5sY0hRZ1NGUlVVQzh4TGpFTkNraHZjM1E2SURFeU55NHdMakF1TVRveE9EYzJOZzBLUTI5dWJtVmpkR2x2YmpvZ2EyVmxjQzFoYkdsMlpRMEtXQzFDYjJKbGNpMVVaWE4wTFZKMWJqb2dhekF6TFdGamRHbHZiaTAyT0dOaFpUTTFNakpsWXpjTkNsZ3RRbTlpWlhJdFN6QXpMVkJ5YjJKbE9pQmtiMjUwTFdsdWRHVnlZMlZ3ZEEwS0RRbz0iLCAiYm9keV9iYXNlNjQiOiAiIn19",
+    "seconds": 0.023024,
+    "json": {
+      "request": {
+        "sequence": 6,
+        "time_ns": 1793389170080090700,
+        "run": "k03-action-68cae3522ec7",
+        "method": "GET",
+        "target": "/echo?case=dont-intercept",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-68cae3522ec7"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "dont-intercept"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9ZG9udC1pbnRlcmNlcHQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2Ng0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAzLWFjdGlvbi02OGNhZTM1MjJlYzcNClgtQm9iZXItSzAzLVByb2JlOiBkb250LWludGVyY2VwdA0KDQo=",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=dont-intercept HTTP/1.1",
+      "reference": 38,
+      "monotonic_ns": 69902761310400,
+      "after": 2,
+      "case": "dont-intercept"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=dont-intercept HTTP/1.1",
+      "reference": 38,
+      "monotonic_ns": 69902762177400,
+      "after": 0,
+      "case": "dont-intercept"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=dont-intercept HTTP/1.1",
+      "reference": 38,
+      "monotonic_ns": 69902764969200,
+      "after": 0,
+      "case": "dont-intercept"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=dont-intercept HTTP/1.1",
+      "reference": 38,
+      "monotonic_ns": 69902765800700,
+      "after": 0,
+      "case": "dont-intercept"
+    }
+  ],
+  "note": "Before/main/after load order, mode and manual Forward actions require user confirmation; no retries."
+}

@@ -110,6 +110,100 @@ def _extract_raw_payloads(request_text, name1, name2):
     return payload1, payload2
 
 
+WORKFLOW_TIMEOUT_MS = 30000
+
+
+def _monotonic_ms():
+    import time as timer
+    if hasattr(timer, "monotonic"):
+        return timer.monotonic() * 1000.0
+    from java.lang import System
+    return System.nanoTime() / 1000000.0
+
+
+class RedirectResult(object):
+    """Keep terminal redirect errors separate from a usable final response."""
+    def __init__(self, response_bytes, hops=0, error_code=None, error_type=None):
+        self.response_bytes = response_bytes
+        self.hops = hops
+        self.error_code = error_code
+        self.error_type = error_type
+
+
+def _redirect_host_header(host, port, https):
+    host = host[1:-1] if host.startswith("[") and host.endswith("]") else host
+    authority = "[" + host + "]" if ":" in host else host
+    if int(port) != (443 if https else 80):
+        authority += ":%d" % int(port)
+    return authority
+
+
+def _redirect_base(request_text, host, port, https):
+    parts = request_text.split("\r\n", 1)[0].split()
+    if len(parts) != 3:
+        raise ValueError("Invalid redirect base request")
+    target = parts[1]
+    if not target.startswith("/"):
+        parsed = urlparse(target)
+        if parsed.scheme.lower() not in ("http", "https") or not parsed.netloc:
+            raise ValueError("Unsupported redirect base target")
+        target = (parsed.path or "/") + (";" + parsed.params if parsed.params else "")
+        if parsed.query:
+            target += "?" + parsed.query
+    # The transport service, not the template's Host/absolute authority, owns
+    # the base origin. The path/query still come from the actual request.
+    scheme = "https" if https else "http"
+    base = scheme + "://" + _redirect_host_header(host, port, https) + target
+    return base, parts[0].upper()
+
+
+def _redirect_destination(base, location):
+    if not location or any(ord(c) <= 32 or ord(c) == 127 for c in location) or "\\" in location:
+        raise ValueError("Invalid redirect Location")
+    relative = urlparse(location)
+    if relative.scheme and relative.scheme.lower() not in ("http", "https"):
+        raise ValueError("Unsupported redirect scheme")
+    if (relative.scheme or location.startswith("//")) and not relative.netloc:
+        raise ValueError("Missing redirect authority")
+    if not location.startswith(("/", "?", "#")) and not relative.scheme and ":" in location.split("/", 1)[0]:
+        raise ValueError("Invalid relative redirect")
+    # An explicit empty query clears the old query; Python 2/3 urljoin
+    # otherwise treats a bare question mark as an absent query.
+    absolute = (base.split("#", 1)[0].split("?", 1)[0] + location if location.startswith("?")
+                else urljoin(base, location))
+    parsed = urlparse(absolute)
+    scheme = parsed.scheme.lower()
+    if scheme not in ("http", "https") or not parsed.hostname or "@" in parsed.netloc or parsed.netloc.endswith(":"):
+        raise ValueError("Invalid redirect authority")
+    https = scheme == "https"
+    # Jython's Python-2 parser can report None for an out-of-range explicit
+    # port. Read the authority suffix so this cannot silently become port 80.
+    authority = parsed.netloc
+    if authority.startswith("["):
+        end = authority.find("]")
+        suffix = authority[end + 1:]
+        if end < 0 or (suffix and not suffix.startswith(":")):
+            raise ValueError("Invalid IPv6 redirect authority")
+        explicit_port = suffix[1:] if suffix else None
+    else:
+        if authority.count(":") > 1:
+            raise ValueError("IPv6 redirect authority needs brackets")
+        explicit_port = authority.rsplit(":", 1)[1] if ":" in authority else None
+    if explicit_port is not None:
+        if not explicit_port or any(c not in "0123456789" for c in explicit_port):
+            raise ValueError("Invalid redirect port")
+        port = int(explicit_port)
+    else:
+        port = 443 if https else 80
+    if not 1 <= int(port) <= 65535:
+        raise ValueError("Invalid redirect port")
+    target = (parsed.path or "/") + (";" + parsed.params if parsed.params else "")
+    if parsed.query:
+        target += "?" + parsed.query
+    host = parsed.hostname
+    return host, int(port), https, target
+
+
 class HttpSendResult(object):
     """A completed synchronous API call; attempted does not prove delivery."""
     def __init__(self, attempted=False, response_bytes=None, error_code=None, error_type=None):
@@ -2255,277 +2349,82 @@ class LoggerUI(ITab):
             return "INVALID"
         return None
 
-    def _follow_redirects_chain(self, initial_request_bytes, initial_response_bytes, initial_target_host, initial_target_port, initial_https, max_redirects=10):
-        """
-        V4: simple, robust redirect-follow implementation.
+    def _follow_redirects_chain(self, initial_request_bytes, initial_response_bytes,
+                                initial_target_host, initial_target_port, initial_https,
+                                max_redirects=10, deadline_ms=None):
+        """Follow minimal GET redirects with one shared scheduling deadline.
 
-        Parameters:
-        - initial_request_bytes: original sent request (bytes or Java byte[]-like iterable)
-        - initial_response_bytes: first received response (bytes or Java byte[]-like)
-        - initial_target_host/port/https: initial target
-        - max_redirects: max number of redirects to follow
-
-        Returns:
-        - final response as Python bytes, or None if unsuccessful.
+        Every received response is updated once, including the last allowed
+        hop. This cannot interrupt an already-blocking synchronous Burp call.
         """
+        current_request = initial_request_bytes
+        current_response = initial_response_bytes
+        host, port, https = initial_target_host, int(initial_target_port), bool(initial_https)
+        hops = 0
+        if deadline_ms is None:
+            deadline_ms = _monotonic_ms() + WORKFLOW_TIMEOUT_MS
+        visited = set()
         try:
-            print("_follow_redirects_chain_ENTRY")
-            # --- helper: converting Java-iterable/bytearray -> Python bytes
-            def _to_pybytes(b):
+            while True:
+                # A received response is real state even if time/limit is now up.
+                self._update_cookies_and_csrf(current_response)
+                if _monotonic_ms() >= deadline_ms:
+                    return RedirectResult(current_response, hops, "WORKFLOW_TIMEOUT")
+                response = self.helpers.analyzeResponse(current_response)
+                status = int(response.getStatusCode())
+                location = None
+                for header in response.getHeaders():
+                    text = _wire_text(header)
+                    if text.lower().startswith("location:"):
+                        location = text.split(":", 1)[1].strip()
+                        break
+                if not (300 <= status < 400) or not location:
+                    return RedirectResult(current_response, hops)
+                if hops >= int(max_redirects):
+                    return RedirectResult(current_response, hops, "REDIRECT_LIMIT")
+
+                request_text = _wire_text(current_request, self.helpers)
+                base, method = _redirect_base(request_text, host, port, https)
+                current_url = urlparse(base)
+                current_target = (current_url.path or "/") + (";" + current_url.params if current_url.params else "")
+                if current_url.query:
+                    current_target += "?" + current_url.query
+                visited.add((method, bool(https), host.lower().strip("[]"), int(port), current_target))
                 try:
-                    if isinstance(b, (bytes, bytearray)):
-                        return bytes(b)
-                    out = bytearray()
-                    for x in b:
-                        try:
-                            iv = int(x)
-                        except Exception:
-                            try:
-                                iv = ord(x)
-                            except Exception:
-                                iv = 0
-                        if iv < 0:
-                            iv += 256
-                        out.append(iv)
-                    return bytes(out)
-                except Exception:
-                    try:
-                        return str(b).encode("latin-1", "replace")
-                    except:
-                        return b""
+                    new_host, new_port, new_https, target = _redirect_destination(base, location)
+                except (Exception, JavaException) as error:
+                    return RedirectResult(current_response, hops, "REDIRECT_INVALID_LOCATION", type(error).__name__)
+                key = ("GET", new_https, new_host.lower().strip("[]"), new_port, target)
+                if key in visited:
+                    return RedirectResult(current_response, hops, "REDIRECT_LOOP")
 
-            # --- helper: extract standard text from response (string)
-            def _response_to_text(resp_bytes):
-                if resp_bytes is None:
-                    return ""
-                try:
-                    if hasattr(self.helpers, "bytesToString"):
-                        try:
-                            return self.helpers.bytesToString(resp_bytes)
-                        except:
-                            pass
-                    # fallback
-                    pb = _to_pybytes(resp_bytes)
-                    return pb.decode("latin-1", "replace")
-                except:
-                    try:
-                        return str(resp_bytes)
-                    except:
-                        return ""
-
-            # --- helper: extract status and Location headers
-            def _extract_status_and_location(resp_bytes):
-                txt = _response_to_text(resp_bytes)
-                status = None
-                loc = None
-                try:
-                    first_line = txt.split("\r\n", 1)[0]
-                    parts = first_line.split()
-                    if len(parts) >= 2:
-                        try:
-                            status = int(parts[1])
-                        except:
-                            status = None
-                except:
-                    status = None
-                try:
-                    hdrs = txt.split("\r\n\r\n", 1)[0].split("\r\n")[1:]
-                    for h in hdrs:
-                        if h.lower().startswith("location:"):
-                            loc = h.split(":", 1)[1].strip()
-                            break
-                except:
-                    loc = None
-                return status, loc
-
-            # --- initial states ---
-            steps = 0
-            current_resp = initial_response_bytes
-            current_req = initial_request_bytes
-            current_host = initial_target_host
-            current_port = initial_target_port
-            current_https = bool(initial_https)
-            print("current_host:", current_host)
-            print("current_port:", current_port)
-            print("current_https:", current_https)
-
-            while steps < int(max_redirects):
-                steps += 1
-
-                status, location = _extract_status_and_location(current_resp)
-                print("status:", status)
-                print("location:", location)
-
-                # update cookie and csrf from the response just received (if enabled)
-                self._update_cookies_and_csrf(current_resp)
-                print("Cookie and CSRF updated if enabled")
-                # if there is no redirect status or no Location -> return the current response
-                try:
-                    if status is None or not (300 <= int(status) < 400) or not location:
-                        return _to_pybytes(current_resp)
-                except:
-                    return _to_pybytes(current_resp)
-
-                # --- Resolve new absolute URL from Location (relative or absolute) ---
-                new_url = None
-                try:
-                    # ha location abszolút -> használjuk
-                    loc_l = location.strip()
-                    if loc_l.lower().startswith("http://") or loc_l.lower().startswith("https://"):
-                        new_url = loc_l
-                    else:
-                        # try to extract base url from current_req (analyzeRequest)
-                        base = None
-                        try:
-                            if current_req:
-                                try:
-                                    parsed_req = None
-                                    if hasattr(self.helpers, "analyzeRequest"):
-                                        try:
-                                            parsed_req = self.helpers.analyzeRequest(current_req)
-                                            uobj = parsed_req.getUrl()
-                                            if uobj:
-                                                proto = uobj.getProtocol()
-                                                hostb = uobj.getHost()
-                                                portb = uobj.getPort()
-                                                pathb = uobj.getPath() or "/"
-                                                q = uobj.getQuery()
-                                                if q:
-                                                    pathb = pathb + "?" + q
-                                                if not portb or int(portb) <= 0:
-                                                    portb = (443 if str(proto).lower()=="https" else 80)
-                                                base = "%s://%s%s" % (str(proto).lower(), hostb, ((":%d" % portb) if ((str(proto).lower()=="https" and portb!=443) or (str(proto).lower()=="http" and portb!=80)) else ""))
-                                                base = base + pathb
-                                        except:
-                                            parsed_req = None
-                                except:
-                                    current_req = None
-                        except:
-                            base = None
-
-                        if base and urljoin is not None:
-                            try:
-                                new_url = urljoin(base, loc_l)
-                            except:
-                                new_url = None
-                        else:
-                            # fallback: use current_host/current_port
-                            scheme = "https" if current_https else "http"
-                            if current_host:
-                                if loc_l.startswith("/"):
-                                    new_url = "%s://%s%s" % (scheme, current_host, loc_l)
-                                else:
-                                    new_url = "%s://%s/%s" % (scheme, current_host, loc_l)
-                except Exception as e:
-                    print("[Resolve new absolute URL from Location] ERROR: %s" % str(e))
-                    new_url = None
-
-                if not new_url:
-                    return _to_pybytes(current_resp)
-
-                # --- build new request for new_url (GET, no body) ---
-                try:
-                    # parse new_url
-                    p = urlparse(new_url) if urlparse is not None else None
-                    scheme = p.scheme if p and getattr(p, "scheme", None) else ("https" if current_https else "http")
-                    new_host = p.hostname if p else current_host
-                    new_port = p.port if p and getattr(p, "port", None) else (443 if scheme == "https" else 80)
-                    new_path = (p.path or "/") + (("?" + p.query) if p and getattr(p, "query", None) else "")
-                except:
-                    new_host = current_host
-                    new_port = current_port
-                    scheme = "https" if current_https else "http"
-                    new_path = "/"
-
-                # build minimal GET headers preserving User-Agent if possible
-                headers = ["GET %s HTTP/1.1" % new_path, "Host: %s%s" % (new_host, ((":%d" % new_port) if ((scheme=="https" and new_port!=443) or (scheme=="http" and new_port!=80)) else "")), "Connection: close"]
-                try:
-                    # try copy User-Agent from previous request if available
-                    try:
-                        if current_req and hasattr(self.helpers, "analyzeRequest"):
-                            pr = self.helpers.analyzeRequest(current_req)
-                            for h in pr.getHeaders():
-                                hs = str(h)
-                                if hs.lower().startswith("user-agent:"):
-                                    headers.append(hs)
-                                    break
-                    except:
-                        pass
-                except Exception as e:
-                    print("[build minimal GET headers preserving User-Agent if possible] ERROR: %s" % str(e))
-                    pass
-
-                # build bytes via helpers if available
-                try:
-                    if hasattr(self.helpers, "buildHttpMessage"):
-                        try:
-                            new_req_bytes = self.helpers.buildHttpMessage(headers, b"")
-                        except:
-                            # fallback to stringToBytes
-                            try:
-                                txt = "\r\n".join(headers) + "\r\n\r\n"
-                                if hasattr(self.helpers, "stringToBytes"):
-                                    new_req_bytes = self.helpers.stringToBytes(txt)
-                                else:
-                                    new_req_bytes = txt.encode("latin-1", "replace")
-                            except:
-                                new_req_bytes = None
-                    else:
-                        txt = "\r\n".join(headers) + "\r\n\r\n"
-                        new_req_bytes = txt.encode("latin-1", "replace")
-                except Exception as e:
-                    print("[build bytes via helpers if available] ERROR: %s" % str(e))
-                    new_req_bytes = None
-
-                if not new_req_bytes or not new_host:
-                    return _to_pybytes(current_resp)
-
-                # inject cookies into the new request if cookie auto-update is enabled
-                try:
-                    if getattr(self, "autoUpdateCookies", False) and getattr(self, "cookieManager", None):
-                        try:
-                            txt_req = self.helpers.bytesToString(new_req_bytes) if hasattr(self.helpers, "bytesToString") else _to_pybytes(new_req_bytes).decode("latin-1", "replace")
-                            injected = self.cookieManager.inject_into_request(txt_req)
-                            if injected is not None:
-                                try:
-                                    new_req_bytes = self.helpers.stringToBytes(injected)
-                                except:
-                                    new_req_bytes = injected.encode("latin-1", "replace")
-                        except:
-                            pass
-                except Exception as e:
-                    print("[inject cookies into the new request if cookie auto-update is enabled] ERROR: %s" % str(e))
-                    pass
-
-                # Send once using the API selected before any network attempt.
-                try:
-                    sent = self._send_http_request(new_host, new_port, scheme.lower() == "https", new_req_bytes)
-                    if sent.error_code:
-                        print("[BoberProxy redirect] %s (%s)" % (sent.error_code, sent.error_type or "no detail"))
-                        return _to_pybytes(current_resp)
-
-                    # update loop state and continue
-                    current_resp = sent.response_bytes
-                    current_req = new_req_bytes
-                    current_host = new_host
-                    current_port = new_port
-                    current_https = (scheme.lower() == "https")
-                    continue
-
-                except Exception as e:
-                    print("[prefer buildHttpService + makeHttpRequest] ERROR: %s" % str(e))
-                    return _to_pybytes(current_resp)
-
-            # exceeded max redirects -> return current_resp
-            return _to_pybytes(current_resp)
-
-        except Exception as e:
-            print("[helper: converting Java-iterable/bytearray -> Python bytes] ERROR: %s" % str(e))
-            try:
-                return _to_pybytes(initial_response_bytes)
-            except:
-                return None
-
+                headers = ["GET %s HTTP/1.1" % target,
+                           "Host: " + _redirect_host_header(new_host, new_port, new_https),
+                           "Connection: close"]
+                # Preserve the established minimal-GET policy, including 307/308:
+                # only User-Agent and managed cookies carry over; no body/auth.
+                for header in self.helpers.analyzeRequest(current_request).getHeaders():
+                    text = _wire_text(header)
+                    if text.lower().startswith("user-agent:"):
+                        headers.append(text)
+                        break
+                new_request = self.helpers.buildHttpMessage(headers, self.helpers.stringToBytes(""))
+                if getattr(self, "autoUpdateCookies", False):
+                    text = _wire_text(new_request, self.helpers)
+                    injected = self.cookieManager.inject_into_request(text)
+                    new_request = self.helpers.stringToBytes(_wire_text(injected))
+                if _monotonic_ms() >= deadline_ms:
+                    return RedirectResult(current_response, hops, "WORKFLOW_TIMEOUT")
+                sent = self._send_http_request(new_host, new_port, new_https, new_request)
+                if sent.attempted:
+                    hops += 1
+                    visited.add(key)
+                if sent.error_code:
+                    return RedirectResult(current_response, hops, sent.error_code, sent.error_type)
+                current_request, current_response = new_request, sent.response_bytes
+                host, port, https = new_host, new_port, new_https
+        except (Exception, JavaException) as error:
+            return RedirectResult(current_response, hops, "REDIRECT_FAILED", type(error).__name__)
 
 
     def build_request_from_template(
@@ -2659,6 +2558,7 @@ class LoggerUI(ITab):
             workflow_id = self._workflow_counter
         sent_or_uncertain = False
         try:
+            deadline_ms = _monotonic_ms() + WORKFLOW_TIMEOUT_MS
             if not raw_request_bytes:
                 return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH, workflow_id=workflow_id)
 
@@ -2685,6 +2585,7 @@ class LoggerUI(ITab):
                 use_cpt = bool(getattr(self, "useCheckPageTemplate", False)) or bool(getattr(self, "checkPageTemplateCheckbox", False) and self.checkPageTemplateCheckbox.isSelected())
             except:
                 use_cpt = False
+            follow_redirects = bool(self.autoFollowRTChk.isSelected() and self.autoFollowRTChk.isEnabled())
             request_template = self.reqTemplateEditor.getMessage()
             template_error = self._template_preflight_error(request_template)
             if template_error:
@@ -2711,6 +2612,9 @@ class LoggerUI(ITab):
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
                                            error_code="RT_BUILD_FAILED",
                                             error_detail=build_errors[-1] if build_errors else None)
+            if _monotonic_ms() >= deadline_ms:
+                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
+                                           error_code="WORKFLOW_TIMEOUT")
             if not use_cpt:
                 return ProxyWorkflowResult(ProxyWorkflowResult.READY, request_bytes, workflow_id)
 
@@ -2724,10 +2628,17 @@ class LoggerUI(ITab):
                                            error_code=sent.error_code, error_type=sent.error_type)
 
             response_bytes = sent.response_bytes
-            self._update_cookies_and_csrf(response_bytes)
-            # Selection semantics and redirect state handling are addressed in K03.
-            if self.autoFollowRTChk.isEnabled():
-                self._follow_redirects_chain(request_bytes, response_bytes, orig_host, orig_port, orig_https, max_redirects=10)
+            if follow_redirects:
+                redirected = self._follow_redirects_chain(request_bytes, response_bytes, orig_host, orig_port,
+                                                          orig_https, max_redirects=10, deadline_ms=deadline_ms)
+                if redirected.error_code:
+                    return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
+                                               error_code=redirected.error_code, error_type=redirected.error_type)
+            else:
+                self._update_cookies_and_csrf(response_bytes)
+            if _monotonic_ms() >= deadline_ms:
+                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
+                                           error_code="WORKFLOW_TIMEOUT")
 
             cp_bytes = self.build_checkpage_request(incoming_payload1=incoming_payload1,
                                                     incoming_payload2=incoming_payload2,
@@ -2737,6 +2648,9 @@ class LoggerUI(ITab):
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
                                            error_code="CP_BUILD_FAILED",
                                             error_detail=build_errors[-1] if build_errors else None)
+            if _monotonic_ms() >= deadline_ms:
+                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
+                                           error_code="WORKFLOW_TIMEOUT")
             return ProxyWorkflowResult(ProxyWorkflowResult.READY, cp_bytes, workflow_id)
         except (Exception, JavaException) as error:
             status = ProxyWorkflowResult.ERROR_AFTER_SEND if sent_or_uncertain else ProxyWorkflowResult.ERROR_BEFORE_SEND
@@ -2817,7 +2731,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
         except Exception as e:
             print("registerProxyListener failed (ignored):", e)
 
-        print("BoberProxy loaded (stabilization K02)")
+        print("BoberProxy loaded (stabilization K03)")
 
 
     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
@@ -2901,30 +2815,13 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
             # RESPONSE BRANCH – update cookie / csrf from server
             # ====================================================
             if not messageIsRequest:
-
-                # extract response
-                # ---------------------------------------------------------------
-                # UNIFIED COOKIE + CSRF UPDATE BLOCK (FINAL VERSION)
-                # ---------------------------------------------------------------
-
-                try:
-                    msg_info = interceptedMessage.getMessageInfo()
-                    if not msg_info:
-                        interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
-                        return
-
-                    resp_bytes = msg_info.getResponse()
-                    if not resp_bytes:
-                        interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
-                        return
-                except:
-                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
-                    return
-                # update cookie manager / csrf from response if options enabled
-                self.ui._update_cookies_and_csrf(resp_bytes)
-
-                # proxy continue on its way
-                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                # State collection is independent of the current Proxy action.
+                # Preserve manual rules and decisions made by previous listeners.
+                msg_info = interceptedMessage.getMessageInfo()
+                if msg_info is not None and getattr(self, "ui", None) is not None:
+                    response_bytes = msg_info.getResponse()
+                    if response_bytes:
+                        self.ui._update_cookies_and_csrf(response_bytes)
                 return
 
 
@@ -2977,7 +2874,6 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
                 self._report_workflow_error(result)
                 return
             if result.status == ProxyWorkflowResult.NO_MATCH:
-                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
                 return
             if result.status != ProxyWorkflowResult.READY or not result.request_bytes:
                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
@@ -2993,7 +2889,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
                 print("[BoberProxy] PROXY_REPLACE_FAILED (%s)" % type(error).__name__)
             return
 
-        except Exception as e:
+        except (Exception, JavaException) as e:
             try:
                 print("processProxyMessage outer exception:", e)
             except:

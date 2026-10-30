@@ -10,7 +10,10 @@ A powerful Burp Suite extension providing customizable request/response manipula
 
 ## **Warning**
 
-Based on experience, this extension affects the correct functioning of the built-in intercepting functionality. **It is recommended to deactivate this extension while using the burp proxy intercepting feature.**
+BoberProxy preserves the interception action it receives from Burp when template
+injection is disabled or the request does not match the payload parameters. Actively rewritten
+requests still forward automatically. Disable **Injecting proxy from templates**
+when you want to review the original matching requests manually.
 
 ---
 
@@ -327,6 +330,21 @@ Uses Burp helpers:
 
 * `buildHttpService`
 * `makeHttpRequest`
+
+Following requires **AutoFollow redirect on RT** to be selected. The ten-hop
+limit, redirect loops and invalid destinations produce explicit workflow errors.
+Redirects use the existing minimal GET policy, including after 307/308: Host,
+Connection, User-Agent and enabled managed cookies; the original body and
+Authorization header are not copied. Relative URLs use the actual service and
+request path/query, and the last received response updates cookies/CSRF once.
+Request Template and CheckPage keep the original proxy service even if their
+Host header differs; redirect requests use the service selected by Location.
+
+A shared 30-second scheduling budget covers template preparation, internal RT
+and redirect calls, and CheckPage preparation. It cannot interrupt a blocking
+Burp call; after that call returns, an expired budget prevents further steps.
+The final proxied CheckPage exchange uses Burp's own network timeout. Failures
+after an internal send drop the original request instead of resending it.
 
 ---
 

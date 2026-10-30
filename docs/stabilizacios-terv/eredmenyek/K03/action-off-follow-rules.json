@@ -1,0 +1,142 @@
+{
+  "kind": "external-burp-k03-same-callback-action-instrumentation",
+  "scenario": "follow-rules",
+  "mode": "extension-off",
+  "source_on_disk_sha256": "37bc16019a13ededb0e4bbd9c982eb2905ac139f63e82408560f0d2269b87370",
+  "passed": true,
+  "checks": {
+    "no_unexpected_transport_error": true,
+    "request_listener_pair": true,
+    "no_state_changing_action": true,
+    "prior_request_action_preserved": true,
+    "successful_reply": true,
+    "request_once": true
+  },
+  "observed": {
+    "run": "k03-action-97586e199567",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 12,
+        "time_ns": 1793389808288540500,
+        "run": "k03-action-97586e199567",
+        "method": "GET",
+        "target": "/echo?case=follow-rules",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-97586e199567"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "follow-rules"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9Zm9sbG93LXJ1bGVzIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjYNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMy1hY3Rpb24tOTc1ODZlMTk5NTY3DQpYLUJvYmVyLUswMy1Qcm9iZTogZm9sbG93LXJ1bGVzDQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "566"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDEyLCAidGltZV9ucyI6IDE3OTMzODk4MDgyODg1NDA1MDAsICJydW4iOiAiazAzLWFjdGlvbi05NzU4NmUxOTk1NjciLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VjaG8/Y2FzZT1mb2xsb3ctcnVsZXMiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY2Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDMtYWN0aW9uLTk3NTg2ZTE5OTU2NyJdLCBbIlgtQm9iZXItSzAzLVByb2JlIiwgImZvbGxvdy1ydWxlcyJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxZMmh2UDJOaGMyVTlabTlzYkc5M0xYSjFiR1Z6SUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM05qWU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dNeTFoWTNScGIyNHRPVGMxT0RabE1UazVOVFkzRFFwWUxVSnZZbVZ5TFVzd015MVFjbTlpWlRvZ1ptOXNiRzkzTFhKMWJHVnpEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+    "seconds": 0.01669,
+    "json": {
+      "request": {
+        "sequence": 12,
+        "time_ns": 1793389808288540500,
+        "run": "k03-action-97586e199567",
+        "method": "GET",
+        "target": "/echo?case=follow-rules",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18766"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k03-action-97586e199567"
+          ],
+          [
+            "X-Bober-K03-Probe",
+            "follow-rules"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9Zm9sbG93LXJ1bGVzIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjYNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMy1hY3Rpb24tOTc1ODZlMTk5NTY3DQpYLUJvYmVyLUswMy1Qcm9iZTogZm9sbG93LXJ1bGVzDQoNCg==",
+        "body_base64": ""
+      }
+    }
+  },
+  "transport_error": null,
+  "action_trace": [
+    {
+      "request": true,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 42,
+      "monotonic_ns": 70540970030300,
+      "after": 0,
+      "case": "follow-rules"
+    },
+    {
+      "request": true,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 42,
+      "monotonic_ns": 70540970704000,
+      "after": 0,
+      "case": "follow-rules"
+    },
+    {
+      "request": false,
+      "role": "before",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 42,
+      "monotonic_ns": 70540973395500,
+      "after": 0,
+      "case": "follow-rules"
+    },
+    {
+      "request": false,
+      "role": "after",
+      "before": 0,
+      "first_line": "GET /echo?case=follow-rules HTTP/1.1",
+      "reference": 42,
+      "monotonic_ns": 70540973985300,
+      "after": 0,
+      "case": "follow-rules"
+    }
+  ],
+  "note": "Instrumented entry point calls the unchanged main method between before/after traces on the same real message. Mode/Forward require user confirmation; no retries."
+}

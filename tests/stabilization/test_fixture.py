@@ -35,6 +35,11 @@ class FixtureWireTests(unittest.TestCase):
             response.begin()
             return response.status, response.read()
 
+    @unittest.skipUnless(hasattr(socket, 'SO_EXCLUSIVEADDRUSE'), 'Windows-specific listener exclusivity')
+    def test_second_fixture_cannot_silently_share_the_same_port(self):
+        with self.assertRaises(OSError):
+            FixtureServer(self.port, Path(__file__).parent / 'runtime/duplicate-fixture.jsonl')
+
     def test_capture_is_exact_including_header_case_and_binary_body(self):
         body = bytes(range(256))
         raw = (b"POST /echo?q=%252F+%2B HTTP/1.1\r\nHoSt: fixture\r\n"
