@@ -1,0 +1,44 @@
+{
+  "kind": "K06-tested-environment",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_version": "26.0.2",
+  "java_vendor": "Oracle Corporation",
+  "source_sha256": "ddf7d0a34ebe4017b4d5bb76e35b081491650f51752cc5fda524b8a4a1e6ba91",
+  "proxy": "127.0.0.1:8080",
+  "normal_target": "127.0.0.1:18765",
+  "directed_target": "127.0.0.1:18770",
+  "final_entry": "BoberProxy.py (user-confirmed direct reload)",
+  "helper": "burp_k06_probe.py (15 session cases; 23 native/UI checks)",
+  "final_UI": {
+    "request_template": "fixtures/request-template.http",
+    "checkpage_template": "fixtures/checkpage-template.http",
+    "custom_code": "runtime/custom-k06-pass-through.py",
+    "timeout_ms": 2000,
+    "payload_names": [
+      "q",
+      "w"
+    ],
+    "csrf_regex": "default",
+    "on": [
+      "Injecting proxy from templates",
+      "Use CheckPageTemplate",
+      "Use custom codeblock",
+      "Auto-update cookies from responses",
+      "Auto-update CSRF from responses"
+    ],
+    "off": [
+      "AutoFollow redirect on RT",
+      "Burp Intercept"
+    ],
+    "helper_still_loaded": true
+  },
+  "cached_fixture_state": {
+    "cookie": "sid.k00-workflow.1",
+    "csrf": "csrf.k00-workflow.1"
+  }
+}

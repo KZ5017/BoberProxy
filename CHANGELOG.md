@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## 2026-10-31 — K06
+
+- Added EDT-published configuration versions for complete template workflows and callback logging decisions, native editor document observation with a 100 ms public-API polling fallback, a real status label, EDT startup and unload/partial-registration cleanup.
+- Added bounded session ownership through the final Proxy response, request-reference tracking, private workflow cookie/token stores, ordered delta publication and joint Clear generations. Preserve the accepted global session model and explicit delivery/cross-target limits.
+- Fixed unload during host registration with lifetime checks and rollback after each registration, without holding a mutex across host calls. Final native probe has 23 checks, including all three controlled cancellation points. Source version boundaries and the unchanged workflow code between wire/final versions are recorded in K06 evidence.
+- Closed K06 in the recorded environment: CPython/Jython159 cases/158 pass/one accepted K05 hard-stop limit; standalone and actual-Burp15 session +23 native/UI checks; six directed wire cases (18 target requests/16 custom calls/two explicit drops); eight isolated lifecycle cycles; final direct-entry normal regression with exactly two custom calls and correct cookie/token/raw bytes. Added test-only gated fixture/EDT control, corrected HTML-entity assessment without replay, and preserved earlier attempts. Prepared the user-requested K06 commit/push checkpoint; revision in Git history, generated runtime captures remain ignored.
+
 ## 2026-10-31 — K05
 
 - Implemented the selected bounded custom executor: one worker/one pending job, strict 1–30000 ms submission deadline covering compile/exec/call/conversion, explicit busy/timeout/closed outcomes and no replacement of still-running code. A JVM monitor and stable ThreadGroup coordinate worker creation across Jython interpreters/reloads; an extension-state listener closes admission and pending work on unload.

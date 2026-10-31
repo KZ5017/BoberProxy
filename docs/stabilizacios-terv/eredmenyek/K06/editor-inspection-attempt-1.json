@@ -1,0 +1,24 @@
+{
+  "kind": "K06-real-editor-and-reference-inspection", 
+  "proxy_events": [
+    {
+      "request": true, 
+      "reference": 39, 
+      "action": 0
+    }, 
+    {
+      "request": false, 
+      "reference": 39, 
+      "action": 0
+    }
+  ], 
+  "creation_on_edt": true, 
+  "java_version": "26.0.2", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "inspection_error": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\burp_k06_inspect.py\", line 52, in inspect\n    walk(editor.getComponent())\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\burp_k06_inspect.py\", line 42, in walk\n    row = dict(component=str(component.getClass().getName()))\nTypeError: getName(): expected 1 args; got 0\n", 
+  "editors": []
+}

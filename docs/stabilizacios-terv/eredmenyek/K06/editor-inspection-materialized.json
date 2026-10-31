@@ -1,0 +1,308 @@
+{
+  "document_count": 10, 
+  "kind": "K06-real-editor-and-reference-inspection", 
+  "document_edit_reaches_message": true, 
+  "proxy_events": [], 
+  "modified_flag": true, 
+  "edit_events": [
+    "change", 
+    "insert"
+  ], 
+  "creation_on_edt": true, 
+  "java_version": "26.0.2", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "editors": [
+    {
+      "component": "<type 'burp.Zlmg'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlm1'>"
+    }, 
+    {
+      "component": "<type 'burp.Zujb'>"
+    }, 
+    {
+      "component": "<type 'burp.theme.FlushSplitPaneUI$BurpFlushSplitPaneDivider'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlmz'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlmk'>"
+    }, 
+    {
+      "component": "<type 'burp.Zphq'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatTabbedPaneUI$FlatScrollableTabButton'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatTabbedPaneUI$FlatScrollableTabButton'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.plaf.basic.BasicTabbedPaneUI$ScrollableTabViewport'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.plaf.basic.BasicTabbedPaneUI$ScrollableTabPanel'>"
+    }, 
+    {
+      "component": "<type 'burp.theme.BurpOverflowTabbedPaneUI$MoreTabsButton'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatTabbedPaneUI$ContainerUIResource'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1r'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1l'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1l'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzwp'>"
+    }, 
+    {
+      "component": "<type 'burp.Zltu'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlmq'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzwt'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 163, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 32, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 0, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 0, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.JSeparator'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl2e'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzwt'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzwp'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzz1'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzz1'>"
+    }, 
+    {
+      "editable": true, 
+      "document": "<type 'javax.swing.text.PlainDocument'>", 
+      "length": 0, 
+      "component": "<type 'burp.Zziv'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1m'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlm0'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl3g'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "component": "<type 'burp.Zjpu'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.JViewport'>"
+    }, 
+    {
+      "editable": true, 
+      "document": "<type 'burp.Zi23'>", 
+      "length": 51, 
+      "component": "<type 'burp.Zr2v'>"
+    }, 
+    {
+      "component": "<type 'burp.Zyo2'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'burp.Zyo2'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.JViewport'>"
+    }, 
+    {
+      "component": "<type 'burp.Zqiy'>"
+    }, 
+    {
+      "component": "<type 'burp.Z_lm'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlmq'>"
+    }, 
+    {
+      "component": "<type 'burp.Zzwt'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 163, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 32, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 0, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "editable": false, 
+      "document": "<type 'javax.swing.text.DefaultStyledDocument'>", 
+      "length": 0, 
+      "component": "<type 'burp.Zzpw'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.JSeparator'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "component": "<type 'burp.Zjpd'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.JViewport'>"
+    }, 
+    {
+      "component": "<type 'burp.Zl5b'>"
+    }, 
+    {
+      "component": "<type 'burp.Z_jk'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.CellRendererPane'>"
+    }, 
+    {
+      "component": "<type 'burp.theme.BurpTableUI$ChameleonEmptyPanel'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.Box$Filler'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.Box$Filler'>"
+    }, 
+    {
+      "component": "<type 'burp.Zw1u'>"
+    }, 
+    {
+      "component": "<type 'javax.swing.Box$Filler'>"
+    }, 
+    {
+      "component": "<type 'burp.Zyo2'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'burp.Zyo2'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }, 
+    {
+      "component": "<type 'com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton'>"
+    }
+  ]
+}

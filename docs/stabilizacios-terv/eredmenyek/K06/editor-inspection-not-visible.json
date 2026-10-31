@@ -1,0 +1,29 @@
+{
+  "document_count": 0, 
+  "kind": "K06-real-editor-and-reference-inspection", 
+  "document_edit_reaches_message": false, 
+  "proxy_events": [], 
+  "modified_flag": false, 
+  "edit_events": [], 
+  "creation_on_edt": true, 
+  "java_version": "26.0.2", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "editors": [
+    {
+      "component": "<type 'burp.Zlmg'>"
+    }, 
+    {
+      "component": "<type 'burp.Zlm1'>"
+    }, 
+    {
+      "component": "<type 'burp.Zujb'>"
+    }, 
+    {
+      "component": "<type 'burp.theme.FlushSplitPaneUI$BurpFlushSplitPaneDivider'>"
+    }
+  ]
+}

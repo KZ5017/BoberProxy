@@ -1,5 +1,16 @@
 # Stabilizálási tesztkörnyezet
 
+## K06 aktuális kiegészítés (2026-10-31)
+
+- [Lezárt K06 és aktuális állapot](../../docs/stabilizacios-terv/eredmenyek/K06/README.md). A hat irányított wire-eset, a végső valódi helper15+23 és a közvetlen normál 2-call regresszió sikeres. A forgalmi jelölt és a csak regisztrációs védelmet módosító végső forrás pontos verzióhatára dokumentált.
+- `run_logic.py --suite runtime`: 15 irányított session/config eset; `--suite all`: 159 eset, 158 siker és egy elfogadott K05 hard-stop korlát CPython/Jython alatt. A saját manager-példányokat vizsgáló régi workflow-tesztek a folyamat helyi tárát figyelik, nem a globális parser újrahívását követelik meg.
+- `probe_runtime_native.py` / ideiglenes `burp_k06_probe.py`: 15 session eset +23 natív/UI ellenőrzés (köztük unload a tab/HTTP/Proxy-regisztráció közben). A Burp helper a valódi natív szerkesztőt is használja, forgalom/fő UI módosítása nélkül. Az önálló JVM-ben üzenetszerkesztő-másolat van. `probe_k06_lifecycle.py` külön JVM-ben nyolc teljes UI-életciklust és véges custom sikert/timeoutot ellenőriz; soha nem kell Burp-extensionként betölteni.
+- `prepare_k06.py`: pontos CRLF-es K06 sablonok, generált `runtime/custom-k06-cases.py` (véges 1.5s tesztkapu) és `custom-k06-pass-through.py`. A `.py.in` nem betöltendő.
+- `target_server_k06.py`: csak loopback18770, byte-capture és vezérelt action/check válaszkapuk. `test_k06_fixture.py` valódi socketen ellenőrzi a kaput és a rögzítést; `test_k06_assessment.py` a Burp HTML-karakterhivatkozásos DROP-oldalát is felismeri.
+- `burp_k06_instrumented.py`: kizárólag ideiglenes tesztbelépő; változatlan főforrás, ugyanazon valódi Proxy callback előtti/utáni trace, megjelölt 127.0.0.1:18765/18770 forgalomra korlátozva. Saját UI-ját az EDT-n állítja, példányazonosítóhoz kötött ignorált fájlcsatornán keresztül. Nincs tetszőleges exec vagy hálózaton nyitott vezérlő. Ez a csatorna a termékkódban nincs.
+- `probe_k06_wrapper.py`: külön JVM-es regisztráció/parancscsatorna smoke. **Nem futtatható a valódi wrapperrel egyszerre**, mert a csatornafájlok közösek. `probe_k06_traffic.py` csak visszaigazolt wrapper-betöltés után, esetenként futtatható; meglévő riportot nem ír felül, nincs automatikus retry. Sorrend: normal, pairing, clear-rt, clear-final, config, **unload utoljára**. Utóbbi lezárja a fő tesztpéldányt; utána tényleges eltávolítás és közvetlen főforrás-betöltés szükséges.
+- A korai `burp_k06_inspect.py` csak történeti szerkesztő/API-felderítés, nem az elfogadási helper. A korábbi hibás próbák és natív UI stacktrace megőrzöttek, a helpert eltávolítottuk.
+
 ## K05a lezárva a rögzített környezetben (2026-10-31)
 
 - [K05 aktuális jegyzőkönyv](../../docs/stabilizacios-terv/eredmenyek/K05/README.md): rögzített D08 K05a; a kapacitáskorlát nem sandbox vagy kényszerleállítás. P14 elfogadott hard-stop hiányosságként marad, P13 sikeres regresszió.

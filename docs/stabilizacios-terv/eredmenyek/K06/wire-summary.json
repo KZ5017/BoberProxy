@@ -1,0 +1,23 @@
+{
+  "kind": "K06-directed-wire-aggregate",
+  "source_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30",
+  "instance": "977732358bcd4c81a2f864835f5921d9",
+  "checks": {
+    "six_scenarios_pass": true,
+    "nine_template_actions": true,
+    "seven_checkpages": true,
+    "eighteen_target_requests": true,
+    "sixteen_custom_calls": true,
+    "two_explicit_drops": true,
+    "same_main_source": true,
+    "no_late_additional_stages": true,
+    "per_case_custom_call_counts": true,
+    "every_CP_custom_received_own_RT_token": true,
+    "custom_second_payload_preserved": true
+  },
+  "passed": true,
+  "target_requests": 18,
+  "custom_calls": 16,
+  "client_requests": 11,
+  "note": "All six terminal responses had completed before this later target-side recheck. No request replay after Clear assessment correction."
+}

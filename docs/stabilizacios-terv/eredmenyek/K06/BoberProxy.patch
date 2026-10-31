@@ -1,0 +1,1178 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index 1381e4d..3109ff6 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -690,6 +690,249 @@ class CookieManager(object):
+             return "; ".join("%s=%s" % (key, val) for key, val in self.jar.items())
+ 
+ 
++class RuntimeConfig(object):
++    """Published values are owned by this snapshot, never widget references."""
++    def __init__(self, values, version):
++        self._values = values
++        self.version = version
++
++    def get(self, name, default=None):
++        return self._values.get(name, default)
++
++
++def _session_cookie_copy(manager):
++    result = CookieManager()
++    with manager.lock:
++        manager._expire_locked(manager._now())
++        result.jar = dict(manager.jar)
++        result.expires = dict(manager.expires)
++        result.deleted = set(manager.deleted)
++    return result
++
++
++def _session_pattern_state(manager):
++    with manager.lock:
++        return (manager._pattern_text, manager._compiled_pattern,
++                manager._pattern_error, manager._detail)
++
++
++def _session_csrf_copy(manager, pattern_state):
++    result = CsrfManager()
++    with manager.lock:
++        result.token = manager.token
++    if pattern_state is None:
++        pattern_state = _session_pattern_state(manager)
++    (result._pattern_text, result._compiled_pattern,
++     result._pattern_error, result._detail) = pattern_state
++    result._status = result._pattern_error or ("REGEX_READY" if result._compiled_pattern else "REGEX_UNSET")
++    return result
++
++
++class SessionContext(object):
++    def __init__(self, key, config, epoch, matched):
++        self.key, self.epoch, self.matched = key, epoch, matched
++        self.config = config if matched else None
++        self.cookies_enabled = config.get("cookies", False)
++        self.csrf_enabled = config.get("csrf", False)
++        self.pattern_state = config.get("csrf_pattern")
++        self.created = _monotonic_ms()
++        self.deadline = None
++        self.phase = "waiting" if matched else "passive"
++        self.cancelled = False
++        self.cookies = self.csrf = None
++        self.any_sent = False
++
++
++class SessionCoordinator(object):
++    """Serialize managed exchanges through the Proxy's final response.
++
++    An ownership lease is not a held network lock. Other callbacks can collect
++    passive state or Clear while the owner waits on Burp. Clear starts an epoch,
++    cancels the previous lease and rejects every old-epoch publication. It cannot
++    unsend bytes already handed to Proxy or stop a blocking internal API call.
++    """
++    def __init__(self, cookies, csrf):
++        from collections import OrderedDict
++        self.condition = threading.Condition()
++        self.cookies, self.csrf = cookies, csrf
++        self.epoch, self.sequence = 0, 0
++        self.owner = None
++        self.waiting = []
++        self.records = OrderedDict()
++        self.closed = False
++        self.cookie_sequences = {}
++        self.token_sequence = 0
++        self.untracked_responses = 0
++        self.max_records = 4096
++        self.max_waiters = 32
++        self.record_ttl_ms = 120000
++
++    def _prune_locked(self):
++        now = _monotonic_ms()
++        for key, context in list(self.records.items()):
++            if context is self.owner or context in self.waiting:
++                continue
++            if now - context.created >= self.record_ttl_ms:
++                self.records.pop(key, None)
++
++    def register(self, key, config, matched):
++        with self.condition:
++            if self.closed:
++                return None, "SESSION_CLOSED"
++            if key is not None and key in self.records:
++                return self.records[key], "EXISTING"
++            self._prune_locked()
++            if key is not None and len(self.records) >= self.max_records:
++                return None, "SESSION_TRACKING_FULL"
++            context = SessionContext(key, config, self.epoch, matched)
++            if key is not None:
++                self.records[key] = context
++            return context, None
++
++    def begin(self, context, deadline):
++        with self.condition:
++            if self.closed:
++                return "SESSION_CLOSED"
++            if len(self.waiting) >= self.max_waiters:
++                return "SESSION_BUSY"
++            self.waiting.append(context)
++            try:
++                while self.owner is not None or self.waiting[0] is not context:
++                    if self.closed:
++                        return "SESSION_CLOSED"
++                    now = _monotonic_ms()
++                    if self.owner is not None and now >= self.owner.deadline:
++                        # Unknown delivery is not proof that the old CP stopped.
++                        # Keep its slot until response, explicit Clear or unload.
++                        return "SESSION_RESPONSE_PENDING"
++                    remaining = deadline - now
++                    if remaining <= 0:
++                        return "SESSION_BUSY"
++                    if self.owner is not None:
++                        remaining = min(remaining, self.owner.deadline - now)
++                    self.condition.wait(max(0.001, remaining / 1000.0))
++                if self.closed:
++                    return "SESSION_CLOSED"
++                if _monotonic_ms() >= deadline:
++                    return "SESSION_BUSY"
++                context.epoch = self.epoch
++                context.deadline = deadline
++                context.cookies = _session_cookie_copy(self.cookies)
++                context.csrf = _session_csrf_copy(self.csrf, context.pattern_state)
++                context.phase = "active"
++                self.owner = context
++                return None
++            finally:
++                self.waiting.remove(context)
++                self.condition.notifyAll()
++
++    def valid(self, context):
++        with self.condition:
++            return not self.closed and not context.cancelled and context.epoch == self.epoch
++
++    def commit(self, context):
++        with self.condition:
++            if self.closed or context.cancelled or context.epoch != self.epoch or self.owner is not context:
++                return False
++            context.phase = "handoff"
++            return True
++
++    def finish(self, context, original_response=False):
++        with self.condition:
++            if self.owner is context:
++                self.owner = None
++                self.condition.notifyAll()
++            if original_response:
++                context.phase = "passive"
++                context.config = None
++                context.cookies = context.csrf = None
++            elif context.key is not None:
++                self.records.pop(context.key, None)
++
++    def clear(self, kind):
++        with self.condition:
++            if kind == "cookies":
++                self.cookies.clear()
++            else:
++                self.csrf.clear()
++            self.epoch += 1
++            self.cookie_sequences = {}
++            self.token_sequence = 0
++            if self.owner is not None:
++                self.owner.cancelled = True
++                self.owner = None
++            self.condition.notifyAll()
++
++    def close(self):
++        with self.condition:
++            self.closed = True
++            if self.owner is not None:
++                self.owner.cancelled = True
++            self.owner = None
++            self.records.clear()
++            self.condition.notifyAll()
++
++    def update(self, context, response):
++        # No regex or response parsing occurs while holding the ownership lock.
++        with self.condition:
++            if self.closed or context.cancelled or context.epoch != self.epoch:
++                return "SESSION_STALE_RESPONSE", None
++            if not context.cookies_enabled and not context.csrf_enabled:
++                return None, None
++            self.sequence += 1
++            sequence = self.sequence
++            cookies = context.cookies
++            csrf = context.csrf
++            if cookies is None:
++                cookies = _session_cookie_copy(self.cookies)
++            if csrf is None:
++                csrf = _session_csrf_copy(self.csrf, context.pattern_state)
++        changes = cookies.update_from_response(response) if context.cookies_enabled else []
++        ok, token = csrf.update_from_response(response) if context.csrf_enabled else (False, None)
++        delta = []
++        with cookies.lock:
++            names = set(change[1] for change in changes)
++            for name in names:
++                delta.append((name, cookies.jar.get(name), cookies.expires.get(name), name in cookies.deleted))
++        with self.condition:
++            if self.closed or context.cancelled or context.epoch != self.epoch:
++                return "SESSION_STALE_RESPONSE", None
++            with self.cookies.lock:
++                for name, value, expiry, deleted in delta:
++                    if sequence < self.cookie_sequences.get(name, 0):
++                        continue
++                    self.cookie_sequences[name] = sequence
++                    if deleted or expiry is not None and expiry <= self.cookies._now():
++                        self.cookies.jar.pop(name, None)
++                        self.cookies.expires.pop(name, None)
++                        self.cookies.deleted.add(name)
++                    else:
++                        self.cookies.jar[name] = value
++                        self.cookies.deleted.discard(name)
++                        if expiry is None:
++                            self.cookies.expires.pop(name, None)
++                        else:
++                            self.cookies.expires[name] = expiry
++            if ok and sequence >= self.token_sequence:
++                self.token_sequence = sequence
++                with self.csrf.lock:
++                    self.csrf.token = token
++                    self.csrf._status, self.csrf._detail = "UPDATED", None
++        return csrf.get_status() if context.csrf_enabled else (None, None)
++
++    def response(self, key, response):
++        with self.condition:
++            context = self.records.pop(key, None)
++            if context is None:
++                self.untracked_responses += 1
++                return "SESSION_RESPONSE_UNTRACKED", None
++        try:
++            return self.update(context, response) if response is not None else (None, None)
++        finally:
++            self.finish(context)
++
++
++
+ class SimpleMessageController(IMessageEditorController):
+     def __init__(self):
+         self._messageInfo = None
+@@ -985,6 +1228,103 @@ class CustomExecutor(object):
+ 
+ 
+ # --- Filter dialog / UI ------------------------------------------
++class RuntimePublisher(object):
++    """Coalesce EDT edits; use public editor getters on the EDT only.
++
++    Native message-editor views materialize lazily. Public Swing document
++    listeners provide prompt updates when present; a 100 ms EDT poll covers
++    other editor backends/programmatic edits without callback invokeAndWait.
++    """
++    def __init__(self, ui):
++        from javax.swing.event import DocumentListener
++        from java.awt.event import ItemListener
++        self.ui, self.closed, self.scheduled = ui, False, False
++        self.documents = []
++        self.items = []
++        publisher = self
++        class Documents(DocumentListener):
++            def insertUpdate(self, event):
++                publisher.schedule()
++            def removeUpdate(self, event):
++                publisher.schedule()
++            def changedUpdate(self, event):
++                publisher.schedule()
++        class Items(ItemListener):
++            def itemStateChanged(self, event):
++                publisher.schedule()
++        self.document_listener, self.item_listener = Documents(), Items()
++        for name in ("proxyModeBtn", "useCheckPageChk", "autoFollowRTChk", "useCustomChk",
++                     "autoUpdateChk", "autoUpdateCsrfChk", "pauseBtn", "lenTypeCombo", "compCombo"):
++            widget = getattr(ui, name, None)
++            if widget is not None:
++                widget.addItemListener(self.item_listener)
++                self.items.append(widget)
++        for widget in getattr(ui, "statusChecks", {}).values():
++            widget.addItemListener(self.item_listener)
++            self.items.append(widget)
++        self.ticks = 0
++        self.observe_documents()
++        ui._publish_runtime()
++        self.timer = swing.Timer(100, lambda event: self.tick())
++        self.timer.start()
++
++    def observe_documents(self):
++        from javax.swing.text import JTextComponent
++        documents = []
++        def walk(component):
++            if isinstance(component, JTextComponent):
++                document = component.getDocument()
++                if document not in documents:
++                    documents.append(document)
++            if hasattr(component, "getComponents"):
++                for child in component.getComponents():
++                    walk(child)
++        for name in ("customCodeArea", "timeoutField", "csrfRegexArea", "payloadParamField",
++                     "payloadParam2Field", "sizeField", "regexField"):
++            widget = getattr(self.ui, name, None)
++            if widget is not None:
++                walk(widget)
++        for name in ("reqTemplateEditor", "checkPageEditor"):
++            editor = getattr(self.ui, name, None)
++            if editor is not None:
++                walk(editor.getComponent())
++        for document in self.documents:
++            if document not in documents:
++                document.removeDocumentListener(self.document_listener)
++        for document in documents:
++            if document not in self.documents:
++                document.addDocumentListener(self.document_listener)
++        self.documents = documents
++
++    def schedule(self):
++        if self.closed or self.scheduled:
++            return
++        self.scheduled = True
++        def publish():
++            self.scheduled = False
++            if not self.closed:
++                self.ui._publish_runtime()
++        swing.SwingUtilities.invokeLater(publish)
++
++    def tick(self):
++        if self.closed:
++            return
++        self.ticks += 1
++        if self.ticks % 10 == 0:
++            self.observe_documents()
++        self.ui._publish_runtime()
++
++    def close(self):
++        self.closed = True
++        self.timer.stop()
++        for document in self.documents:
++            document.removeDocumentListener(self.document_listener)
++        for item in self.items:
++            item.removeItemListener(self.item_listener)
++        self.documents, self.items = [], []
++
++
++
+ class FilterDialog(object):
+     def __init__(self, parent):
+         self.parent = parent
+@@ -1224,6 +1564,7 @@ class LoggerUI(ITab):
+         self.autoUpdateCookies = False
+ 
+         self.csrfManager = CsrfManager()
++        self._init_session_runtime()
+         self.autoUpdateCsrf = False
+ 
+         # default CSRF regex pattern (use %s for insertion of param name)
+@@ -1721,6 +2062,12 @@ class LoggerUI(ITab):
+         c.weighty = 0.0
+         row += 1  
+ 
++        c.gridy = row; c.gridx = 0; c.gridwidth = 2
++        self.statusLabel = swing.JLabel("Running")
++        rightContent.add(self.statusLabel, c)
++        row += 1
++        c.gridwidth = 1
++
+         # spacer at the end to push items to top
+         c.gridy = row; c.weighty = 1.0
+         rightContent.add(swing.JPanel(), c)
+@@ -1749,6 +2096,9 @@ class LoggerUI(ITab):
+         except:
+             pass
+ 
++        self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
++        self._runtime_publisher = RuntimePublisher(self)
++
+     # --- Error/output area (isolated in its own container, expands only within itself) ---
+     def _log(self, msg):
+         def publish():
+@@ -2044,7 +2394,7 @@ class LoggerUI(ITab):
+             self.display_filters = {}
+ 
+ 
+-    def _row_matches_filters(self, entry):
++    def _row_matches_filters(self, entry, filters=None):
+         """
+         entry: LogEntry
+         """
+@@ -2066,7 +2416,7 @@ class LoggerUI(ITab):
+         }
+ 
+         try:
+-            for fname, cfg in self.display_filters.items():
++            for fname, cfg in (self.display_filters if filters is None else filters).items():
+                 if not cfg.get("active"):
+                     continue
+ 
+@@ -2154,10 +2504,16 @@ class LoggerUI(ITab):
+ 
+ 
+     def set_status(self, txt):
+-        try:
+-            self.statusLabel.setText(txt)
+-        except:
+-            pass
++        def publish():
++            if self._custom_ui_closed:
++                return
++            label = getattr(self, "statusLabel", None)
++            if label is not None:
++                label.setText(txt)
++        if swing.SwingUtilities.isEventDispatchThread():
++            publish()
++        else:
++            swing.SwingUtilities.invokeLater(publish)
+ 
+     def clear_log(self, evt=None):
+         try:
+@@ -2296,9 +2652,12 @@ class LoggerUI(ITab):
+     # append_log_row (filter-aware)
+     # append_log_row (LogStore-alapú, de UI-kompatibilis)
+     def append_log_row(self, toolFlag, host, method, path,
+-                    status, total_length, messageInfo, isRequest):
++                    status, total_length, messageInfo, isRequest, runtime_config=None):
+ 
+-        if self.paused:
++        if self._custom_ui_closed:
++            return
++        config = runtime_config or self._capture_runtime()
++        if config.get("paused"):
+             return
+ 
+         ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+@@ -2322,7 +2681,7 @@ class LoggerUI(ITab):
+         show = True
+         try:
+             if hasattr(self, "_row_matches_filters"):
+-                show = self._row_matches_filters(entry)
++                show = self._row_matches_filters(entry, config.get("display_filters", {}))
+         except:
+             pass
+ 
+@@ -2335,8 +2694,9 @@ class LoggerUI(ITab):
+ 
+ 
+ 
+-    def should_log(self, toolFlag, messageIsRequest, messageInfo):
+-        if self.paused:
++    def should_log(self, toolFlag, messageIsRequest, messageInfo, runtime_config=None):
++        config = runtime_config or self._capture_runtime()
++        if config.get("paused"):
+             return False
+         if messageIsRequest:
+             return False
+@@ -2353,21 +2713,11 @@ class LoggerUI(ITab):
+         except:
+             analyzed = None
+             status = None
+-        any_checked = any(cb.isSelected() for cb in self.statusChecks.values())
+-        if any_checked:
+-            ok = False
+-            for label, cb in self.statusChecks.items():
+-                if not cb.isSelected(): continue
+-                try:
+-                    base = int(label[0])
+-                    if status is not None and status >= base*100 and status < (base+1)*100:
+-                        ok = True
+-                        break
+-                except:
+-                    pass
+-            if not ok:
+-                return False
+-        val_text = str(self.sizeField.getText()).strip()
++        selected_statuses = config.get("statuses", ())
++        if selected_statuses and not any(status is not None and base * 100 <= status < (base + 1) * 100
++                                         for base in selected_statuses):
++            return False
++        val_text = config.get("size", "")
+         if val_text:
+             blocked_values = []
+             for part in val_text.split(","):
+@@ -2380,7 +2730,7 @@ class LoggerUI(ITab):
+                     pass
+             if not blocked_values:
+                 return False
+-            len_type = str(self.lenTypeCombo.getSelectedItem())
++            len_type = config.get("len_type")
+             try:
+                 if len_type == "Total len":
+                     actual = len(resp)
+@@ -2392,7 +2742,7 @@ class LoggerUI(ITab):
+                         actual = len(resp)
+             except:
+                 actual = len(resp)
+-            comp = str(self.compCombo.getSelectedItem())
++            comp = config.get("size_comp")
+             if comp == "Min Len":
+                 if actual < min(blocked_values):
+                     return False
+@@ -2403,7 +2753,7 @@ class LoggerUI(ITab):
+                 if actual in blocked_values:
+                     return False
+ 
+-        pattern_text = str(self.regexField.getText()).strip()
++        pattern_text = config.get("log_regex", "")
+         if pattern_text:
+             try:
+                 pat = Pattern.compile(pattern_text)
+@@ -2419,7 +2769,7 @@ class LoggerUI(ITab):
+     # COOKIE and CSRF HELPERS
+     def _on_clear_cookies(self, evt=None):
+         try:
+-            self.cookieManager.clear()
++            self.sessions.clear("cookies")
+             self.customStatusArea.setText("Cookies cleared.")
+         except Exception as e:
+             try:
+@@ -2440,7 +2790,7 @@ class LoggerUI(ITab):
+ 
+     def _on_clear_csrf(self, evt=None):
+         try:
+-            self.csrfManager.clear()
++            self.sessions.clear("csrf")
+             self.customStatusArea.setText("CSRF_token cleared")
+         except Exception as e:
+             try:
+@@ -2567,7 +2917,10 @@ class LoggerUI(ITab):
+     def close_custom_runtime(self):
+         self._custom_ui_closed = True
+         self._custom_executor.close()
++        self.sessions.close()
+         def close_timer():
++            if self._runtime_publisher is not None:
++                self._runtime_publisher.close()
+             if self._custom_test_timer is not None:
+                 self._custom_test_timer.stop()
+                 self._custom_test_timer = None
+@@ -2626,34 +2979,27 @@ class LoggerUI(ITab):
+ 
+ 
+     def _update_cookies_and_csrf(self, response_bytes):
+-        if not response_bytes:
++        if response_bytes is None:
+             return
+-
+-        # --- COOKIE UPDATE ---
+-        if getattr(self, "autoUpdateCookies", False):
+-            try:
+-                text = self.callbacks.getHelpers().bytesToString(response_bytes)
+-                self.cookieManager.update_from_response(text)
+-            except Exception as e:
+-                print("[CookieUpdate] error:", e)
+-
+-        # The document listener validates/compiles on edits, not on responses.
+-        if getattr(self, "autoUpdateCsrf", False):
+-            try:
+-                ok, new_token = self.csrfManager.update_from_response(response_bytes)
+-                status, detail = self.csrfManager.get_status()
+-                if ok or status in ("REGEX_INVALID", "REGEX_NO_CAPTURE", "DECODE_ERROR"):
+-                    message = ("CSRF token updated." if ok else
+-                               "CSRF %s: %s" % (status, detail or ""))
+-                    swing.SwingUtilities.invokeLater(lambda: self.customStatusArea.setText(message))
+-            except (Exception, JavaException) as error:
+-                print("[CSRFUpdate] ERROR:", error)
+-
++        context = getattr(self._flow_local, "context", None)
++        if context is None:
++            context, error = self.sessions.register(None, self._runtime_for_flow(), False)
++            if error:
++                return
++        status, detail = self.sessions.update(context, response_bytes)
++        if status in ("REGEX_INVALID", "REGEX_NO_CAPTURE", "DECODE_ERROR"):
++            self._log("CSRF %s: %s" % (status, detail or ""))
+ 
+     def _send_http_request(self, host, port, https, request_bytes):
++        context = getattr(self._flow_local, "context", None)
++        if context is not None and not self.sessions.valid(context):
++            return HttpSendResult(error_code="SESSION_CLEARED")
+         if self._http_sender is None:
+             self._http_sender = HttpRequestSender(self.callbacks, self.helpers)
+-        return self._http_sender.send(host, port, https, request_bytes)
++        result = self._http_sender.send(host, port, https, request_bytes)
++        if context is not None:
++            context.any_sent = context.any_sent or result.attempted
++        return result
+ 
+     def _template_preflight_error(self, template_bytes):
+         if template_bytes is None or len(template_bytes) == 0:
+@@ -2671,11 +3017,35 @@ class LoggerUI(ITab):
+     def _follow_redirects_chain(self, initial_request_bytes, initial_response_bytes,
+                                 initial_target_host, initial_target_port, initial_https,
+                                 max_redirects=10, deadline_ms=None):
++        previous = getattr(self._flow_local, "config", None)
++        previous_context = getattr(self._flow_local, "context", None)
++        if previous is None:
++            self._flow_local.config = self._capture_runtime()
++        if previous_context is None:
++            # Standalone callers also freeze the epoch and local stores for the
++            # entire chain. Production workflows already own a managed context.
++            with self.sessions.condition:
++                context = SessionContext(None, self._flow_local.config, self.sessions.epoch, False)
++                context.cookies = _session_cookie_copy(self.cookieManager)
++                context.csrf = _session_csrf_copy(self.csrfManager, context.pattern_state)
++            self._flow_local.context = context
++        try:
++            return self._follow_redirects_frozen(initial_request_bytes, initial_response_bytes,
++                initial_target_host, initial_target_port, initial_https, max_redirects, deadline_ms)
++        finally:
++            self._flow_local.config = previous
++            self._flow_local.context = previous_context
++
++    def _follow_redirects_frozen(self, initial_request_bytes, initial_response_bytes,
++                                initial_target_host, initial_target_port, initial_https,
++                                max_redirects=10, deadline_ms=None):
+         """Follow minimal GET redirects with one shared scheduling deadline.
+ 
+         Every received response is updated once, including the last allowed
+         hop. This cannot interrupt an already-blocking synchronous Burp call.
+         """
++        config = self._runtime_for_flow()
++        cookie_manager, csrf_manager = self._flow_managers()
+         current_request = initial_request_bytes
+         current_response = initial_response_bytes
+         host, port, https = initial_target_host, int(initial_target_port), bool(initial_https)
+@@ -2687,6 +3057,9 @@ class LoggerUI(ITab):
+             while True:
+                 # A received response is real state even if time/limit is now up.
+                 self._update_cookies_and_csrf(current_response)
++                context = getattr(self._flow_local, "context", None)
++                if context is not None and not self.sessions.valid(context):
++                    return RedirectResult(current_response, hops, "SESSION_CLEARED")
+                 if _monotonic_ms() >= deadline_ms:
+                     return RedirectResult(current_response, hops, "WORKFLOW_TIMEOUT")
+                 response = self.helpers.analyzeResponse(current_response)
+@@ -2728,9 +3101,9 @@ class LoggerUI(ITab):
+                         headers.append(text)
+                         break
+                 new_request = self.helpers.buildHttpMessage(headers, self.helpers.stringToBytes(""))
+-                if getattr(self, "autoUpdateCookies", False):
++                if config.get("cookies"):
+                     text = _wire_text(new_request, self.helpers)
+-                    injected = self.cookieManager.inject_into_request(text)
++                    injected = cookie_manager.inject_into_request(text)
+                     new_request = self.helpers.stringToBytes(_wire_text(injected))
+                 if _monotonic_ms() >= deadline_ms:
+                     return RedirectResult(current_response, hops, "WORKFLOW_TIMEOUT")
+@@ -2873,61 +3246,177 @@ class LoggerUI(ITab):
+             return fallback_resp
+ 
+ 
+-    def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https):
+-        """Return an explicit result, preserving whether a send was attempted."""
++    def _init_session_runtime(self):
++        self._runtime_lock = threading.Lock()
++        self._runtime_config = None
++        self._runtime_version = 0
++        self._runtime_publisher = None
++        self._flow_local = threading.local()
++        self.sessions = SessionCoordinator(self.cookieManager, self.csrfManager)
++        self._last_session_warning = -10000
++
++    def _collect_runtime_values(self):
++        # Production calls this only on the EDT. Field-double harnesses explicitly
++        # have no publisher and collect their own test values at invocation.
++        import copy
++        def text(name, default=""):
++            field = getattr(self, name, None)
++            return field.getText().strip() if field is not None else default
++        def selected(name, fallback=False):
++            field = getattr(self, name, None)
++            return bool(field.isSelected()) if field is not None else bool(fallback)
++        def combo(name, default=""):
++            field = getattr(self, name, None)
++            return str(field.getSelectedItem()) if field is not None else default
++        def template(name):
++            editor = getattr(self, name, None)
++            raw = editor.getMessage() if editor is not None else None
++            return _wire_text(raw, self.helpers).encode("latin-1") if raw is not None else None
++        auto = getattr(self, "autoFollowRTChk", None)
++        statuses = tuple(sorted(int(label[0]) for label, field in getattr(self, "statusChecks", {}).items()
++                                if field.isSelected()))
++        return dict(proxy=selected("proxyModeBtn", getattr(self, "_proxy_mode_active", False)),
++                    use_cp=selected("useCheckPageChk", getattr(self, "useCheckPageTemplate", False)),
++                    follow=bool(auto and auto.isSelected() and auto.isEnabled()),
++                    payload1=text("payloadParamField", "q"), payload2=text("payloadParam2Field", "w"),
++                    rt=template("reqTemplateEditor"), cp=template("checkPageEditor"),
++                    custom=self._capture_custom_settings(),
++                    cookies=selected("autoUpdateChk", getattr(self, "autoUpdateCookies", False)),
++                    csrf=selected("autoUpdateCsrfChk", getattr(self, "autoUpdateCsrf", False)),
++                    csrf_pattern=_session_pattern_state(self.csrfManager),
++                    paused=selected("pauseBtn", getattr(self, "paused", False)), statuses=statuses,
++                    size=text("sizeField"), len_type=combo("lenTypeCombo", "Total len"),
++                    size_comp=combo("compCombo", "Min Len"), log_regex=text("regexField"),
++                    display_filters=copy.deepcopy(getattr(self, "display_filters", {})))
++
++    def _publish_runtime(self):
++        if self._custom_ui_closed:
++            return
++        try:
++            values = self._collect_runtime_values()
++        except (Exception, JavaException) as error:
++            if self._runtime_config is None:
++                raise
++            self._session_warning("CONFIG_SNAPSHOT_ERROR: " + type(error).__name__)
++            return
++        with self._runtime_lock:
++            if self._runtime_config is not None and self._runtime_config._values == values:
++                return
++            self._runtime_version += 1
++            self._runtime_config = RuntimeConfig(values, self._runtime_version)
++
++    def _capture_runtime(self):
++        with self._runtime_lock:
++            config = self._runtime_config
++        if config is not None:
++            return config
++        # The real extension publishes before it exposes ui/listeners. Isolated
++        # legacy logic fixtures intentionally bypass construction/EDT publishing.
++        return RuntimeConfig(self._collect_runtime_values(), 0)
++
++    def _runtime_for_flow(self):
++        return getattr(self._flow_local, "config", None) or self._capture_runtime()
++
++    def _flow_managers(self):
++        context = getattr(self._flow_local, "context", None)
++        if context is not None and context.cookies is not None:
++            return context.cookies, context.csrf
++        return self.cookieManager, self.csrfManager
++
++    def _session_warning(self, code):
++        now = _monotonic_ms()
++        if now - self._last_session_warning >= 1000:
++            self._last_session_warning = now
++            self._log(code)
++            print("[BoberProxy session] " + code)
++
++    def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https,
++                                   runtime_config=None, session_context=None):
++        config = runtime_config or self._capture_runtime()
++        # Unmatched requests must not queue behind a managed exchange.
++        if not raw_request_bytes:
++            return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH)
++        text = _wire_text(raw_request_bytes, self.helpers)
++        payloads = _extract_raw_payloads(text, config.get("payload1"), config.get("payload2"))
++        if not any(payloads):
++            return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH)
+         with self._workflow_lock:
+             self._workflow_counter += 1
+             workflow_id = self._workflow_counter
++        deadline = _monotonic_ms() + WORKFLOW_TIMEOUT_MS
++        context = session_context
++        if context is None:
++            context, error = self.sessions.register(None, config, True)
++            if error:
++                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id, error_code=error)
++        error = self.sessions.begin(context, deadline)
++        if error:
++            self.sessions.finish(context, original_response=True)
++            return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id, error_code=error)
++        previous = (getattr(self._flow_local, "config", None), getattr(self._flow_local, "context", None),
++                    getattr(self._flow_local, "deadline", None), getattr(self._flow_local, "workflow_id", None))
++        self._flow_local.config, self._flow_local.context, self._flow_local.deadline = config, context, deadline
++        self._flow_local.workflow_id = workflow_id
++        try:
++            result = self._prepare_proxy_request(raw_request_bytes, orig_host, orig_port, orig_https)
++            if not self.sessions.valid(context) and result.status == ProxyWorkflowResult.READY:
++                result = ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND if context.any_sent else
++                                             ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id, error_code="SESSION_CLEARED")
++            result.session_context = context
++            if result.status != ProxyWorkflowResult.READY or context.key is None:
++                self.sessions.finish(context, original_response=result.status == ProxyWorkflowResult.ERROR_BEFORE_SEND)
++            return result
++        except (Exception, JavaException):
++            self.sessions.finish(context)
++            raise
++        finally:
++            (self._flow_local.config, self._flow_local.context,
++             self._flow_local.deadline, self._flow_local.workflow_id) = previous
++
++
++
++    def _prepare_proxy_request(self, raw_request_bytes, orig_host, orig_port, orig_https):
++        """Return an explicit result, preserving whether a send was attempted."""
++        config = self._runtime_for_flow()
++        workflow_id = self._flow_local.workflow_id
++        cookie_manager, csrf_manager = self._flow_managers()
+         sent_or_uncertain = False
+         try:
+-            deadline_ms = _monotonic_ms() + WORKFLOW_TIMEOUT_MS
++            deadline_ms = self._flow_local.deadline
+             if not raw_request_bytes:
+                 return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH, workflow_id=workflow_id)
+ 
+             req_text = _wire_text(raw_request_bytes, self.helpers)
+ 
+-            # --- extract payload param names ---
+-            try:
+-                pname1 = str(self.payloadParamField.getText()).strip()
+-            except:
+-                pname1 = getattr(self, "payload_param_name", "q")
+-            try:
+-                pname2 = str(self.payloadParam2Field.getText()).strip()
+-            except:
+-                pname2 = getattr(self, "payload_param2_name", "w")
+-
++            pname1, pname2 = config.get("payload1"), config.get("payload2")
+             incoming_payload1, incoming_payload2 = _extract_raw_payloads(req_text, pname1, pname2)
+ 
+             # --- If no payloads at all, do not interfere (let proxy forward original) ---
+             if not incoming_payload1 and not incoming_payload2:
+                 return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH, workflow_id=workflow_id)
+ 
+-            # Capture both templates before any user code or network operation.
+-            try:
+-                use_cpt = bool(getattr(self, "useCheckPageTemplate", False)) or bool(getattr(self, "checkPageTemplateCheckbox", False) and self.checkPageTemplateCheckbox.isSelected())
+-            except:
+-                use_cpt = False
+-            follow_redirects = bool(self.autoFollowRTChk.isSelected() and self.autoFollowRTChk.isEnabled())
+-            request_template = self.reqTemplateEditor.getMessage()
++            # One immutable editor/switch version for the complete workflow.
++            use_cpt, follow_redirects = config.get("use_cp"), config.get("follow")
++            request_template = config.get("rt")
+             template_error = self._template_preflight_error(request_template)
+             if template_error:
+                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
+                                            error_code="RT_TEMPLATE_" + template_error)
+             check_template = None
+             if use_cpt:
+-                check_template = self.checkPageEditor.getMessage()
++                check_template = config.get("cp")
+                 template_error = self._template_preflight_error(check_template)
+                 if template_error:
+                     return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
+                                                error_code="CP_TEMPLATE_" + template_error)
+ 
+-            custom_settings = self._capture_custom_settings()
++            custom_settings = config.get("custom")
+             build_errors = []
+             request_bytes = self.build_request_from_template(
+                 get_editor_message=lambda: request_template,
+-                helpers=self.helpers, cookie_manager=self.cookieManager, csrf_manager=self.csrfManager,
+-                auto_update_cookies=getattr(self, "autoUpdateCookies", False),
+-                auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
++                helpers=self.helpers, cookie_manager=cookie_manager, csrf_manager=csrf_manager,
++                auto_update_cookies=config.get("cookies"),
++                auto_update_csrf=config.get("csrf"),
+                 normalize_func=None, custom_status_setter=build_errors.append,
+                 incoming_payload1=incoming_payload1, incoming_payload2=incoming_payload2,
+                 fallback_resp=None, custom_settings=custom_settings)
+@@ -2945,6 +3434,8 @@ class LoggerUI(ITab):
+             sent_or_uncertain = True
+             sent = self._send_http_request(orig_host, orig_port, orig_https, request_bytes)
+             sent_or_uncertain = sent.attempted
++            context = self._flow_local.context
++            context.any_sent = context.any_sent or sent.attempted
+             if sent.error_code:
+                 status = ProxyWorkflowResult.ERROR_AFTER_SEND if sent.attempted else ProxyWorkflowResult.ERROR_BEFORE_SEND
+                 return ProxyWorkflowResult(status, workflow_id=workflow_id,
+@@ -2963,6 +3454,9 @@ class LoggerUI(ITab):
+                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
+                                            error_code="WORKFLOW_TIMEOUT")
+ 
++            if not self.sessions.valid(self._flow_local.context):
++                return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
++                                           error_code="SESSION_CLEARED")
+             cp_bytes = self.build_checkpage_request(incoming_payload1=incoming_payload1,
+                                                     incoming_payload2=incoming_payload2,
+                                                     template_bytes=check_template,
+@@ -2986,12 +3480,14 @@ class LoggerUI(ITab):
+         Build CheckPage request bytes from the CheckPage editor/template.
+         Returns request bytes or None on failure; an optional captured template avoids rereading the editor.
+         """
++        config = self._runtime_for_flow()
++        cookie_manager, csrf_manager = self._flow_managers()
+         try:
+             # get editor content
+             try:
+                 editor_msg = template_bytes
+                 if editor_msg is None:
+-                    editor_msg = self.checkPageEditor.getMessage() if hasattr(self, "checkPageEditor") else None
++                    editor_msg = config.get("cp")
+             except:
+                 editor_msg = None
+ 
+@@ -3000,10 +3496,10 @@ class LoggerUI(ITab):
+                 request_bytes = self.build_request_from_template(
+                     get_editor_message=lambda: editor_msg,
+                     helpers=self.helpers,
+-                    cookie_manager=self.cookieManager,
+-                    csrf_manager=self.csrfManager,
+-                    auto_update_cookies=getattr(self, "autoUpdateCookies", False),
+-                    auto_update_csrf=getattr(self, "autoUpdateCsrf", False),
++                    cookie_manager=cookie_manager,
++                    csrf_manager=csrf_manager,
++                    auto_update_cookies=config.get("cookies"),
++                    auto_update_csrf=config.get("csrf"),
+                     normalize_func=None,
+                     custom_status_setter=custom_status_setter,
+                     incoming_payload1=incoming_payload1 or "",
+@@ -3034,33 +3530,70 @@ class LoggerUI(ITab):
+ 
+ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionStateListener):
+     def registerExtenderCallbacks(self, callbacks):
+-        self.callbacks = callbacks
++        self.callbacks, self.helpers = callbacks, callbacks.getHelpers()
++        self.ui = None
++        self._extension_closed = False
+         callbacks.setExtensionName("BoberProxy")
+-        self.helpers = callbacks.getHelpers()
+-
+-        self.controller = SimpleMessageController()
+-        try:
+-            self.msgEditor = callbacks.createMessageEditor(self.controller, False)
+-        except Exception as e:
+-            print("createMessageEditor failed (ignored):", e)
+-            self.msgEditor = None
+-
+-        self.ui = LoggerUI(callbacks, self.controller, self.msgEditor, callbacks)
+-        callbacks.addSuiteTab(self.ui)
+-
+-        callbacks.registerHttpListener(self)
+         callbacks.registerExtensionStateListener(self)
+-
+-        # register proxy listener so we can intercept proxy messages when Proxy Mode ON
+-        try:
+-            callbacks.registerProxyListener(self)
+-        except Exception as e:
+-            print("registerProxyListener failed (ignored):", e)
+-
+-        print("BoberProxy loaded (stabilization K05)")
+-
++        def initialize():
++            if self._extension_closed:
++                return
++            ui = None
++            installed = []
++            def withdraw():
++                self.ui = None
++                if ui is not None:
++                    ui.close_custom_runtime()
++                for kind in reversed(installed):
++                    try:
++                        if kind == "proxy":
++                            callbacks.removeProxyListener(self)
++                        elif kind == "http":
++                            callbacks.removeHttpListener(self)
++                        else:
++                            callbacks.removeSuiteTab(ui)
++                    except (Exception, JavaException):
++                        pass
++                installed[:] = []
++            def still_open():
++                if not self._extension_closed:
++                    return True
++                withdraw()
++                return False
++            try:
++                self.controller = SimpleMessageController()
++                self.msgEditor = callbacks.createMessageEditor(self.controller, False)
++                ui = LoggerUI(callbacks, self.controller, self.msgEditor, callbacks)
++                # Publish before rechecking unload: either the unload callback
++                # sees this UI, or this initializer closes it. Never hold a
++                # lifecycle mutex across calls into the host.
++                self.ui = ui
++                if not still_open():
++                    return
++                callbacks.addSuiteTab(ui)
++                installed.append("tab")
++                if not still_open():
++                    return
++                callbacks.registerHttpListener(self)
++                installed.append("http")
++                if not still_open():
++                    return
++                callbacks.registerProxyListener(self)
++                installed.append("proxy")
++                if not still_open():
++                    return
++                print("BoberProxy loaded (stabilization K06)")
++            except (Exception, JavaException):
++                diagnostic = traceback.format_exc()
++                withdraw()
++                callbacks.printError("BoberProxy UI initialization failed:\n" + diagnostic)
++        if swing.SwingUtilities.isEventDispatchThread():
++            initialize()
++        else:
++            swing.SwingUtilities.invokeLater(initialize)
+ 
+     def extensionUnloaded(self):
++        self._extension_closed = True
+         ui = getattr(self, "ui", None)
+         if ui is not None:
+             ui.close_custom_runtime()
+@@ -3068,6 +3601,10 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
+ 
+         try:
++            ui = getattr(self, "ui", None)
++            if ui is None or ui._custom_ui_closed:
++                return
++            config = ui._capture_runtime()
+             host = method = path = ""
+             status = None
+             length = None
+@@ -3105,7 +3642,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 pass
+ 
+             try:
+-                should = self.ui.should_log(toolFlag, messageIsRequest, messageInfo)
++                should = ui.should_log(toolFlag, messageIsRequest, messageInfo, config)
+             except:
+                 should = True
+ 
+@@ -3114,7 +3651,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 def _append():
+                     try:
+                         # For requests, show the outgoing_payload_from_custom (if set) in the detail view only when selected.
+-                        self.ui.append_log_row(toolFlag, host, method, path, status, length, messageInfo, messageIsRequest)
++                        ui.append_log_row(toolFlag, host, method, path, status, length, messageInfo, messageIsRequest, config)
+                         # Optionally annotate latest row's status label if transform exists
+                     except Exception as e:
+                         print("append invoke error:", e)
+@@ -3136,65 +3673,50 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             pass
+ 
+     def processProxyMessage(self, messageIsRequest, interceptedMessage):
+-        """
+-        Proxy listener: single-entry request-branch implementation.
+-        Build the final request (RequestTemplate or CheckPage) synchronously,
+-        then replace the proxied request and let Burp forward it.
+-        """
++        ui = getattr(self, "ui", None)
++        if ui is None or ui._custom_ui_closed:
++            return
++        context = None
+         try:
+-            # ====================================================
+-            # RESPONSE BRANCH – update cookie / csrf from server
+-            # ====================================================
+-            if not messageIsRequest:
+-                # State collection is independent of the current Proxy action.
+-                # Preserve manual rules and decisions made by previous listeners.
+-                msg_info = interceptedMessage.getMessageInfo()
+-                if msg_info is not None and getattr(self, "ui", None) is not None:
+-                    response_bytes = msg_info.getResponse()
+-                    if response_bytes:
+-                        self.ui._update_cookies_and_csrf(response_bytes)
++            reference = int(interceptedMessage.getMessageReference())
++            info = interceptedMessage.getMessageInfo()
++            if info is None:
++                if not messageIsRequest:
++                    ui.sessions.response(reference, None)
+                 return
+-
+-
+-            # UI readiness + proxy mode enabled?
+-            try:
+-                if not getattr(self, "ui", None):
+-                    return
+-                if not getattr(self.ui, "_proxy_mode_active", False):
+-                    return
+-            except:
+-                return
+-
+-            # get message info and raw request bytes and service
+-            try:
+-                msg_info = interceptedMessage.getMessageInfo()
+-                if not msg_info:
+-                    return
+-                raw_req = msg_info.getRequest()
+-                if not raw_req:
+-                    return
+-                service = msg_info.getHttpService()
+-                if not service:
+-                    return
+-            except:
++            if not messageIsRequest:
++                status, detail = ui.sessions.response(reference, info.getResponse())
++                if status in ("SESSION_STALE_RESPONSE", "SESSION_RESPONSE_UNTRACKED"):
++                    if ui._capture_runtime().get("cookies") or ui._capture_runtime().get("csrf"):
++                        ui._session_warning(status)
++                elif status in ("REGEX_INVALID", "REGEX_NO_CAPTURE", "DECODE_ERROR"):
++                    ui._log("CSRF %s: %s" % (status, detail or ""))
++                return  # Preserve the response's existing interception action.
++            config = ui._capture_runtime()
++            raw = info.getRequest()
++            matched = False
++            if config.get("proxy") and raw:
++                matched = any(_extract_raw_payloads(_wire_text(raw, ui.helpers),
++                                                    config.get("payload1"), config.get("payload2")))
++            context, error = ui.sessions.register(reference, config, matched)
++            if error == "EXISTING":
++                return  # Another listener's rehook must not repeat a workflow.
++            if error:
++                ui._session_warning(error)
++                if matched:
++                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                 return
+-
+-            # get orig_hos, torig_port, orig_https            
+-            orig_host  = service.getHost()
+-            orig_port  = service.getPort()
+-            orig_https = (service.getProtocol().lower() == "https")
+-
+-
+-            # run the unified proxy-workflow on this raw request (implemented on UI)
+-            try:
+-                result = self.ui.proxy_flow_process_request(raw_req, orig_host, orig_port, orig_https)
+-            except (Exception, JavaException) as error:
+-                # An unclassified failure cannot prove that nothing was sent.
+-                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE (%s)" % type(error).__name__)
++            if not matched:
++                return  # Passive/unmatched paths preserve the incoming action.
++            service = info.getHttpService()
++            if service is None:
++                ui.sessions.finish(context, original_response=True)
+                 return
+-
++            result = ui.proxy_flow_process_request(raw, service.getHost(), service.getPort(),
++                                                    service.getProtocol().lower() == "https",
++                                                    runtime_config=config, session_context=context)
+             if not isinstance(result, ProxyWorkflowResult):
++                ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+                 print("[BoberProxy] WORKFLOW_INVALID_RESULT")
+                 return
+@@ -3205,23 +3727,30 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 self._report_workflow_error(result)
+                 return
+             if result.status == ProxyWorkflowResult.NO_MATCH:
++                ui.sessions.finish(context, original_response=True)
+                 return
+             if result.status != ProxyWorkflowResult.READY or not result.request_bytes:
++                ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+                 print("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
+                 return
+-
+-            # Replace the proxy's request with our final request and let Burp forward it
++            if not ui.sessions.commit(context):
++                ui.sessions.finish(context, original_response=not context.any_sent)
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP if context.any_sent else
++                                                       interceptedMessage.ACTION_DONT_INTERCEPT)
++                self._report_workflow_error(ProxyWorkflowResult(
++                    ProxyWorkflowResult.ERROR_AFTER_SEND if context.any_sent else ProxyWorkflowResult.ERROR_BEFORE_SEND,
++                    workflow_id=result.workflow_id, error_code="SESSION_CLEARED"))
++                return
+             try:
+-                msg_info.setRequest(result.request_bytes)
++                info.setRequest(result.request_bytes)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+             except (Exception, JavaException) as error:
++                ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+                 print("[BoberProxy] PROXY_REPLACE_FAILED (%s)" % type(error).__name__)
+-            return
+-
+-        except (Exception, JavaException) as e:
+-            try:
+-                print("processProxyMessage outer exception:", e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            if context is not None and context.matched:
++                ui.sessions.finish(context)
++                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
++            print("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE (%s)" % type(error).__name__)

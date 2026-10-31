@@ -200,7 +200,7 @@ class TemplateTests(SourceCase):
             return True, (p1, p2, token), None
         self.ui.custom_codeblock_status = True
         self.ui.run_user_code = transform
-        self.ui._update_cookies_and_csrf = lambda response: self.ui.csrfManager.set_token('AFTER_RT')
+        self.ui.callbacks = Callbacks(response=as_bytes('HTTP/1.1 200 OK\r\n\r\ntoken="AFTER_RT"'))
         self.ui._follow_redirects_chain = lambda *args, **kwargs: args[1]
         result = self.ui.proxy_flow_process_request(as_bytes('GET /?q=%252F+&w=W HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 80, False)
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)

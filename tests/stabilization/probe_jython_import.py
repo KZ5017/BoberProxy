@@ -90,6 +90,8 @@ def main():
         from source_harness import Helpers
 
         class Editor(object):
+            def getMessage(self):
+                return None
             def getComponent(self):
                 return JPanel()
 
@@ -101,6 +103,7 @@ def main():
                 return Editor()
 
         def check_toggle():
+            ui = None
             try:
                 callbacks = UICallbacks()
                 controller = namespace['SimpleMessageController']()
@@ -112,6 +115,7 @@ def main():
                 checks['real_swing_autofollow_enabled'] = bool(ui.autoFollowRTChk.isEnabled())
                 ui.autoUpdateChk.doClick()
                 ui.autoUpdateCsrfChk.doClick()
+                ui._publish_runtime()
                 checks['real_swing_cookie_flag'] = bool(ui.autoUpdateCookies)
                 checks['real_swing_csrf_flag'] = bool(ui.autoUpdateCsrf)
                 html = 'HTTP/1.1 200 OK\r\nSet-Cookie: sid=FROM_UI\r\n\r\n<input name="csrfmiddlewaretoken" value="UI_TOKEN">'
@@ -122,6 +126,9 @@ def main():
             except BaseException as error:
                 checks['real_swing_checkpage_toggle'] = False
                 ui_errors.append(str(error))
+            finally:
+                if ui is not None:
+                    ui.close_custom_runtime()
 
         SwingUtilities.invokeAndWait(check_toggle)
     report = dict(kind='standalone-full-jython-import-with-real-burp-api',

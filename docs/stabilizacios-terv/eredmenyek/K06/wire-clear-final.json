@@ -1,0 +1,324 @@
+{
+  "kind": "K06-external-Burp-wire-with-explicit-test-wrapper",
+  "scenario": "clear-final",
+  "source_on_disk_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30",
+  "checks": {
+    "clear_releases_committed_owner": true,
+    "new_epoch_succeeds_before_old_final": true,
+    "committed_CP_can_finish": true,
+    "late_final_cannot_restore_old_state": true,
+    "two_requests_per_flow": true,
+    "no_fixture_gate_timeout": true
+  },
+  "responses": {
+    "r6cb22c0050_NEW_EPOCH": {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "179"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "text/html"
+        ],
+        [
+          "Set-Cookie",
+          "sid=K06_FINAL_r6cb22c0050_NEW_EPOCH"
+        ]
+      ],
+      "body_base64": "eyJjYXNlIjogInI2Y2IyMmMwMDUwX05FV19FUE9DSCIsICJzdGVwIjogImNoZWNrIiwgImNvb2tpZV9vayI6IHRydWUsICJ0b2tlbl9vayI6IHRydWUsICJjc3JmX2ZpZWxkIjogIjxpbnB1dCBuYW1lPSdjc3JmbWlkZGxld2FyZXRva2VuJyB2YWx1ZT0nSzA2X0ZJTkFMX3I2Y2IyMmMwMDUwX05FV19FUE9DSCc+In0=",
+      "seconds": 0.03407,
+      "json": {
+        "case": "r6cb22c0050_NEW_EPOCH",
+        "step": "check",
+        "cookie_ok": true,
+        "token_ok": true,
+        "csrf_field": "<input name='csrfmiddlewaretoken' value='K06_FINAL_r6cb22c0050_NEW_EPOCH'>"
+      }
+    },
+    "r6cb22c0050_LATE_CP": {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "175"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "text/html"
+        ],
+        [
+          "Set-Cookie",
+          "sid=K06_FINAL_r6cb22c0050_LATE_CP"
+        ]
+      ],
+      "body_base64": "eyJjYXNlIjogInI2Y2IyMmMwMDUwX0xBVEVfQ1AiLCAic3RlcCI6ICJjaGVjayIsICJjb29raWVfb2siOiB0cnVlLCAidG9rZW5fb2siOiB0cnVlLCAiY3NyZl9maWVsZCI6ICI8aW5wdXQgbmFtZT0nY3NyZm1pZGRsZXdhcmV0b2tlbicgdmFsdWU9J0swNl9GSU5BTF9yNmNiMjJjMDA1MF9MQVRFX0NQJz4ifQ==",
+      "seconds": 0.481766,
+      "json": {
+        "case": "r6cb22c0050_LATE_CP",
+        "step": "check",
+        "cookie_ok": true,
+        "token_ok": true,
+        "csrf_field": "<input name='csrfmiddlewaretoken' value='K06_FINAL_r6cb22c0050_LATE_CP'>"
+      }
+    }
+  },
+  "observations": {
+    "health": {
+      "fixture": "K06-gated-v1",
+      "port": 18770
+    },
+    "setup": {
+      "owner": null,
+      "phase": null,
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 7,
+      "csrf": "K06_FINAL_r1f26f25206_RECOVER",
+      "publisher_running": true,
+      "version": 5,
+      "cookies": true,
+      "sid": "K06_FINAL_r1f26f25206_RECOVER",
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "old_owner": {
+      "owner": 7,
+      "phase": "handoff",
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 9,
+      "csrf": "K06_r6cb22c0050_LATE_CP",
+      "publisher_running": true,
+      "version": 5,
+      "cookies": true,
+      "sid": "K06_r6cb22c0050_LATE_CP",
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "after_late": {
+      "owner": null,
+      "phase": null,
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 10,
+      "csrf": "K06_FINAL_r6cb22c0050_NEW_EPOCH",
+      "publisher_running": true,
+      "version": 5,
+      "cookies": true,
+      "sid": "K06_FINAL_r6cb22c0050_NEW_EPOCH",
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "cases": [
+      "r6cb22c0050_LATE_CP",
+      "r6cb22c0050_NEW_EPOCH"
+    ],
+    "stages": [
+      {
+        "case": "r6cb22c0050_LATE_CP",
+        "step": "action",
+        "stage": "received",
+        "event": {
+          "sequence": 44,
+          "time_ns": 1793467656518296100,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/action?case=r6cb22c0050_LATE_CP",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "47"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2FjdGlvbj9jYXNlPXI2Y2IyMmMwMDUwX0xBVEVfQ1AgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazA2LXdpcmUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDcNCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9YzVyZm00cmszciZvbmU9cjZjYjIyYzAwNTBfTEFURV9DUCZ0d289VFdP",
+          "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1yNmNiMjJjMDA1MF9MQVRFX0NQJnR3bz1UV08="
+        },
+        "cookie": "",
+        "csrf": "c5rfm4rk3r"
+      },
+      {
+        "case": "r6cb22c0050_LATE_CP",
+        "step": "action",
+        "stage": "responding"
+      },
+      {
+        "case": "r6cb22c0050_LATE_CP",
+        "step": "check",
+        "stage": "received",
+        "event": {
+          "sequence": 45,
+          "time_ns": 1793467656523776900,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/check?case=r6cb22c0050_LATE_CP",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "Cookie",
+              "sid=K06_r6cb22c0050_LATE_CP"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "60"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2NoZWNrP2Nhc2U9cjZjYjIyYzAwNTBfTEFURV9DUCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzcwDQpDb29raWU6IHNpZD1LMDZfcjZjYjIyYzAwNTBfTEFURV9DUA0KWC1Cb2Jlci1UZXN0LVJ1bjogazA2LXdpcmUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjANCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9SzA2X3I2Y2IyMmMwMDUwX0xBVEVfQ1Amb25lPXI2Y2IyMmMwMDUwX0xBVEVfQ1AmdHdvPVRXTw==",
+          "body_base64": "Y3NyZj1LMDZfcjZjYjIyYzAwNTBfTEFURV9DUCZvbmU9cjZjYjIyYzAwNTBfTEFURV9DUCZ0d289VFdP"
+        },
+        "cookie": "sid=K06_r6cb22c0050_LATE_CP",
+        "csrf": "K06_r6cb22c0050_LATE_CP"
+      },
+      {
+        "case": "r6cb22c0050_NEW_EPOCH",
+        "step": "action",
+        "stage": "received",
+        "event": {
+          "sequence": 47,
+          "time_ns": 1793467656767046600,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/action?case=r6cb22c0050_NEW_EPOCH",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "Cookie",
+              "sid=K06_r6cb22c0050_LATE_CP"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "49"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2FjdGlvbj9jYXNlPXI2Y2IyMmMwMDUwX05FV19FUE9DSCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzcwDQpDb29raWU6IHNpZD1LMDZfcjZjYjIyYzAwNTBfTEFURV9DUA0KWC1Cb2Jlci1UZXN0LVJ1bjogazA2LXdpcmUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDkNCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9YzVyZm00cmszciZvbmU9cjZjYjIyYzAwNTBfTkVXX0VQT0NIJnR3bz1UV08=",
+          "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1yNmNiMjJjMDA1MF9ORVdfRVBPQ0gmdHdvPVRXTw=="
+        },
+        "cookie": "sid=K06_r6cb22c0050_LATE_CP",
+        "csrf": "c5rfm4rk3r"
+      },
+      {
+        "case": "r6cb22c0050_NEW_EPOCH",
+        "step": "action",
+        "stage": "responding"
+      },
+      {
+        "case": "r6cb22c0050_NEW_EPOCH",
+        "step": "check",
+        "stage": "received",
+        "event": {
+          "sequence": 48,
+          "time_ns": 1793467656772578000,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/check?case=r6cb22c0050_NEW_EPOCH",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "Cookie",
+              "sid=K06_r6cb22c0050_NEW_EPOCH"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "64"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2NoZWNrP2Nhc2U9cjZjYjIyYzAwNTBfTkVXX0VQT0NIIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NzANCkNvb2tpZTogc2lkPUswNl9yNmNiMjJjMDA1MF9ORVdfRVBPQ0gNClgtQm9iZXItVGVzdC1SdW46IGswNi13aXJlDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDY0DQpDb25uZWN0aW9uOiBjbG9zZQ0KDQpjc3JmPUswNl9yNmNiMjJjMDA1MF9ORVdfRVBPQ0gmb25lPXI2Y2IyMmMwMDUwX05FV19FUE9DSCZ0d289VFdP",
+          "body_base64": "Y3NyZj1LMDZfcjZjYjIyYzAwNTBfTkVXX0VQT0NIJm9uZT1yNmNiMjJjMDA1MF9ORVdfRVBPQ0gmdHdvPVRXTw=="
+        },
+        "cookie": "sid=K06_r6cb22c0050_NEW_EPOCH",
+        "csrf": "K06_r6cb22c0050_NEW_EPOCH"
+      },
+      {
+        "case": "r6cb22c0050_NEW_EPOCH",
+        "step": "check",
+        "stage": "responding"
+      },
+      {
+        "case": "r6cb22c0050_LATE_CP",
+        "step": "check",
+        "stage": "responding"
+      }
+    ]
+  },
+  "passed": true,
+  "wrapper_session": {
+    "instance": "977732358bcd4c81a2f864835f5921d9",
+    "source_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "K06-final-change-scope",
+  "before_source_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30",
+  "after_source_sha256": "ddf7d0a34ebe4017b4d5bb76e35b081491650f51752cc5fda524b8a4a1e6ba91",
+  "checks": {
+    "reconstructed_old_hash_matches": true,
+    "unchanged_before_registration": true,
+    "unchanged_after_registration": true
+  },
+  "passed": true,
+  "note": "Only source registration lifetime guards and final blank line changed; all workflow/session/template/redirect/custom/callback logic is byte-identical after newline normalization."
+}

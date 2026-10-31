@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*-
+# Generated runtime file only; a finite, test-controlled CheckPage pause.
+def custom_codeblock(payload1, payload2, csrf_token):
+    import json
+    import os
+    import time
+    from java.lang import System
+    trace_path = "__TRACE_PATH__"
+    release_directory = "__RELEASE_DIRECTORY__"
+    record = dict(payload1=payload1, payload2=payload2, csrf_token=csrf_token)
+    pause = payload1.endswith('_pause') and csrf_token == 'K06_' + payload1
+    record['pause'] = pause
+    with open(trace_path, 'ab') as handle:
+        handle.write((json.dumps(record, ensure_ascii=True) + '\n').encode('utf-8'))
+    if pause:
+        release = os.path.join(release_directory, payload1 + '.release')
+        end = System.nanoTime() + 1500000000
+        while not os.path.isfile(release):
+            if System.nanoTime() >= end:
+                raise ValueError('K06 finite custom gate was not released')
+            time.sleep(0.005)
+    return payload1, payload2, csrf_token

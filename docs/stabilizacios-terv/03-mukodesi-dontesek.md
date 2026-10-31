@@ -61,6 +61,8 @@ K04 döntés, 2026-10-31: a felhasználó a közös munkamenet megtartását vá
 - Alternatíva: célponthoz/munkamenethez kötött tárolók és sütihatókör-feldolgozás. Ennek választásakor a K04/K06 szerződést a megvalósítás előtt ki kell egészíteni a domain, path, Secure és átirányítás közbeni originváltás szabályaival.
 - Implementációs korlát: hálózati callbackre várás közben nem tartható olyan lock, amelyet a visszahívott feldolgozás is igényel. Nem elegendő egy nagy lockot tenni a teljes jelenlegi függvény köré.
 
+K06 megvalósítási szabály, 2026-10-31: a választott globális modellhez a kezelt folyamatokat a végső Proxy-válaszig sorrendezzük, folyamatonként saját sütivel/tokenértékkel. Más passzív Proxy-válasz a kéréskor rögzített gyűjtési kapcsolók/regex szerint frissítheti a globális tárat, a tulajdonos helyi állapotát nem. Válaszonként az érintett sütinevek és a megtalált token publikálódnak, sorszámvédelemmel. Bármelyik Clear közös új generációt indít, csak a gombhoz tartozó adatot törli, és felszabadítja/érvényteleníti a régi tulajdonost. A már vállalt Proxy-küldés nem vonható vissza; régi válasz nem publikálhat új generációba. A kapacitás/időkeret és a hiányzó végső válasz konzervatív helyfoglalása a [K06 szerződésben](eredmenyek/K06/README.md) rögzített. Az A/B, passzív közbeékelés, Clear-RT/Clear-final, konfigurációváltás és a végső közvetlen normál/custom regresszió is sikeres a rögzített környezetben; K06 lezárt.
+
 ## D07 — Bemeneti értékek és bájtpontosság
 
 - Érintett: F31/F41, K00/K02.

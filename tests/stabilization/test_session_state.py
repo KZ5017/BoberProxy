@@ -257,16 +257,23 @@ class WorkflowStateTests(SourceCase):
         self.ui.checkPageEditor = Editor(as_bytes('POST /check HTTP/1.1\r\nHost: demo\r\n'
             'Cookie: sid=old; untouched=x\r\n\r\ncsrf=c5rfm4rk3r'))
         cookies, tokens = [], []
-        original_cookie = self.ui.cookieManager.update_from_response
-        original_csrf = self.ui.csrfManager.update_from_response
-        def cookie_update(data):
-            cookies.append(as_text(data))
-            return original_cookie(data)
-        def csrf_update(data):
-            tokens.append(as_text(data))
-            return original_csrf(data)
-        self.ui.cookieManager.update_from_response = cookie_update
-        self.ui.csrfManager.update_from_response = csrf_update
+        original_begin = self.ui.sessions.begin
+        def begin(context, deadline):
+            error = original_begin(context, deadline)
+            if error:
+                return error
+            original_cookie = context.cookies.update_from_response
+            original_csrf = context.csrf.update_from_response
+            def cookie_update(data):
+                cookies.append(as_text(data))
+                return original_cookie(data)
+            def csrf_update(data):
+                tokens.append(as_text(data))
+                return original_csrf(data)
+            context.cookies.update_from_response = cookie_update
+            context.csrf.update_from_response = csrf_update
+            return None
+        self.ui.sessions.begin = begin
         result = self.ui.proxy_flow_process_request(as_bytes(
             'GET /entry?q=ONE&w=TWO HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 80, False)
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)

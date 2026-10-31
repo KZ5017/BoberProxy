@@ -84,6 +84,8 @@ def run_checks(helpers=None):
                 errors.append(traceback.format_exc())
 
     class Editor(object):
+        def getMessage(self):
+            return None
         def getComponent(self):
             return JPanel()
     class Callbacks(object):

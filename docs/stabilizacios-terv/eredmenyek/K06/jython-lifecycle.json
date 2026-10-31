@@ -1,0 +1,105 @@
+{
+  "kind": "standalone-K06-repeated-lifecycle-no-network", 
+  "cycles": [
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": false, 
+      "finite_worker_finished": true, 
+      "cycle": 0, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": true, 
+      "finite_worker_finished": true, 
+      "cycle": 1, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": false, 
+      "finite_worker_finished": true, 
+      "cycle": 2, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": true, 
+      "finite_worker_finished": true, 
+      "cycle": 3, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": false, 
+      "finite_worker_finished": true, 
+      "cycle": 4, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": true, 
+      "finite_worker_finished": true, 
+      "cycle": 5, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": false, 
+      "finite_worker_finished": true, 
+      "cycle": 6, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }, 
+    {
+      "snapshot_not_republished": true, 
+      "no_replacement_or_accumulation": true, 
+      "timed": true, 
+      "finite_worker_finished": true, 
+      "cycle": 7, 
+      "listeners_detached": true, 
+      "coordinator_closed": true, 
+      "publisher_stopped": true, 
+      "passed": true, 
+      "expected_job_outcome": true
+    }
+  ], 
+  "source_sha256": "ddf7d0a34ebe4017b4d5bb76e35b081491650f51752cc5fda524b8a4a1e6ba91", 
+  "scope": "Eight private source instances; four finite successes and four timeouts. No infinite code or live Burp setting changes.", 
+  "passed": true, 
+  "errors": []
+}

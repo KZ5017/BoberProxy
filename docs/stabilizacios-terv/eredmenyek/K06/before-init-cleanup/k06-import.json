@@ -1,0 +1,32 @@
+{
+  "table_errors": [], 
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "standalone-full-jython-import-with-real-burp-api", 
+  "transport_callbacks_are_doubles": true, 
+  "ui_errors": [], 
+  "not_in_application": true, 
+  "ui_smoke_requested": true, 
+  "message_editors_are_doubles": true, 
+  "checks": {
+    "java_exception_has_no_retry": true, 
+    "real_swing_model_sort": true, 
+    "real_swing_checkpage_toggle": true, 
+    "java_bytes_csrf": true, 
+    "initial_checkpage_off": true, 
+    "real_swing_cookie_flag": true, 
+    "java_bytes_cookie": true, 
+    "legacy_real_java_bytes_response": true, 
+    "extends_burp": true, 
+    "proxy_listener": true, 
+    "response_updates_csrf_with_default_regex": true, 
+    "http_listener": true, 
+    "real_swing_autofollow_enabled": true, 
+    "response_updates_cookie_via_text_helper": true, 
+    "real_swing_csrf_flag": true
+  }, 
+  "standalone_bootstrap": "Concrete javax.swing.JTable/TableRowSorter preimports", 
+  "java_vendor": "Oracle Corporation", 
+  "source_sha256": "63aaa503803a188774adf4c42297e9c5cc5562f3d8fa46f576321683f887786b", 
+  "java_version": "26.0.2", 
+  "passed": true
+}

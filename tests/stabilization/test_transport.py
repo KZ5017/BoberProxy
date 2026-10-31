@@ -254,6 +254,7 @@ class Message(object):
 
 
 class Intercepted(object):
+    _next_reference = 0
     # Native IInterceptedProxyMessage values, verified by the K03 Burp probe.
     ACTION_DO_INTERCEPT = 1
     ACTION_DONT_INTERCEPT = 2
@@ -261,11 +262,16 @@ class Intercepted(object):
     ACTION_FOLLOW_RULES = 0
 
     def __init__(self):
+        Intercepted._next_reference += 1
+        self.reference = Intercepted._next_reference
         self.message = Message()
         self.action = self.ACTION_FOLLOW_RULES
 
     def getMessageInfo(self):
         return self.message
+
+    def getMessageReference(self):
+        return self.reference
 
     def setInterceptAction(self, value):
         self.action = value

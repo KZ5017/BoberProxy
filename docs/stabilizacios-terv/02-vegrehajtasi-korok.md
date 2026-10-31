@@ -1,6 +1,6 @@
 # Végrehajtási körök
 
-Aktuális állapot: **K00, K01, K02, K03, K04 és K05a lezárva a rögzített környezetben; K06–K11 nem indult**. A felhasználó elindította a terv szerinti végrehajtást. A körök kis változtatásokra bonthatók, de a belépési és lezárási feltételek nem hagyhatók ki. A K00 alatt a fő implementáció változatlan maradt; az új változatokat a K00 eredményekhez kell mérni.
+Aktuális állapot: **K00, K01, K02, K03, K04, K05a és K06 lezárva a rögzített környezetben; K07–K11 nem indult**. A felhasználó elindította a terv szerinti végrehajtást. A körök kis változtatásokra bonthatók, de a belépési és lezárási feltételek nem hagyhatók ki. A K00 alatt a fő implementáció változatlan maradt; az új változatokat a K00 eredményekhez kell mérni.
 
 Alapsorrend: K00 → K01 → K02 → K03 → K04 → K05 → K06 → K07 → K08 → K09 → K10 → K11. Egy kör függőségeinek teljesülése nem engedély a felhasználó által még nem kért megvalósításra.
 

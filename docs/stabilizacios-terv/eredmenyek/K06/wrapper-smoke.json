@@ -1,0 +1,18 @@
+{
+  "kind": "standalone-K06-test-wrapper-no-network", 
+  "checks": {
+    "clear_csrf_epoch": true, 
+    "source_unload_stops_timer": true, 
+    "all_settings_change_published": true, 
+    "actual_unload_stops_control_thread": true, 
+    "changed_config_has_new_version": true, 
+    "clear_cookies_epoch": true, 
+    "setup_both_exact_templates": true, 
+    "setup_via_edt_command": true, 
+    "main_ui_created_on_edt": true, 
+    "source_unload_closes_runtime": true
+  }, 
+  "source_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30", 
+  "passed": true, 
+  "errors": []
+}

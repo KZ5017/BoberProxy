@@ -1,0 +1,289 @@
+{
+  "kind": "K06-external-Burp-wire-with-explicit-test-wrapper",
+  "scenario": "clear-rt",
+  "source_on_disk_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30",
+  "checks": {
+    "one_action_no_CheckPage": true,
+    "terminal_drop": false,
+    "late_RT_not_published": true,
+    "new_epoch_normal_flow": true,
+    "no_fixture_gate_timeout": true
+  },
+  "responses": {
+    "r1f26f25206_LATE_RT": {
+      "status": 200,
+      "headers": [
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Cache-control",
+          "no-cache, no-store"
+        ],
+        [
+          "Pragma",
+          "no-cache"
+        ],
+        [
+          "X-Frame-Options",
+          "DENY"
+        ],
+        [
+          "Content-Type",
+          "text/html; charset=utf-8"
+        ],
+        [
+          "X-Content-Type-Options",
+          "nosniff"
+        ]
+      ],
+      "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+      "seconds": 0.188941
+    },
+    "r1f26f25206_RECOVER": {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "175"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "text/html"
+        ],
+        [
+          "Set-Cookie",
+          "sid=K06_FINAL_r1f26f25206_RECOVER"
+        ]
+      ],
+      "body_base64": "eyJjYXNlIjogInIxZjI2ZjI1MjA2X1JFQ09WRVIiLCAic3RlcCI6ICJjaGVjayIsICJjb29raWVfb2siOiB0cnVlLCAidG9rZW5fb2siOiB0cnVlLCAiY3NyZl9maWVsZCI6ICI8aW5wdXQgbmFtZT0nY3NyZm1pZGRsZXdhcmV0b2tlbicgdmFsdWU9J0swNl9GSU5BTF9yMWYyNmYyNTIwNl9SRUNPVkVSJz4ifQ==",
+      "seconds": 0.032167,
+      "json": {
+        "case": "r1f26f25206_RECOVER",
+        "step": "check",
+        "cookie_ok": true,
+        "token_ok": true,
+        "csrf_field": "<input name='csrfmiddlewaretoken' value='K06_FINAL_r1f26f25206_RECOVER'>"
+      }
+    }
+  },
+  "observations": {
+    "health": {
+      "fixture": "K06-gated-v1",
+      "port": 18770
+    },
+    "setup": {
+      "owner": null,
+      "phase": null,
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 4,
+      "csrf": "K06_FINAL_r6656d1b243_B",
+      "publisher_running": true,
+      "version": 4,
+      "cookies": true,
+      "sid": "K06_FINAL_r6656d1b243_B",
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "before_action": {
+      "owner": 5,
+      "phase": "active",
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 6,
+      "csrf": null,
+      "publisher_running": true,
+      "version": 4,
+      "cookies": true,
+      "sid": null,
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "after_action": {
+      "owner": null,
+      "phase": null,
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 7,
+      "csrf": null,
+      "publisher_running": true,
+      "version": 4,
+      "cookies": true,
+      "sid": null,
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "late_state": {
+      "owner": null,
+      "phase": null,
+      "csrf_enabled": true,
+      "waiting": 0,
+      "epoch": 7,
+      "csrf": null,
+      "publisher_running": true,
+      "version": 4,
+      "cookies": true,
+      "sid": null,
+      "use_cp": true,
+      "proxy": true,
+      "ready": true,
+      "closed": false
+    },
+    "cases": [
+      "r1f26f25206_LATE_RT",
+      "r1f26f25206_RECOVER"
+    ],
+    "stages": [
+      {
+        "case": "r1f26f25206_LATE_RT",
+        "step": "action",
+        "stage": "received",
+        "event": {
+          "sequence": 33,
+          "time_ns": 1793467621024262300,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/action?case=r1f26f25206_LATE_RT",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "47"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2FjdGlvbj9jYXNlPXIxZjI2ZjI1MjA2X0xBVEVfUlQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazA2LXdpcmUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDcNCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9YzVyZm00cmszciZvbmU9cjFmMjZmMjUyMDZfTEFURV9SVCZ0d289VFdP",
+          "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1yMWYyNmYyNTIwNl9MQVRFX1JUJnR3bz1UV08="
+        },
+        "cookie": "",
+        "csrf": "c5rfm4rk3r"
+      },
+      {
+        "case": "r1f26f25206_LATE_RT",
+        "step": "action",
+        "stage": "responding"
+      },
+      {
+        "case": "r1f26f25206_RECOVER",
+        "step": "action",
+        "stage": "received",
+        "event": {
+          "sequence": 37,
+          "time_ns": 1793467621279017500,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/action?case=r1f26f25206_RECOVER",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "47"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2FjdGlvbj9jYXNlPXIxZjI2ZjI1MjA2X1JFQ09WRVIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazA2LXdpcmUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDcNCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9YzVyZm00cmszciZvbmU9cjFmMjZmMjUyMDZfUkVDT1ZFUiZ0d289VFdP",
+          "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1yMWYyNmYyNTIwNl9SRUNPVkVSJnR3bz1UV08="
+        },
+        "cookie": "",
+        "csrf": "c5rfm4rk3r"
+      },
+      {
+        "case": "r1f26f25206_RECOVER",
+        "step": "action",
+        "stage": "responding"
+      },
+      {
+        "case": "r1f26f25206_RECOVER",
+        "step": "check",
+        "stage": "received",
+        "event": {
+          "sequence": 38,
+          "time_ns": 1793467621284239200,
+          "run": "k06-wire",
+          "method": "POST",
+          "target": "/k06/check?case=r1f26f25206_RECOVER",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18770"
+            ],
+            [
+              "Cookie",
+              "sid=K06_r1f26f25206_RECOVER"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k06-wire"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "60"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "raw_base64": "UE9TVCAvazA2L2NoZWNrP2Nhc2U9cjFmMjZmMjUyMDZfUkVDT1ZFUiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzcwDQpDb29raWU6IHNpZD1LMDZfcjFmMjZmMjUyMDZfUkVDT1ZFUg0KWC1Cb2Jlci1UZXN0LVJ1bjogazA2LXdpcmUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjANCkNvbm5lY3Rpb246IGNsb3NlDQoNCmNzcmY9SzA2X3IxZjI2ZjI1MjA2X1JFQ09WRVImb25lPXIxZjI2ZjI1MjA2X1JFQ09WRVImdHdvPVRXTw==",
+          "body_base64": "Y3NyZj1LMDZfcjFmMjZmMjUyMDZfUkVDT1ZFUiZvbmU9cjFmMjZmMjUyMDZfUkVDT1ZFUiZ0d289VFdP"
+        },
+        "cookie": "sid=K06_r1f26f25206_RECOVER",
+        "csrf": "K06_r1f26f25206_RECOVER"
+      },
+      {
+        "case": "r1f26f25206_RECOVER",
+        "step": "check",
+        "stage": "responding"
+      }
+    ]
+  },
+  "passed": false,
+  "wrapper_session": {
+    "instance": "977732358bcd4c81a2f864835f5921d9",
+    "source_sha256": "07f5bd3a2e370c47f138694fea9ec543eabb2e20fbd340a3aae3757dd2a71a30"
+  }
+}

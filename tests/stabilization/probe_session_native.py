@@ -81,6 +81,8 @@ def run_checks(helpers=None):
     check('native_clear_is_missing_token', lambda: csrf.get_token() is None and csrf.dump() == '<no csrf token>')
 
     class Editor(object):
+        def getMessage(self):
+            return None
         def getComponent(self):
             return JPanel()
 
@@ -91,6 +93,7 @@ def run_checks(helpers=None):
             return Editor()
 
     def ui_checks():
+        ui = None
         try:
             callbacks = UICallbacks()
             ui = ns['LoggerUI'](callbacks, ns['SimpleMessageController'](), None, callbacks)
@@ -103,6 +106,7 @@ def run_checks(helpers=None):
             check('swing_edit_shows_missing_capture', lambda: 'REGEX_NO_CAPTURE' in ui.customStatusArea.getText())
             ui.csrfRegexArea.setText(r'token="([^"]*)"')
             ui.autoUpdateCsrfChk.doClick()
+            ui._publish_runtime()
             ui._update_cookies_and_csrf(wire('HTTP/1.1 200 OK\r\n\r\ntoken="UI"'))
             check('swing_edited_pattern_extracts', lambda: ui.csrfManager.get_token() == 'UI')
             ui.resetCsrfRegexBtn.doClick()
@@ -114,6 +118,9 @@ def run_checks(helpers=None):
         except BaseException:
             checks['swing_registration_and_events'] = False
             errors.append(traceback.format_exc())
+        finally:
+            if ui is not None:
+                ui.close_custom_runtime()
 
     with CapturedOutput():
         if SwingUtilities.isEventDispatchThread():

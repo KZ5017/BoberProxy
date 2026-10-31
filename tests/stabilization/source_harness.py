@@ -185,6 +185,9 @@ class FakeTime(object):
     def sleep(self, duration):
         self.sleeps.append(duration)
 
+    def time(self):
+        return time.time()
+
 
 class CapturedOutput(object):
     def __init__(self):
@@ -242,6 +245,8 @@ def load_namespace():
                    '_redirect_base', '_redirect_destination'])
     wanted.update(['_custom_timeout', '_custom_failure', '_custom_error_detail', 'CustomWorkerHandle',
                    '_start_custom_worker', 'CustomJob', 'CustomExecutor'])
+    wanted.update(['RuntimeConfig', '_session_cookie_copy', '_session_pattern_state',
+                   '_session_csrf_copy', 'SessionContext', 'SessionCoordinator'])
     starts = list(re.finditer(r'^(?:class|def)\s+(\w+)\b', source, re.M))
     blocks = []
     for i, match in enumerate(starts):
@@ -322,4 +327,6 @@ def new_ui(namespace):
     ui.paused = False
     if hasattr(ui, '_init_custom_runtime'):
         ui._init_custom_runtime()
+    if hasattr(ui, '_init_session_runtime'):
+        ui._init_session_runtime()
     return ui

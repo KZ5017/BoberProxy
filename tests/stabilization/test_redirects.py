@@ -283,8 +283,7 @@ class RedirectTests(SourceCase):
         self.ui.useCheckPageTemplate = True
         self.ui.autoFollowRTChk = Check(selected=True)
         self.ui.autoUpdateCsrf = True
-        self.ui.callbacks = SequenceCallbacks([response(302, 'http://other:8080/next', 'FIRST'), response(200, None, 'LAST')])
-        self.ui._update_cookies_and_csrf = lambda data: self.ui.csrfManager.set_token(as_text(data).split('\r\n\r\n', 1)[1])
+        self.ui.callbacks = SequenceCallbacks([response(302, 'http://other:8080/next', 'token="FIRST"'), response(200, None, 'token="LAST"')])
         result = self.workflow_request()
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
         self.assertIn('csrf=LAST', as_text(result.request_bytes))
@@ -308,8 +307,12 @@ class PassiveActionTests(SourceCase):
                     intercepted.message.request = as_bytes('GET /unmatched HTTP/1.1\r\n\r\n')
                     intercepted.action = action
                     updates = []
-                    self.ui._update_cookies_and_csrf = updates.append
+                    original_update = self.ui.sessions.update
+                    self.ui.sessions.update = lambda ctx, data: (updates.append(data), original_update(ctx, data))[1]
+                    if not request:
+                        extender.processProxyMessage(True, intercepted)
                     extender.processProxyMessage(request, intercepted)
+                    self.ui.sessions.update = original_update
                     self.assertEqual(intercepted.action, action)
                     self.assertEqual(len(updates), 0 if request else 1)
                     self.assertEqual(intercepted.message.replacements, [])

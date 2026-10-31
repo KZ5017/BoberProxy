@@ -1,0 +1,48 @@
+{
+  "status": 200,
+  "headers": [
+    [
+      "Content-Length",
+      "530"
+    ],
+    [
+      "Connection",
+      "close"
+    ],
+    [
+      "Content-Type",
+      "application/json"
+    ]
+  ],
+  "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE2LCAidGltZV9ucyI6IDE3OTM0NTIxMTEyODgwOTA4MDAsICJydW4iOiAiazA2LXJlZmVyZW5jZSIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz9jYXNlPWswNi1yZWZlcmVuY2UiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1LMDYtSW5zcGVjdCIsICJyZWZlcmVuY2UiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswNi1yZWZlcmVuY2UiXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAyTmhjMlU5YXpBMkxYSmxabVZ5Wlc1alpTQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVXN3TmkxSmJuTndaV04wT2lCeVpXWmxjbVZ1WTJVTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dOaTF5WldabGNtVnVZMlVOQ2cwSyIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+  "seconds": 0.023277,
+  "json": {
+    "request": {
+      "sequence": 16,
+      "time_ns": 1793452111288090800,
+      "run": "k06-reference",
+      "method": "GET",
+      "target": "/echo?case=k06-reference",
+      "headers": [
+        [
+          "Host",
+          "127.0.0.1:18765"
+        ],
+        [
+          "Connection",
+          "keep-alive"
+        ],
+        [
+          "X-Bober-K06-Inspect",
+          "reference"
+        ],
+        [
+          "X-Bober-Test-Run",
+          "k06-reference"
+        ]
+      ],
+      "raw_base64": "R0VUIC9lY2hvP2Nhc2U9azA2LXJlZmVyZW5jZSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLUswNi1JbnNwZWN0OiByZWZlcmVuY2UNClgtQm9iZXItVGVzdC1SdW46IGswNi1yZWZlcmVuY2UNCg0K",
+      "body_base64": ""
+    }
+  }
+}
