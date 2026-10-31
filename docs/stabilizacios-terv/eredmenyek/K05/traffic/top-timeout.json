@@ -1,0 +1,133 @@
+{
+  "kind": "K05-real-Burp-wire-and-custom-trace",
+  "scenario": "top-timeout",
+  "checks": {
+    "no_late_extra_send": true,
+    "single_worker": true,
+    "owned_worker_group": true,
+    "no_action": true,
+    "original_once": true,
+    "original_response": true,
+    "top_level_started": true,
+    "function_never_called": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "451"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDcsICJ0aW1lX25zIjogMTc5MzQ1MDY3ODE3MTY0NjIwMCwgInJ1biI6ICJrMDAtd29ya2Zsb3ciLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VudHJ5P3E9dG9wLXRpbWVvdXQmdz1UV08iLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDAtd29ya2Zsb3ciXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsYm5SeWVUOXhQWFJ2Y0MxMGFXMWxiM1YwSm5jOVZGZFBJRWhVVkZBdk1TNHhEUXBJYjNOME9pQXhNamN1TUM0d0xqRTZNVGczTmpVTkNrTnZibTVsWTNScGIyNDZJR3RsWlhBdFlXeHBkbVVOQ2xndFFtOWlaWEl0VkdWemRDMVNkVzQ2SUdzd01DMTNiM0pyWm14dmR3MEtEUW89IiwgImJvZHlfYmFzZTY0IjogIiJ9fQ==",
+    "seconds": 0.078753,
+    "json": {
+      "request": {
+        "sequence": 7,
+        "time_ns": 1793450678171646200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=top-timeout&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPXRvcC10aW1lb3V0Jnc9VFdPIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KDQo=",
+        "body_base64": ""
+      }
+    }
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 7,
+        "time_ns": 1793450678171646200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=top-timeout&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPXRvcC10aW1lb3V0Jnc9VFdPIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "early_observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 7,
+        "time_ns": 1793450678171646200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=top-timeout&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPXRvcC10aW1lb3V0Jnc9VFdPIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswMC13b3JrZmxvdw0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "trace": [
+    {
+      "phase": "top",
+      "payload1": null,
+      "payload2": null,
+      "csrf_token": null,
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    }
+  ],
+  "source_on_disk_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91"
+}

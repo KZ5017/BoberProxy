@@ -1,0 +1,28 @@
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "K05-finite-native-Jython-Swing-no-network", 
+  "executor_log": "test_close_resolves_waiters_and_prevents_reload_worker_accumulation (__main__.NativeCustom) ... ok\ntest_compile_cache_does_not_cache_namespace_or_skip_top_level (__main__.NativeCustom) ... ok\ntest_default_and_timeout_validation (__main__.NativeCustom) ... ok\ntest_exception_text_cannot_kill_worker (__main__.NativeCustom) ... ok\ntest_idle_close_terminates_worker_and_rejects_new_jobs (__main__.NativeCustom) ... ok\ntest_invalid_ui_timeout_is_visible_pre_send_error (__main__.NativeCustom) ... ok\ntest_late_function_result_is_discarded (__main__.NativeCustom) ... ok\ntest_late_top_level_cannot_proceed_to_function_or_replace_worker (__main__.NativeCustom) ... ok\ntest_one_active_one_waiting_then_busy (__main__.NativeCustom) ... ok\ntest_python_base_exception_cannot_kill_worker (__main__.NativeCustom) ... ok\ntest_queue_time_counts_and_expired_job_never_executes (__main__.NativeCustom) ... ok\ntest_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8 (__main__.NativeCustom) ... ok\ntest_workflow_freezes_source_timeout_and_enabled_state_for_both_calls (__main__.NativeCustom) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 1.049s\n\nOK\n", 
+  "message_editors_are_doubles": true, 
+  "checks": {
+    "test_uses_existing_executor": true, 
+    "test_success_published_on_edt": true, 
+    "unload_cannot_publish_test_output": true, 
+    "native_executor_regressions": true, 
+    "extension_state_listener_interface": true, 
+    "cross_interpreter_recovery_after_natural_finish": true, 
+    "test_top_level_timeout_visible": true, 
+    "cross_interpreter_reload_keeps_old_worker_capacity": true, 
+    "edt_responds_while_custom_runs": true, 
+    "late_test_result_not_published": true, 
+    "test_action_returns_before_custom_finishes": true, 
+    "unload_stops_timer": true, 
+    "edited_settings_discard_old_test_output": true
+  }, 
+  "source_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91", 
+  "java_version": "26.0.2", 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "executor_cases": 13, 
+  "errors": [], 
+  "guaranteed_hard_stop": false
+}

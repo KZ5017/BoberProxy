@@ -1,5 +1,13 @@
 # Stabilizálási tesztkörnyezet
 
+## K05a lezárva a rögzített környezetben (2026-10-31)
+
+- [K05 aktuális jegyzőkönyv](../../docs/stabilizacios-terv/eredmenyek/K05/README.md): rögzített D08 K05a; a kapacitáskorlát nem sandbox vagy kényszerleállítás. P14 elfogadott hard-stop hiányosságként marad, P13 sikeres regresszió.
+- `run_logic.py --suite all`: 144 eset/143 siker/1 ismert korlát mindkét runtime-on; `--suite custom` a célzott kapacitás, queue-deadline, cache/exec, kódfagyasztás és close teszteket futtatja.
+- `probe_custom_native.py` és a külön `burp_k05_probe.py`: 13 executor-eset +13 natív/Swing állítás; külön PythonInterpreter-ek azonos JVM-gate-je, Test EDT-reakció, stale output, unload. A helper nem indít hálózatot és nem módosítja a fő UI-t; csak véges kódot futtat, saját workereit lezárja.
+- `probe_custom_isolated.py` indítja a `probe_custom_isolated_child.py` dedikált JVM-jeit, 45 s külső kerettel. A végtelen Python-loop/Java-wait kizárólag ezekben futhat. System.exit kizárólag a dedikált gyerek-JVM takarítása; ezt a fájlt soha nem szabad Burp-extensionként betölteni.
+- `prepare_k05.py`: generált runtime/custom-k05-cases.py (TOP/ENTER/EXIT trace és véges sleep) és custom-k05-pass-through.py. Mindig a generált `.py` másolandó, nem a `.py.in`. `probe_k05_traffic.py` egyszeri, külön UI-gate-es küldéseket végez, meglévő riportot nem ír felül. Konkurenciánál CheckPage OFF, a K06 globális session-párosítás nem elfogadási feltétel.
+
 ## K04 lezárva a rögzített környezetben (2026-10-31)
 
 - A [K04 napló](../../docs/stabilizacios-terv/eredmenyek/K04/README.md) tartalmazza a felhasználó által választott globális munkamenetet és az elfogadott D05/D14 szerződést, a kézi kapuk eredményét és az átadott Burp-állapotot.

@@ -7,6 +7,7 @@ No failing assertion is silently accepted as a successful regression check.
 from __future__ import print_function
 
 import time
+import threading
 import unittest
 
 from source_harness import (Callbacks, CapturedOutput, FakeTime, Field, Response,
@@ -24,6 +25,12 @@ class SourceCase(unittest.TestCase):
         self.capture.__enter__()
 
     def tearDown(self):
+        executor = getattr(self.ui, '_custom_executor', None)
+        if executor is not None:
+            self.ui.close_custom_runtime()
+            if executor.worker is not None:
+                executor.worker.join(2)
+                self.assertFalse(executor.worker.is_alive(), 'Finite probe worker did not finish')
         self.capture.__exit__()
         self.ns['time'] = time
         for thread in self.ns['_probe_threads']:
@@ -74,23 +81,29 @@ class SessionFixedRegressions(SourceCase):
         self.ui.cookieManager.update_from_response(as_bytes('HTTP/1.1 200 OK\r\nSet-Cookie: sid=; Max-Age=0\r\n\r\n'))
         request = self.ui.cookieManager.inject_into_request('GET / HTTP/1.1\r\nHost: demo\r\nCookie: sid=old\r\n\r\n')
         self.assertNotIn('sid=old', request)
-class KnownDefects(SourceCase):
-    @unittest.expectedFailure
+class CustomFixedRegressions(SourceCase):
     def test_P13_timeout_covers_top_level_user_code(self):
         self.ui.custom_codeblock_status = True
         self.ui.customCodeArea = Field('import time\ntime.sleep(0.20)\ndef custom_codeblock(a,b,c):\n    return a,b,c\n')
         ok, result, error = self.ui.run_user_code('ONE', 50, 'TWO', 'TOKEN')
         self.assertFalse(ok, 'Top-level code exceeded the deadline')
-        self.assertEqual(error, 'timeout')
+        self.assertIn('CUSTOM_TIMEOUT', error)
 
+class KnownDefects(SourceCase):
     @unittest.expectedFailure
     def test_P14_timeout_does_not_leave_worker_running(self):
         # This desired property needs hard isolation or an explicit accepted limitation.
+        entered, release = threading.Event(), threading.Event()
         self.ui.custom_codeblock_status = True
-        self.ui.customCodeArea = Field('import time\ndef custom_codeblock(a,b,c):\n    time.sleep(0.20)\n    return a,b,c\n')
-        ok, result, error = self.ui.run_user_code('ONE', 5, 'TWO', 'TOKEN')
-        self.assertFalse(ok)
-        self.assertFalse(any(t.is_alive() for t in self.ns['_probe_threads']))
+        self.ui.customCodeArea = Field('def custom_codeblock(a,b,c):\n    a[0].set()\n    a[1].wait(2)\n    return "ONE",b,c\n')
+        try:
+            ok, result, error = self.ui.run_user_code((entered, release), 100, 'TWO', 'TOKEN')
+            if not entered.is_set():
+                raise RuntimeError('Hard-stop probe never entered user code; cannot count as a known defect')
+            self.assertFalse(ok)
+            self.assertFalse(self.ui._custom_executor.state()['active'])
+        finally:
+            release.set()  # Finite probe cleanup even when the expected assertion fails.
 
 
 class FixedRegressions(SourceCase):

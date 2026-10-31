@@ -219,6 +219,10 @@ class ModelBase(object):
 
 class SwingUtilitiesDouble(object):
     @staticmethod
+    def isEventDispatchThread():
+        return True
+
+    @staticmethod
     def invokeLater(callback):
         callback()
 
@@ -236,6 +240,8 @@ def load_namespace():
     wanted.update(['TemplateBuildError', '_wire_text', '_custom_value', '_extract_raw_payloads'])
     wanted.update(['RedirectResult', '_monotonic_ms', '_redirect_host_header',
                    '_redirect_base', '_redirect_destination'])
+    wanted.update(['_custom_timeout', '_custom_failure', '_custom_error_detail', 'CustomWorkerHandle',
+                   '_start_custom_worker', 'CustomJob', 'CustomExecutor'])
     starts = list(re.finditer(r'^(?:class|def)\s+(\w+)\b', source, re.M))
     blocks = []
     for i, match in enumerate(starts):
@@ -248,6 +254,7 @@ def load_namespace():
                      IBurpExtender=type('IBurpExtender', (object,), {}),
                      IHttpListener=type('IHttpListener', (object,), {}),
                      IProxyListener=type('IProxyListener', (object,), {}),
+                     IExtensionStateListener=type('IExtensionStateListener', (object,), {}),
                      AbstractTableModel=ModelBase, Integer=int, JavaException=Exception,
                      swing=SwingDouble)
     for name in ['TEMPLATE_PAYLOAD_MARKER_1', 'TEMPLATE_PAYLOAD_MARKER_2',
@@ -271,10 +278,14 @@ def load_namespace():
 
     class ThreadingBridge(object):
         Lock = staticmethod(threading.Lock)
+        Condition = staticmethod(threading.Condition)
+        local = staticmethod(threading.local)
         Thread = CompatibleThread
 
     namespace['threading'] = ThreadingBridge
     namespace['_probe_threads'] = real_threads
+    namespace['CUSTOM_GATE_NAME'] = 'BoberProxy.custom.v1'
+    namespace['CUSTOM_START_LOCK'] = threading.Lock()
     match = re.search(r'^WORKFLOW_TIMEOUT_MS\s*=\s*(\d+)', source, re.M)
     if match is not None:
         namespace['WORKFLOW_TIMEOUT_MS'] = int(match.group(1))
@@ -309,4 +320,6 @@ def new_ui(namespace):
     ui.customStatusArea = Field('')
     ui._log = lambda text: ui.customStatusArea.setText(text)
     ui.paused = False
+    if hasattr(ui, '_init_custom_runtime'):
+        ui._init_custom_runtime()
     return ui

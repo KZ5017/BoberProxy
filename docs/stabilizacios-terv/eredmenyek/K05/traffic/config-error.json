@@ -1,0 +1,122 @@
+{
+  "kind": "K05-real-Burp-wire-and-custom-trace",
+  "scenario": "config-error",
+  "checks": {
+    "no_late_extra_send": true,
+    "single_worker": true,
+    "owned_worker_group": true,
+    "no_action": true,
+    "original_once": true,
+    "original_response": true,
+    "no_custom_execution": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "453"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDEwLCAidGltZV9ucyI6IDE3OTM0NTA3OTA1NjczNDAwMDAsICJydW4iOiAiazAwLXdvcmtmbG93IiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPWNvbmZpZy1lcnJvciZ3PVRXTyIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswMC13b3JrZmxvdyJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxiblJ5ZVQ5eFBXTnZibVpwWnkxbGNuSnZjaVozUFZSWFR5QklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURBdGQyOXlhMlpzYjNjTkNnMEsiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+    "seconds": 0.026476,
+    "json": {
+      "request": {
+        "sequence": 10,
+        "time_ns": 1793450790567340000,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=config-error&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWNvbmZpZy1lcnJvciZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCg0K",
+        "body_base64": ""
+      }
+    }
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 10,
+        "time_ns": 1793450790567340000,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=config-error&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWNvbmZpZy1lcnJvciZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCg0K",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "early_observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 10,
+        "time_ns": 1793450790567340000,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=config-error&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWNvbmZpZy1lcnJvciZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtd29ya2Zsb3cNCg0K",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "trace": [],
+  "source_on_disk_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91"
+}

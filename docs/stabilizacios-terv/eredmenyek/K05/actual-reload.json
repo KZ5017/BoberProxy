@@ -1,0 +1,18 @@
+{
+  "kind": "actual-main-remove-reload-and-wire-regression",
+  "source_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91",
+  "checks": {
+    "one_previous_worker": true,
+    "one_reloaded_worker": true,
+    "new_worker_after_actual_reload": true,
+    "group_preserved": true,
+    "normal_traffic_passed": true
+  },
+  "passed": true,
+  "previous_worker_ids": [
+    269
+  ],
+  "reloaded_worker_ids": [
+    291
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "source_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91",
+  "base_git_revision": "09c03468eb2102cab63cf20d2ae2dc0903b4325d",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "jython": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_version": "26.0.2",
+  "java_vendor": "Oracle Corporation",
+  "max_heap_bytes": 17112760320,
+  "heap_arguments": [
+    "-XX:MaxRAMPercentage=50"
+  ],
+  "proxy": "127.0.0.1:8080",
+  "target": "127.0.0.1:18765",
+  "default_custom_timeout_ms": 500,
+  "custom_timeout_range_ms": [
+    1,
+    30000
+  ],
+  "workers": 1,
+  "pending": 1,
+  "hard_interruption": false,
+  "session_coordination": "K06 pending"
+}

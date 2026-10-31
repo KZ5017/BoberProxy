@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+import json
+import time
+from java.lang import Thread
+
+trace_path = "__TRACE_PATH__"
+
+
+def _trace(phase, payload1=None, payload2=None, csrf=None):
+    worker = Thread.currentThread()
+    item = dict(phase=phase, payload1=payload1, payload2=payload2, csrf_token=csrf,
+                thread_name=str(worker.getName()), thread_id=worker.getId(),
+                thread_group=str(worker.getThreadGroup().getName()))
+    with open(trace_path, 'a') as handle:
+        handle.write(json.dumps(item, ensure_ascii=True) + '\n')
+
+
+_trace('top')
+time.sleep(0.12)
+
+
+def custom_codeblock(payload1, payload2, csrf_token):
+    _trace('enter', payload1, payload2, csrf_token)
+    if payload1 == 'function-timeout' or payload1 == 'after-rt' and csrf_token is not None:
+        time.sleep(0.25)
+    if payload1 == 'busy-active':
+        time.sleep(0.8)
+    if payload1 == 'exception':
+        raise ValueError('K05 controlled transform failure')
+    if payload1 == 'bad-result':
+        return None
+    _trace('exit', payload1, payload2, csrf_token)
+    return payload1, payload2, csrf_token

@@ -1,0 +1,270 @@
+{
+  "kind": "K05-finite-real-Burp-concurrency",
+  "checks": {
+    "two_actions": true,
+    "three_target_requests": true,
+    "third_original_forwarded_once": true,
+    "two_template_posts": true,
+    "accepted_clients_receive_target_html": true,
+    "exactly_two_custom_calls": true,
+    "rejected_never_executed": true,
+    "one_worker_thread": true,
+    "custom_calls_never_overlap": true
+  },
+  "passed": true,
+  "responses": [
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "62"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "text/html"
+        ],
+        [
+          "Set-Cookie",
+          "sid=sid.k00-workflow.1; Path=/"
+        ]
+      ],
+      "body_base64": "PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJjc3JmLmswMC13b3JrZmxvdy4xIj4=",
+      "seconds": 0.975665
+    },
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "62"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "text/html"
+        ],
+        [
+          "Set-Cookie",
+          "sid=sid.k00-workflow.2; Path=/"
+        ]
+      ],
+      "body_base64": "PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJjc3JmLmswMC13b3JrZmxvdy4yIj4=",
+      "seconds": 0.9379
+    }
+  ],
+  "rejected_response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "458"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDExLCAidGltZV9ucyI6IDE3OTM0NTA4NDMyNzc2NjcyMDAsICJydW4iOiAiazAwLXdvcmtmbG93IiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPWJ1c3ktcmVqZWN0ZWQmdz1UV08iLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDAtd29ya2Zsb3ciXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsYm5SeWVUOXhQV0oxYzNrdGNtVnFaV04wWldRbWR6MVVWMDhnU0ZSVVVDOHhMakVOQ2todmMzUTZJREV5Tnk0d0xqQXVNVG94T0RjMk5RMEtRMjl1Ym1WamRHbHZiam9nYTJWbGNDMWhiR2wyWlEwS1dDMUNiMkpsY2kxVVpYTjBMVkoxYmpvZ2F6QXdMWGR2Y210bWJHOTNEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+    "seconds": 0.036047,
+    "json": {
+      "request": {
+        "sequence": 11,
+        "time_ns": 1793450843277667200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=busy-rejected&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWJ1c3ktcmVqZWN0ZWQmdz1UV08gSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQoNCg==",
+        "body_base64": ""
+      }
+    }
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 2,
+    "event_count": 3,
+    "recent_events": [
+      {
+        "sequence": 11,
+        "time_ns": 1793450843277667200,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=busy-rejected&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWJ1c3ktcmVqZWN0ZWQmdz1UV08gSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 12,
+        "time_ns": 1793450843955883300,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "23"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvb2tpZTogc2lkPXNpZC5rMDAtd29ya2Zsb3cuMQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDIzDQpDb25uZWN0aW9uOiBjbG9zZQ0KDQpvbmU9YnVzeS1hY3RpdmUmdHdvPVRXTw==",
+        "body_base64": "b25lPWJ1c3ktYWN0aXZlJnR3bz1UV08="
+      },
+      {
+        "sequence": 13,
+        "time_ns": 1793450844079574000,
+        "run": "k00-workflow",
+        "method": "POST",
+        "target": "/workflow/action",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Cookie",
+            "sid=sid.k00-workflow.1"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "23"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvb2tpZTogc2lkPXNpZC5rMDAtd29ya2Zsb3cuMQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDIzDQpDb25uZWN0aW9uOiBjbG9zZQ0KDQpvbmU9YnVzeS1xdWV1ZWQmdHdvPVRXTw==",
+        "body_base64": "b25lPWJ1c3ktcXVldWVkJnR3bz1UV08="
+      }
+    ],
+    "session": [
+      "sid.k00-workflow.2",
+      "csrf.k00-workflow.2"
+    ]
+  },
+  "trace": [
+    {
+      "phase": "top",
+      "payload1": null,
+      "payload2": null,
+      "csrf_token": null,
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "enter",
+      "payload1": "busy-active",
+      "payload2": "TWO",
+      "csrf_token": "csrf.k00-workflow.1",
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "exit",
+      "payload1": "busy-active",
+      "payload2": "TWO",
+      "csrf_token": "csrf.k00-workflow.1",
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "top",
+      "payload1": null,
+      "payload2": null,
+      "csrf_token": null,
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "enter",
+      "payload1": "busy-queued",
+      "payload2": "TWO",
+      "csrf_token": "csrf.k00-workflow.1",
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "exit",
+      "payload1": "busy-queued",
+      "payload2": "TWO",
+      "csrf_token": "csrf.k00-workflow.1",
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    }
+  ],
+  "checkpage_enabled": false,
+  "session_pairing_not_acceptance": "CheckPage is OFF to isolate executor capacity. Global RT/CheckPage session coordination remains K06.",
+  "source_on_disk_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91"
+}

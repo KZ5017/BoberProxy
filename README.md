@@ -269,7 +269,7 @@ def custom_codeblock(payload1, payload2, csrf_token):
 
 * Must define a `custom_codeblock` function
 * Must return exactly **three values**
-* Must execute under a timeout (default 500 ms)
+* Each call has a configurable 1–30000 ms result deadline (default 500 ms)
 * Errors are displayed in the UI
 
 Return a tuple/list of three byte or text values. `None` means an empty payload;
@@ -279,6 +279,21 @@ Unicode characters, return explicitly encoded bytes, such as
 `u'\u20ac'.encode('utf-8')`. Numbers, booleans and arbitrary objects are rejected
 with a visible transformation error. Inserted payloads and token values are never
 scanned again for template markers.
+
+The deadline includes queue wait, compilation, top-level code, the function call
+and output validation. One worker executes custom code and at most one job can
+wait. `CUSTOM_BUSY` means capacity is occupied; `CUSTOM_TIMEOUT` means the result
+deadline expired. Invalid timeout input shows `CUSTOM_CONFIG_ERROR`.
+
+**Test** uses the same executor asynchronously. Changing its settings or
+unloading the extension discards an outdated result. An RT/CheckPage workflow
+uses the custom code/enabled/timeout snapshot captured at its start; each step
+still executes the top-level code and function independently with that step's token.
+
+An expired deadline does not forcibly stop Python/Java code or undo its external
+side effects. A stuck worker can continue using CPU and blocks further custom
+execution, including replacement workers after reload. Burp restart may be
+needed. Custom code runs with Burp's Jython/Java permissions; this is not a sandbox.
 
 This allows:
 
@@ -393,7 +408,7 @@ after an internal send drop the original request instead of resending it.
 
 * Requires Jython; CPython-only features cannot be used
 * Some UI components depend on Burp versions
-* Custom code execution restricted to safe Python subset
+* Custom code is not sandboxed and has no guaranteed forced termination
 * Not compatible with Python3 syntax in Jython
 
 ---

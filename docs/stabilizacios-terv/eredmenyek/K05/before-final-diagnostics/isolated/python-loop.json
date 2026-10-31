@@ -1,0 +1,17 @@
+{
+  "kind": "K05-nonterminating-code-dedicated-JVM-only", 
+  "hard_interruption_provided": false, 
+  "checks": {
+    "reload_does_not_replace_stuck_worker": true, 
+    "all_extra_jobs_busy": true, 
+    "same_worker_after_timeouts": true, 
+    "exactly_one_owned_native_thread": true, 
+    "warm_success": true, 
+    "timeout_visible": true, 
+    "running_user_code_remains": true
+  }, 
+  "source_sha256": "1c0f96cfd68cbf6b419243411bdb69202f8240532ef0dc1f4f610fe9d160ad96", 
+  "cleanup": "System.exit terminates only this dedicated child JVM; parent enforces 45 seconds", 
+  "passed": true, 
+  "case": "python-loop"
+}

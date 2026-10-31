@@ -1,7 +1,14 @@
 # CHANGELOG.md
 
+## 2026-10-31 — K05
+
+- Implemented the selected bounded custom executor: one worker/one pending job, strict 1–30000 ms submission deadline covering compile/exec/call/conversion, explicit busy/timeout/closed outcomes and no replacement of still-running code. A JVM monitor and stable ThreadGroup coordinate worker creation across Jython interpreters/reloads; an extension-state listener closes admission and pending work on unload.
+- Made Test asynchronous through the same executor and a Swing Timer, discarding outdated results. Freeze custom code/enabled/timeout for both template steps; cache compiled code without caching runtime namespaces or skipping top-level side effects. Preserve Unicode editor source and diagnostic text, including broken exception formatting.
+- Closed K05a in the selected D08 scope. CPython/Jython 144 cases: 143 pass, one explicitly accepted hard-interruption limitation. Standalone and actual-Burp helper checks pass (13 executor cases/13 native-UI assertions); infinite Python and native waits verified only in externally bounded disposable JVMs. Eight real wire cases pass, including pre-/post-send timeouts, invalid input and finite capacity. Actual final unload/reload produces a new single worker and normal 2-call custom regression passes; prepared the user-requested separate K05 Git checkpoint; revision is in Git history. K06 implementation has not started.
+
 ## 2026-10-31 — K04
 
+- After the K04 checkpoint, the user delegated the D08 execution-policy choice. Recorded K05a bounded in-process execution (one worker, one pending job, 500 ms default / 1–30000 ms shared deadline), preserving Jython semantics and explicitly excluding guaranteed hard cancellation. This is a planning decision only; K05 implementation has not started.
 - User accepted the existing global session model and its cross-target limitation, plus explicit cookie deletion/empty-value and CSRF lifecycle rules. Workflow coordination remains K06.
 - Corrected Set-Cookie recognition, expiry/Max-Age handling and template-cookie resurrection with tombstones; preserved unmanaged template cookies and byte-valued request bodies.
 - Compile/validate CSRF patterns on document edits; distinguish invalid/no capture, no match, empty token and Clear. Preserve raw byte searches without implicit decompression.

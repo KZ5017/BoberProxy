@@ -1,6 +1,6 @@
 # BoberProxy stabilizációs terv
 
-Készült: 2026-10-29. Frissítve: 2026-10-31. Állapot: K00/K01 és [K02 lezárva](eredmenyek/K02/README.md) a rögzített környezetben; [K03](eredmenyek/K03/README.md) és [K04](eredmenyek/K04/README.md) is lezárva. K05–K11 még nem indult.
+Készült: 2026-10-29. Frissítve: 2026-10-31. Állapot: K00/K01 és [K02 lezárva](eredmenyek/K02/README.md) a rögzített környezetben; [K03](eredmenyek/K03/README.md) és [K04](eredmenyek/K04/README.md) is lezárva. [K05a lezárva](eredmenyek/K05/README.md); K06–K11 még nem indult.
 
 Ez a dokumentumcsomag a teljes forrásáttekintés alapján meghatározza a stabilitási, teljesítménybeli és működési hibák javításának sorrendjét. A K00 az alapfolyamatokat rögzítette; a K01 az egyszeri küldést biztosító hibakezelést, a K02 a sablon-/payload-helyességet és a custom hibadiagnosztikát javította és ellenőrizte. Bizonyítékok: [K00](eredmenyek/K00/README.md), [K01](eredmenyek/K01/README.md), [K02](eredmenyek/K02/README.md).
 

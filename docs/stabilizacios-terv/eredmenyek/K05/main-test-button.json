@@ -1,0 +1,9 @@
+{
+  "kind": "user-confirmed-main-Test-button",
+  "source_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91",
+  "timeout_ms": 50,
+  "observed_text": "Error:\nCUSTOM_TIMEOUT: timeout",
+  "native_edt_responsiveness_checks_pass": true,
+  "manual_responsiveness_explicitly_confirmed": false,
+  "passed": true
+}

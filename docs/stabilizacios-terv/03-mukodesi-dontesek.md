@@ -73,6 +73,17 @@ K04 döntés, 2026-10-31: a felhasználó a közös munkamenet megtartását vá
 
 ## D08 — Custom végrehajtás és valódi megszakítás
 
+**Rögzített döntés, 2026-10-31:** a felhasználó a választást az asszisztensre bízta. A jelenlegi Burp/Jython-működés megőrzéséhez a **K05a, korlátos belső végrehajtó** az elfogadott megvalósítási irány. Külön folyamat és garantált kényszerleállítás most nem követelmény.
+
+- Egy végrehajtó szál és legfeljebb egy várakozó feladat. Telített kapacitásnál `CUSTOM_BUSY`, kérésenkénti új szál nélkül. A felső szintű kód és a `custom_codeblock` hívása is ebben a végrehajtóban fut; a Test gomb ugyanazt a kapacitást használja háttérből.
+- Alap időkeret **500 ms**, érvényes tartomány **1–30000 ms**, egész számként. A beadástól mért közös, monotón határidőbe a sorban várakozás, fordítás, exec és függvényhívás is beleszámít. A sorban lejárt/törölt feladat nem indulhat el később.
+- Időtúllépéskor a hívó látható `CUSTOM_TIMEOUT` eredményt kap. Az elkésett eredmény nem módosíthatja a lezárt workflow kimenetét vagy az új UI-példányt. A futó kód önálló fájl-/hálózati/Java-mellékhatásai ettől még nem vonhatók vissza.
+- A határidőn túl még futó szál foglaltnak számít, nem kap helyettesítő szálat. Ha természetesen befejeződik, a meglévő kapacitás újra használható, eredménye továbbra is eldobandó. Ha beragad, további custom futtatás nem indulhat; a biztos helyreállítás Burp-újraindítást igényelhet. Unload/újratöltés sem halmozhat észrevétlenül régi, még futó workereket; ezt a K05 életciklus-próbáin külön igazolni kell.
+- Nincs `Thread.stop`, új sandbox vagy Jython/Java-importokat átértelmező futtatókörnyezet. A két HTTP-sablon két külön custom hívás marad, friss végrehajtási névtérrel és az adott lépés tokenjével. Legfeljebb a fordított kód cache-elhető; a felső szintű exec nem hagyható el.
+- Elfogadott korlát: **nem garantált hard timeout vagy CPU-korlát**. Végtelen Python-kód és beragadt Java-hívás biztonságos, kényszerített megszakítása külön folyamatizolációt és kompatibilitási tervet kívánna. A P14 megszakítási tulajdonság ezért nem jelölhető automatikusan javítottnak. K05 megvalósítása elindult, aktuális eredmények és megmaradó kapuk a [K05 jegyzőkönyvében](eredmenyek/K05/README.md).
+
+Az eredeti tervezési indoklás:
+
 - Érintett: F03–F05/F22/F42, K05.
 - Ajánlott első lépés: a teljes exec és a függvényhívás ugyanabba az ellenőrzött workerbe kerüljön. Alap timeout marad 500 ms; javasolt érvényes tartomány 1–30000 ms, a pontos felső határ itt rögzítendő.
 - Stabil kapacitási ajánlás: egy végrehajtó worker, korlátos feladatvárakozás, a már várakozással eltöltött idő beszámítása a határidőbe. Terhelt/timeoutos worker esetén új szál létrehozása helyett látható `CUSTOM_BUSY`/`CUSTOM_TIMEOUT` eredmény.

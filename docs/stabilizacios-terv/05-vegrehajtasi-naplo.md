@@ -2,7 +2,7 @@
 
 Utoljára frissítve: 2026-10-31.
 
-**K00, K01, K02, K03 és K04 lezárva a rögzített környezetben; K05 még nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a K00 eredményjegyzékében szerepelnek.
+**K00, K01, K02, K03, K04 és K05a lezárva a rögzített környezetben; K06 még nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a K00 eredményjegyzékében szerepelnek.
 
 ## Aktuális állapot
 
@@ -13,7 +13,7 @@ Utoljára frissítve: 2026-10-31.
 | K02 | Lezárt a célkörnyezetben | [K02 bizonyítékok](eredmenyek/K02/README.md): 74 esetből 65 teljesült mindkét runtime-on, 9 későbbi ismert hiba. Végső betöltés, 23 helper/Swing ellenőrzés, nyolc sablonos forgatókönyv és öt aktív/nem illeszkedő bájtkontroll sikeres. |
 | K03 | Lezárt a célkörnyezetben | [K03 bizonyítékok](eredmenyek/K03/README.md): CPython/Jython 99 esetből 93 siker, 6 későbbi hiba; 10 valódi native/API próba, akciómátrix, három kézi Forward-pár, nyolc redirect és közvetlen normál regresszió sikeres. |
 | K04 | Lezárt a célkörnyezetben | [K04](eredmenyek/K04/README.md): D05/D06/D14 elfogadott; 131 eset, 129 siker és 2 K05 hiba mindkét runtime-on. 26 sikeres forgalmi forgatókönyv, végső főforrás-újratöltés/PASS22 és normál két-call custom regresszió. |
-| K05 | Nem indult | K02/K04; D08/D13. |
+| K05 | K05a lezárt a választott D08 korláttal | [K05](eredmenyek/K05/README.md): 144 eset/143 siker/1 elfogadott hard-stop korlát CPython/Jython; actual Burp helper13+13, 8 wire-eset, tényleges unload/reload és normál 2-call regresszió sikeres. |
 | K06 | Nem indult | K03–K05; D06 munkamenetszabály. |
 | K07 | Nem indult | K06; D10. |
 | K08 | Nem indult | K06–K07; D09. |
@@ -43,7 +43,8 @@ Minden tényleges döntéshez külön sor kell. A javaslat nem számít elfogado
 | D01/K03 időkeret | 30000 ms közös monotón scheduling-keret; loop/limit/invalid Location vagy lejárt keret belső küldés után DROP, ismétlés nélkül. | 2026-10-30; implementációs alapérték a kért teljes-workflow kezeléshez, nem külön felhasználói számértékválasztás. | E16/E17/E19 | Blokkoló Burp-hívás nem szakad meg; a végső Proxy CP hálózati várakozására a Burp timeoutja vonatkozik. |
 | D11/D14 | Scope-mellékhatás és találat nélküli válaszkor a korábbi token megtartása megmarad, megfelelő leírással. | 2026-10-29; kompatibilitást őrző tervi alapérték. | E26/E50/E59 | Nem új képesség bevezetése. |
 | D05/D06/D14, K04 | A közös munkamenet megmarad; attribútumalapú sütitörlés, tombstone/Clear, üres adat és explicit CSRF-hibaállapot. | 2026-10-31; a felhasználó mindkét döntési kérdésben az első lehetőséget választotta. [K04](eredmenyek/K04/README.md). | E20–E24/E26 | Többhostos/Path/Secure elkülönítés nincs; teljes workflow-koordináció és Clear közbeni késői hálózati válasz K06. Ez elfogadott kompatibilitási korlát, nem kijavított elkülönítés. |
-| D08/D09/D10 | A saját körük előtt véglegesítendők, a javaslatok és a mért alapállapot alapján. | Körhatárok: K05/K07/K08. | Az érintett körök mátrixa. | Hard megszakítás és túlterhelés korlátai nem tekinthetők már elfogadott, kijavított állapotnak. |
+| D08 | K05a: korlátos belső futtató, 1 worker és legfeljebb 1 várakozó, 500 ms alap / 1–30000 ms teljes időkeret; nincs szálcsere beragadt feladatnál. | 2026-10-31; a felhasználó az asszisztensre bízta a választást, az asszisztens ezt az irányt választotta. [D08](03-mukodesi-dontesek.md). | E27–E32/E56 | Nem hard megszakítás vagy CPU-korlát; beragadt kód Burp-újraindítást igényelhet. K05a megvalósítás és életciklus-bizonyítás lezárt; hard-stop továbbra sem állított. |
+| D09/D10 | A saját körük előtt véglegesítendők, a javaslatok és a mért alapállapot alapján. | Körhatárok: K07/K08. | Az érintett körök mátrixa. | Megszakítási és túlterhelési korlátok még nem lezártak. |
 
 ## K00 — Lezárt alapállapot átadása
 
@@ -110,6 +111,17 @@ Minden tényleges döntéshez külön sor kell. A javaslat nem számít elfogado
 - Átadott UI: normál előtag nélküli RT/CheckPage fixture, runtime/custom-k04-pass-through.py, 2000 ms, q/w/default regex; template/CheckPage/custom/két automatika ON; AutoFollow és Intercept OFF. Cache sid/token k00-workflow.1; a forgalom nélküli K04 helper is betöltve maradt. Loopback18769 PID5740 és újraindított18765 PID10172; runtime-capture ignorált.
 - [Bizonyítékok és pontos verzióhatárok](eredmenyek/K04/README.md), source-only patch, környezet és napló frissítve. Nincs függő kézi kérés; A felhasználó külön K04 commit/push ellenőrzőpontot kért; revízió a Git-naplóban. K05 nem indult; D08 végrehajtási/garantált megszakíthatósági választása a következő kör előfeltétele.
 
+## K05a — Lezárt korlátos custom futtató (2026-10-31)
+
+- A felhasználó a D08 döntést az asszisztensre bízta, majd engedélyezte K05-öt. Kiindulás pusholt K04 `09c0346`; saját D08 dokumentációs diff megőrzött. K05a: egy worker/egy várakozó, 500 ms alap és egész 1–30000 ms, teljes job-időkeret. Nincs hard-stop/CPU-korlát/sandbox állítás.
+- Végső forrás `92F2450F8F265B05811D2027A5E590D51FAE920FADC81DB729CC65B999C5EB91`, K05 startup. A worker és queue nem olvas widgetet; code/enabled/timeout snapshot a workflow elején. A kód fordított alakja cache, de namespace és top-level exec hívásonként friss; két template két hívás marad.
+- `IExtensionStateListener`, JVM Class monitor és állandó ThreadGroup kapacitásvédelem; lejárt pending nem indul, aktív timeoutos worker nem helyettesíthető, unload nem joinol EDT-n. Test ugyanabba az executorba submitol, Swing Timer adja a kész/timeout eredményt, szerkesztett vagy lezárt UI-ba késői kimenet nem jut.
+- CPython/Jython 144 eset/143 siker/1 elfogadott P14 korlát. P13 normál regresszió. A P14 finite Eventtel igazolja a user-code tényleges belépését és a timeout után is foglalt workert, végül elengedi a saját próbát. Native helper 13 executor-eset/13 native-UI állítás külön JVM-ben és tényleges Burpban is sikeres; teljes API/Swing import sikeres.
+- Végtelen Python-loop és korlátlan Java-await csak külső 45 s keretes, dedikált JVM-ekben futott: egy worker, 25 további BUSY, új executor sem léphet a régi mellé; saját gyerek-JVM lezárva. Futó Burpban csak véges kódpróbák.
+- Nyolc tényleges wire-eset sikeres: normál, exception, bad-result, top-timeout50, function-timeout200, post-RT timeout200, hibás abc, véges konkurencia. Pre-send eredeti egyszer, post-send egy action/explicit DROP, 450 ms alatt sincs extra küldés. Konkurencia CheckPage OFF: két RT POST +egy eredeti fallback, két soros hívás egy threaden; globális session-párosítás nem K05-elfogadás.
+- A végén a felhasználó a főt és helpert is eltávolította, csak a főt töltötte vissza. Új native worker269→291; normál pass-through egy action/két kérés/két custom hívás, raw payloadok és cookie/token helyesek, első token None. Nincs függő kézi kérés.
+- Átadott UI: normál előtag nélküli RT/CheckPage, runtime/custom-k05-pass-through.py, 2000 ms, q/w/default regex; template/CheckPage/custom/két automatika ON, AutoFollow/Intercept OFF. Cache sid/token k00-workflow.1; helper eltávolítva, worker idle. A felhasználó külön K05 commit/push ellenőrzőpontot kért; revízió a Git-naplóban. K06 nem indult. [Részletes bizonyítékok](eredmenyek/K05/README.md).
+
 ## Körátadási sablon
 
 Lezárt K01 forrás: `3BF88A21442683C6135895125AAC49AC09BD52A31BE13B9FF75DAAF8FCDFB111`. Az újratöltés, a passzív és normál CheckPage-forgalom sikeres. E03-nál a felhasználó CP_TEMPLATE_EMPTY kódot igazolt vissza. Az E04 első kísérlete régi token miatt még az első kérés előtt megállt; Show CSRF-fel igazolt Clear után egy művelet és valódi Burp DROP-oldal látszott. Az E06 kapcsolatzárásos próba is egyszeri műveletet és DROP-oldalt adott. A végső normál custom regresszió sikeres, pontosan két új trace-rekorddal. A kör forrásdiffje külön patch-ben megőrzött; a felhasználó a teljes K00/K01 állapot Git commit/push mentését kérte a későbbi folytatáshoz.
@@ -153,13 +165,18 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 | F01/F02/F10 | Javítva és ellenőrizve a rögzített környezetben | K01 Git-ellenőrzőpont; revízió a Git-naplóban | K01 logikai, Java/Swing és valódi forgalmi bizonyítékok | Legacy byte[] adattípus natív Jython alatt tesztelt; más Burp-verzió alatti legacy hálózati integráció nem állított. |
 | F11 | K01/K03 kezelése és API-korlát igazolt | Polling nélkül; közös monotón scheduling-keret | E07/E19: valódi késleltetett API, közös keret, nincs további lépés | Blokkoló hívást és a Proxy későbbi CP hálózati várakozását ez nem szakítja meg; nincs garantált end-to-end hard timeout. |
 | F33/F34/F40 | Csak a K01 útvonalon érintett részek javítva | K01 | Hibakódos diagnosztika, proxyakció, valós workflow-eredménytípus | A teljes fájl takarítása/dokumentálása továbbra is nyitott. |
+| F03 | Javítva és ellenőrizve | K05a, 92F245... | E28/P13: compile/exec/call ugyanazon job-deadline alatt, valódi top-level timeout | A futó exec kényszerleállítása ettől még nem garantált. |
+| F04 | Időkeret/elkéső eredmény kezelt; hard-stop hiánya elfogadott korlát | K05a; D08 | E29–E31/P14: kontrollált finite event, külön JVM-es végtelen Python/Java, későbbi feladatok BUSY és nincs második worker | P14 nem javított tulajdonság; saját custom mellékhatás/CPU-fogyasztás folytatódhat. |
+| F05 | Custom-worker kapacitás és unload/reload kezelve | K05a; további erőforrások K09 | E30/E56: 1+1 slot, pending expiry, cross-interpreter gate, tényleges worker-ID 269→291 reload után | Tetszőleges custom kód által önállóan indított szálakra nem sandbox. |
+| F22 | Test custom-végrehajtás nem blokkolja az EDT-t | K05a/K06 | E32: submit+Swing Timer, EDT-sentinel aktív kód mellett, késői/edited/unloaded Test kimenet eldobása, fő Test timeout visszaigazolva | Általános Swing-konfiguráció és munkamenet-koordináció K06. |
+| F42 | Csak custom executor/Test életciklus lezárt; összesített erőforrás-ügy nyitott | K05a/K08/K09 | E56: listener/close, waiterek lezárása, nincs late Test publish vagy reload-worker szaporodás | Log-store, pending UI és háttértár későbbi körökben. |
 | F06 | Javítva és ellenőrizve | K02, 2A5E... forrás | E10/E04: logika, eredeti felületi trace, forgalmi elő-/utóhiba | Teljes exec-határidő és kapacitás K05; a diagnosztikai hiba nem indít újraküldést. |
 | F07 | Javítva és ellenőrizve | K02, 2A5E... forrás | E11/E41: elemtípusok CPython/Jython/natív Java alatt, valódi hibás típus/Unicode forgalom | Byte-valued Unicode; más charset explicit custom encode. |
 | F29 | Javítva és ellenőrizve | K02, 2A5E... forrás | E12: nulla/hiányzó tárolás, eq/not eq 0; valódi Swing üres/nulla cella és rendezés | A korábbi UI-eltérés külön reprodukcióval megőrzött. |
 | F30 | Javítva és ellenőrizve | K02, 2A5E... forrás | E09: egymásba ágyazott payload/token/cookie markerek, valódi markeres forgalom | Csak az eredeti sablon helyei cserélődnek. |
 | F31 | Karakterizált, működési szerződés rögzítve | K02; D07 | E08: query/form prioritás, ismétlődő/azonos név, üres/hiányzó, JSON/multipart kontroll | A nyers és első nem üres érték szerződése szándékosan megmarad; nincs új parser/dekódolás. |
 | F41 | K02/K03 érintett útvonalak javítva; összesített ügy nyitott | K02/K03/K10 | E41–E43: natív bájt/framing, strict redirect-konverzió, valódi helyi TLSv1.3 | A fájl más konverziói és HTTP/2 további körök feladata; kézi CL-kezelés megmaradt. |
-| F45 | Kétlépéses szerződés ellenőrizve; összesített ügy nyitott | K02/K03/K05/K06; D13 | E27: két hívás tíz redirect után is, eredeti nyers bemenetek és helyes token | A custom kód verziójának workflow-szintű befagyasztása még nyitott. |
+| F45 | A megőrzött kétlépéses custom szerződés és custom-pillanatkép ellenőrizve | K02/K03/K05; D13 | E27: két külön hívás/friss namespace/top-level mellékhatás; kód/enabled/timeout RT és CP között nem vált; valódi két-call regresszió | Egyéb konfigurációk és a párhuzamos cookie/token állapot K06/F20/F21. |
 | F08 | Javítva és ellenőrizve | K03, 37BC... | E13: OFF 0 GET, ON lánc; kijelölés/engedélyezés és kezdeti pillanatkép | Teljes beállításverzió K06. |
 | F09 | Saját callback-akció javítva és ellenőrizve | K03, 37BC... | E14: valódi akciómátrix, három kézi request/response Forward-pár, állapotgyűjtés | Külön extensionök adapterállapot-átadási korlátja dokumentált; általános pluginkompatibilitás nem állított. |
 | F12 | Javítva és ellenőrizve | K03, 37BC... | E15: két runtime URL-mátrix, valódi relatív/port/protokollváltás | Csak támogatott http/https cél, nincs találgatott fallback. |

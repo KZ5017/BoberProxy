@@ -1,0 +1,21 @@
+{
+  "kind": "externally-bounded-dedicated-JVMs-not-running-Burp",
+  "passed": true,
+  "results": [
+    {
+      "case": "python-loop",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "{\"kind\": \"K05-nonterminating-code-dedicated-JVM-only\", \"hard_interruption_provided\": false, \"checks\": {\"reload_does_not_replace_stuck_worker\": true, \"all_extra_jobs_busy\": true, \"same_worker_after_timeouts\": true, \"exactly_one_owned_native_thread\": true, \"warm_success\": true, \"timeout_visible\": true, \"running_user_code_remains\": true}, \"source_sha256\": \"1c0f96cfd68cbf6b419243411bdb69202f8240532ef0dc1f4f610fe9d160ad96\", \"cleanup\": \"System.exit terminates only this dedicated child JVM; parent enforces 45 seconds\", \"passed\": true, \"case\": \"python-loop\"}\r\n",
+      "stderr": "WARNING: A restricted method in java.lang.System has been called\nWARNING: java.lang.System::load has been called by com.kenai.jffi.internal.StubLoader in an unnamed module (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)\nWARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module\nWARNING: Restricted methods will be blocked in a future release unless native access is enabled\n\r\nWARNING: A terminally deprecated method in sun.misc.Unsafe has been called\nWARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.netty.util.internal.PlatformDependent0$3 (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)\nWARNING: Please consider reporting this to the maintainers of class org.python.netty.util.internal.PlatformDependent0$3\nWARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release\r\n"
+    },
+    {
+      "case": "java-wait",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "{\"kind\": \"K05-nonterminating-code-dedicated-JVM-only\", \"hard_interruption_provided\": false, \"checks\": {\"reload_does_not_replace_stuck_worker\": true, \"all_extra_jobs_busy\": true, \"same_worker_after_timeouts\": true, \"exactly_one_owned_native_thread\": true, \"warm_success\": true, \"timeout_visible\": true, \"running_user_code_remains\": true}, \"source_sha256\": \"1c0f96cfd68cbf6b419243411bdb69202f8240532ef0dc1f4f610fe9d160ad96\", \"cleanup\": \"System.exit terminates only this dedicated child JVM; parent enforces 45 seconds\", \"passed\": true, \"case\": \"java-wait\"}\r\n",
+      "stderr": "WARNING: A restricted method in java.lang.System has been called\nWARNING: java.lang.System::load has been called by com.kenai.jffi.internal.StubLoader in an unnamed module (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)\nWARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module\nWARNING: Restricted methods will be blocked in a future release unless native access is enabled\n\r\nWARNING: A terminally deprecated method in sun.misc.Unsafe has been called\nWARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.netty.util.internal.PlatformDependent0$3 (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)\nWARNING: Please consider reporting this to the maintainers of class org.python.netty.util.internal.PlatformDependent0$3\nWARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release\r\n"
+    }
+  ],
+  "external_timeout_seconds": 45
+}

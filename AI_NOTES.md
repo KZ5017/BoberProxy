@@ -1,6 +1,21 @@
 # AI_NOTES.md
 
-## Current K04 (2026-10-31)
+## Current K05 (2026-10-31)
+
+- User authorized K05 after delegating D08. Base is pushed K04 `09c0346`; pre-existing own D08 documentation was preserved. Source marker K05, SHA-256 `92F2450F8F265B05811D2027A5E590D51FAE920FADC81DB729CC65B999C5EB91`.
+- Bounded CustomExecutor: one worker/one pending, submission deadline includes compilation/exec/call/conversion. Shared JVM bootstrap Class monitor + fixed ThreadGroup prevents reload worker accumulation across PythonInterpreter instances. No hard interruption/sandbox/CPU bound. P13 fixed; P14 remains explicitly accepted, reproduced limitation. Test uses Swing Timer, config-version discard and close guards; code/enabled/timeout freeze across RT/CP. Other settings/session coordination stays K06.
+- CPython/Jython: 144 cases, 143 pass, 1 known/accepted hard-stop limitation. Full API/Swing import, standalone and actual-Burp native helper (13 executor cases +13 checks) pass. Infinite Python and native Java await tested ONLY in externally bounded disposable JVMs, both pass bounded-capacity checks and child cleanup.
+- Actual user loaded root K05 and helper, all OFF/Intercept OFF; then confirmed each wire configuration. All eight wire cases pass: normal, exception, bad-result, top-timeout50, function-timeout200, post-RT CP-timeout200 (one action/DROP), invalid timeout abc, and finite concurrency (2 template POSTs + 1 original fallback, 2 serialized calls on 1 worker). Concurrency used CheckPage OFF; global session pairing is not claimed. User also confirmed main Test showed CUSTOM_TIMEOUT; manual UI responsiveness was not separately stated (native EDT checks pass).
+- K05a closed in chosen D08 scope. Final actual remove/reload confirmed, only root K05 loaded; normal unprefixed RT/CP plus runtime/custom-k05-pass-through.py, timeout2000, q/w/default regex; template/CheckPage/custom/two automatics ON, AutoFollow/Intercept OFF. Final 1-action/2-request/exactly2-call custom regression passes with raw payloads, correct cookie/token, first token None. Native worker changed 269→291 and stayed one per group. Cache sid/token k00-workflow.1; helper removed. No manual K05 gate remains. [K05 evidence/current state](docs/stabilizacios-terv/eredmenyek/K05/README.md).
+- User requested a separate K05 commit/push checkpoint; its revision is in Git history. K06 not started. Runtime captures/generated code ignored. Loopback18765 fixture confirmed available. No infinite custom code was run inside Burp. Keep prior failed/helper attempts with their actual hashes and failure reasons.
+
+## D08 decision (historical prerequisite, 2026-10-31)
+
+- K04 committed/pushed as `09c0346`. User subsequently reported fresh latest main BoberProxy, all extension options OFF; Burp Intercept/helper presence was not separately reconfirmed.
+- User asked what D08 means and delegated the choice to the assistant. Selected K05a bounded in-process execution: one worker, at most one waiting job, 500 ms default / integer 1–30000 ms, submission-to-completion monotonic budget including compile/exec/call and queue wait. Timeout returns a visible failure, discards late owned results and never replaces a still-running worker; unload/reload must not accumulate old workers. Preserve Jython/Java imports and two independent custom calls.
+- Hard interruption/CPU bounds and sandboxing are explicitly not promised; a stuck worker may need Burp restart. P14 is not automatically fixed by bounded capacity. See [D08](docs/stabilizacios-terv/03-mukodesi-dontesek.md#d08--custom-végrehajtás-és-valódi-megszakítás). Decision/documentation only so far; no K05 implementation or traffic was started.
+
+## Prior K04 (2026-10-31)
 
 - K03 committed/pushed as `406a609`; clean entry. User authorized K04 and confirmed fresh direct BoberProxy with all options OFF. D06 global shared jar/token and its cross-target/Path/Secure limitation explicitly accepted; D05/D14 deletion, empty values and token lifecycle also accepted (two answers choosing option 1).
 - K04 closed in the tested environment: exact cookie fields, UTC expiry/Max-Age precedence, tombstones/readdition/Clear, byte-preserving manager inputs, CSRF compile/validation on document edits. No full workflow coordination claim: per-workflow state and Clear during network wait remain K06. Read [K04 evidence/current state](docs/stabilizacios-terv/eredmenyek/K04/README.md) before traffic.

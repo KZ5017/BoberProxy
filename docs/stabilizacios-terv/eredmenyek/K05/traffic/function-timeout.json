@@ -1,0 +1,151 @@
+{
+  "kind": "K05-real-Burp-wire-and-custom-trace",
+  "scenario": "function-timeout",
+  "checks": {
+    "no_late_extra_send": true,
+    "single_worker": true,
+    "owned_worker_group": true,
+    "no_action": true,
+    "original_once": true,
+    "original_response": true,
+    "function_called_once": true,
+    "late_result_not_sent": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "464"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDgsICJ0aW1lX25zIjogMTc5MzQ1MDcyNTM4MjgwNzMwMCwgInJ1biI6ICJrMDAtd29ya2Zsb3ciLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VudHJ5P3E9ZnVuY3Rpb24tdGltZW91dCZ3PVRXTyIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswMC13b3JrZmxvdyJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxiblJ5ZVQ5eFBXWjFibU4wYVc5dUxYUnBiV1Z2ZFhRbWR6MVVWMDhnU0ZSVVVDOHhMakVOQ2todmMzUTZJREV5Tnk0d0xqQXVNVG94T0RjMk5RMEtRMjl1Ym1WamRHbHZiam9nYTJWbGNDMWhiR2wyWlEwS1dDMUNiMkpsY2kxVVpYTjBMVkoxYmpvZ2F6QXdMWGR2Y210bWJHOTNEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+    "seconds": 0.235919,
+    "json": {
+      "request": {
+        "sequence": 8,
+        "time_ns": 1793450725382807300,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=function-timeout&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWZ1bmN0aW9uLXRpbWVvdXQmdz1UV08gSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQoNCg==",
+        "body_base64": ""
+      }
+    }
+  },
+  "observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 8,
+        "time_ns": 1793450725382807300,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=function-timeout&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWZ1bmN0aW9uLXRpbWVvdXQmdz1UV08gSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "early_observed": {
+    "run": "k00-workflow",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 8,
+        "time_ns": 1793450725382807300,
+        "run": "k00-workflow",
+        "method": "GET",
+        "target": "/entry?q=function-timeout&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-workflow"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPWZ1bmN0aW9uLXRpbWVvdXQmdz1UV08gSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazAwLXdvcmtmbG93DQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "trace": [
+    {
+      "phase": "top",
+      "payload1": null,
+      "payload2": null,
+      "csrf_token": null,
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "enter",
+      "payload1": "function-timeout",
+      "payload2": "TWO",
+      "csrf_token": null,
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    },
+    {
+      "phase": "exit",
+      "payload1": "function-timeout",
+      "payload2": "TWO",
+      "csrf_token": null,
+      "thread_group": "BoberProxy.custom.v1",
+      "thread_id": 269,
+      "thread_name": "BoberProxy.custom.v1"
+    }
+  ],
+  "source_on_disk_sha256": "92f2450f8f265b05811d2027a5e590d51fae920fadc81db729cc65b999c5eb91"
+}

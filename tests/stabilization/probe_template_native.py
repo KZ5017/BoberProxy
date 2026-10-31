@@ -144,6 +144,11 @@ def run_checks(helpers=None):
                   actual_burp_helpers=native_helpers, transport_callbacks_are_doubles=True,
                   http2_network_tested=False, python=sys.version,
                   java_version=str(System.getProperty('java.version')))
+    executor = getattr(ui, '_custom_executor', None)
+    if executor is not None:
+        ui.close_custom_runtime()
+        if executor.worker is not None:
+            executor.worker.join(2)
     return report
 
 
