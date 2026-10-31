@@ -1,0 +1,63 @@
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -2961,6 +2961,13 @@
+         else:
+             self._display_error = "FILTER_BUSY: previous regex worker still occupied"
+ 
++    def _reject_log(self,message=None,capture=False):
++        # Jython has no GIL: rejection accounting must be a single transaction.
++        with self._log_budget.lock:
++            if message is not None: self._log_error = message
++            self._log_not_accepted += 1
++            if capture: self._filter_rejected += 1
++
+     def _queue_filter_log(self, data, config, log_generation=None):
+         if self._custom_ui_closed or config.get("paused"):
+             return
+@@ -2973,7 +2980,7 @@
+         if not capture.accepts(status,length,body_len,None,self.helpers,search=False):
+             return
+         if self._log_error:
+-            self._log_not_accepted += 1
++            self._reject_log()
+             return
+         response = info.getResponse()
+         request = info.getRequest() if hasattr(info,"getRequest") else None
+@@ -2981,15 +2988,14 @@
+         timestamp = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+         archive_epoch = self._log_archive.epoch
+         def fail(message):
+-            self._log_error = message
+-            self._log_not_accepted += 1
++            self._reject_log(message)
+         def prepare():
+             snapshot = FrozenLogMessage(self.helpers,info,request,response)
+             def evaluate():
+                 if self._custom_ui_closed or epoch != self._log_generation:
+                     return None
+                 if self._log_error:
+-                    self._log_not_accepted += 1
++                    self._reject_log()
+                     return None
+                 raw = snapshot.getResponse()
+                 if not capture.accepts(status,length,body_len,raw,self.helpers):
+@@ -3023,8 +3029,7 @@
+         try:
+             worker = self._filter_worker if capture.pattern is not None else self._log_writer
+             if not self._log_io.start() or not worker.submit_log(prepare,apply,cost):
+-                if capture.pattern is not None: self._filter_rejected += 1
+-                fail("LOG_BUSY: new log admission paused (128 jobs / 32 MiB limit)")
++                self._reject_log("LOG_BUSY: new log admission paused (128 jobs / 32 MiB limit)",capture.pattern is not None)
+         except (Exception, JavaThrowable):
+             fail("LOG_SNAPSHOT_FAILED: new log admission paused")
+ 
+@@ -3130,7 +3135,8 @@
+ 
+     def toggle_pause(self, evt=None):
+         self.paused = bool(self.pauseBtn.isSelected())
+-        if not self.paused: self._log_error = None
++        if not self.paused:
++            with self._log_budget.lock: self._log_error = None
+         self.set_status("Paused" if self.paused else "Running")
+ 
+ 

@@ -1,0 +1,81 @@
+{
+  "kind": "K089-eight-full-native-UI-archive-lifecycles-one-JVM", 
+  "cycles": [
+    {
+      "cycle": 1, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 2, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 3, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 4, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 5, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 6, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 7, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }, 
+    {
+      "cycle": 8, 
+      "native_checks": 24, 
+      "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+      "passed": true, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "remaining_owned_threads": []
+    }
+  ], 
+  "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4", 
+  "baseline_owned_threads": [], 
+  "passed": true, 
+  "network_requests": 0
+}

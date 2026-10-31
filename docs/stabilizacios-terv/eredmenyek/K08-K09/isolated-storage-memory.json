@@ -1,0 +1,29 @@
+{
+  "max_heap_bytes": 402653184,
+  "large_content_disk_bytes": 805318738,
+  "metadata_rows": 100000,
+  "kind": "K089-disposable-JVM-content-and-metadata-memory",
+  "large_body_heap_bytes": 51091376,
+  "small_body_heap_bytes": 51305256,
+  "checks": {
+    "own_files_and_directory_removed": true,
+    "all_192_content_records_preserved": true,
+    "content_larger_than_max_heap": true,
+    "hundred_thousand_metadata_rows_fit": true,
+    "heap_not_proportional_to_total_content": true,
+    "first_and_last_disk_payload_exact": true
+  },
+  "source_sha256": "d7936aff0e719c775911ec9a6f93636404fbe5c9d4754bd5c6133b795c631d98",
+  "java_version": "26.0.2",
+  "heap_growth_bytes": -213880,
+  "metadata_heap_growth_bytes": 81651344,
+  "same_metadata_rows": 192,
+  "passed": true,
+  "parent_exit_code": 0,
+  "child_reaped": true,
+  "external_timeout_seconds": 180,
+  "timed_out": false,
+  "process_working_set_peak_sample_bytes": 647421952,
+  "process_working_set_samples": 118,
+  "parent_verified_owned_directory_absent": true
+}

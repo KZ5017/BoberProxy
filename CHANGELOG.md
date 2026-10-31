@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## 2026-11-01 — K08–K09
+
+- Prepared the user-requested combined K08–K09 commit/push checkpoint, including source, test helpers, documentation and synthetic evidence. Revision in Git history; generated runtime captures remain ignored.
+- User authorized a combined round with internal storage/model/lifecycle gates. Characterized the actual persisted-message API; exact bytes passed, but content remained readable after deleteTempFiles, so explicit reclamation was not established. Selected an owned temporary archive with metadata-only log records and background readers/cleanup.
+- Added append-backed newest-first row views, batched insert notifications, one sorter/selection listener, shared32MiB raw admission budget, bounded worker queues and visible admission pause on overload/write failure. Preserve already-accepted rows and HTTP forwarding; Clear generations prevent stale restoration. Viewer/template/Site map read in background with selection guards and unchanged scope behavior.
+- Fixed batch replacement event boundaries, explicit unload reference release and concurrent rejection-counter updates. Actual Burp rejected null viewer content; switched to empty native byte arrays and stopped timers before potentially failing viewer cleanup. Closed the combined round: final CPython/Jython199 cases/198 pass/one accepted K05 limit, standalone and actual-Burp15 storage +24 native/UI checks, eight native UI/archive cycles, seven directed wire cases385 once-forwarded requests, and final direct normal regression with exactly two custom calls. Isolated768MiB content/384MiB heap and100k model-metadata measurements pass with original hashes/scope limits. Preserved infrastructure failures, moved parallel wire tests to dedicated18772 fixture/backlog128, verified exact viewer/Site map bytes and delayed counters. K10/K11 not started; no commit/push.
+
 ## 2026-10-31 — K07
 
 - User accepted D10 line-based ResponseContent patterns and visible validation errors retaining the previous valid configuration. Preserve Java flags/find semantics and the distinction between admission and display filtering.

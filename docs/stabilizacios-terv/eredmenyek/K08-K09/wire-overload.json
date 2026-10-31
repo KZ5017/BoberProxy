@@ -1,0 +1,300 @@
+{
+  "kind": "K089-real-Burp-scoped-logging-storage-wire",
+  "scenario": "overload",
+  "passed": true,
+  "run": "k089-fee4081f1643",
+  "checks": {
+    "visible_bounded_rejection": true,
+    "no_raw_snapshot_retained": true,
+    "manual_resume_recovers": true,
+    "no_disk_IO_on_EDT": true,
+    "raw_byte_budget_returns_to_zero": true,
+    "every_HTTP_request_forwarded_once": true,
+    "no_workflow_action": true,
+    "same_main_source": true
+  },
+  "responses": [
+    {
+      "path": "/bytes?size=1024",
+      "status": 200,
+      "seconds": 0.019282,
+      "body_sha256": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+    },
+    {
+      "path": "/bytes?size=13",
+      "status": 200,
+      "seconds": 0.022323,
+      "body_sha256": "86eba947d50c2c01570fe1bb5ca552958dabbdbb59b0657f0f26e21ff011e5c7"
+    }
+  ],
+  "states": {
+    "rejected": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": true,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": "LOG_BUSY: new log admission paused (128 jobs / 32 MiB limit)",
+      "rebuilding": false,
+      "callbacks_done": 375,
+      "epoch": 7,
+      "storage": {
+        "edt_io": false,
+        "reads": 5,
+        "reading": 0,
+        "files": 0,
+        "writes": 373
+      },
+      "use_cp": false,
+      "callbacks_seen": 375,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [],
+      "dirty": false,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 1,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Running"
+    },
+    "final": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": false,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": null,
+      "rebuilding": false,
+      "callbacks_done": 376,
+      "epoch": 7,
+      "storage": {
+        "edt_io": false,
+        "reads": 5,
+        "reading": 0,
+        "files": 1,
+        "writes": 374
+      },
+      "use_cp": false,
+      "callbacks_seen": 376,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [
+        1
+      ],
+      "dirty": false,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 1,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [
+        {
+          "index": 1,
+          "path": "/bytes?size=13",
+          "body_len": 13,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Logged: /bytes?size=13"
+    }
+  },
+  "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+  "target": {
+    "run": "k089-fee4081f1643",
+    "action_count": 0,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 439,
+        "time_ns": 1793488307760470700,
+        "run": "k089-fee4081f1643",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fee4081f1643"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA4OS1mZWU0MDgxZjE2NDMNCg0K",
+        "body_base64": ""
+      },
+      {
+        "sequence": 440,
+        "time_ns": 1793488307946497600,
+        "run": "k089-fee4081f1643",
+        "method": "GET",
+        "target": "/bytes?size=13",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fee4081f1643"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEzIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NzINCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswODktZmVlNDA4MWYxNjQzDQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  }
+}

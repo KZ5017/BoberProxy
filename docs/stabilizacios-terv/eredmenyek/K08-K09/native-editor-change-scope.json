@@ -1,0 +1,12 @@
+{
+  "kind": "K089-native-editor-fix-change-scope",
+  "before_source_sha256": "b99aaaa5b77f332891e5d4e1582c9df2e4dd605f7a74cd1b6141ed1b1b388bf7",
+  "after_source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+  "passed": true,
+  "changed_scope": [
+    "LoggerUI._clear_log_viewer",
+    "LoggerUI._request_selected_message (empty content only)",
+    "LoggerUI.close_custom_runtime close_timer"
+  ],
+  "note": "All archive, buffer-budget, worker, matching and workflow code is byte-identical; combine with final-review-change-scope.json for d793 memory proof boundary."
+}

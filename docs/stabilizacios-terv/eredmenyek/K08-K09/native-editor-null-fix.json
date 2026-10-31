@@ -1,0 +1,14 @@
+{
+  "kind": "K089-actual-native-editor-null-fix",
+  "before_source_sha256": "b99aaaa5b77f332891e5d4e1582c9df2e4dd605f7a74cd1b6141ed1b1b388bf7",
+  "after_source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+  "user_observed_error": "java.lang.NullPointerException: Message cannot be null at reqViewer.setMessage(None,True) during close_timer",
+  "source_changes": [
+    "Use empty native byte arrays when clearing viewers or displaying absent request/response",
+    "Stop timers/publisher before clearing viewer references; clear model/store in finally"
+  ],
+  "harness_changes": [
+    "Standalone editor now rejects null as actual Burp does",
+    "Explicit Java Throwable capture in private verifier prevents unreported helper termination"
+  ]
+}

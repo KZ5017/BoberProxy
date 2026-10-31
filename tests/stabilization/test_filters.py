@@ -249,7 +249,7 @@ class FilterTests(SourceCase):
     def test_busy_capture_is_visible_and_does_not_accept_unknown_match(self):
         self.ui.logStore.clear()
         self.ui._capture_filter_plan=self.ns['CaptureFilterPlan']({'log_regex':'ABC'})
-        self.ui._filter_worker.submit=lambda *a,**k:False
+        self.ui._filter_worker.submit_log=lambda *a,**k:False
         message=Response(as_bytes('HTTP/1.1 200 OK\r\n\r\nABC'))
         config=self.ns['RuntimeConfig']({'capture_filter_plan':self.ui._capture_filter_plan},0)
         self.ui._queue_filter_log((4,'h','GET','/busy',200,len(message.data),message,False,3),config)

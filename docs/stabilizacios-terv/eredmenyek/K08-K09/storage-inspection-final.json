@@ -1,0 +1,68 @@
+{
+  "kind": "K08-K09-real-Burp-private-persisted-message-characterization", 
+  "checks": {
+    "request_exact_binary": true, 
+    "independent_of_original_mutation": true, 
+    "service_preserved": true, 
+    "persisted_created": true, 
+    "response_exact_one_mib_binary": true, 
+    "delete_api_available": true, 
+    "annotations_preserved": true, 
+    "explicit_delete_returns": true, 
+    "other_message_survives_delete": true
+  }, 
+  "python_java_version": "26.0.2", 
+  "observations": {
+    "request_after_delete": {
+      "sha256": "bdf2ca1d5067af2fb7c174f57133c828fb6379670750d170066044e9677cd679", 
+      "length": 337, 
+      "outcome": "returned"
+    }, 
+    "response_after_delete": {
+      "sha256": "5ade28247a8d84cf749036e33587e640d33441eaad11b662dda9edf4d2ee7e80", 
+      "length": 1048620, 
+      "outcome": "returned"
+    }, 
+    "repeat_delete": "returned", 
+    "repeat_read_same_array_identity": false, 
+    "persisted_class": "burp.Zq_i", 
+    "public_methods": [
+      "deleteTempFiles", 
+      "equals", 
+      "getClass", 
+      "getComment", 
+      "getHighlight", 
+      "getHost", 
+      "getHttpService", 
+      "getPort", 
+      "getProtocol", 
+      "getRequest", 
+      "getResponse", 
+      "getStatusCode", 
+      "getUrl", 
+      "hashCode", 
+      "notify", 
+      "notifyAll", 
+      "setComment", 
+      "setHighlight", 
+      "setHost", 
+      "setHttpService", 
+      "setPort", 
+      "setProtocol", 
+      "setRequest", 
+      "setResponse", 
+      "toString", 
+      "wait"
+    ]
+  }, 
+  "claim": "Read/mutation/delete API behavior only; no deterministic JVM GC or total heap bound claim.", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "passed": true, 
+  "errors": [], 
+  "main_extension_settings_changed": false, 
+  "network_requests": 0
+}

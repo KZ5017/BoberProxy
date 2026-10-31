@@ -1,0 +1,44 @@
+{
+  "kind": "K089-viewer-to-target-and-client-wire-digest-diagnostic",
+  "run": "k089-viewdiag-8792019f",
+  "expected": {
+    "request_sha": "c7560e7edc98eaec9a99f1cd647568764ec5e2204ee9f4b1f134fd00c3816cae",
+    "response_sha": "b312c2cae93f450632be1b4faa622e27d295bbccb936e89ecf8e2fcd4b01c2bf"
+  },
+  "actual": {
+    "response_sha": "b312c2cae93f450632be1b4faa622e27d295bbccb936e89ecf8e2fcd4b01c2bf",
+    "request_sha": "c7560e7edc98eaec9a99f1cd647568764ec5e2204ee9f4b1f134fd00c3816cae"
+  },
+  "passed": true,
+  "target": {
+    "run": "k089-viewdiag-8792019f",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 445,
+        "time_ns": 1793488373157504100,
+        "run": "k089-viewdiag-8792019f",
+        "method": "GET",
+        "target": "/bytes?size=11",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-viewdiag-8792019f"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTExIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NzINCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswODktdmlld2RpYWctODc5MjAxOWYNCg0K",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  }
+}

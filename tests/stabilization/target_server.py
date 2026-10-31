@@ -208,6 +208,8 @@ class FixtureHandler(socketserver.StreamRequestHandler):
 
 
 class FixtureServer(socketserver.ThreadingTCPServer):
+    # Parallel Burp connections must not exhaust socketserver's default backlog5.
+    request_queue_size = 128
     # Windows SO_REUSEADDR permits competing listeners on one test port.
     # A stale fixture must fail loudly instead of serving another revision.
     allow_reuse_address = not hasattr(socket, 'SO_EXCLUSIVEADDRUSE')

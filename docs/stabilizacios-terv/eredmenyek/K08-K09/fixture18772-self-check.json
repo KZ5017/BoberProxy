@@ -1,0 +1,1489 @@
+{
+  "kind": "K089-isolated-fixture-backlog-direct-self-check",
+  "passed": true,
+  "target_port": 18772,
+  "parallel_clients": 8,
+  "requests": 64,
+  "backlog": 128,
+  "target": {
+    "run": "k089-fixture-2b78cab6",
+    "action_count": 0,
+    "event_count": 64,
+    "recent_events": [
+      {
+        "sequence": 1,
+        "time_ns": 1793488019656820300,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 2,
+        "time_ns": 1793488019657140500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 3,
+        "time_ns": 1793488019657678000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 4,
+        "time_ns": 1793488019657829000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 5,
+        "time_ns": 1793488019658167600,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 6,
+        "time_ns": 1793488019658461800,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 7,
+        "time_ns": 1793488019658843400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 8,
+        "time_ns": 1793488019659168000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 9,
+        "time_ns": 1793488019659306800,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 10,
+        "time_ns": 1793488019659805900,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 11,
+        "time_ns": 1793488019660077200,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 12,
+        "time_ns": 1793488019660432700,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 13,
+        "time_ns": 1793488019660698500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 14,
+        "time_ns": 1793488019661005000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 15,
+        "time_ns": 1793488019661323400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 16,
+        "time_ns": 1793488019661694400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 17,
+        "time_ns": 1793488019661830100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 18,
+        "time_ns": 1793488019662132200,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 19,
+        "time_ns": 1793488019662422600,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 20,
+        "time_ns": 1793488019662813800,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 21,
+        "time_ns": 1793488019662961100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 22,
+        "time_ns": 1793488019663266400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 23,
+        "time_ns": 1793488019663659200,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 24,
+        "time_ns": 1793488019663798100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 25,
+        "time_ns": 1793488019664104000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 26,
+        "time_ns": 1793488019664397100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 27,
+        "time_ns": 1793488019664724100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 28,
+        "time_ns": 1793488019665075500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 29,
+        "time_ns": 1793488019665315000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 30,
+        "time_ns": 1793488019665501000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 31,
+        "time_ns": 1793488019665879800,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 32,
+        "time_ns": 1793488019666138000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 33,
+        "time_ns": 1793488019666428100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 34,
+        "time_ns": 1793488019666841600,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 35,
+        "time_ns": 1793488019667031400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 36,
+        "time_ns": 1793488019667316200,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 37,
+        "time_ns": 1793488019667586300,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 38,
+        "time_ns": 1793488019667951000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 39,
+        "time_ns": 1793488019668227600,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 40,
+        "time_ns": 1793488019668620000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 41,
+        "time_ns": 1793488019668906100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 42,
+        "time_ns": 1793488019669167000,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 43,
+        "time_ns": 1793488019669453500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 44,
+        "time_ns": 1793488019669747400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 45,
+        "time_ns": 1793488019670041700,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 46,
+        "time_ns": 1793488019670336900,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 47,
+        "time_ns": 1793488019670716100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 48,
+        "time_ns": 1793488019670850400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 49,
+        "time_ns": 1793488019671152300,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 50,
+        "time_ns": 1793488019671385700,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 51,
+        "time_ns": 1793488019671808500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 52,
+        "time_ns": 1793488019671944400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 53,
+        "time_ns": 1793488019672251500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 54,
+        "time_ns": 1793488019672584600,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 55,
+        "time_ns": 1793488019672883600,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 56,
+        "time_ns": 1793488019673256300,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 57,
+        "time_ns": 1793488019673393500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 58,
+        "time_ns": 1793488019673782900,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 59,
+        "time_ns": 1793488019673946400,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 60,
+        "time_ns": 1793488019674251500,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 61,
+        "time_ns": 1793488019674504100,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 62,
+        "time_ns": 1793488019674814200,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 63,
+        "time_ns": 1793488019675110300,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 64,
+        "time_ns": 1793488019688472800,
+        "run": "k089-fixture-2b78cab6",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-fixture-2b78cab6"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjogY2xvc2UNClgtQm9iZXItVGVzdC1SdW46IGswODktZml4dHVyZS0yYjc4Y2FiNg0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "no_burp_proxy": true
+}

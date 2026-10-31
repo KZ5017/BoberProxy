@@ -1,0 +1,121 @@
+{
+  "cases": [
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.047403,
+      "test": "setUpClass (test_source_logic.CompatibilityBaseline)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.0795,
+      "test": "setUpClass (test_source_logic.CustomFixedRegressions)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.111514,
+      "test": "setUpClass (test_source_logic.FixedRegressions)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.143215,
+      "test": "setUpClass (test_source_logic.KnownDefects)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.175226,
+      "test": "setUpClass (test_source_logic.SessionFixedRegressions)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.207076,
+      "test": "setUpClass (test_transport.ProxyActionTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_transport.py\", line 15, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.239163,
+      "test": "setUpClass (test_transport.SenderTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.27141,
+      "test": "setUpClass (test_transport.WorkflowTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.303759,
+      "test": "setUpClass (test_templates.TemplateTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.335939,
+      "test": "setUpClass (test_redirects.PassiveActionTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.368047,
+      "test": "setUpClass (test_redirects.RedirectTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.399878,
+      "test": "setUpClass (test_session_state.CookieTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.431586,
+      "test": "setUpClass (test_session_state.CsrfSwitchTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.463264,
+      "test": "setUpClass (test_session_state.CsrfTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.495245,
+      "test": "setUpClass (test_session_state.WorkflowStateTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.526899,
+      "test": "setUpClass (test_custom_executor.CustomTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.559578,
+      "test": "setUpClass (test_runtime_session.RuntimeSessionTests)"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_source_logic.py\", line 20, in setUpClass\n    cls.ns = load_namespace()\n             ~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\source_harness.py\", line 318, in load_namespace\n    code = compile('\\n'.join(blocks), SOURCE + ':selected-blocks', 'exec')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 2901\n    if entry in self.logStore.entries:\nIndentationError: unexpected indent\n",
+      "outcome": "error",
+      "seconds": 0.591573,
+      "test": "setUpClass (test_filters.FilterTests)"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 0,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "9dae99b07bd7b0cb856dd932c1b7c13cf8c94d46c7495b43d77f89ec774ffc52",
+  "successful_baseline_run": false,
+  "suite": "all",
+  "total": 0
+}

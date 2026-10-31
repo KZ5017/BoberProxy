@@ -1,0 +1,13 @@
+{
+  "kind": "K089-synthetic-message-Jython-JavaBean-regression", 
+  "checks": {
+    "annotation_setters_do_not_recurse": true, 
+    "native_interface_dispatch": true, 
+    "construct_request_response": true, 
+    "service_setter_does_not_recurse": true, 
+    "native_response_null_dispatch": true, 
+    "setters_do_not_recurse": true
+  }, 
+  "passed": true, 
+  "errors": []
+}

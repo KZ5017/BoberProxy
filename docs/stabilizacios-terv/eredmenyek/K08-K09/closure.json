@@ -1,0 +1,40 @@
+{
+  "kind": "K08-K09-combined-closure-in-recorded-environment",
+  "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4",
+  "checks": {
+    "logic_cpython": true,
+    "logic_jython": true,
+    "final_logic_hashes": true,
+    "actual_native": true,
+    "actual_native_hash": true,
+    "standalone_native": true,
+    "rejection_counter_fixed": true,
+    "archive_api_characterized": true,
+    "own_archive_memory": true,
+    "source_scope_chain": true,
+    "dedicated_fixture": true,
+    "seven_real_wire_cases": true,
+    "normal_direct": true,
+    "exactly_two_custom_calls": true,
+    "no_late_extra_request": true,
+    "eight_full_native_ui_archive_cycles": true
+  },
+  "passed": true,
+  "directed_wire_source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+  "memory_source_sha256": "d7936aff0e719c775911ec9a6f93636404fbe5c9d4754bd5c6133b795c631d98",
+  "accepted_limits": [
+    "D06 global cookie jar/single token; D08 custom/Java regex cannot be forcibly stopped",
+    "Shared32MiB budget bounds owned queued/active raw snapshots, not total JVM memory or all native editor caches/conversion temporaries",
+    "Metadata grows with accepted row count;100k LogEntry/model metadata rows measured, not an unlimited-row guarantee",
+    "Archive files preserve the live session, not crash recovery; selected/pending viewer content remains in memory",
+    "File I/O completion and native Swing operations have no guaranteed hard cancellation/deadline; worker gates prevent replacement accumulation"
+  ],
+  "not_claimed": [
+    "Full K11 load/memory matrix",
+    "Other Burp/Jython/Java versions",
+    "Unlimited disk/metadata capacity",
+    "All K00-K11 completion"
+  ],
+  "commit_made": false,
+  "push_made": false
+}

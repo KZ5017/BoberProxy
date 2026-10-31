@@ -1,0 +1,26 @@
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -340,7 +340,11 @@
+         self.logStore, self._displayed = logStore, NewestRows()
+         self._batch_start = None
+     def _get_displayed(self): return self._displayed
+-    def _set_displayed(self, value): self._displayed = NewestRows(value)
++    def _set_displayed(self, value):
++        batching = self._batch_start is not None
++        if batching: self.end_batch()
++        self._displayed = NewestRows(value)
++        if batching: self.begin_batch()
+     displayed = property(_get_displayed, _set_displayed)
+     def getRowCount(self): return len(self._displayed)
+     def getColumnCount(self): return len(self.COLUMNS)
+@@ -3450,6 +3454,10 @@
+         self._log_writer.close()
+         self._log_io.close()
+         def close_timer():
++            if hasattr(self,"controller") and hasattr(self,"reqViewer"):
++                self._clear_log_viewer()
++            if hasattr(self,"logStore"): self.logStore.clear()
++            if hasattr(self,"logTableModel"): self.logTableModel.clear()
+             if getattr(self, "_filter_dialog", None) is not None:
+                 self._filter_dialog._on_cancel()
+             if getattr(self, "_filter_timer", None) is not None:

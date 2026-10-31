@@ -223,7 +223,7 @@ class ModelBase(object):
 class SwingUtilitiesDouble(object):
     @staticmethod
     def isEventDispatchThread():
-        return True
+        return threading.current_thread().name == 'MainThread'
 
     @staticmethod
     def invokeLater(callback):
@@ -264,6 +264,8 @@ def load_namespace():
                    '_session_csrf_copy', 'SessionContext', 'SessionCoordinator'])
     wanted.update(['FilterInputError', '_filter_text', '_filter_numbers', '_filter_pattern', '_filter_diagnostic',
                    'CaptureFilterPlan', 'DisplayFilterPlan', 'FilterJob', 'FilterWorker'])
+    wanted.update(['NewestRows','LogStorageError','_log_bytes','_log_copy','FrozenLogMessage',
+                   'StoredLogMessage','LogArchive','LogIoWorker','RawLogBudget'])
     starts = list(re.finditer(r'^(?:class|def)\s+(\w+)\b', source, re.M))
     blocks = []
     for i, match in enumerate(starts):
@@ -277,6 +279,7 @@ def load_namespace():
                      IHttpListener=type('IHttpListener', (object,), {}),
                      IProxyListener=type('IProxyListener', (object,), {}),
                      IExtensionStateListener=type('IExtensionStateListener', (object,), {}),
+                     IHttpRequestResponse=type('IHttpRequestResponse', (object,), {}),
                      AbstractTableModel=ModelBase, Integer=int, JavaException=Exception,
                      swing=SwingDouble, JavaThrowable=Exception, Pattern=PatternDouble,
                      DISPLAY_FILTER_FIELDS=('Host','Method','Path','Status','BodyLen','ResponseContent'))

@@ -1,0 +1,19 @@
+{
+  "kind": "K089-final-model-event-and-unload-review-before-fix",
+  "source_sha256": "d7936aff0e719c775911ec9a6f93636404fbe5c9d4754bd5c6133b795c631d98",
+  "cases": [
+    {
+      "test": "test_log_review.LogFinalReview.test_replacing_rows_during_batch_never_emits_a_false_insert_interval",
+      "outcome": "failed",
+      "seconds": 0.000906,
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_log_review.py\", line 27, in test_replacing_rows_during_batch_never_emits_a_false_insert_interval\n    self.assertEqual(events,[('insert',0,2),('reset',),('insert',0,0)])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [('reset',), ('insert', 0, 1)] != [('insert', 0, 2), ('reset',), ('insert', 0, 0)]\n\nFirst differing element 0:\n('reset',)\n('insert', 0, 2)\n\nSecond list contains 1 additional elements.\nFirst extra element 2:\n('insert', 0, 0)\n\n- [('reset',), ('insert', 0, 1)]\n+ [('insert', 0, 2), ('reset',), ('insert', 0, 0)]\n"
+    },
+    {
+      "test": "test_log_review.LogFinalReview.test_unload_explicitly_releases_viewer_content_and_log_metadata",
+      "outcome": "failed",
+      "seconds": 0.000266,
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_log_review.py\", line 40, in test_unload_explicitly_releases_viewer_content_and_log_metadata\n    self.assertIsNone(self.ui.controller.value)\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'owned viewer bytes' is not None\n"
+    }
+  ],
+  "passed": false
+}

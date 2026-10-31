@@ -1,0 +1,739 @@
+{
+  "kind": "K089-real-Burp-scoped-logging-storage-wire",
+  "scenario": "filters",
+  "passed": true,
+  "run": "k089-acb567595bb8",
+  "checks": {
+    "disk_regex_two_matches": true,
+    "old_rebuild_and_pending_rows_cannot_restore_clear": true,
+    "fresh_generation_retained": true,
+    "no_disk_IO_on_EDT": true,
+    "raw_byte_budget_returns_to_zero": true,
+    "every_HTTP_request_forwarded_once": true,
+    "no_workflow_action": true,
+    "same_main_source": true
+  },
+  "responses": [
+    {
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "status": 200,
+      "seconds": 0.019024,
+      "body_sha256": "06192eda8b8b6b3da8b812bc2800db9840e9cebe20ccc90331a670bd704bf0b1"
+    },
+    {
+      "path": "/echo?tag=TOKEN_BETA",
+      "status": 200,
+      "seconds": 0.03088,
+      "body_sha256": "efdca28b9456b44c851965bcc8b34f0e63cbaea2a5771f1e916e3a3bc433fb73"
+    },
+    {
+      "path": "/bytes?size=1024",
+      "status": 200,
+      "seconds": 0.014197,
+      "body_sha256": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+    },
+    {
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "status": 200,
+      "seconds": 0.019331,
+      "body_sha256": "3edec74951659e459e6328c036217fa4ccfbdd23c97965e271e43a0a2d225f0b"
+    },
+    {
+      "path": "/echo?tag=TOKEN_BETA",
+      "status": 200,
+      "seconds": 0.016066,
+      "body_sha256": "8612ba102503c4779fa52192345ecffcd00f90542d0fffcd2d417a2273527c49"
+    }
+  ],
+  "states": {
+    "base": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": false,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": null,
+      "rebuilding": false,
+      "callbacks_done": 367,
+      "epoch": 2,
+      "storage": {
+        "edt_io": false,
+        "reads": 0,
+        "reading": 0,
+        "files": 111,
+        "writes": 367
+      },
+      "use_cp": false,
+      "callbacks_seen": 367,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [
+        3,
+        2,
+        1
+      ],
+      "dirty": false,
+      "compile_patterns": [],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 0,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [
+        {
+          "index": 3,
+          "path": "/bytes?size=1024",
+          "body_len": 1024,
+          "status": 200
+        },
+        {
+          "index": 2,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 457,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 458,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Logged: /bytes?size=1024"
+    },
+    "filtered": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": false,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": null,
+      "rebuilding": false,
+      "callbacks_done": 367,
+      "epoch": 2,
+      "storage": {
+        "edt_io": false,
+        "reads": 3,
+        "reading": 0,
+        "files": 3,
+        "writes": 367
+      },
+      "use_cp": false,
+      "callbacks_seen": 367,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [
+        2,
+        1
+      ],
+      "dirty": false,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 0,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [
+        {
+          "index": 3,
+          "path": "/bytes?size=1024",
+          "body_len": 1024,
+          "status": 200
+        },
+        {
+          "index": 2,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 457,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 458,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Logged: /bytes?size=1024"
+    },
+    "clear": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": false,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": null,
+      "rebuilding": false,
+      "callbacks_done": 368,
+      "epoch": 3,
+      "storage": {
+        "edt_io": false,
+        "reads": 3,
+        "reading": 0,
+        "files": 0,
+        "writes": 368
+      },
+      "use_cp": false,
+      "callbacks_seen": 368,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": true,
+        "rows": 0,
+        "running_ms": 189.55849999934435,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [],
+      "dirty": false,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 0,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Logged: /echo?tag=TOKEN_ALPHA"
+    },
+    "released": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": false,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": null,
+      "rebuilding": false,
+      "callbacks_done": 368,
+      "epoch": 3,
+      "storage": {
+        "edt_io": false,
+        "reads": 4,
+        "reading": 0,
+        "files": 0,
+        "writes": 368
+      },
+      "use_cp": false,
+      "callbacks_seen": 368,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [],
+      "dirty": false,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 0,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Logged: /echo?tag=TOKEN_ALPHA"
+    },
+    "final": {
+      "capture_pattern": "",
+      "viewer": {
+        "response_sha": null,
+        "request_sha": null
+      },
+      "paused": false,
+      "rejected": 0,
+      "exports": [],
+      "display_error": null,
+      "numbers": [],
+      "log_error": null,
+      "rebuilding": false,
+      "callbacks_done": 369,
+      "epoch": 3,
+      "storage": {
+        "edt_io": false,
+        "reads": 5,
+        "reading": 0,
+        "files": 1,
+        "writes": 369
+      },
+      "use_cp": false,
+      "callbacks_seen": 369,
+      "io_pending": 0,
+      "ready": true,
+      "captured": [],
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "raw_bytes": 0,
+      "displayed": [
+        1
+      ],
+      "dirty": false,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "not_accepted": 0,
+      "proxy": false,
+      "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+      "stored": [
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 457,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "writer": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0,
+        "raw_bytes": 0
+      },
+      "status": "Logged: /echo?tag=TOKEN_BETA"
+    }
+  },
+  "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+  "target": {
+    "run": "k089-acb567595bb8",
+    "action_count": 0,
+    "event_count": 5,
+    "recent_events": [
+      {
+        "sequence": 429,
+        "time_ns": 1793488299354430500,
+        "run": "k089-acb567595bb8",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-acb567595bb8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzcyDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDg5LWFjYjU2NzU5NWJiOA0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 430,
+        "time_ns": 1793488299385838600,
+        "run": "k089-acb567595bb8",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_BETA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-acb567595bb8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NzINCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswODktYWNiNTY3NTk1YmI4DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 431,
+        "time_ns": 1793488299400165000,
+        "run": "k089-acb567595bb8",
+        "method": "GET",
+        "target": "/bytes?size=1024",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-acb567595bb8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTEwMjQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc3Mg0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA4OS1hY2I1Njc1OTViYjgNCg0K",
+        "body_base64": ""
+      },
+      {
+        "sequence": 432,
+        "time_ns": 1793488299947145800,
+        "run": "k089-acb567595bb8",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-acb567595bb8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzcyDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDg5LWFjYjU2NzU5NWJiOA0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 433,
+        "time_ns": 1793488300259938800,
+        "run": "k089-acb567595bb8",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_BETA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18772"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k089-acb567595bb8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NzINCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswODktYWNiNTY3NTk1YmI4DQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  }
+}

@@ -1,0 +1,48 @@
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -3163,8 +3163,8 @@
+         self._viewer_serial += 1
+         self._viewer_entry = None
+         self.controller.setMessageInfo(None)
+-        self.reqViewer.setMessage(None,True)
+-        self.respViewer.setMessage(None,False)
++        self.reqViewer.setMessage(self.helpers.stringToBytes(""),True)
++        self.respViewer.setMessage(self.helpers.stringToBytes(""),False)
+ 
+     def _request_selected_message(self, on_loaded=None):
+         if self._custom_ui_closed or self._suspend_selection_events: return
+@@ -3187,8 +3187,8 @@
+                 self.set_status("STORAGE_READ_FAILED: selected message could not be loaded")
+                 return
+             self.controller.setMessageInfo(message)
+-            self.reqViewer.setMessage(message.getRequest(),True)
+-            self.respViewer.setMessage(message.getResponse(),False)
++            self.reqViewer.setMessage(message.getRequest() or self.helpers.stringToBytes(""),True)
++            self.respViewer.setMessage(message.getResponse() or self.helpers.stringToBytes(""),False)
+             if on_loaded is not None: on_loaded(message)
+         if not self._log_io.submit("viewer",read,apply):
+             self._viewer_entry = None
+@@ -3454,10 +3454,6 @@
+         self._log_writer.close()
+         self._log_io.close()
+         def close_timer():
+-            if hasattr(self,"controller") and hasattr(self,"reqViewer"):
+-                self._clear_log_viewer()
+-            if hasattr(self,"logStore"): self.logStore.clear()
+-            if hasattr(self,"logTableModel"): self.logTableModel.clear()
+             if getattr(self, "_filter_dialog", None) is not None:
+                 self._filter_dialog._on_cancel()
+             if getattr(self, "_filter_timer", None) is not None:
+@@ -3468,6 +3464,12 @@
+             if self._custom_test_timer is not None:
+                 self._custom_test_timer.stop()
+                 self._custom_test_timer = None
++            try:
++                if hasattr(self,"controller") and hasattr(self,"reqViewer"):
++                    self._clear_log_viewer()
++            finally:
++                if hasattr(self,"logStore"): self.logStore.clear()
++                if hasattr(self,"logTableModel"): self.logTableModel.clear()
+         swing.SwingUtilities.invokeLater(close_timer)
+ 
+     def _reset_custom_code(self, event=None):

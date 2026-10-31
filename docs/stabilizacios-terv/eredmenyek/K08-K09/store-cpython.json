@@ -1,0 +1,54 @@
+{
+  "kind": "isolated-source-metadata-two-list-microbenchmark",
+  "implementation": "CPython",
+  "source_sha256": "1f4ed294715b7b9a7755d186570aba9659d4b09a221b51962409762c4c66b24d",
+  "messages_contain_real_http_bodies": false,
+  "real_swing": false,
+  "runs": [
+    {
+      "size": 1000,
+      "iteration": 1,
+      "seconds": 0.0004010200500488281
+    },
+    {
+      "size": 1000,
+      "iteration": 2,
+      "seconds": 0.0003654956817626953
+    },
+    {
+      "size": 1000,
+      "iteration": 3,
+      "seconds": 0.0003609657287597656
+    },
+    {
+      "size": 10000,
+      "iteration": 1,
+      "seconds": 0.004306316375732422
+    },
+    {
+      "size": 10000,
+      "iteration": 2,
+      "seconds": 0.004189729690551758
+    },
+    {
+      "size": 10000,
+      "iteration": 3,
+      "seconds": 0.0040361881256103516
+    },
+    {
+      "size": 100000,
+      "iteration": 1,
+      "seconds": 0.04983830451965332
+    },
+    {
+      "size": 100000,
+      "iteration": 2,
+      "seconds": 0.050423383712768555
+    },
+    {
+      "size": 100000,
+      "iteration": 3,
+      "seconds": 0.05063366889953613
+    }
+  ]
+}

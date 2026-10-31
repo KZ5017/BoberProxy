@@ -1,0 +1,52 @@
+{
+  "kind": "K08-K09-tested-environment",
+  "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "java_version": "26.0.2",
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_vendor": "Oracle Corporation",
+  "max_heap_bytes": 17112760320,
+  "heap_arguments": [
+    "-XX:MaxRAMPercentage=50"
+  ],
+  "jython_jar": "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar",
+  "jython_jar_sha256": "1fba1769effcc8b19f5e10436bc8274a158ce988559f257927c24c73bb137f3c",
+  "proxy": "127.0.0.1:8080",
+  "directed_target": "127.0.0.1:18772",
+  "normal_target": "127.0.0.1:18765",
+  "final_entry": "BoberProxy.py (user-confirmed direct reload)",
+  "helper": "burp_k089_probe.py (15 storage cases;24 native/UI checks), private resources closed",
+  "final_UI": {
+    "request_template": "fixtures/request-template.http",
+    "checkpage_template": "fixtures/checkpage-template.http",
+    "custom_code": "runtime/custom-k089-pass-through.py",
+    "timeout_ms": 2000,
+    "payload_names": [
+      "q",
+      "w"
+    ],
+    "csrf_regex": "default",
+    "on": [
+      "Injecting proxy from templates",
+      "Use CheckPageTemplate",
+      "Use custom codeblock",
+      "Auto-update cookies from responses",
+      "Auto-update CSRF from responses"
+    ],
+    "off": [
+      "AutoFollow redirect on RT",
+      "Burp Intercept"
+    ],
+    "logging_filters": "default",
+    "display_filters": "default",
+    "logging_paused": false
+  },
+  "cached_fixture_state": {
+    "cookie": "sid.k00-workflow.1",
+    "csrf": "csrf.k00-workflow.1"
+  }
+}

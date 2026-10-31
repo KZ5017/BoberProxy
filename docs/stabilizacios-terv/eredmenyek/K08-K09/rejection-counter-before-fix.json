@@ -1,0 +1,22 @@
+{
+  "kind": "K089-concurrent-visible-rejection-counter-no-network", 
+  "trials": [
+    {
+      "expected": 20000, 
+      "observed": 11635, 
+      "all_threads_finished": true
+    }, 
+    {
+      "expected": 20000, 
+      "observed": 11148, 
+      "all_threads_finished": true
+    }, 
+    {
+      "expected": 20000, 
+      "observed": 11086, 
+      "all_threads_finished": true
+    }
+  ], 
+  "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161", 
+  "passed": false
+}

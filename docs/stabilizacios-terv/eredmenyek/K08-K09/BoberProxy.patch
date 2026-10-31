@@ -1,0 +1,1095 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index 34eebf9..591fb24 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -1,6 +1,6 @@
+ # -*- coding: latin-1 -*-
+ # Extender.py - BoberProxy (updated: tabs, template controls, custom codeblock)
+-from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener, IExtensionStateListener
++from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener, IExtensionStateListener, IHttpRequestResponse
+ 
+ from javax import swing
+ from javax.swing import SortOrder, RowSorter, JTable, ListSelectionModel
+@@ -302,117 +302,320 @@ class LogEntry(object):
+         self.messageInfo = messageInfo
+ 
+ 
+-class LogStore:
+-    """Keeps the log entries in display order and assigns stable row indices."""
++class NewestRows(object):
++    """Append-only physical order, newest-first indexed view."""
++    def __init__(self, values=()):
++        self.items = list(reversed(list(values)))
++    def __len__(self): return len(self.items)
++    def __iter__(self): return reversed(self.items)
++    def __getitem__(self, key):
++        if isinstance(key, slice): return list(self)[key]
++        if key < 0: key += len(self.items)
++        if key < 0 or key >= len(self.items): raise IndexError(key)
++        return self.items[len(self.items)-1-key]
++    def __eq__(self, other): return list(self) == list(other)
++    def add(self, value): self.items.append(value)
++    def remove(self, value): self.items.remove(value)
+ 
+-    def __init__(self):
+-        self.entries = []
+-        self._counter = 0
+-
+-    def add(self, ts, host, method, path, status,
+-            total_len, body_len, messageInfo):
+ 
++class LogStore(object):
++    def __init__(self):
++        self._entries, self._counter = NewestRows(), 0
++    def _get_entries(self): return self._entries
++    def _set_entries(self, value): self._entries = NewestRows(value)
++    entries = property(_get_entries, _set_entries)
++    def add(self, ts, host, method, path, status, total_len, body_len, messageInfo):
+         self._counter += 1
+-
+-        e = LogEntry(
+-            index=self._counter,
+-            ts=ts,
+-            host=host,
+-            method=method,
+-            path=path,
+-            status=status,
+-            total_len=total_len,
+-            body_len=body_len,
+-            messageInfo=messageInfo
+-        )
+-
+-        self.entries.insert(0, e)
+-        return e
+-
++        entry = LogEntry(self._counter, ts, host, method, path, status, total_len, body_len, messageInfo)
++        self._entries.add(entry)
++        return entry
+     def clear(self):
+-        self.entries = []
+-        self._counter = 0
++        self._entries, self._counter = NewestRows(), 0
+ 
+ 
+ class LogTableModel(AbstractTableModel):
+-
+-    COLUMNS = [
+-        "#", "Time", "Host", "Method", "Path",
+-        "Status", "Total Len", "Body Len"
+-    ]
+-
++    COLUMNS = ["#", "Time", "Host", "Method", "Path", "Status", "Total Len", "Body Len"]
+     def __init__(self, logStore):
+         AbstractTableModel.__init__(self)
+-        self.logStore = logStore
+-        self.displayed = []   # List[LogEntry]
+-
+-    # ---------- JTable API ----------
+-
+-    def getRowCount(self):
+-        return len(self.displayed)
+-
+-    def getColumnCount(self):
+-        return len(self.COLUMNS)
+-
+-    def getColumnName(self, col):
+-        return self.COLUMNS[col]
+-
++        self.logStore, self._displayed = logStore, NewestRows()
++        self._batch_start = None
++    def _get_displayed(self): return self._displayed
++    def _set_displayed(self, value):
++        batching = self._batch_start is not None
++        if batching: self.end_batch()
++        self._displayed = NewestRows(value)
++        if batching: self.begin_batch()
++    displayed = property(_get_displayed, _set_displayed)
++    def getRowCount(self): return len(self._displayed)
++    def getColumnCount(self): return len(self.COLUMNS)
++    def getColumnName(self, col): return self.COLUMNS[col]
+     def getValueAt(self, row, col):
+         try:
+-            e = self.displayed[row]
+-            values = (
+-                Integer(e.index),
+-                e.ts,
+-                e.host,
+-                e.method,
+-                e.path,
+-                Integer(e.status) if e.status != "" else Integer(0),
+-                Integer(e.total_len) if e.total_len != "" else Integer(0),
+-                Integer(e.body_len) if e.body_len not in ("", None) else None,
+-            )
+-            return values[col]
+-        except:
++            entry = self._displayed[row]
++            if col == 0: return Integer(entry.index)
++            if col == 1: return entry.ts
++            if col == 2: return entry.host
++            if col == 3: return entry.method
++            if col == 4: return entry.path
++            value = (entry.status, entry.total_len, entry.body_len)[col-5]
++            return None if col == 7 and value in ("", None) else Integer(value or 0)
++        except (Exception, JavaException):
+             return ""
+-
+-    def getColumnClass(self, col):
+-        if col in (0, 5, 6, 7):
+-            return Integer
+-        return str
+-
+-
+-    def isCellEditable(self, row, col):
+-        return False
+-
+-    # ---------- Data control ----------
+-
++    def getColumnClass(self, col): return Integer if col in (0,5,6,7) else str
++    def isCellEditable(self, row, col): return False
+     def rebuild(self, filter_fn=None):
+-        # Rebuild the displayed slice from the backing store to keep filtering centralized.
+-        if filter_fn:
+-            self.displayed = [
+-                e for e in self.logStore.entries
+-                if filter_fn(e)
+-            ]
+-        else:
+-            self.displayed = list(self.logStore.entries)
+-
++        self.displayed = [e for e in self.logStore.entries if not filter_fn or filter_fn(e)]
+         self.fireTableDataChanged()
+-
+-
++    def begin_batch(self): self._batch_start = len(self._displayed)
++    def end_batch(self):
++        start, self._batch_start = self._batch_start, None
++        if start is not None and len(self._displayed) > start:
++            self.fireTableRowsInserted(0, len(self._displayed)-start-1)
+     def add_entry_top(self, entry, show):
+-        if not show:
+-            return
+-
+-        self.displayed.insert(0, entry)
+-
+-        # Swing értesítés
+-        self.fireTableRowsInserted(0, 0)
+-
+-
++        if show:
++            self._displayed.add(entry)
++            if self._batch_start is None: self.fireTableRowsInserted(0,0)
+     def clear(self):
+-        self.displayed = []
++        self._displayed = NewestRows()
+         self.fireTableDataChanged()
+ 
+ 
++class LogStorageError(Exception):
++    pass
++
++
++def _log_bytes(value):
++    if value is None: return None
++    return _wire_text(value).encode("latin-1")
++
++
++def _log_copy(value):
++    if value is None or isinstance(value, bytes): return value
++    if isinstance(value, bytearray): return bytes(value)
++    from java.util import Arrays
++    return Arrays.copyOf(value, len(value))
++
++
++class FrozenLogMessage(IHttpRequestResponse):
++    """Owned native-interface snapshot. Never use JavaBean backing names."""
++    def __init__(self, helpers, message, request=None, response=None):
++        self._log_helpers = helpers
++        service = message.getHttpService() if hasattr(message,"getHttpService") else None
++        self._log_service = (helpers.buildHttpService(service.getHost(),service.getPort(),service.getProtocol())
++                             if service is not None else None)
++        self._log_request, self._log_response = _log_copy(request), _log_copy(response)
++        self._log_comment = message.getComment() if hasattr(message,"getComment") else None
++        self._log_highlight = message.getHighlight() if hasattr(message,"getHighlight") else None
++    def getHttpService(self): return self._log_service
++    def setHttpService(self,value): self._log_service = value
++    def getRequest(self): return self._log_request
++    def setRequest(self,value): self._log_request = value
++    def getResponse(self): return self._log_response
++    def setResponse(self,value): self._log_response = value
++    def getComment(self): return self._log_comment
++    def setComment(self,value): self._log_comment = value
++    def getHighlight(self): return self._log_highlight
++    def setHighlight(self,value): self._log_highlight = value
++    def getHost(self): return self._log_service.getHost()
++    def getPort(self): return self._log_service.getPort()
++    def getProtocol(self): return self._log_service.getProtocol()
++    def setHost(self,value): self._log_service = self._log_helpers.buildHttpService(value,self.getPort(),self.getProtocol())
++    def setPort(self,value): self._log_service = self._log_helpers.buildHttpService(self.getHost(),value,self.getProtocol())
++    def setProtocol(self,value): self._log_service = self._log_helpers.buildHttpService(self.getHost(),self.getPort(),value)
++    def getUrl(self): return self._log_helpers.analyzeRequest(self).getUrl()
++    def getStatusCode(self):
++        return self._log_helpers.analyzeResponse(self._log_response).getStatusCode() if self._log_response is not None else 0
++
++
++class StoredLogMessage(object):
++    def __init__(self, archive, epoch, path, snapshot, lengths):
++        self.archive, self.epoch, self.path = archive, epoch, path
++        self.service = snapshot.getHttpService()
++        self.comment, self.highlight = snapshot.getComment(), snapshot.getHighlight()
++        self.lengths, self.readers, self.removed = lengths, 0, False
++    def getRequest(self): return self.archive.read(self, 0)
++    def getResponse(self): return self.archive.read(self, 1)
++    def getHttpService(self): return self.service
++    def getComment(self): return self.comment
++    def getHighlight(self): return self.highlight
++    def snapshot(self, helpers):
++        return FrozenLogMessage(helpers, self, self.getRequest(), self.getResponse())
++
++
++class LogArchive(object):
++    """One owned file per message; no retained body cache or open file handle."""
++    def __init__(self):
++        from collections import deque
++        self.lock = threading.Lock()
++        self.root, self.epoch, self.serial = None, 0, 0
++        self.records, self.retired, self.deleted = {}, deque(), deque()
++        self.closed, self.cleanup_error = False, None
++        self.writers = 0
++        self.write_lock = threading.Lock()
++    def put(self, snapshot, epoch):
++        if swing.SwingUtilities.isEventDispatchThread(): raise LogStorageError("STORAGE_EDT_WRITE")
++        with self.lock: self.writers += 1
++        try:
++            with self.write_lock: return self._put(snapshot,epoch)
++        finally:
++            with self.lock: self.writers -= 1
++    def _put(self, snapshot, epoch):
++        import os, tempfile, struct
++        with self.lock:
++            if self.closed or epoch != self.epoch: raise LogStorageError("STORAGE_STALE")
++        # Only the filter worker writes. Directory creation and all I/O are off EDT.
++        if self.root is None: self.root = tempfile.mkdtemp(prefix="BoberProxy-log-")
++        with self.lock:
++            self.serial += 1
++            path = os.path.join(self.root, "%d.httpbin" % self.serial)
++        request, response = _log_bytes(snapshot.getRequest()), _log_bytes(snapshot.getResponse())
++        lengths = (len(request) if request is not None else -1, len(response) if response is not None else -1)
++        record = StoredLogMessage(self,epoch,path,snapshot,lengths)
++        try:
++            descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 384)
++            with os.fdopen(descriptor,"wb") as handle:
++                handle.write(struct.pack("!qq",*lengths))
++                if request is not None: handle.write(request)
++                if response is not None: handle.write(response)
++                handle.flush()
++            with self.lock:
++                if self.closed or epoch != self.epoch:
++                    record.removed = True
++                    self.deleted.append(record)
++                    raise LogStorageError("STORAGE_STALE")
++                self.records[path] = record
++            return record
++        except (Exception, JavaThrowable):
++            with self.lock:
++                if not record.removed:
++                    record.removed = True
++                    self.deleted.append(record)
++            raise
++    def read(self, record, part):
++        import struct
++        if swing.SwingUtilities.isEventDispatchThread(): raise LogStorageError("STORAGE_EDT_READ")
++        with self.lock:
++            if self.closed or record.removed or record.epoch != self.epoch: raise LogStorageError("STORAGE_STALE")
++            record.readers += 1
++        try:
++            with open(record.path,"rb") as handle:
++                header = handle.read(16)
++                if len(header) != 16 or tuple(struct.unpack("!qq",header)) != record.lengths:
++                    raise LogStorageError("STORAGE_CORRUPT_HEADER")
++                length = record.lengths[part]
++                if length < 0: return None
++                handle.seek(16 + (max(0,record.lengths[0]) if part else 0))
++                value = handle.read(length)
++                if len(value) != length: raise LogStorageError("STORAGE_SHORT_READ")
++                return value
++        finally:
++            with self.lock: record.readers -= 1
++    def release(self, record):
++        with self.lock:
++            if not record.removed:
++                record.removed = True
++                self.records.pop(record.path,None)
++                self.deleted.append(record)
++    def clear(self, close=False):
++        with self.lock:
++            self.epoch += 1
++            if self.records: self.retired.append(self.records)
++            self.records = {}
++            self.closed = self.closed or close
++    def collect(self, count=64):
++        import os
++        for unused in range(count):
++            with self.lock:
++                if self.deleted: record = self.deleted.popleft()
++                elif self.retired:
++                    old = self.retired[0]
++                    unused_path, record = old.popitem()
++                    if not old: self.retired.popleft()
++                    record.removed = True
++                else: break
++                if record.readers:
++                    self.deleted.append(record)
++                    continue
++            try:
++                if os.path.exists(record.path): os.unlink(record.path)
++            except (Exception, JavaThrowable):
++                with self.lock: self.deleted.append(record)
++                self.cleanup_error = "STORAGE_CLEANUP_FAILED"
++                break
++        with self.lock: pending = bool(self.deleted or self.retired or self.records or self.writers)
++        if not pending and self.closed and self.root is not None:
++            try:
++                os.rmdir(self.root)
++                self.root = None
++            except (Exception, JavaThrowable): self.cleanup_error = "STORAGE_DIRECTORY_CLEANUP_FAILED"
++        return pending
++
++
++class LogIoWorker(object):
++    """One background reader/exporter/collector; one latest selection + one export."""
++    def __init__(self, archive):
++        from collections import OrderedDict, deque
++        self.archive, self.condition = archive, threading.Condition()
++        self.commands, self.results = OrderedDict(), deque()
++        self.worker, self.closed = None, False
++    def start(self):
++        with self.condition:
++            if self.closed: return False
++            if self.worker is None: self.worker = _start_custom_worker(self._work,"BoberProxy.logio.v1")
++            return self.worker is not None and self.worker.is_alive()
++    def submit(self, key, operation, apply):
++        if not self.start(): return False
++        with self.condition:
++            if self.closed or key == "export" and key in self.commands: return False
++            if key not in ("viewer","export"): raise ValueError("Unknown log I/O task")
++            self.commands[key] = (operation,apply)
++            self.condition.notifyAll()
++            return True
++    def poll(self):
++        with self.condition:
++            if not self.results: return None
++            result = self.results.popleft()
++            self.condition.notifyAll()
++            return result
++    def _work(self):
++        try:
++            failures = 0
++            while True:
++                pending = self.archive.collect()
++                with self.condition:
++                    if self.closed:
++                        if not pending: return
++                        failures = failures+1 if self.archive.cleanup_error else 0
++                        if failures >= 3: return
++                    job = None
++                    if self.commands and len(self.results) < 2 and not self.closed:
++                        key = next(iter(self.commands))
++                        job = self.commands.pop(key)
++                    if job is None:
++                        self.condition.wait(0.05)
++                        continue
++                operation, apply = job
++                value, error = None, None
++                try: value = operation()
++                except (BaseException, JavaThrowable) as caught: error = caught
++                operation = job = None
++                with self.condition:
++                    if not self.closed: self.results.append((apply,value,error))
++                value = error = apply = None
++        finally:
++            with self.condition:
++                self.closed = True
++                self.commands.clear()
++                self.results.clear()
++    def close(self):
++        self.archive.clear(close=True)
++        with self.condition:
++            self.closed = True
++            self.commands.clear()
++            self.results.clear()
++            self.condition.notifyAll()
++
++
+ class CsrfManager(object):
+     """One compatibility-session token; compile only when the pattern changes."""
+ 
+@@ -1366,6 +1569,18 @@ class FilterJob(object):
+         self.result, self.error, self.started = None, None, None
+ 
+ 
++class RawLogBudget(object):
++    def __init__(self, limit=32*1024*1024):
++        self.lock, self.limit, self.used = threading.Lock(), limit, 0
++    def reserve(self,cost):
++        with self.lock:
++            if cost < 0 or self.used+cost > self.limit: return False
++            self.used += cost
++            return True
++    def release(self,cost):
++        with self.lock: self.used -= cost
++
++
+ class FilterWorker(object):
+     """One JVM-wide worker, 128 row jobs, three coalesced controls/results.
+ 
+@@ -1377,9 +1592,13 @@ class FilterWorker(object):
+         self.condition = threading.Condition()
+         self.rows, self.controls, self.results = deque(), OrderedDict(), deque()
+         self.capacity = 128
++        self.gate_name = "BoberProxy.filters.v1"
+         self.worker = self.active = None
+         self.closed = False
+         self.retry_at = 0
++        self.row_bytes = 0
++        self.budget = None
++        self.byte_capacity = 32 * 1024 * 1024
+ 
+     def submit(self, operation, apply, key=None):
+         with self.condition:
+@@ -1388,7 +1607,7 @@ class FilterWorker(object):
+             if self.worker is None:
+                 if _monotonic_ms() < self.retry_at:
+                     return False
+-                self.worker = _start_custom_worker(self._work, "BoberProxy.filters.v1")
++                self.worker = _start_custom_worker(self._work, self.gate_name)
+                 if self.worker is None:
+                     self.retry_at = _monotonic_ms() + 1000
+                     return False
+@@ -1405,11 +1624,38 @@ class FilterWorker(object):
+             self.condition.notifyAll()
+             return True
+ 
++    def submit_log(self, prepare, apply, cost):
++        with self.condition:
++            if self.closed or cost > self.byte_capacity or self.row_bytes + cost > self.byte_capacity or len(self.rows) >= self.capacity:
++                return False
++            if self.worker is None:
++                self.worker = _start_custom_worker(self._work,self.gate_name)
++            if self.worker is None or not self.worker.is_alive(): return False
++            if self.budget is not None and not self.budget.reserve(cost): return False
++            job = FilterJob(None,apply,None)
++            job.cost = cost
++            self.row_bytes += cost
++            self.rows.append(job)
++        try:
++            operation = prepare()
++        except (BaseException, JavaThrowable):
++            with self.condition:
++                if job in self.rows:
++                    self.rows.remove(job)
++                    self._release_log_cost(job)
++                self.condition.notifyAll()
++            raise
++        with self.condition:
++            if self.closed: return False
++            job.operation = operation
++            self.condition.notifyAll()
++            return True
++
+     def _work(self):
+         try:
+             while True:
+                 with self.condition:
+-                    while not self.closed and (not self.rows and not self.controls or len(self.results) >= self.capacity):
++                    while not self.closed and (not self.rows and not self.controls or len(self.results) >= self.capacity or self.rows and self.rows[0].operation is None and not self.controls):
+                         self.condition.wait()
+                     if self.closed:
+                         return
+@@ -1422,10 +1668,11 @@ class FilterWorker(object):
+                 try:
+                     job.result = job.operation()
+                 except (BaseException, JavaThrowable) as error:
+-                    job.error = error
++                    job.error = LogStorageError(type(error).__name__) if getattr(job,"cost",0) else error
+                 job.operation = None
+                 with self.condition:
+                     self.active = None
++                    self._release_log_cost(job)
+                     if not self.closed:
+                         self.results.append(job)
+                     self.condition.notifyAll()
+@@ -1444,13 +1691,20 @@ class FilterWorker(object):
+ 
+     def state(self):
+         with self.condition:
+-            return dict(closed=self.closed, rows=len(self.rows), controls=len(self.controls),
++            return dict(closed=self.closed, rows=len(self.rows), controls=len(self.controls), raw_bytes=self.row_bytes,
+                         results=len(self.results), active=self.active is not None,
+                         running_ms=_monotonic_ms()-self.active.started if self.active else 0)
+ 
++    def _release_log_cost(self,job):
++        cost = getattr(job,"cost",0)
++        self.row_bytes -= cost
++        if self.budget is not None: self.budget.release(cost)
++        job.cost = 0
++
+     def close(self):
+         with self.condition:
+             self.closed = True
++            for job in self.rows: self._release_log_cost(job)
+             self.rows.clear()
+             self.controls.clear()
+             self.results.clear()
+@@ -1677,7 +1931,6 @@ class LoggerUI(ITab):
+         #  Sorter
+         self.rowSorter = TableRowSorter(self.logTableModel)
+         self.table.setRowSorter(self.rowSorter)
+-        self.table.setAutoCreateRowSorter(True)
+ 
+         # 5 Selection listener
+         self.table.getSelectionModel().addListSelectionListener(
+@@ -1897,7 +2150,6 @@ class LoggerUI(ITab):
+ 
+ 
+         self.table.setSelectionMode(swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
+-        self.table.getSelectionModel().addListSelectionListener(self.on_table_select)
+ 
+         self.leftSplit.setRightComponent(swing.JScrollPane(self.table))
+ 
+@@ -2264,7 +2516,7 @@ class LoggerUI(ITab):
+ 
+         self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
+         self._runtime_publisher = RuntimePublisher(self)
+-        self._filter_timer = swing.Timer(20, lambda event: self._filter_tick())
++        self._filter_timer = swing.Timer(50, lambda event: self._filter_tick())
+         self._filter_timer.start()
+ 
+     # --- Error/output area (isolated in its own container, expands only within itself) ---
+@@ -2428,49 +2680,16 @@ class LoggerUI(ITab):
+ 
+ 
+     def _get_request_text_from_selected(self):
+-        try:
+-            view_row = self.table.getSelectedRow()
+-            if view_row < 0:
+-                return ""
+-
+-            model_row = self.table.convertRowIndexToModel(view_row)
+-
+-            if not (0 <= model_row < len(self.logTableModel.displayed)):
+-                return ""
+-
+-            entry = self.logTableModel.displayed[model_row]
+-            msg = entry.messageInfo
+-
+-            reqb = msg.getRequest()
+-            if not reqb:
+-                return ""
+-
+-            return self.helpers.bytesToString(reqb)
+-
+-        except Exception as e:
+-            print("_get_request_text_from_selected error:", e)
+-            return ""
++        # Compatibility reader: only the already-loaded viewer snapshot is read.
++        request = self.controller.getRequest()
++        return self.helpers.bytesToString(request) if request is not None else ""
+ 
+-
+-    def _load_template_from_viewer(self, event=None):
+-        try:
+-            txt = self._get_request_text_from_selected()
+-            # set into editor (prefer setMessage)
+-            try:
+-                if hasattr(self, "reqTemplateEditor"):
+-                    # create bytes via helpers
+-                    b = None
+-                    try:
+-                        b = self.helpers.stringToBytes(txt)
+-                    except:
+-                        b = txt.encode("latin-1", "replace")
+-                    self.reqTemplateEditor.setMessage(b, True)
+-                self.set_status("Loaded request into Request Template")
+-                self.tabbed.setSelectedIndex(1)
+-            except:
+-                pass
+-        except:
+-            pass
++    def _load_template_from_viewer(self,event=None):
++        def loaded(message):
++            self.reqTemplateEditor.setMessage(message.getRequest(),True)
++            self.tabbed.setSelectedIndex(1)
++            self.set_status("Loaded request into Request Template")
++        self._request_selected_message(loaded)
+ 
+     def _clear_req_template(self, event=None):
+         try:
+@@ -2487,23 +2706,12 @@ class LoggerUI(ITab):
+         except:
+             pass
+ 
+-    def _load_check_from_viewer(self, event=None):
+-        try:
+-            txt = self._get_request_text_from_selected()
+-            try:
+-                if hasattr(self, "checkPageEditor"):
+-                    b = None
+-                    try:
+-                        b = self.helpers.stringToBytes(txt)
+-                    except:
+-                        b = txt.encode("latin-1", "replace")
+-                    self.checkPageEditor.setMessage(b, True)
+-                self.set_status("Loaded request into CheckPageTemplate")
+-                self.tabbed.setSelectedIndex(2)
+-            except:
+-                pass
+-        except:
+-            pass
++    def _load_check_from_viewer(self,event=None):
++        def loaded(message):
++            self.checkPageEditor.setMessage(message.getRequest(),True)
++            self.tabbed.setSelectedIndex(2)
++            self.set_status("Loaded request into CheckPageTemplate")
++        self._request_selected_message(loaded)
+ 
+     def _clear_check_template(self, event=None):
+         try:
+@@ -2561,6 +2769,14 @@ class LoggerUI(ITab):
+         self._filter_rejected = 0
+         self._filter_timer = None
+         self._filter_dialog = None
++        self._log_archive = LogArchive()
++        self._log_writer = FilterWorker()
++        self._log_writer.gate_name = "BoberProxy.logwrite.v1"
++        self._log_budget = RawLogBudget()
++        self._log_writer.budget = self._filter_worker.budget = self._log_budget
++        self._log_io = LogIoWorker(self._log_archive)
++        self._log_error, self._log_not_accepted = None, 0
++        self._viewer_serial, self._viewer_entry = 0, None
+ 
+     def _filter_message(self):
+         errors = [s for s in (self._capture_error, self._display_error) if s]
+@@ -2575,6 +2791,12 @@ class LoggerUI(ITab):
+             message += " | Filtering... (%d ms running)" % state["running_ms"]
+         if self._filter_rejected:
+             message += " | %d log responses not accepted (FILTER_BUSY/ERROR)" % self._filter_rejected
++        if self._log_error:
++            message += " | " + self._log_error
++        if self._log_not_accepted:
++            message += " | %d log responses not accepted" % self._log_not_accepted
++        if self._log_archive.cleanup_error:
++            message += " | " + self._log_archive.cleanup_error
+         label = getattr(self, "filterStatusLabel", None)
+         if label is not None and label.getText() != message:
+             label.setText(message)
+@@ -2653,8 +2875,11 @@ class LoggerUI(ITab):
+         if self._custom_ui_closed:
+             return
+         end = _monotonic_ms() + 6
+-        for unused in range(32):
+-            job = self._filter_worker.poll()
++        model = getattr(self,"logTableModel",None)
++        if model is not None: model.begin_batch()
++        for unused in range(100):
++            workers = (self._log_writer,self._filter_worker) if unused % 2 == 0 else (self._filter_worker,self._log_writer)
++            job = workers[0].poll() or workers[1].poll()
+             if job is None:
+                 break
+             try:
+@@ -2663,10 +2888,40 @@ class LoggerUI(ITab):
+                 self._display_error = "Filter result error: " + _filter_diagnostic(error)
+             if _monotonic_ms() >= end:
+                 break
++        if model is not None: model.end_batch()
++        for unused in range(2):
++            item = self._log_io.poll()
++            if item is None: break
++            apply,value,error = item
++            apply(value,error)
+         if self._filter_dirty and not self._filter_rebuilding:
+             self._refresh_table_display()
++        if self._log_error and hasattr(self,"pauseBtn") and not self.pauseBtn.isSelected():
++            self.paused = True
++            self.pauseBtn.setSelected(True)
++            self._publish_runtime()
+         self._filter_message()
+ 
++    def _set_display_rows(self, entries):
++        table = getattr(self,"table",None)
++        selected = set()
++        if table is not None:
++            for row in table.getSelectedRows():
++                try: selected.add(self.logTableModel.displayed[table.convertRowIndexToModel(row)])
++                except (IndexError,Exception): pass
++        self._suspend_selection_events = True
++        try:
++            self.logTableModel.displayed = entries
++            self.logTableModel.fireTableDataChanged()
++            if table is not None and hasattr(table,"clearSelection"):
++                table.clearSelection()
++                for row,entry in enumerate(self.logTableModel.displayed):
++                    if entry in selected:
++                        view = table.convertRowIndexToView(row)
++                        if view >= 0: table.addRowSelectionInterval(view,view)
++        finally: self._suspend_selection_events = False
++        if table is not None and hasattr(self,"controller"): self._request_selected_message()
++
+     def _refresh_table_display(self):
+         if self._custom_ui_closed:
+             return
+@@ -2674,8 +2929,7 @@ class LoggerUI(ITab):
+         if not plan.fields:
+             self._filter_dirty = False
+             self._filter_rebuilding = 0
+-            self.logTableModel.displayed = list(self.logStore.entries)
+-            self.logTableModel.fireTableDataChanged()
++            self._set_display_rows(self.logStore.entries)
+             return
+         entries = tuple(self.logStore.entries)
+         newest = entries[0].index if entries else 0
+@@ -2701,15 +2955,20 @@ class LoggerUI(ITab):
+                     return  # Rebuild from a fresh snapshot; never lose a new row.
+                 if entry._filter_match:
+                     additions.append(entry)
+-            self.logTableModel.displayed = additions + matches
+-            self.logTableModel.fireTableDataChanged()
++            self._set_display_rows(additions + matches)
+         if self._filter_worker.submit(match, apply, "rebuild"):
+             self._filter_dirty, self._filter_rebuilding = False, serial
+         else:
+             self._display_error = "FILTER_BUSY: previous regex worker still occupied"
+ 
++    def _reject_log(self,message=None,capture=False):
++        # Jython has no GIL: rejection accounting must be a single transaction.
++        with self._log_budget.lock:
++            if message is not None: self._log_error = message
++            self._log_not_accepted += 1
++            if capture: self._filter_rejected += 1
++
+     def _queue_filter_log(self, data, config, log_generation=None):
+-        # No widget access here: this entry point runs on Burp callback threads.
+         if self._custom_ui_closed or config.get("paused"):
+             return
+         epoch = self._log_generation if log_generation is None else log_generation
+@@ -2717,47 +2976,62 @@ class LoggerUI(ITab):
+             return
+         capture = config.get("capture_filter_plan") or self._capture_filter_plan
+         display = config.get("display_filter_plan") or self._display_filter_plan
+-        tool, host, method, path, status, length, info, is_request, body_len = data
+-        response = info.getResponse()
+-        if not capture.accepts(status,length,body_len,response,self.helpers,search=False):
++        tool,host,method,path,status,length,info,is_request,body_len = data
++        if not capture.accepts(status,length,body_len,None,self.helpers,search=False):
+             return
+-        entry = LogEntry(0,"",host,method,path,status,length,body_len,info)
+-        def evaluate():
+-            if not capture.accepts(status,length,body_len,response,self.helpers):
+-                return False, False, None
+-            try:
+-                return True, display.matches(entry,self.helpers), None
+-            except (Exception, JavaThrowable) as error:
+-                return True, None, _filter_diagnostic(error)
+-        def apply(result, error):
++        if self._log_error:
++            self._reject_log()
++            return
++        response = info.getResponse()
++        request = info.getRequest() if hasattr(info,"getRequest") else None
++        cost = len(response) + (len(request) if request is not None else 0)
++        timestamp = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
++        archive_epoch = self._log_archive.epoch
++        def fail(message):
++            self._reject_log(message)
++        def prepare():
++            snapshot = FrozenLogMessage(self.helpers,info,request,response)
++            def evaluate():
++                if self._custom_ui_closed or epoch != self._log_generation:
++                    return None
++                if self._log_error:
++                    self._reject_log()
++                    return None
++                raw = snapshot.getResponse()
++                if not capture.accepts(status,length,body_len,raw,self.helpers):
++                    return None
++                entry = LogEntry(0,timestamp,host,method,path,status,length,body_len,snapshot)
++                failure, visible = None, None
++                try:
++                    if not display.has_regex: visible = display.matches(entry,self.helpers)
++                except (Exception, JavaThrowable) as error:
++                    failure = _filter_diagnostic(error)
++                try:
++                    stored = self._log_archive.put(snapshot,archive_epoch)
++                    return stored,visible,failure
++                except (Exception, JavaThrowable) as error:
++                    if epoch == self._log_generation and not self._custom_ui_closed:
++                        fail("STORAGE_WRITE_FAILED: new log admission paused")
++                    raise
++            return evaluate
++        def apply(result,error):
+             if self._custom_ui_closed or epoch != self._log_generation:
+                 return
+             if error is not None:
+-                with self._filter_worker.condition:
+-                    self._filter_rejected += 1
+-                self._capture_error = "Search failed: " + _filter_diagnostic(error)
+-                return
+-            accepted, visible, failure = result
+-            if not accepted:
++                if not self._log_error: fail("LOG_PROCESSING_FAILED: new log admission paused")
+                 return
+-            if failure:
+-                self._display_error = "Search failed: " + failure
+-            self.append_log_row(tool,host,method,path,status,length,info,is_request,config,
+-                                filter_result=(display,visible), log_generation=epoch,
+-                                provided_body_len=body_len)
+-        if capture.pattern is None and not display.has_regex:
+-            # Metadata predicates are bounded and use already validated values.
+-            result = evaluate()
+-            swing.SwingUtilities.invokeLater(lambda: apply(result,None))
+-        elif not self._filter_worker.submit(evaluate, apply):
+-            if capture.pattern is not None:
+-                with self._filter_worker.condition:
+-                    self._filter_rejected += 1
+-            else:
+-                # Admission already decidable: retain accepted rows even when
+-                # their display regex is busy; a later rebuild resolves visibility.
+-                if capture.accepts(status,length,body_len,response,self.helpers):
+-                    swing.SwingUtilities.invokeLater(lambda: apply((True,None,None),None))
++            if result is None: return
++            stored,visible,failure = result
++            if failure: self._display_error = "Search failed: " + failure
++            self.append_log_row(tool,host,method,path,status,length,stored,is_request,config,
++                                filter_result=(display,visible),log_generation=epoch,
++                                provided_body_len=body_len,capture_timestamp=timestamp)
++        try:
++            worker = self._filter_worker if capture.pattern is not None else self._log_writer
++            if not self._log_io.start() or not worker.submit_log(prepare,apply,cost):
++                self._reject_log("LOG_BUSY: new log admission paused (128 jobs / 32 MiB limit)",capture.pattern is not None)
++        except (Exception, JavaThrowable):
++            fail("LOG_SNAPSHOT_FAILED: new log admission paused")
+ 
+ 
+     def _init_display_filters(self):
+@@ -2806,11 +3080,13 @@ class LoggerUI(ITab):
+     def clear_log(self, evt=None):
+         try:
+             self._log_generation += 1
++            self._log_archive.clear()
+             self._filter_store_epoch += 1
+             self._filter_dirty = False
+             self._filter_rebuilding = 0
+             self.logStore.clear()
+             self.logTableModel.clear()
++            if hasattr(self,"controller"): self._clear_log_viewer()
+             self._log("Log cleared OK!")
+         except Exception as e:
+             try:
+@@ -2832,23 +3108,19 @@ class LoggerUI(ITab):
+                 reverse=True
+             )
+ 
+-            removed = 0
+-            removed_entries = set()
+-
+-            for r in model_rows:
+-                try:
+-                    entry = self.logTableModel.displayed[r]
+-                    # törlés a LogStore-ból (objektum alapon!)
+-                    if entry in self.logStore.entries:
+-                        self.logStore.entries.remove(entry)
+-                        removed += 1
+-                        removed_entries.add(entry)
+-                except:
+-                    pass
++            removed_entries = set(self.logTableModel.displayed[r] for r in model_rows)
++            removed = len(removed_entries)
++            self.logStore.entries = [entry for entry in self.logStore.entries if entry not in removed_entries]
++            self._suspend_selection_events = True
++            try:
++                if hasattr(self.table,"clearSelection"): self.table.clearSelection()
++            finally: self._suspend_selection_events = False
+ 
+-            # tábla újraépítése (filterek megtartása)
+             self._filter_store_epoch += 1
+             self.logTableModel.displayed = [e for e in self.logTableModel.displayed if e not in removed_entries]
++            for entry in removed_entries:
++                if isinstance(entry.messageInfo,StoredLogMessage): self._log_archive.release(entry.messageInfo)
++            if getattr(self,"_viewer_entry",None) in removed_entries: self._clear_log_viewer()
+             self.logTableModel.fireTableDataChanged()
+             self._refresh_table_display()
+ 
+@@ -2863,6 +3135,8 @@ class LoggerUI(ITab):
+ 
+     def toggle_pause(self, evt=None):
+         self.paused = bool(self.pauseBtn.isSelected())
++        if not self.paused:
++            with self._log_budget.lock: self._log_error = None
+         self.set_status("Paused" if self.paused else "Running")
+ 
+ 
+@@ -2891,63 +3165,78 @@ class LoggerUI(ITab):
+                 pass
+ 
+ 
+-    def add_selected_to_sitemap(self, event=None):
+-        view_rows = self.table.getSelectedRows()
+-        if not view_rows:
+-            swing.JOptionPane.showMessageDialog(None, "No rows selected.")
+-            return
+-
+-        count = 0
+-
+-        for view_row in view_rows:
+-            try:
+-                model_row = self.table.convertRowIndexToModel(view_row)
++    def _clear_log_viewer(self):
++        self._viewer_serial += 1
++        self._viewer_entry = None
++        self.controller.setMessageInfo(None)
++        self.reqViewer.setMessage(self.helpers.stringToBytes(""),True)
++        self.respViewer.setMessage(self.helpers.stringToBytes(""),False)
+ 
+-                if not (0 <= model_row < len(self.logTableModel.displayed)):
+-                    continue
+-
+-                entry = self.logTableModel.displayed[model_row]
+-                msg = entry.messageInfo
+-
+-                self.callbacks_ref.addToSiteMap(msg)
+-
+-                try:
+-                    url = self.helpers.analyzeRequest(msg).getUrl()
+-                    if url:
+-                        self.callbacks_ref.includeInScope(url)
+-                except:
+-                    pass
+-
+-                count += 1
+-
+-            except Exception as e:
+-                self._log("add_selected_to_sitemap ERROR: %s\n" % str(e))
+-
+-        self._log("Added %d selected to Site map" % count)
+-
+-
+-    def on_table_select(self, event):
++    def _request_selected_message(self, on_loaded=None):
++        if self._custom_ui_closed or self._suspend_selection_events: return
+         row = self.table.getSelectedRow()
+         if row < 0:
++            self._clear_log_viewer()
+             return
+-
+-        model_row = self.table.convertRowIndexToModel(row)
+-        try:
+-            entry = self.logTableModel.displayed[model_row]
+-            msg = entry.messageInfo
+-        except:
++        entry = self.logTableModel.displayed[self.table.convertRowIndexToModel(row)]
++        if on_loaded is None and entry is self._viewer_entry: return
++        self._clear_log_viewer()
++        self._viewer_entry = entry
++        serial,epoch = self._viewer_serial,self._log_generation
++        def read():
++            message = entry.messageInfo
++            return message.snapshot(self.helpers) if isinstance(message,StoredLogMessage) else message
++        def apply(message,error):
++            if self._custom_ui_closed or serial != self._viewer_serial or epoch != self._log_generation: return
++            if error is not None:
++                self._viewer_entry = None
++                self.set_status("STORAGE_READ_FAILED: selected message could not be loaded")
++                return
++            self.controller.setMessageInfo(message)
++            self.reqViewer.setMessage(message.getRequest() or self.helpers.stringToBytes(""),True)
++            self.respViewer.setMessage(message.getResponse() or self.helpers.stringToBytes(""),False)
++            if on_loaded is not None: on_loaded(message)
++        if not self._log_io.submit("viewer",read,apply):
++            self._viewer_entry = None
++            self.set_status("STORAGE_BUSY: viewer load not started")
++
++    def on_table_select(self,event):
++        if event is not None and event.getValueIsAdjusting(): return
++        self._request_selected_message()
++
++    def add_selected_to_sitemap(self,event=None):
++        rows = self.table.getSelectedRows()
++        if not rows:
++            swing.JOptionPane.showMessageDialog(None,"No rows selected.")
+             return
+-
+-        self.controller.setMessageInfo(msg)
+-        self.reqViewer.setMessage(msg.getRequest(), True)
+-        self.respViewer.setMessage(msg.getResponse(), False)
+-
++        entries = tuple(self.logTableModel.displayed[self.table.convertRowIndexToModel(row)] for row in rows)
++        epoch = self._log_generation
++        def export():
++            count,failed = 0,False
++            for entry in entries:
++                if self._custom_ui_closed or epoch != self._log_generation: break
++                try:
++                    msg = entry.messageInfo
++                    if isinstance(msg,StoredLogMessage): msg = msg.snapshot(self.helpers)
++                    self.callbacks_ref.addToSiteMap(msg)
++                    count += 1
++                    url = self.helpers.analyzeRequest(msg).getUrl()
++                    if url: self.callbacks_ref.includeInScope(url)
++                except (Exception, JavaThrowable):
++                    failed = True
++                    break
++            return count,failed
++        def apply(result,error):
++            if self._custom_ui_closed: return
++            if error is not None: self._log("STORAGE_EXPORT_FAILED")
++            else: self._log("Added %d selected to Site map%s" % (result[0],"; STORAGE_EXPORT_FAILED" if result[1] else ""))
++        if not self._log_io.submit("export",export,apply): self.set_status("STORAGE_BUSY: Site map export not started")
+ 
+     # append_log_row (filter-aware)
+     # append_log_row (LogStore-alapú, de UI-kompatibilis)
+     def append_log_row(self, toolFlag, host, method, path,
+                     status, total_length, messageInfo, isRequest, runtime_config=None,
+-                    filter_result=None, log_generation=None, provided_body_len=None):
++                    filter_result=None, log_generation=None, provided_body_len=None, capture_timestamp=None):
+ 
+         if self._custom_ui_closed:
+             return
+@@ -2957,7 +3246,7 @@ class LoggerUI(ITab):
+         if config.get("paused"):
+             return
+ 
+-        ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
++        ts = capture_timestamp or time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+ 
+         body_len = provided_body_len if provided_body_len is not None else ""
+         try:
+@@ -3168,6 +3457,8 @@ class LoggerUI(ITab):
+         self.sessions.close()
+         if hasattr(self, "_filter_worker"):
+             self._filter_worker.close()
++        self._log_writer.close()
++        self._log_io.close()
+         def close_timer():
+             if getattr(self, "_filter_dialog", None) is not None:
+                 self._filter_dialog._on_cancel()
+@@ -3179,6 +3470,12 @@ class LoggerUI(ITab):
+             if self._custom_test_timer is not None:
+                 self._custom_test_timer.stop()
+                 self._custom_test_timer = None
++            try:
++                if hasattr(self,"controller") and hasattr(self,"reqViewer"):
++                    self._clear_log_viewer()
++            finally:
++                if hasattr(self,"logStore"): self.logStore.clear()
++                if hasattr(self,"logTableModel"): self.logTableModel.clear()
+         swing.SwingUtilities.invokeLater(close_timer)
+ 
+     def _reset_custom_code(self, event=None):
+@@ -3841,7 +4138,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 installed.append("proxy")
+                 if not still_open():
+                     return
+-                print("BoberProxy loaded (stabilization K07)")
++                print("BoberProxy loaded (stabilization K08-K09)")
+             except (Exception, JavaException):
+                 diagnostic = traceback.format_exc()
+                 withdraw()

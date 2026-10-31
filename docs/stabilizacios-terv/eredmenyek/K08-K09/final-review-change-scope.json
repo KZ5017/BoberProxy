@@ -1,0 +1,17 @@
+{
+  "kind": "K089-final-review-change-scope",
+  "before_source_sha256": "d7936aff0e719c775911ec9a6f93636404fbe5c9d4754bd5c6133b795c631d98",
+  "after_source_sha256": "b99aaaa5b77f332891e5d4e1582c9df2e4dd605f7a74cd1b6141ed1b1b388bf7",
+  "passed": true,
+  "changed_scope": [
+    "LogTableModel._set_displayed batching event boundaries",
+    "LoggerUI.close_custom_runtime close_timer reference cleanup"
+  ],
+  "unchanged_scope": [
+    "archive I/O",
+    "raw byte budget and queue admission",
+    "filter matching and worker execution",
+    "proxy/template/cookie/CSRF/custom workflows"
+  ],
+  "note": "Previous memory/native reports retain their actual measured source hash; no new body/storage behavior introduced by final cleanup changes."
+}

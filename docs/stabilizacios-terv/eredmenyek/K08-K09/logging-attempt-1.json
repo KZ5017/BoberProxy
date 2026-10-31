@@ -1,0 +1,97 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.018114,
+      "test": "test_log_storage.LogStorageTests.test_archive_exact_binary_and_null_versus_empty"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001297,
+      "test": "test_log_storage.LogStorageTests.test_archive_refuses_edt_io"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001185,
+      "test": "test_log_storage.LogStorageTests.test_byte_limit_rejects_before_snapshot_and_pauses_visibly"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.006638,
+      "test": "test_log_storage.LogStorageTests.test_clear_and_selected_release_only_owned_files"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003626,
+      "test": "test_log_storage.LogStorageTests.test_clear_while_write_in_progress_cannot_restore_row_or_file"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000897,
+      "test": "test_log_storage.LogStorageTests.test_model_index_lookup_and_multiple_removal_are_stable"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.02419,
+      "test": "test_log_storage.LogStorageTests.test_one_batch_notification_covers_a_burst"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003832,
+      "test": "test_log_storage.LogStorageTests.test_pending_accepted_rows_finish_after_pause"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000918,
+      "test": "test_log_storage.LogStorageTests.test_preparation_order_cannot_overtake_first_snapshot"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001156,
+      "test": "test_log_storage.LogStorageTests.test_shared_raw_budget_and_close_release_reservations"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.008148,
+      "test": "test_log_storage.LogStorageTests.test_snapshot_freezes_mutable_source_before_return"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.006511,
+      "test": "test_log_storage.LogStorageTests.test_storage_write_failure_pauses_new_admission_without_erasing_old"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001922,
+      "test": "test_log_storage.LogStorageTests.test_truncated_file_is_visible_read_failure"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003535,
+      "test": "test_log_storage.LogStorageTests.test_unload_after_persist_before_publish_cleans_owned_files"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 14,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "1f4ed294715b7b9a7755d186570aba9659d4b09a221b51962409762c4c66b24d",
+  "successful_baseline_run": true,
+  "suite": "logging",
+  "total": 14
+}

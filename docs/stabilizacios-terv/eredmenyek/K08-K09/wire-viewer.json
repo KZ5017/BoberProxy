@@ -1,0 +1,18 @@
+{
+  "kind": "K089-real-Burp-scoped-logging-storage-wire",
+  "scenario": "viewer",
+  "passed": false,
+  "run": "k089-a6b1f1138e89",
+  "checks": {},
+  "responses": [],
+  "states": {},
+  "source_sha256": "f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161",
+  "error": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k089_traffic.py\", line 230, in main\n    try: run(args.scenario,report)\n         ~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k089_traffic.py\", line 184, in run\n    command('capture-hashes')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k089_traffic.py\", line 41, in command\n    raise AssertionError(reply.get('error'))\nAssertionError: Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\burp_k089_instrumented.py\", line 294, in invoke\n    response['state']=self.apply(request['action'])\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\burp_k089_instrumented.py\", line 215, in apply\n    regex,size,mode=profiles[action]\nKeyError: u'capture-hashes'\n\n",
+  "target_after_failure": {
+    "run": "k089-a6b1f1138e89",
+    "action_count": 0,
+    "event_count": 0,
+    "recent_events": [],
+    "session": null
+  }
+}

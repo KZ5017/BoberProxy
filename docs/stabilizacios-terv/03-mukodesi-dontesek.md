@@ -97,6 +97,8 @@ Az eredeti tervezési indoklás:
 
 ## D09 — Naplómegőrzés, sor és háttértár
 
+K08–K09 megvalósítási választás, 2026-10-31: a közös körre adott felhasználói megbízás alapján az alábbi ajánlást követjük. Közös32MiB nyers pillanatkép-keret, workerenként legfeljebb128 várakozó és128 kész eredmény;50ms-os UI-ürítő,100 eredmény és műveletek közötti6ms-os célkeret. A Java/Swing-hívás nem megszakítható ettől. Saját példánykönyvtárban üzenetenként egy ideiglenes fájl, teljes request/response, memóriában metaadat és kiválasztott/függő vieweradat; külön tartalomcache nincs. A fájlok flush/close után a futó munkamenethez tartoznak, nem ígérünk összeomlás utáni visszaállítást. A Burp deleteTempFiles-próba utáni visszaolvashatóság miatt natív fájlfelszabadítást nem állítottunk igazoltnak. Telítődés/írási hiba látható felvételi szünetet okoz; az elfogadott sorok nem törlődnek automatikusan, a HTTP-továbbítás nem vár a tárolásra. Végső ellenőrzés:199 logikai eset, actual15+24 helper,385 egyszer továbbított wire-kérés, nyolc natív UI/archive ciklus és közvetlen két-call normál regresszió; [K08–K09 lezárva](eredmenyek/K08-K09/README.md), a mért határokkal.
+
 - Érintett: F24–F25/F42, K08/K09.
 - Ajánlás: nincs csendes bejegyzéseldobás; a teljes elfogadott napló megőrzendő. A UI-n megjelenő sorrend és sorszám ettől nem változik.
 - Az elfogadás pontja a felvételi szűrés utáni, tartósan nyilvántartott felvétel. Pause csak az új elfogadást állítja le; a már elfogadott bejegyzések feldolgozása befejeződik. Clear szándékosan törölheti a korábbi generáció elfogadott adatait és pending munkáját. Ez nem számít csendes veszteségnek, de a Clear eseményének méréskor is látszania kell.

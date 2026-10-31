@@ -1,0 +1,18 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)
+WARNING: Please consider reporting this to the maintainers of class org.python.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+{
+  "checks": {
+    "own_files_and_directory_removed": true, 
+    "all_192_content_records_preserved": true, 
+    "content_larger_than_max_heap": true, 
+    "hundred_thousand_metadata_rows_fit": true, 
+    "heap_not_proportional_to_total_content": true, 
+    "first_and_last_disk_payload_exact": true
+  }, 
+  "passed": true
+}

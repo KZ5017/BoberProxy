@@ -1,8 +1,8 @@
 # Végrehajtási napló
 
-Utoljára frissítve: 2026-10-31.
+Utoljára frissítve: 2026-11-01.
 
-**K00–K07 lezárva a rögzített környezetben; K08–K11 nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a körök eredményjegyzékeiben szerepelnek.
+**K00–K09 lezárva a rögzített környezetben; K08–K09 közös munkakörben készült el, K10–K11 nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a körök eredményjegyzékeiben szerepelnek.
 
 ## Aktuális állapot
 
@@ -16,8 +16,8 @@ Utoljára frissítve: 2026-10-31.
 | K05 | K05a lezárt a választott D08 korláttal | [K05](eredmenyek/K05/README.md): 144 eset/143 siker/1 elfogadott hard-stop korlát CPython/Jython; actual Burp helper13+13, 8 wire-eset, tényleges unload/reload és normál 2-call regresszió sikeres. |
 | K06 | Lezárt a rögzített környezetben | [K06](eredmenyek/K06/README.md): 159 logikai eset/158 siker/1 elfogadott K05 korlát; végleges actual helper15+23, nyolc lifecycle, hat irányított wire-eset és végleges közvetlen normál 2-call regresszió sikeres. D06 korlátai megmaradnak. |
 | K07 | Lezárt a rögzített környezetben | [K07](eredmenyek/K07/README.md): D10 elfogadott;182 eset/181 siker/1 K05 korlát, végső actual helper23+23, display/capture/clear valódi wire-próbák30 egyszer továbbított kéréssel és végső közvetlen normál két-call regresszió sikeres. Java-regex hard-stop és teljes naplómemória-korlát nem állított. |
-| K08 | Nem indult | K06–K07; D09. |
-| K09 | Nem indult | K05/K08; D09 háttértárpróba. |
+| K08 | Lezárt a rögzített környezetben | [Közös bizonyítékok](eredmenyek/K08-K09/README.md);199 logikai eset/198 siker/1 K05 korlát, actual15+24 natív ellenőrzés, append-modell/kötegelt UI,385 egyszer továbbított wire-kérés és végső normál két-call regresszió. |
+| K09 | Lezárt a rögzített környezetben | Saját archive;768MiB body384MiB heap mellett,100k külön modell-metaadat, nyolc teljes natív UI/archive ciklus, tényleges write/read hibapróbák és saját fájlok cleanupja. Teljes K11 mátrix nincs késznek állítva. |
 | K10 | Nem indult | K01–K09 integrált állapota. |
 | K11 | Nem indult | Minden szükséges döntés, kör és F-státusz lezárható. |
 
@@ -45,7 +45,7 @@ Minden tényleges döntéshez külön sor kell. A javaslat nem számít elfogado
 | D05/D06/D14, K04 | A közös munkamenet megmarad; attribútumalapú sütitörlés, tombstone/Clear, üres adat és explicit CSRF-hibaállapot. | 2026-10-31; a felhasználó mindkét döntési kérdésben az első lehetőséget választotta. [K04](eredmenyek/K04/README.md). | E20–E24/E26 | Többhostos/Path/Secure elkülönítés nincs; teljes workflow-koordináció és Clear közbeni késői hálózati válasz K06. Ez elfogadott kompatibilitási korlát, nem kijavított elkülönítés. |
 | D08 | K05a: korlátos belső futtató, 1 worker és legfeljebb 1 várakozó, 500 ms alap / 1–30000 ms teljes időkeret; nincs szálcsere beragadt feladatnál. | 2026-10-31; a felhasználó az asszisztensre bízta a választást, az asszisztens ezt az irányt választotta. [D08](03-mukodesi-dontesek.md). | E27–E32/E56 | Nem hard megszakítás vagy CPU-korlát; beragadt kód Burp-újraindítást igényelhet. K05a megvalósítás és életciklus-bizonyítás lezárt; hard-stop továbbra sem állított. |
 | D10 | Felhasználó elfogadta; K07-ben végrehajtva. | ResponseContent soronkénti regex, hibás aktív bevitel mellett látható hiba és utolsó érvényes szűrő. | E35–E40; K07 logika/natív/wire eredmények. | Java-regex hard-stop nincs; túlterhelési számláló és korlátos háttérmunka. |
-| D09 | A saját köre előtt véglegesítendő, a javaslatok és a mért alapállapot alapján. | K08/K09. | Az érintett körök mátrixa. | Teljes napló/UI/tároló-kapacitás későbbi feladat. |
+| D09 | A közös K08–K09 körben végrehajtva és ellenőrizve. | Elfogadott napló megőrzése, közös32MiB snapshot-budget, saját archive, visible overload/disk-error pause/resume. | Közös logika/natív/wire/memória és végső normál regresszió. | Metaadat sorszámmal nő; teljes K11 mátrix később. |
 
 ## K00 — Lezárt alapállapot átadása
 
@@ -170,7 +170,7 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 | F04 | Időkeret/elkéső eredmény kezelt; hard-stop hiánya elfogadott korlát | K05a; D08 | E29–E31/P14: kontrollált finite event, külön JVM-es végtelen Python/Java, későbbi feladatok BUSY és nincs második worker | P14 nem javított tulajdonság; saját custom mellékhatás/CPU-fogyasztás folytatódhat. |
 | F05 | Custom-worker kapacitás és unload/reload kezelve | K05a; további erőforrások K09 | E30/E56: 1+1 slot, pending expiry, cross-interpreter gate, tényleges worker-ID 269→291 reload után | Tetszőleges custom kód által önállóan indított szálakra nem sandbox. |
 | F22 | Test custom-végrehajtás nem blokkolja az EDT-t | K05a/K06 | E32: submit+Swing Timer, EDT-sentinel aktív kód mellett, késői/edited/unloaded Test kimenet eldobása, fő Test timeout visszaigazolva; K06 alatt a K05 natív regresszió is sikeres | A K06 Swing-konfiguráció/koordináció és végső közvetlen regresszió is sikeres. |
-| F42 | Csak custom executor/Test életciklus lezárt; összesített erőforrás-ügy nyitott | K05a/K08/K09 | E56: listener/close, waiterek lezárása, nincs late Test publish vagy reload-worker szaporodás | Log-store, pending UI és háttértár későbbi körökben. |
+| F42 | Custom/session/log/archive saját életciklus javítva a rögzített környezetben | K05a/K06/K08–K09 | E49/E55/E56: close/generációk, saját fájlok/reference cleanup, nyolc teljes natív UI/archive ciklus, nincs worker-akkumuláció | Megszakíthatatlan natív/custom művelet korlátja és K11 összesített terhelés külön marad. |
 | F06 | Javítva és ellenőrizve | K02, 2A5E... forrás | E10/E04: logika, eredeti felületi trace, forgalmi elő-/utóhiba | Teljes exec-határidő és kapacitás K05; a diagnosztikai hiba nem indít újraküldést. |
 | F07 | Javítva és ellenőrizve | K02, 2A5E... forrás | E11/E41: elemtípusok CPython/Jython/natív Java alatt, valódi hibás típus/Unicode forgalom | Byte-valued Unicode; más charset explicit custom encode. |
 | F29 | Javítva és ellenőrizve | K02, 2A5E... forrás | E12: nulla/hiányzó tárolás, eq/not eq 0; valódi Swing üres/nulla cella és rendezés | A korábbi UI-eltérés külön reprodukcióval megőrzött. |
@@ -189,7 +189,9 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 | F14 | Megőrzött viselkedés dokumentálva és ellenőrizve | K03; D04 | E17: 301/302/303/307/308 logikai GET-mátrix, valódi 302-lánc minimális header/body | Nem metódusmegőrző 307/308 támogatás. |
 | F44 | D12 célservice-szerződés rögzítve és ellenőrizve | K03 | E18: eltérő Host mellett eredeti RT/CP, másik port/TLS redirect service | A Host módosítása önmagában nem retargetál. |
 | F26/F27/F28 | Javítva és ellenőrizve a rögzített környezetben | K07, végleges1309ff...; D10 | E35–E40:28 legacy találat,23 célzott eset,23 valódi natív/UI állítás,30 wire-kérés, végső normál két-call regresszió | Egy Java-regex worker, korlátos sor; nincs hard-stop. K08 batching/K09 teljes tároló-korlát külön feladat. |
-| A többi F-azonosító | Nyitott | K08–K11 | K00 alapállapot/reprodukció | A tételes feladatok az 01-es dokumentumban. |
+| F23/F24/F25/F32 | Javítva és ellenőrizve a rögzített környezetben | K08–K09, végső7b91...; forgalmi f819... határ dokumentált | Append/kötegelt UI, véges nyers budget és atomic elutasítási számláló, saját archive, pontos viewer/export és metadata-egyszeriség; memória/wire/normal eredmények | Teljes JVM/RSS nem32MiB; metadata-költség és K11 nagyterhelési mátrix külön rögzített. |
+| F38 | Listener/sorter stabilizálva; kisebb módbeállítás-takarítás marad | K08–K09/K10 | Egy saját listener/explicit sorter; sorted multi-selection és tényleges Site map bájtegyezés | A kezdeti redundáns SINGLE→MULTIPLE konstruktorbeállítás K10-ben takarítható. |
+| A többi F-azonosító | Nyitott | K10–K11 | K00 alapállapot/reprodukció | A tételes feladatok az 01-es dokumentumban. |
 
 ## Végső átadás kötelező tartalma
 
@@ -242,3 +244,23 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 - Aktuális UI: csak közvetlen root K07; normál előtag nélküli két HTTP-sablon, runtime/custom-k07-pass-through.py,2000ms,q/w/alapCSRF; sablon/CheckPage/custom/két automatika ON, AutoFollow/Intercept OFF, alap naplószűrők, nincs pause. Cache sid/token k00-workflow.1. Nincs függő kézi kapu; instrumentált wrapper eltávolítva, fájlparancsait nem küldjük. K08 nem indult; K07 commit/push nem történt.
 
 - A felhasználó a lezárt K07 teljes állapotáról külön commit/push ellenőrzőpontot kért. A forrás, tesztsegédek, dokumentáció és szintetikus bizonyítékok a mentés részei; generált runtime fájlok ignoráltak. A revízió a Git-naplóban található. K08 nem indult.
+
+## K08–K09 — Közös végrehajtás, folyamatban
+
+- Kiindulás pusholt K07 837224d, tiszta munkafa; felhasználó közös kört kért. Belső kapuk megmaradnak: natív API-próba, modell/UI, tárolás/életciklus, közös regresszió.
+- Az első tárolósegéd JavaBean-rekurziós adapterhibája archivált; privát mezőkre váltva hat natív regresszió és actual API9 sikeres. deleteTempFiles után a tartalom olvasható maradt; tényleges felszabadítást nem állítottunk igazoltnak. Saját tulajdonolt ideiglenes tároló készült.
+- Append-alapú legújabb-elöl indexelés, kötegelt50ms/100 eredmény/6ms célú UI-ürítés, egy sorter/kijelölési listener, közös32MiB nyers snapshot-keret, bounded worker-sorok. Háttérben történik az archive/viewer/template/Site map I/O; logikus Clear-generáció és késői kijelölésvédelem. Telítődés/írási hiba láthatóan szünetelteti az új felvételt, elfogadott sor automatikusan nem törlődik.
+- Külön JVM-ben768MiB body384MiB heap mellett megőrzött;100k metaadat elfér. Own-directory cleanup és child reaping sikeres. A mérés d793... verzióhatára és az UI-only későbbi változások gépi proofjai megőrzöttek. Listamodell100k mikromérés kb.3,04s helyett0,05s, nem proxy throughput.
+- Két utolsó review-eset reprodukált batch-értesítési és unload-referencia hibát javított. A valódi Burp-editor null tartalmat elutasított, ami a takarítást timerleállítás előtt szakította meg; üres natív bájttömb, javított cleanup-sorrend és Java Throwable-t rögzítő verifier készült. A felhasználó ezért újraindította a Burpot.
+- Aktuális forrás f81959f336e372e948ef04fac935640463f9378739d7b9f2ea50b882c9f69161. CPython/Jython198/197/1 korábbi K05 korlát; végső külön és actual Burp14 storage +24 UI ellenőrzés sikeres, user Errors üres. A korábbi sikertelen mérések nem lettek zöldként átnevezve.
+- Függő kézi kapu: root/helper eltávolítása, csak burp_k089_instrumented.py betöltése; várt fő K08-K09 és K089_INSTRUMENTED READY, alap/OFF és üres sablonok, Burp Intercept OFF. A külön JVM-es wrapper smoke9 sikeres. Utána hét egyszeri helyi wire-eset, majd közvetlen normál két-call regresszió szükséges. Még nem lezárt; K10 nem indult, commit/push nincs.
+
+### K08–K09 közös lezárás
+
+- Az első18765-ös párhuzamos kísérlet kapcsolati fixture-hibáját külön Burp Failed to connect oldal és céloldali számláló igazolta. Külön18772-es szerver/backlog128 és64/64 közvetlen önellenőrzés készült; a korábbi hibás riportok megmaradtak, a normál regresszió célja továbbra is18765.
+- Mind a hét végső wire-eset sikeres f819... forráson:385 egyszer továbbított kérés,0 workflow-művelet, nincs késői extra kérés. Burst64+3x100/25s célütem, disk regex/Clear, held write/Clear, pause, overload, write fault/resume, viewer race/read fault/sorted Site map/kijelölt fájlcleanup. A viewer első0-kéréses tesztvezérlő-hibája megőrzött; a végső driver tényleges wire-SHA-kat hasonlít.
+- A külön Jython-race valós elutasítási számlálóhibát mutatott. A végső7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4 csak ennek hibajelzés/resume tranzakcióját zárolja; minden archive/worker/model/workflow kód byte-azonos a mért wire-változattal.3x20k művelet mind pontos20k; CPython/Jython199/198/1 elfogadott K05 korlát, külön és actual15+24 natív sikeres. Gépi scope-proofok és három köztes patch rekonstruálják a mért hash-eket.
+- A felhasználó a végső közvetlen főforrás/helper betöltését és a normál beállításokat késznek jelezte, Errors nincs. Utolsó normál próba1 action/1 CheckPage/exakt2 új custom hívás, raw payloadok és helyes süti/token; késői target/trace recheck változatlan. Nyolc teljes natív UI/archive ciklus ugyanabban az izolált JVM-ben sikeres, saját worker-szám visszaáll.
+- closure.json16 állítása sikeres; environment.json tartalmazza a pontos Burp/Jython/Java/heap/adatútvonalakat. Nincs függő kézi kapu. Aktuális root7b91..., normál RT/CP + runtime/custom-k089-pass-through.py,2000ms,q/w/alapCSRF; sablon/CheckPage/custom/két automatika ON, AutoFollow/Intercept OFF, alap/unpaused szűrők, cache sid/token k00-workflow.1. Külön helper még betöltve lehet, saját erőforrásait lezárta. Instrumentált példány eltávolítva, fájlparancsot nem küldünk. K10/K11 nem indult, commit/push nincs.
+
+- A felhasználó külön commit/push ellenőrzőpontot kért a lezárt közös K08–K09 állapotról. A forrás, segédek, dokumentáció és szintetikus bizonyítékok a mentés részei, generált runtime fájlok ignoráltak. A revízió a Git-naplóban található; a closure.json a commit előtti ellenőrzési állapotot őrzi. K10 nem indult.

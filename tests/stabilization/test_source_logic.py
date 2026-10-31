@@ -35,6 +35,11 @@ class SourceCase(unittest.TestCase):
         if filter_worker is not None and filter_worker.worker is not None:
             filter_worker.worker.join(2)
             self.assertFalse(filter_worker.worker.is_alive(), 'Finite filter worker did not finish')
+        for name in ('_log_writer','_log_io'):
+            owner = getattr(self.ui,name,None)
+            if owner is not None and owner.worker is not None:
+                owner.worker.join(2)
+                self.assertFalse(owner.worker.is_alive(), 'Finite log worker did not finish')
         self.capture.__exit__()
         self.ns['time'] = time
         for thread in self.ns['_probe_threads']:
