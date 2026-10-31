@@ -1,0 +1,8 @@
+{
+  "before_sha256": "d900b4bdb8ecf50a6a24b5dec5cb788aa4a553731063ada93dfef779c849616b",
+  "final_sha256": "15869d95fca0c8ec91b1d6be4ededb1897499a384e90cd7832493fbd0dd9159e",
+  "only_source_delta": "Added OverflowError to CsrfManager.set_pattern regex compilation exception tuple",
+  "wire_cases_on_before_candidate": 26,
+  "core_cookie_redirect_template_logic_unchanged": true,
+  "final_validation": "Full CPython/Jython logic, full API/Swing import, 22 standalone and real Burp native checks, final direct main reload and normal two-call custom regression all passed"
+}

@@ -1,0 +1,33 @@
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "K04-native-manager-and-swing-checks-no-network", 
+  "message_editors_are_doubles": true, 
+  "checks": {
+    "native_max_age_precedes_expires": true, 
+    "empty_cookie_is_readdition": true, 
+    "native_utc_expiry_tombstone": true, 
+    "swing_edit_shows_missing_capture": true, 
+    "clear_restores_template": true, 
+    "swing_edit_shows_invalid_regex_immediately": true, 
+    "swing_clear_show_missing": true, 
+    "java_array_deleted_prefix_is_value": true, 
+    "unmanaged_cookie_and_high_byte_body_survive": true, 
+    "actual_header_name_only": true, 
+    "tombstone_suppresses_unicode_template_cookie": true, 
+    "signed_java_bytes_csrf_preserved": true, 
+    "native_unchanged_pattern_reuses_compilation": true, 
+    "native_clear_is_missing_token": true, 
+    "native_invalid_regex_diagnostic": true, 
+    "native_capture_required": true, 
+    "swing_edited_pattern_extracts": true, 
+    "native_no_match_retains_token": true, 
+    "swing_default_regex_compiled_with_options_off": true, 
+    "swing_reset_recompiles_default": true, 
+    "native_empty_token_is_present": true
+  }, 
+  "source_sha256": "d900b4bdb8ecf50a6a24b5dec5cb788aa4a553731063ada93dfef779c849616b", 
+  "java_version": "26.0.2", 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "errors": []
+}

@@ -1,0 +1,528 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index 5b96fbb..f2511df 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -411,57 +411,84 @@ class LogTableModel(AbstractTableModel):
+ 
+ 
+ class CsrfManager(object):
+-    """Stores the latest extracted CSRF token and the regex used to capture it."""
++    """One compatibility-session token; compile only when the pattern changes."""
+ 
+     def __init__(self):
+         self.lock = threading.Lock()
+-        self.token = None             # there is only 1 token
+-        self.pattern_to_use = None    # user-specified regex
++        self.token = None
++        self._pattern_text = None
++        self._compiled_pattern = None
++        self._pattern_error = None
++        self._generation = 0
++        self._pattern_version = 0
++        self._status = "REGEX_UNSET"
++        self._detail = None
+ 
+     def _decode(self, data):
+-        if isinstance(data, (bytes, bytearray)):
++        return _wire_text(data)
++
++    def set_pattern(self, pattern):
++        pattern = pattern.strip() if pattern is not None else ""
++        with self.lock:
++            if pattern == self._pattern_text:
++                return self._pattern_error is None
++            self._pattern_text = pattern
++            self._pattern_version += 1
++            self._compiled_pattern = None
++            self._pattern_error = None
++            self._detail = None
++            if not pattern:
++                self._status = "REGEX_UNSET"
++                return True
+             try:
+-                return data.decode("latin-1", "replace")
+-            except:
+-                return data.decode("utf-8", "replace")
++                compiled = re.compile(pattern, re.IGNORECASE | re.DOTALL)
++                if compiled.groups < 1:
++                    self._pattern_error = "REGEX_NO_CAPTURE"
++                    self._detail = "The CSRF regex needs a capturing group."
++                else:
++                    self._compiled_pattern = compiled
++            except (ValueError, re.error) as error:
++                self._pattern_error = "REGEX_INVALID"
++                self._detail = str(error)
++            self._status = self._pattern_error or "REGEX_READY"
++            return self._pattern_error is None
++
++    def get_pattern(self):
++        with self.lock:
++            return self._pattern_text
+ 
+-        try:
+-            if hasattr(data, "__iter__") and not isinstance(data, str):
+-                return bytearray((int(b) & 0xff for b in data)).decode("latin-1", "replace")
+-        except:
+-            pass
++    pattern_to_use = property(get_pattern, set_pattern)
+ 
+-        try:
+-            return str(data)
+-        except:
+-            return ""
++    def get_status(self):
++        with self.lock:
++            return self._status, self._detail
+ 
+     def update_from_response(self, response_bytes):
+-        """
+-        Extract CSRF token using user regex.
+-        Returns (True, token) or (False, None)
+-        """
+-        txt = self._decode(response_bytes)
+-        if not txt:
+-            return False, None
+-
+-        # user regex required
+-        pattern = self.pattern_to_use
+-        if not pattern:
+-            return False, None
++        """Return (matched, token). No match or invalid regex retains the token.
+ 
++        Searching does not hold the state lock. A Clear or pattern edit during
++        this extraction invalidates its result; workflow-wide ordering is K06.
++        """
++        with self.lock:
++            compiled = self._compiled_pattern
++            generation, version = self._generation, self._pattern_version
++            if compiled is None:
++                self._status = self._pattern_error or "REGEX_UNSET"
++                return False, None
+         try:
+-            m = re.search(pattern, txt, flags=re.IGNORECASE | re.DOTALL)
+-            if not m:
++            match = compiled.search(self._decode(response_bytes))
++            token = match.group(1) if match is not None else None
++            status, detail = ("UPDATED" if token is not None else "NO_MATCH"), None
++        except (TypeError, ValueError, UnicodeError) as error:
++            token, status, detail = None, "DECODE_ERROR", str(error)
++        with self.lock:
++            if generation != self._generation or version != self._pattern_version:
+                 return False, None
+-
+-            token = m.group(1)
+-            with self.lock:
++            self._status, self._detail = status, detail
++            if token is not None:
+                 self.token = token
+-            return True, token
+-
+-        except:
+-            return False, None
++                return True, token
++        return False, None
+ 
+     def get_token(self):
+         with self.lock:
+@@ -474,178 +501,190 @@ class CsrfManager(object):
+     def clear(self):
+         with self.lock:
+             self.token = None
++            self._generation += 1
++            self._status, self._detail = "CLEARED", None
+ 
+     def dump(self):
+         with self.lock:
+-            return self.token or "<no csrf token>"
++            if self.token is None:
++                return "<no csrf token>"
++            return self.token if self.token != "" else "<empty csrf token>"
+ 
+ 
+ class CookieManager(object):
+-    """
+-    Clean, robust cookie handler for both proxy responses and internal flows.
+-    Thread-safe. API is fully backward-compatible.
++    """Global compatibility jar, expiry metadata and template tombstones.
++
++    Domain/Path/Secure are intentionally not selection boundaries in this mode.
++    Individual operations are locked; complete workflows are coordinated in K06.
+     """
+ 
+     def __init__(self):
+-        self.jar = {}   # {cookie_name: cookie_value}
++        self.jar = {}
++        self.expires = {}
++        self.deleted = set()
+         self.lock = threading.Lock()
+-
+-    # --- Internal helper ---
++        self._generation = 0
+ 
+     def _decode(self, data):
+-        """
+-        Minimal, deterministic conversion: because Burp always passes bytes.
+-        """
+-        if isinstance(data, (bytes, bytearray)):
+-            try:
+-                return data.decode("latin-1", "replace")
+-            except:
+-                return data.decode("utf-8", "replace")
+-
+-        # Java byte[] masquerading as iterable of ints
+-        try:
+-            if hasattr(data, "__iter__") and not isinstance(data, str):
+-                ba = bytearray()
+-                for b in data:
+-                    try: ba.append(int(b) & 0xff)
+-                    except: pass
+-                return ba.decode("latin-1", "replace")
+-        except:
+-            pass
+-
+-        # last fallback
++        return _wire_text(data)
++
++    def _now(self):
++        return time.time()
++
++    @staticmethod
++    def _expires_date(value):
++        # Cookie-date token order and 2-digit years: RFC 6265 section 5.1.1.
++        # No local timezone, permissive calendar normalization or comma split.
++        import calendar
++        import datetime
++        hour = minute = second = day = month = year = None
++        months = ("jan", "feb", "mar", "apr", "may", "jun",
++                  "jul", "aug", "sep", "oct", "nov", "dec")
++        for token in re.split(r"[\x09\x20-\x2f\x3b-\x40\x5b-\x60\x7b-\x7e]+", value):
++            if hour is None:
++                match = re.match(r"^(\d{1,2}):(\d{1,2}):(\d{1,2})(?:[^0-9].*)?$", token)
++                if match:
++                    hour, minute, second = [int(part) for part in match.groups()]
++                    continue
++            if day is None and re.match(r"^[0-9]{1,2}(?:[^0-9].*)?$", token):
++                day = int(re.match(r"^[0-9]+", token).group(0))
++                continue
++            if month is None and token[:3].lower() in months:
++                month = months.index(token[:3].lower()) + 1
++                continue
++            if year is None and re.match(r"^[0-9]{2,4}(?:[^0-9].*)?$", token):
++                year = int(re.match(r"^[0-9]+", token).group(0))
++        if None in (hour, minute, second, day, month, year):
++            return None
++        if 70 <= year <= 99:
++            year += 1900
++        elif 0 <= year <= 69:
++            year += 2000
++        if year < 1601:
++            return None
+         try:
+-            return str(data)
+-        except:
+-            return ""
++            date = datetime.datetime(year, month, day, hour, minute, second)
++            return float(calendar.timegm(date.timetuple()))
++        except (ValueError, OverflowError):
++            return None
+ 
+-    # --- Public API ---
++    def _expiry_from_attributes(self, attributes, now):
++        max_age, expires = None, None
++        for attribute in attributes:
++            name, separator, value = attribute.partition("=")
++            if not separator:
++                continue
++            name, value = name.strip().lower(), value.strip()
++            if name == "max-age" and re.match(r"^-?[0-9]+$", value):
++                # Cap without converting an arbitrarily long untrusted integer.
++                digits = value.lstrip("-").lstrip("0") or "0"
++                if value.startswith("-") or digits == "0":
++                    max_age = 0
++                else:
++                    max_age = 253402300799 if len(digits) > 12 else int(digits)
++            elif name == "expires":
++                parsed = self._expires_date(value)
++                if parsed is not None:
++                    expires = parsed
++        if max_age is not None:
++            return 0.0 if max_age <= 0 else min(now + max_age, 253402300799.0)
++        return expires
++
++    def _expire_locked(self, now):
++        for name, expiry in list(self.expires.items()):
++            if expiry <= now:
++                self.jar.pop(name, None)
++                self.expires.pop(name, None)
++                self.deleted.add(name)
+ 
+     def update_from_response(self, response_bytes_or_text):
+-        """
+-        Parse Set-Cookie headers and update jar.
+-        Accepts bytes or string.
+-        Returns list of ("added"/"updated"/"deleted", name, old, new).
+-        """
++        """Parse actual Set-Cookie fields in order; return change tuples."""
++        with self.lock:
++            generation = self._generation
+         txt = self._decode(response_bytes_or_text)
+-        changes = []
+-
+-        # isolate headers
+-        try:
+-            headers = txt.split("\r\n\r\n", 1)[0].split("\r\n")
+-        except:
+-            return changes
+-
+-        for line in headers:
+-            if not line or "set-cookie" not in line.lower():
++        now = self._now()
++        parsed = []
++        for line in txt.split("\r\n\r\n", 1)[0].split("\r\n")[1:]:
++            header_name, separator, value = line.partition(":")
++            if not separator or header_name.strip().lower() != "set-cookie":
+                 continue
+-
+-            try:
+-                # Remove "Set-Cookie:"
+-                val = line.split(":", 1)[1].strip()
+-                # Take only the name=value
+-                pair = val.split(";", 1)[0].strip()
+-
+-                if "=" not in pair:
+-                    continue
+-
+-                name, value = pair.split("=", 1)
+-                name = name.strip()
+-                value = value.strip()
+-
+-                with self.lock:
+-                    old = self.jar.get(name)
+-
+-                    # deletion
+-                    if value == "" or value.lower().startswith("deleted"):
+-                        if name in self.jar:
+-                            del self.jar[name]
+-                            changes.append(("deleted", name, old, None))
+-                        continue
+-
+-                    # update or add
++            parts = value.strip().split(";")
++            name, separator, value = parts[0].partition("=")
++            name, value = name.strip(), value.strip()
++            if not separator or not name:
++                continue
++            # Invalid names/control bytes must not create request-header data.
++            if any(ord(char) <= 32 or ord(char) >= 127 or char in '()<>@,;:\\"/[]?={}' for char in name):
++                continue
++            if any(ord(char) < 32 or ord(char) == 127 for char in value):
++                continue
++            parsed.append((name, value, self._expiry_from_attributes(parts[1:], now)))
++        changes = []
++        with self.lock:
++            if generation != self._generation:
++                return changes
++            self._expire_locked(now)
++            for name, value, expiry in parsed:
++                old = self.jar.get(name)
++                if expiry is not None and expiry <= now:
++                    self.jar.pop(name, None)
++                    self.expires.pop(name, None)
++                    self.deleted.add(name)
++                    changes.append(("deleted", name, old, None))
++                else:
+                     self.jar[name] = value
+-                    if old is None:
+-                        changes.append(("added", name, None, value))
++                    self.deleted.discard(name)
++                    if expiry is None:
++                        self.expires.pop(name, None)
+                     else:
+-                        changes.append(("updated", name, old, value))
+-
+-            except Exception:
+-                pass
+-
++                        self.expires[name] = expiry
++                    changes.append(("added" if old is None else "updated", name, old, value))
+         return changes
+ 
+     def inject_into_request(self, request_text):
+-        """
+-        Merge current cookies into the request. Return new request text.
+-        """
+-        try:
+-            txt = str(request_text)
+-        except:
+-            txt = request_text.encode("latin-1", "replace")
+-
+-        # split header/body
++        txt = self._decode(request_text)
+         parts = txt.split("\r\n\r\n", 1)
+         header_lines = parts[0].split("\r\n")
+         body = parts[1] if len(parts) > 1 else ""
+-
+-        # existing cookies
+-        existing = {}
+-        new_header_lines = []
+-        found_cookie_hdr = False
+-
+-        for h in header_lines:
+-            if h.lower().startswith("cookie:"):
+-                found_cookie_hdr = True
+-                try:
+-                    cookie_str = h.split(":", 1)[1].strip()
+-                    for pair in cookie_str.split(";"):
+-                        if "=" in pair:
+-                            k, v = pair.split("=", 1)
+-                            existing[k.strip()] = v.strip()
+-                except:
+-                    pass
++        existing, new_header_lines = {}, []
++        for line in header_lines:
++            name, separator, value = line.partition(":")
++            if separator and name.strip().lower() == "cookie":
++                for pair in value.split(";"):
++                    if "=" in pair:
++                        key, val = pair.split("=", 1)
++                        existing[key.strip()] = val.strip()
+             else:
+-                new_header_lines.append(h)
+-
+-        # merge cookies (jar overrides)
++                new_header_lines.append(line)
+         with self.lock:
++            self._expire_locked(self._now())
+             merged = dict(existing)
++            for name in self.deleted:
++                merged.pop(name, None)
+             merged.update(self.jar)
+-
+-        # insert cookie header
+         if merged:
+-            cookie_header = "Cookie: " + "; ".join("%s=%s" % (k, v) for k, v in merged.items())
+-
+-            # try to insert right after Host:
+-            inserted = False
+-            for idx, h in enumerate(new_header_lines):
+-                if h.lower().startswith("host:"):
+-                    new_header_lines.insert(idx + 1, cookie_header)
+-                    inserted = True
++            cookie_header = "Cookie: " + "; ".join("%s=%s" % (key, val) for key, val in merged.items())
++            insert_at = 1 if len(new_header_lines) > 1 else len(new_header_lines)
++            for index, line in enumerate(new_header_lines):
++                if line.lower().startswith("host:"):
++                    insert_at = index + 1
+                     break
+-
+-            if not inserted:
+-                # fallback: after request-line
+-                if len(new_header_lines) > 1:
+-                    new_header_lines.insert(1, cookie_header)
+-                else:
+-                    new_header_lines.append(cookie_header)
+-
+-        # rebuild request
++            new_header_lines.insert(insert_at, cookie_header)
+         return "\r\n".join(new_header_lines) + "\r\n\r\n" + body
+ 
+-
+     def clear(self):
+         with self.lock:
+             self.jar = {}
++            self.expires = {}
++            self.deleted = set()
++            self._generation += 1
+ 
+     def dump(self):
+         with self.lock:
++            self._expire_locked(self._now())
+             if not self.jar:
+                 return "<no cookies>"
+-            return "; ".join("%s=%s" % (k, v) for k, v in self.jar.items())
+-
++            return "; ".join("%s=%s" % (key, val) for key, val in self.jar.items())
+ 
+ 
+ class SimpleMessageController(IMessageEditorController):
+@@ -1288,6 +1327,17 @@ class LoggerUI(ITab):
+         c.gridy = row; c.gridx = 0; c.gridwidth = 2
+         self.csrfRegexArea = swing.JTextArea(self.csrf_default_pattern, 2, 40)
+         self.csrfRegexArea.setLineWrap(False)
++        from javax.swing.event import DocumentListener
++        ui = self
++        class CsrfRegexListener(DocumentListener):
++            def insertUpdate(self, event):
++                ui._on_csrf_regex_changed()
++            def removeUpdate(self, event):
++                ui._on_csrf_regex_changed()
++            def changedUpdate(self, event):
++                ui._on_csrf_regex_changed()
++        self.csrfRegexArea.getDocument().addDocumentListener(CsrfRegexListener())
++        self._on_csrf_regex_changed()
+         self.csrfRegexArea.setToolTipText("Custom regex to extract the CSRF token. The first capturing group is used.")
+         self.csrfRegexScroll = swing.JScrollPane(self.csrfRegexArea)
+         rightContent.add(self.csrfRegexScroll, c)
+@@ -2116,6 +2166,16 @@ class LoggerUI(ITab):
+             except:
+                 pass
+ 
++    def _on_csrf_regex_changed(self):
++        # Invoked by Swing document events on the UI thread.
++        self.csrfManager.set_pattern(self.csrfRegexArea.getText())
++        status, detail = self.csrfManager.get_status()
++        message = "CSRF %s" % status
++        if detail:
++            message += ": " + detail
++        if hasattr(self, "customStatusArea"):
++            self.customStatusArea.setText(message)
++
+     def _on_reset_csrf_regex(self, evt=None):
+         try:
+             self.csrfRegexArea.setText(self.csrf_default_pattern)
+@@ -2307,28 +2367,17 @@ class LoggerUI(ITab):
+             except Exception as e:
+                 print("[CookieUpdate] error:", e)
+ 
+-        # --- CSRF UPDATE ---
++        # The document listener validates/compiles on edits, not on responses.
+         if getattr(self, "autoUpdateCsrf", False):
+             try:
+-                # 1) UI → CsrfManager
+-                try:
+-                    pattern = self.csrfRegexArea.getText().strip()
+-                    self.csrfManager.pattern_to_use = pattern
+-                except:
+-                    self.csrfManager.pattern_to_use = None
+-
+-                # 2) extract token
+                 ok, new_token = self.csrfManager.update_from_response(response_bytes)
+-
+-                # 3) status message
+-                if ok:
+-                    try:
+-                        self.customStatusArea.setText("CSRF token updated.")
+-                    except:
+-                        pass
+-
+-            except Exception as e:
+-                print("[CSRFUpdate] ERROR:", e)
++                status, detail = self.csrfManager.get_status()
++                if ok or status in ("REGEX_INVALID", "REGEX_NO_CAPTURE", "DECODE_ERROR"):
++                    message = ("CSRF token updated." if ok else
++                               "CSRF %s: %s" % (status, detail or ""))
++                    swing.SwingUtilities.invokeLater(lambda: self.customStatusArea.setText(message))
++            except (Exception, JavaException) as error:
++                print("[CSRFUpdate] ERROR:", error)
+ 
+ 
+     def _send_http_request(self, host, port, https, request_bytes):
+@@ -2731,7 +2780,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener):
+         except Exception as e:
+             print("registerProxyListener failed (ignored):", e)
+ 
+-        print("BoberProxy loaded (stabilization K03)")
++        print("BoberProxy loaded (stabilization K04)")
+ 
+ 
+     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):

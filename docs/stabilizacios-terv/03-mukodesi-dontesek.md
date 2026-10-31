@@ -1,6 +1,6 @@
 # Működési döntések
 
-Állapot: az alábbi javaslatok tervezési ajánlások, nem a felhasználó által már elfogadott viselkedésváltozások. Az érintett kódrész megvalósítása előtt a választást és az ellenőrzési példát rögzíteni kell az adott kör naplójában. A terv elkészítéséhez nem szükséges most megválaszolni ezeket.
+Állapot: ahol külön elfogadási bejegyzés nincs, az alábbi javaslatok tervezési ajánlások, nem a felhasználó által már elfogadott viselkedésváltozások. Az érintett kódrész megvalósítása előtt a választást és az ellenőrzési példát rögzíteni kell az adott kör naplójában. A terv elkészítéséhez nem szükséges most megválaszolni ezeket.
 
 A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóállapot, a dupla küldés vagy a hibás sütiértelmezés kijavítása hibajavítás. A globális munkamenet felosztása vagy a GET redirect átértelmezése külön kompatibilitási döntés.
 
@@ -41,6 +41,8 @@ A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóáll
 
 ## D05 — Sütitörlés és üres sütiérték
 
+K04 döntés, 2026-10-31: a felhasználó elfogadta az alábbi törlési/üresérték-szabályokat; a konkrét példák és eredmények a [K04 naplóban](eredmenyek/K04/README.md) szerepelnek.
+
 - Érintett: F15–F18, K04.
 - Ajánlás: a `Max-Age <= 0` és a lejárt `Expires` legyen törlés; ha mindkettő szerepel, a Max-Age szabályát kell követni. A `deleted` szó ne legyen speciális érték.
 - Ajánlás: önmagában az üres érték érvényes, üres értékű süti legyen. Ez eltér a jelenlegi heurisztikától, ezért konkrét kompatibilitási példával kell rögzíteni.
@@ -48,6 +50,8 @@ A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóáll
 - A jelző hatóköre a D06 szerinti munkamenet. Nincs észrevétlen, minden célpontot érintő névalapú törlés egy későbbi elkülönített módban.
 
 ## D06 — Globális állapot és párhuzamos munkamenetek
+
+K04 döntés, 2026-10-31: a felhasználó a közös munkamenet megtartását választotta, a többhostos/Path/Secure korláttal együtt. A Proxy-válaszok és belső RT/redirect-válaszok gyűjtési köre megmarad. K04 a tárolómodell helyességét javítja; teljes workflow-koordináció és késői hálózati válasz/Clear-generáció K06. Az elkülönített modell most nem kerül be. Részletek: [K04](eredmenyek/K04/README.md).
 
 - Érintett: F19–F20, K04/K06.
 - A jelenlegi viselkedés egy globális sütikészlet és egy token. A host/path/Secure kezelés bevezetése megváltoztatná, mely érték hova kerül.
@@ -117,6 +121,8 @@ A javítások a sikeres munkafolyamat célját megőrzik. A téves kapcsolóáll
 - Nincs eredmény-cache a két lépés között. Kódverzió és beállítások a teljes munkafolyamat indulásakor rögzülnek, így szerkesztés nem cserélhet kódot a folyamat közepén.
 
 ## D14 — CSRF hiányzó találat, törlés és kódolás
+
+K04 döntés, 2026-10-31: a felhasználó elfogadta az alábbi tokenéletciklust; az üres első capture érvényes üres token. Hibás/capture nélküli konfiguráció külön látható állapot, az előző token megmarad, új kivonás az érvényes minta visszaállításáig nincs. Nem illeszkedő opcionális capture nem töröl. Byte-megőrző keresés marad, dekompresszió nem kerül be. [K04 példák](eredmenyek/K04/README.md).
 
 - Érintett: F19–F21/F41, K04/K06.
 - Ajánlás: találat nélküli normál válasz ne ürítse automatikusan a legutóbbi tokent; a Clear CSRF legyen explicit törlés és új állapotgeneráció.

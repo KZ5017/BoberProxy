@@ -1,5 +1,14 @@
 # Stabilizálási tesztkörnyezet
 
+## K04 lezárva a rögzített környezetben (2026-10-31)
+
+- A [K04 napló](../../docs/stabilizacios-terv/eredmenyek/K04/README.md) tartalmazza a felhasználó által választott globális munkamenetet és az elfogadott D05/D14 szerződést, a kézi kapuk eredményét és az átadott Burp-állapotot.
+- `run_logic.py --suite all`: 131 eset, 129 siker és 2 K05-ös ismert custom-hiba CPython/Jython alatt; `--suite session` a célzott új manager-tesztek. P07–P10 normál regresszió. `test_session_state.py` a valódi tárolókkal a tízhopos egyszeri frissítést is ellenőrzi.
+- `probe_session_native.py`: 22 Java byte[]/Swing ellenőrzés (a végső regex-OverflowError határesettel). `burp_k04_probe.py` külön ideiglenes tesztbővítményként a valódi Burp helpereket használja; nincs listener, forgalom vagy a fő példány beállításainak módosítása. A létrehozott, külön Swing-fixture message editorai helyettesítők.
+- `prepare_k04.py`: a két CRLF-es K04 HTTP-sablon. `target_server_k04.py`: kizárólag loopback 18769, eredeti bájtok és számlálók; nem helyettesíti a régi 18765/K03 fixture-öket.
+- `probe_k04_session.py` / `run_k04_traffic.py`: egyszeri küldések, explicit elvárt kezdeti/végső süti/token, pontos útvonal és darabszám. Csak visszaigazolt UI-állapot után futtathatók. Első hibánál megállnak, nincs automatikus retry/riportfelülírás. A `normal → redirect → clear → cookie-only → csrf-only → both-off → restored` lépések között kézi beállítás és külön visszaigazolás kell.
+- `test_k04_fixture.py` és `test_k04_assessment.py`: önálló infrastruktúra-ellenőrzés. Az át nem írt közvetlen kérés szándékosan nem kaphat workflow PASS eredményt.
+
 ## K03 aktuális kiegészítés (2026-10-30)
 
 - `run_logic.py --suite all`: 99 eset, 93 siker, 6 későbbi ismert hiba CPython/Jython alatt. `--suite redirects` csak a K03 célzott eseteket futtatja. P03/P05/P06 normál regresszió, a proxyakciók helyettesítő konstansai a tényleges Burp API-val egyeznek.

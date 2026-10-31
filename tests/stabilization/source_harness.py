@@ -294,6 +294,10 @@ def new_ui(namespace):
     ui.checkPageEditor = Editor(as_bytes('POST /workflow/check HTTP/1.1\r\nHost: demo\r\n\r\ncsrf=c5rfm4rk3r&one=p4yl04dm4rk3r&two=53c0undm4rk3r'))
     ui.cookieManager = namespace['CookieManager']()
     ui.csrfManager = namespace['CsrfManager']()
+    ui.csrfRegexArea = Field(r'token="([^"]*)"')
+    # Field doubles have no Swing document events. Mirror initial validation.
+    if hasattr(ui, '_on_csrf_regex_changed'):
+        ui._on_csrf_regex_changed()
     ui.autoUpdateCookies = False
     ui.autoUpdateCsrf = False
     ui.payloadParamField = Field('q')

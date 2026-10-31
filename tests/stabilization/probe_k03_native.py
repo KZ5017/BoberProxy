@@ -141,6 +141,9 @@ def run_checks(callbacks=None):
                     live.autoFollowRTChk = Check(selected=True)
                     live.autoUpdateCsrf = True
                     live.csrfRegexArea = Field(r'value="([^"]*)"')
+                    # Field doubles have no K04 Swing document notifications.
+                    if hasattr(live, '_on_csrf_regex_changed'):
+                        live._on_csrf_regex_changed()
                     live.reqTemplateEditor = Editor(wire('POST /k03/a/start?case=p4yl04dm4rk3r HTTP/1.1\r\n'
                         'Host: 127.0.0.1:18766\r\nX-Bober-Test-Run: ' + run + '\r\nContent-Length: 0\r\n\r\n'))
                     live.checkPageEditor = Editor(wire('POST /k03/check HTTP/1.1\r\nHost: 127.0.0.1:18766\r\n\r\n'))

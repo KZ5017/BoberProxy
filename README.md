@@ -294,10 +294,23 @@ This allows:
 
 ### CookieManager
 
-* Fully thread-safe
+* Locks individual store operations; concurrent workflows are not yet isolated
 * Reads all `Set-Cookie:` headers
 * Tracks additions/updates/deletions
 * Injects cookies into outbound requests
+
+The compatibility mode uses one global jar and one CSRF token. Domain, Path and
+Secure do not restrict injection: values collected from one target can reach
+another target's generated request. Enabled automatics collect Proxy responses
+and internal Request Template/redirect responses. An automation switch controls
+both response updates and injection for that data.
+
+`Max-Age` takes precedence over `Expires`; nonpositive Max-Age and past expiry
+delete a cookie. Invalid expiry attributes are ignored. Empty values and the
+literal `deleted` are valid cookie values. A deleted/expired cookie also
+suppresses the old value in a template. A new valid Set-Cookie restores it;
+**Clear Cookies** clears the jar and deletion markers, allowing the template's
+own values again. Unmanaged template cookies are preserved.
 
 ### CsrfManager
 
@@ -305,6 +318,13 @@ This allows:
 * Stores a single token
 * Allows manual override
 * Integrates with templates
+
+The regex is validated and compiled when edited. Its first capturing group is
+the token; invalid patterns and patterns without a capture show a distinct
+configuration error. A response without a matching token retains the previous
+one. An empty captured string is a present, empty token; **Clear CSRF** makes
+the token absent. Searches preserve raw response byte values and do not
+implicitly decompress or apply a character encoding.
 
 Default regex:
 

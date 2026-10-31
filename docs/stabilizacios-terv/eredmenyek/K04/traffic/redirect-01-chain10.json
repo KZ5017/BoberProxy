@@ -1,0 +1,712 @@
+{
+  "kind": "K04-external-proxy-traffic-no-retry",
+  "scenario": "chain10",
+  "run": "k04-workflow",
+  "expected": {
+    "initial_sid": "\u00ff\u0080",
+    "initial_token": "\u00ff\u0080",
+    "final_sid": null,
+    "final_token": "H10",
+    "hops": 10,
+    "drop": false
+  },
+  "checks": {
+    "no_transport_error": true,
+    "action_once": true,
+    "event_count": true,
+    "no_late_extra_send": true,
+    "redirect_get_count": true,
+    "rt_target": true,
+    "rt_sid": true,
+    "rt_token": true,
+    "raw_payload": true,
+    "checkpage_target": true,
+    "cp_cookie": true,
+    "unmanaged_cookie": true,
+    "fake_header_not_cookie": true,
+    "cp_token": true,
+    "client_received_checkpage": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "791"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDQ5LCAidGltZV9ucyI6IDE3OTM0NDY4NjAyNTQwNzEzMDAsICJydW4iOiAiazA0LXdvcmtmbG93IiwgIm1ldGhvZCI6ICJQT1NUIiwgInRhcmdldCI6ICIvazA0L2NoZWNrP2Nhc2U9Y2hhaW4xMCIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjkiXSwgWyJDb29raWUiLCAidW50b3VjaGVkPXg7IG11bHRpPVNFQ09ORCJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazA0LXdvcmtmbG93Il0sIFsiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJdLCBbIkNvbnRlbnQtTGVuZ3RoIiwgIjM0Il0sIFsiQ29ubmVjdGlvbiIsICJjbG9zZSJdXSwgInJhd19iYXNlNjQiOiAiVUU5VFZDQXZhekEwTDJOb1pXTnJQMk5oYzJVOVkyaGhhVzR4TUNCSVZGUlFMekV1TVEwS1NHOXpkRG9nTVRJM0xqQXVNQzR4T2pFNE56WTVEUXBEYjI5cmFXVTZJSFZ1ZEc5MVkyaGxaRDE0T3lCdGRXeDBhVDFUUlVOUFRrUU5DbGd0UW05aVpYSXRWR1Z6ZEMxU2RXNDZJR3N3TkMxM2IzSnJabXh2ZHcwS1EyOXVkR1Z1ZEMxVWVYQmxPaUJoY0hCc2FXTmhkR2x2Ymk5NExYZDNkeTFtYjNKdExYVnliR1Z1WTI5a1pXUU5Da052Ym5SbGJuUXRUR1Z1WjNSb09pQXpOQTBLUTI5dWJtVmpkR2x2YmpvZ1kyeHZjMlVOQ2cwS2IyNWxQV05vWVdsdU1UQW1kSGR2UFNVeU5USkdLeVV5UWlaamMzSm1QVWd4TUE9PSIsICJib2R5X2Jhc2U2NCI6ICJiMjVsUFdOb1lXbHVNVEFtZEhkdlBTVXlOVEpHS3lVeVFpWmpjM0ptUFVneE1BPT0ifX0=",
+    "seconds": 0.05496,
+    "json": {
+      "request": {
+        "sequence": 49,
+        "time_ns": 1793446860254071300,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/check?case=chain10",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; multi=SECOND"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "34"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2NoZWNrP2Nhc2U9Y2hhaW4xMCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IHVudG91Y2hlZD14OyBtdWx0aT1TRUNPTkQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzNA0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPUgxMA==",
+        "body_base64": "b25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPUgxMA=="
+      }
+    }
+  },
+  "transport_error": null,
+  "observed": {
+    "run": "k04-workflow",
+    "action_count": 1,
+    "event_count": 12,
+    "recent_events": [
+      {
+        "sequence": 38,
+        "time_ns": 1793446860215606900,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/action?case=chain10",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; sid=\u00ff\u0080; multi=SECOND"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "33"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2FjdGlvbj9jYXNlPWNoYWluMTAgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2OQ0KQ29va2llOiB1bnRvdWNoZWQ9eDsgc2lkPf+AOyBtdWx0aT1TRUNPTkQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzMw0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPf+A",
+        "body_base64": "b25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPf+A"
+      },
+      {
+        "sequence": 39,
+        "time_ns": 1793446860219507400,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=1&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MSZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDANCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 40,
+        "time_ns": 1793446860223089300,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=2&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H1"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MiZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDENCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 41,
+        "time_ns": 1793446860226169400,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=3&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H2"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MyZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDINCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 42,
+        "time_ns": 1793446860229315100,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=4&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H3"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NCZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDMNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 43,
+        "time_ns": 1793446860232650900,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=5&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H4"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NSZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDQNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 44,
+        "time_ns": 1793446860236073700,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=6&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H5"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NiZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDUNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 45,
+        "time_ns": 1793446860239556000,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=7&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H6"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NyZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDYNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 46,
+        "time_ns": 1793446860243056100,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=8&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H7"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9OCZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDcNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 47,
+        "time_ns": 1793446860246774800,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=9&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H8"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9OSZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDgNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 48,
+        "time_ns": 1793446860250142600,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=10&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H9"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MTAmcnVuPWswNC13b3JrZmxvdyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IG11bHRpPVNFQ09ORDsgc2lkPUg5DQpDb25uZWN0aW9uOiBjbG9zZQ0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 49,
+        "time_ns": 1793446860254071300,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/check?case=chain10",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; multi=SECOND"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "34"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2NoZWNrP2Nhc2U9Y2hhaW4xMCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IHVudG91Y2hlZD14OyBtdWx0aT1TRUNPTkQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzNA0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPUgxMA==",
+        "body_base64": "b25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPUgxMA=="
+      }
+    ],
+    "session": [
+      "sid.k04-workflow.1",
+      "csrf.k04-workflow.1"
+    ]
+  },
+  "late_observed": {
+    "run": "k04-workflow",
+    "action_count": 1,
+    "event_count": 12,
+    "recent_events": [
+      {
+        "sequence": 38,
+        "time_ns": 1793446860215606900,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/action?case=chain10",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; sid=\u00ff\u0080; multi=SECOND"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "33"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2FjdGlvbj9jYXNlPWNoYWluMTAgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2OQ0KQ29va2llOiB1bnRvdWNoZWQ9eDsgc2lkPf+AOyBtdWx0aT1TRUNPTkQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzMw0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPf+A",
+        "body_base64": "b25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPf+A"
+      },
+      {
+        "sequence": 39,
+        "time_ns": 1793446860219507400,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=1&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MSZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDANCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 40,
+        "time_ns": 1793446860223089300,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=2&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H1"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MiZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDENCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 41,
+        "time_ns": 1793446860226169400,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=3&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H2"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MyZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDINCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 42,
+        "time_ns": 1793446860229315100,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=4&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H3"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NCZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDMNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 43,
+        "time_ns": 1793446860232650900,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=5&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H4"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NSZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDQNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 44,
+        "time_ns": 1793446860236073700,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=6&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H5"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NiZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDUNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 45,
+        "time_ns": 1793446860239556000,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=7&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H6"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9NyZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDYNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 46,
+        "time_ns": 1793446860243056100,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=8&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H7"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9OCZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDcNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 47,
+        "time_ns": 1793446860246774800,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=9&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H8"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9OSZydW49azA0LXdvcmtmbG93IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogbXVsdGk9U0VDT05EOyBzaWQ9SDgNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 48,
+        "time_ns": 1793446860250142600,
+        "run": "k04-workflow",
+        "method": "GET",
+        "target": "/k04/hop?case=chain10&hop=10&run=k04-workflow",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "multi=SECOND; sid=H9"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvaG9wP2Nhc2U9Y2hhaW4xMCZob3A9MTAmcnVuPWswNC13b3JrZmxvdyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IG11bHRpPVNFQ09ORDsgc2lkPUg5DQpDb25uZWN0aW9uOiBjbG9zZQ0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 49,
+        "time_ns": 1793446860254071300,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/check?case=chain10",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; multi=SECOND"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "34"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2NoZWNrP2Nhc2U9Y2hhaW4xMCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IHVudG91Y2hlZD14OyBtdWx0aT1TRUNPTkQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzNA0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPUgxMA==",
+        "body_base64": "b25lPWNoYWluMTAmdHdvPSUyNTJGKyUyQiZjc3JmPUgxMA=="
+      }
+    ],
+    "session": [
+      "sid.k04-workflow.1",
+      "csrf.k04-workflow.1"
+    ]
+  },
+  "source_on_disk_sha256": "d900b4bdb8ecf50a6a24b5dec5cb788aa4a553731063ada93dfef779c849616b",
+  "note": "Loaded source and UI switches require separate user confirmation."
+}

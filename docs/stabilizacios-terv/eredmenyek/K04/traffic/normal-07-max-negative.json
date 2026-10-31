@@ -1,0 +1,252 @@
+{
+  "kind": "K04-external-proxy-traffic-no-retry",
+  "scenario": "max-negative",
+  "run": "k04-workflow",
+  "expected": {
+    "initial_sid": "READD",
+    "initial_token": "READD",
+    "final_sid": null,
+    "final_token": "NEG",
+    "hops": 0,
+    "drop": false
+  },
+  "checks": {
+    "no_transport_error": true,
+    "action_once": true,
+    "event_count": true,
+    "no_late_extra_send": true,
+    "redirect_get_count": true,
+    "rt_target": true,
+    "rt_sid": true,
+    "rt_token": true,
+    "raw_payload": true,
+    "checkpage_target": true,
+    "cp_cookie": true,
+    "unmanaged_cookie": true,
+    "fake_header_not_cookie": true,
+    "cp_token": true,
+    "client_received_checkpage": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "778"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE1LCAidGltZV9ucyI6IDE3OTM0NDY4MjY4ODY0MTQ3MDAsICJydW4iOiAiazA0LXdvcmtmbG93IiwgIm1ldGhvZCI6ICJQT1NUIiwgInRhcmdldCI6ICIvazA0L2NoZWNrP2Nhc2U9bWF4LW5lZ2F0aXZlIiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc2OSJdLCBbIkNvb2tpZSIsICJ1bnRvdWNoZWQ9eCJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazA0LXdvcmtmbG93Il0sIFsiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJdLCBbIkNvbnRlbnQtTGVuZ3RoIiwgIjM5Il0sIFsiQ29ubmVjdGlvbiIsICJjbG9zZSJdXSwgInJhd19iYXNlNjQiOiAiVUU5VFZDQXZhekEwTDJOb1pXTnJQMk5oYzJVOWJXRjRMVzVsWjJGMGFYWmxJRWhVVkZBdk1TNHhEUXBJYjNOME9pQXhNamN1TUM0d0xqRTZNVGczTmprTkNrTnZiMnRwWlRvZ2RXNTBiM1ZqYUdWa1BYZ05DbGd0UW05aVpYSXRWR1Z6ZEMxU2RXNDZJR3N3TkMxM2IzSnJabXh2ZHcwS1EyOXVkR1Z1ZEMxVWVYQmxPaUJoY0hCc2FXTmhkR2x2Ymk5NExYZDNkeTFtYjNKdExYVnliR1Z1WTI5a1pXUU5Da052Ym5SbGJuUXRUR1Z1WjNSb09pQXpPUTBLUTI5dWJtVmpkR2x2YmpvZ1kyeHZjMlVOQ2cwS2IyNWxQVzFoZUMxdVpXZGhkR2wyWlNaMGQyODlKVEkxTWtZckpUSkNKbU56Y21ZOVRrVkgiLCAiYm9keV9iYXNlNjQiOiAiYjI1bFBXMWhlQzF1WldkaGRHbDJaU1owZDI4OUpUSTFNa1lySlRKQ0ptTnpjbVk5VGtWSCJ9fQ==",
+    "seconds": 0.024265,
+    "json": {
+      "request": {
+        "sequence": 15,
+        "time_ns": 1793446826886414700,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/check?case=max-negative",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "39"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2NoZWNrP2Nhc2U9bWF4LW5lZ2F0aXZlIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogdW50b3VjaGVkPXgNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzOQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9TkVH",
+        "body_base64": "b25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9TkVH"
+      }
+    }
+  },
+  "transport_error": null,
+  "observed": {
+    "run": "k04-workflow",
+    "action_count": 1,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 14,
+        "time_ns": 1793446826881622300,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/action?case=max-negative",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; sid=READD"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "41"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2FjdGlvbj9jYXNlPW1heC1uZWdhdGl2ZSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IHVudG91Y2hlZD14OyBzaWQ9UkVBREQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA0MQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9UkVBREQ=",
+        "body_base64": "b25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9UkVBREQ="
+      },
+      {
+        "sequence": 15,
+        "time_ns": 1793446826886414700,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/check?case=max-negative",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "39"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2NoZWNrP2Nhc2U9bWF4LW5lZ2F0aXZlIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogdW50b3VjaGVkPXgNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzOQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9TkVH",
+        "body_base64": "b25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9TkVH"
+      }
+    ],
+    "session": [
+      "sid.k04-workflow.1",
+      "csrf.k04-workflow.1"
+    ]
+  },
+  "late_observed": {
+    "run": "k04-workflow",
+    "action_count": 1,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 14,
+        "time_ns": 1793446826881622300,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/action?case=max-negative",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x; sid=READD"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "41"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2FjdGlvbj9jYXNlPW1heC1uZWdhdGl2ZSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY5DQpDb29raWU6IHVudG91Y2hlZD14OyBzaWQ9UkVBREQNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA0MQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9UkVBREQ=",
+        "body_base64": "b25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9UkVBREQ="
+      },
+      {
+        "sequence": 15,
+        "time_ns": 1793446826886414700,
+        "run": "k04-workflow",
+        "method": "POST",
+        "target": "/k04/check?case=max-negative",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Cookie",
+            "untouched=x"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-workflow"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "39"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "raw_base64": "UE9TVCAvazA0L2NoZWNrP2Nhc2U9bWF4LW5lZ2F0aXZlIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjkNCkNvb2tpZTogdW50b3VjaGVkPXgNClgtQm9iZXItVGVzdC1SdW46IGswNC13b3JrZmxvdw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiAzOQ0KQ29ubmVjdGlvbjogY2xvc2UNCg0Kb25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9TkVH",
+        "body_base64": "b25lPW1heC1uZWdhdGl2ZSZ0d289JTI1MkYrJTJCJmNzcmY9TkVH"
+      }
+    ],
+    "session": [
+      "sid.k04-workflow.1",
+      "csrf.k04-workflow.1"
+    ]
+  },
+  "source_on_disk_sha256": "d900b4bdb8ecf50a6a24b5dec5cb788aa4a553731063ada93dfef779c849616b",
+  "note": "Loaded source and UI switches require separate user confirmation."
+}

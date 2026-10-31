@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## 2026-10-31 — K04
+
+- User accepted the existing global session model and its cross-target limitation, plus explicit cookie deletion/empty-value and CSRF lifecycle rules. Workflow coordination remains K06.
+- Corrected Set-Cookie recognition, expiry/Max-Age handling and template-cookie resurrection with tombstones; preserved unmanaged template cookies and byte-valued request bodies.
+- Compile/validate CSRF patterns on document edits; distinguish invalid/no capture, no match, empty token and Clear. Preserve raw byte searches without implicit decompression.
+- Closed K04 in the tested Burp environment: 131 cases on CPython/Jython (129 pass, 2 K05 defects), 26 successful traffic scenarios and final normal custom regression. Final root reload and 22 actual-helper/Java/Swing checks pass, including oversized regex repetition as a configuration error. Earlier traffic source and the final one-line exception guard have explicit hashes; original evidence is retained. Prepared the user-requested separate K04 Git checkpoint; revision is in Git history. K05 not started.
+
 ## 2026-10-30
 
 - Started K03 at the user's request after the clean `1042978` checkpoint: captured AutoFollow selection, preserved passive Proxy actions, added service-based redirect resolution, once-only response updates, explicit loop/limit/invalid-target outcomes and a shared monotonic scheduling budget. K03 is now closed in the recorded environment.

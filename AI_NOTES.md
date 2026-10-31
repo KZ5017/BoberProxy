@@ -1,5 +1,13 @@
 # AI_NOTES.md
 
+## Current K04 (2026-10-31)
+
+- K03 committed/pushed as `406a609`; clean entry. User authorized K04 and confirmed fresh direct BoberProxy with all options OFF. D06 global shared jar/token and its cross-target/Path/Secure limitation explicitly accepted; D05/D14 deletion, empty values and token lifecycle also accepted (two answers choosing option 1).
+- K04 closed in the tested environment: exact cookie fields, UTC expiry/Max-Age precedence, tombstones/readdition/Clear, byte-preserving manager inputs, CSRF compile/validation on document edits. No full workflow coordination claim: per-workflow state and Clear during network wait remain K06. Read [K04 evidence/current state](docs/stabilizacios-terv/eredmenyek/K04/README.md) before traffic.
+- Final CPython/Jython: 131 cases, 129 pass, 2 known K05 defects. Full API/Swing import and 22 standalone native checks pass. First Jython logic attempt had a test-only high-byte Unicode-literal failure, retained separately.
+- First actual K04/helper PASS21 and all 26 traffic cases passed (26 actions/71 target requests, source D900...). Every UI gate was confirmed. A final review found oversized regex repetition could escape as OverflowError; the only further source change adds that exception to the regex-config handler. Final source `15869D95FCA0C8EC91B1D6BE4EDEDB1897499A384E90CD7832493FBD0DD9159E`; both logic runtimes pass, standalone native22 passes. Earlier evidence is preserved as before-overflow-guard; traffic reports keep their actual earlier hash.
+- Final root reload and actual helper PASS22 confirmed. The final normal custom regression passed with 1 action/2 requests/exactly2 custom calls, raw payloads and correct cookie/token; initial token None after Clear. No manual K04 gate remains. Current UI: normal unprefixed RT/CP, runtime/custom-k04-pass-through.py (2000ms), template/CheckPage/custom/two automatics ON, q/w/default regex; AutoFollow/Intercept OFF. Cache sid/token k00-workflow.1; helper still loaded. Loopback servers:18769 PID5740 and18765 PID10172; runtime captures ignored. User requested a separate K04 commit/push checkpoint; its revision is in Git history. K05 not started. D08 must be finalized before K05, especially bounded workers versus guaranteed isolation/cancellation.
+
 ## Stabilization Work In Progress (2026-10-30)
 
 ### Current K03

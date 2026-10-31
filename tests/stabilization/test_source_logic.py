@@ -57,34 +57,24 @@ class SourceCase(unittest.TestCase):
             'demo', 8443, True, max_redirects=1)
 
 
-class KnownDefects(SourceCase):
-
-
-
-
-    @unittest.expectedFailure
+class SessionFixedRegressions(SourceCase):
     def test_P07_deleted_prefix_is_valid_cookie_value(self):
         self.ui.cookieManager.update_from_response(as_bytes('HTTP/1.1 200 OK\r\nSet-Cookie: sid=deletedButValid\r\n\r\n'))
         self.assertEqual(self.ui.cookieManager.jar.get('sid'), 'deletedButValid')
 
-    @unittest.expectedFailure
     def test_P08_max_age_zero_deletes_cookie(self):
         self.ui.cookieManager.update_from_response(as_bytes('HTTP/1.1 200 OK\r\nSet-Cookie: sid=old; Max-Age=0\r\n\r\n'))
         self.assertNotIn('sid', self.ui.cookieManager.jar)
 
-    @unittest.expectedFailure
     def test_P09_cookie_header_name_is_exact(self):
         self.ui.cookieManager.update_from_response(as_bytes('HTTP/1.1 200 OK\r\nX-Set-Cookie-Info: fake=value\r\n\r\n'))
         self.assertNotIn('fake', self.ui.cookieManager.jar)
 
-    @unittest.expectedFailure
     def test_P10_deleted_cookie_not_revived_from_template(self):
         self.ui.cookieManager.update_from_response(as_bytes('HTTP/1.1 200 OK\r\nSet-Cookie: sid=; Max-Age=0\r\n\r\n'))
         request = self.ui.cookieManager.inject_into_request('GET / HTTP/1.1\r\nHost: demo\r\nCookie: sid=old\r\n\r\n')
         self.assertNotIn('sid=old', request)
-
-
-
+class KnownDefects(SourceCase):
     @unittest.expectedFailure
     def test_P13_timeout_covers_top_level_user_code(self):
         self.ui.custom_codeblock_status = True

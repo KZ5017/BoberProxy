@@ -1,0 +1,18 @@
+{
+  "source_sha256": "d900b4bdb8ecf50a6a24b5dec5cb788aa4a553731063ada93dfef779c849616b",
+  "base_git_revision": "406a6092cf73d5be312df09556e73d8996dbcec6",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "jython": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_version": "26.0.2",
+  "fixture_http_ports": [
+    18769,
+    18765
+  ],
+  "proxy": "127.0.0.1:8080",
+  "session_mode": "explicitly accepted single global jar/token; no Domain/Path/Secure selection",
+  "workflow_coordination": "K06 pending; individual-operation invalidation only in K04"
+}

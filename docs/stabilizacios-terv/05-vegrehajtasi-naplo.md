@@ -1,8 +1,8 @@
 # Végrehajtási napló
 
-Utoljára frissítve: 2026-10-30.
+Utoljára frissítve: 2026-10-31.
 
-**K00, K01, K02 és K03 lezárva a rögzített környezetben; K04 még nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a K00 eredményjegyzékében szerepelnek.
+**K00, K01, K02, K03 és K04 lezárva a rögzített környezetben; K05 még nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a K00 eredményjegyzékében szerepelnek.
 
 ## Aktuális állapot
 
@@ -12,7 +12,7 @@ Utoljára frissítve: 2026-10-30.
 | K01 | Lezárt a célkörnyezetben | [K01 eredmények](eredmenyek/K01/README.md): 51 esetből 39 megfelelt, 12 ismert hiba külön jelölt CPython/Jython alatt; újratöltés, passzív/normál CheckPage, preflight, post-build és kapcsolatzárásos DROP, valamint a végső két custom meghívás igazolt. |
 | K02 | Lezárt a célkörnyezetben | [K02 bizonyítékok](eredmenyek/K02/README.md): 74 esetből 65 teljesült mindkét runtime-on, 9 későbbi ismert hiba. Végső betöltés, 23 helper/Swing ellenőrzés, nyolc sablonos forgatókönyv és öt aktív/nem illeszkedő bájtkontroll sikeres. |
 | K03 | Lezárt a célkörnyezetben | [K03 bizonyítékok](eredmenyek/K03/README.md): CPython/Jython 99 esetből 93 siker, 6 későbbi hiba; 10 valódi native/API próba, akciómátrix, három kézi Forward-pár, nyolc redirect és közvetlen normál regresszió sikeres. |
-| K04 | Nem indult | K02–K03; D05/D06/D14. |
+| K04 | Lezárt a célkörnyezetben | [K04](eredmenyek/K04/README.md): D05/D06/D14 elfogadott; 131 eset, 129 siker és 2 K05 hiba mindkét runtime-on. 26 sikeres forgalmi forgatókönyv, végső főforrás-újratöltés/PASS22 és normál két-call custom regresszió. |
 | K05 | Nem indult | K02/K04; D08/D13. |
 | K06 | Nem indult | K03–K05; D06 munkamenetszabály. |
 | K07 | Nem indult | K06; D10. |
@@ -42,7 +42,8 @@ Minden tényleges döntéshez külön sor kell. A javaslat nem számít elfogado
 | D03/D04/D12, K03 pontosítás | A kapott callback-akció megmarad passzív/nem illeszkedő ágon; aktív READY automatikus. Minimális GET, csak User-Agent/engedélyezett kezelt cookie; RT/CP eredeti service, redirect Location service. | 2026-10-30; a felhasználó a K03 terv szerinti végrehajtását kérte; kompatibilitást őrző implementáció és UI-visszaigazolások. | E13–E18 | Nem teljes 307/308 metódusmegőrzés vagy tetszőleges harmadikfél-extension együttműködés; a külön legacy adapterek mért korlátja rögzített. |
 | D01/K03 időkeret | 30000 ms közös monotón scheduling-keret; loop/limit/invalid Location vagy lejárt keret belső küldés után DROP, ismétlés nélkül. | 2026-10-30; implementációs alapérték a kért teljes-workflow kezeléshez, nem külön felhasználói számértékválasztás. | E16/E17/E19 | Blokkoló Burp-hívás nem szakad meg; a végső Proxy CP hálózati várakozására a Burp timeoutja vonatkozik. |
 | D11/D14 | Scope-mellékhatás és találat nélküli válaszkor a korábbi token megtartása megmarad, megfelelő leírással. | 2026-10-29; kompatibilitást őrző tervi alapérték. | E26/E50/E59 | Nem új képesség bevezetése. |
-| D05/D06/D08/D09/D10 | A saját körük előtt véglegesítendők, a javaslatok és a mért alapállapot alapján. | Körhatárok: K04/K05/K07/K08. | Az érintett körök mátrixa. | Globális munkamenet, hard megszakítás és túlterhelés korlátai nem tekinthetők már elfogadott, kijavított állapotnak. |
+| D05/D06/D14, K04 | A közös munkamenet megmarad; attribútumalapú sütitörlés, tombstone/Clear, üres adat és explicit CSRF-hibaállapot. | 2026-10-31; a felhasználó mindkét döntési kérdésben az első lehetőséget választotta. [K04](eredmenyek/K04/README.md). | E20–E24/E26 | Többhostos/Path/Secure elkülönítés nincs; teljes workflow-koordináció és Clear közbeni késői hálózati válasz K06. Ez elfogadott kompatibilitási korlát, nem kijavított elkülönítés. |
+| D08/D09/D10 | A saját körük előtt véglegesítendők, a javaslatok és a mért alapállapot alapján. | Körhatárok: K05/K07/K08. | Az érintett körök mátrixa. | Hard megszakítás és túlterhelés korlátai nem tekinthetők már elfogadott, kijavított állapotnak. |
 
 ## K00 — Lezárt alapállapot átadása
 
@@ -98,6 +99,17 @@ Minden tényleges döntéshez külön sor kell. A javaslat nem számít elfogado
 - Átadott Burp: csak a közvetlen K03; normál, k03- előtag nélküli RT/CP fixture, runtime/custom-k03-pass-through.py, template/CP/custom és mindkét automatika ON, timeout 2000 ms, q/w/default regex; AutoFollow és Intercept OFF. Cache a normál fixture sid/token k00-workflow.1 értéke. A loopback fixture-ök rendelkezésre álltak 18765–18768 portokon, az egyetlen privát TLS-tesztkulcs ignorált runtime-ban.
 - CHANGELOG, README, AI_NOTES, döntések és tesztleírás frissítve. Nincs függőben K03 kézi kérés; A felhasználó külön K03 commit/push ellenőrzőpontot kért K04 előtt; a revízió a Git-naplóban szerepel. Következő kör K04, még nem indult.
 
+## K04 — Lezárt süti/CSRF-helyesség (2026-10-31)
+
+- Kiindulás: tiszta, pusholt K03 `406a609`; a felhasználó a következő kört kérte, friss főpéldány minden kapcsoló OFF. D05/D06/D14 mindkét választását kifejezetten az első lehetőséggel fogadta el.
+- F15–F18 javítva: pontos Set-Cookie fejlécek, attribútumalapú törlés/lejárat, Max-Age precedencia, tombstone/readdition/Clear és byte-megőrző injektálás. Globális munkamenet megmarad a kifejezetten elfogadott többhostos/Path/Secure korláttal. F19 nem elkülönítési javítás; F20/F21 teljes koordinációja K06.
+- CSRF-pattern document-változáskor fordul, az első capture szerződését validálja; nincs találat, üres token, Clear és hibás regex külön eset. K04 generáció csak az éppen futó tárolófeldolgozás stale eredményét tiltja; a teljes hálózati workflow publikálása még nincs koordinálva.
+- CPython/Jython 131 eset: 129 siker és 2 ismert K05 custom-defekt. P07–P10 normál regresszió. Az első Jython-attempt tesztoldali Unicode-literal hibája megőrzött. Teljes API/Swing-import, native22 és tényleges Burp helper22 sikeres.
+- Első K04 forrás D900...: 26 egyszeri forgalmi forgatókönyv, 26 action/71 kérés. Törlés/üres érték/lejárat/pontos fejlécek/CSRF, tízhopos utolsó törlés/token, limitnél DROP és késői extra küldés hiánya, Clear, mind a négy automatika-kombináció és visszakapcsolás igazolt. Minden UI-kapu külön visszaigazolt.
+- A végső review egy nagy regex-ismétlésszám OverflowError kivételét találta. Egyetlen további forrássor-változás ezt is konfigurációs hibává alakítja; korábbi mérési hash nem lett átírva. Végső forrás `15869D95FCA0C8EC91B1D6BE4EDEDB1897499A384E90CD7832493FBD0DD9159E`; teljes logikai sor/import/native22 ismét sikeres, főforrás/valódi helper22 újratöltve, végső normál custom forgalom 1 action/2 kérés/pontosan 2 hívás, raw payload és helyes süti/token, első token None.
+- Átadott UI: normál előtag nélküli RT/CheckPage fixture, runtime/custom-k04-pass-through.py, 2000 ms, q/w/default regex; template/CheckPage/custom/két automatika ON; AutoFollow és Intercept OFF. Cache sid/token k00-workflow.1; a forgalom nélküli K04 helper is betöltve maradt. Loopback18769 PID5740 és újraindított18765 PID10172; runtime-capture ignorált.
+- [Bizonyítékok és pontos verzióhatárok](eredmenyek/K04/README.md), source-only patch, környezet és napló frissítve. Nincs függő kézi kérés; A felhasználó külön K04 commit/push ellenőrzőpontot kért; revízió a Git-naplóban. K05 nem indult; D08 végrehajtási/garantált megszakíthatósági választása a következő kör előfeltétele.
+
 ## Körátadási sablon
 
 Lezárt K01 forrás: `3BF88A21442683C6135895125AAC49AC09BD52A31BE13B9FF75DAAF8FCDFB111`. Az újratöltés, a passzív és normál CheckPage-forgalom sikeres. E03-nál a felhasználó CP_TEMPLATE_EMPTY kódot igazolt vissza. Az E04 első kísérlete régi token miatt még az első kérés előtt megállt; Show CSRF-fel igazolt Clear után egy művelet és valódi Burp DROP-oldal látszott. Az E06 kapcsolatzárásos próba is egyszeri műveletet és DROP-oldalt adott. A végső normál custom regresszió sikeres, pontosan két új trace-rekorddal. A kör forrásdiffje külön patch-ben megőrzött; a felhasználó a teljes K00/K01 állapot Git commit/push mentését kérte a későbbi folytatáshoz.
@@ -151,7 +163,10 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 | F08 | Javítva és ellenőrizve | K03, 37BC... | E13: OFF 0 GET, ON lánc; kijelölés/engedélyezés és kezdeti pillanatkép | Teljes beállításverzió K06. |
 | F09 | Saját callback-akció javítva és ellenőrizve | K03, 37BC... | E14: valódi akciómátrix, három kézi request/response Forward-pár, állapotgyűjtés | Külön extensionök adapterállapot-átadási korlátja dokumentált; általános pluginkompatibilitás nem állított. |
 | F12 | Javítva és ellenőrizve | K03, 37BC... | E15: két runtime URL-mátrix, valódi relatív/port/protokollváltás | Csak támogatott http/https cél, nincs találgatott fallback. |
-| F13 | Redirectoldal javítva; K04 újraellenőrzés szükséges | K03/K04 | E16: once-only számlálók és valódi tízhopos végső token a CP-ben | A tároló K04/K06 átalakítása nincs előre késznek állítva. |
+| F13 | Redirectoldal javítva és K04 valós tárolóval újraellenőrzött | K03/K04 | E16: mind a 11 válasz egyszeri manager-frissítése logikailag; valódi tízhopos utolsó törlés/token a CP-ben, limit után is megtartott állapot | K06 teljes workflow-koordináció továbbra is nyitott. |
+| F15/F16/F17/F18 | Javítva és valódi forgalomban ellenőrizve | K04, D900... / végső 15869... | E20–E23: deleted/üres érték, Max-Age/Expires, pontos fejlécnév, több fejléc, tombstone/readdition/Clear, tényleges lejárat | A jelző a választott globális munkamenetben névalapú; Clear után a sablon saját sütije szándékosan visszaáll. |
+| F19 | D06 alapján elfogadott globális kompatibilitási korlát; nem elkülönítési javítás | K04/K06 | E24: logikai szerződés, kifejezett felhasználói választás | Domain/Path/Secure szerinti kiválasztás nincs; más cél értéke bekerülhet a generált kérésbe. |
+| F20/F21 | Nyitott K06 ügy; K04 csak a saját tárolóműveletet és a regex widget-olvasását kezeli | K04/K06 | Clear/pattern-edit közbeni extraction érvénytelenítés; regex document-listener natív Swing próba | Teljes workflow/pillanatkép/publikálás/EDT-koordináció nincs késznek állítva. |
 | F14 | Megőrzött viselkedés dokumentálva és ellenőrizve | K03; D04 | E17: 301/302/303/307/308 logikai GET-mátrix, valódi 302-lánc minimális header/body | Nem metódusmegőrző 307/308 támogatás. |
 | F44 | D12 célservice-szerződés rögzítve és ellenőrizve | K03 | E18: eltérő Host mellett eredeti RT/CP, másik port/TLS redirect service | A Host módosítása önmagában nem retargetál. |
 | A többi F-azonosító | Nyitott | K04–K11 | K00 alapállapot/reprodukció | A tételes feladatok az 01-es dokumentumban. |

@@ -1,0 +1,66 @@
+{
+  "kind": "K04-real-burp-passive-all-options-off",
+  "checks": {
+    "response_ok": true,
+    "exactly_one_request": true,
+    "no_workflow_action": true,
+    "original_target": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "47"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Set-Cookie",
+        "sid=SEED"
+      ],
+      [
+        "Content-Type",
+        "text/html; charset=iso-8859-1"
+      ]
+    ],
+    "body_base64": "PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJTRUVEIj4=",
+    "seconds": 0.089254
+  },
+  "observed": {
+    "run": "k04-entry-off",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 1,
+        "time_ns": 1793446680345424500,
+        "run": "k04-entry-off",
+        "method": "GET",
+        "target": "/k04/passive?case=seed",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18769"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k04-entry-off"
+          ]
+        ],
+        "raw_base64": "R0VUIC9rMDQvcGFzc2l2ZT9jYXNlPXNlZWQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2OQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA0LWVudHJ5LW9mZg0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "source_sha256": "d900b4bdb8ecf50a6a24b5dec5cb788aa4a553731063ada93dfef779c849616b",
+  "note": "No cache update is verified by the next active RT initial cookie/token, without pressing Clear."
+}
