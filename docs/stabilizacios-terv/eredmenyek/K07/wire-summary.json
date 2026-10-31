@@ -1,0 +1,769 @@
+{
+  "kind": "K07-directed-wire-summary",
+  "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+  "checks": {
+    "three_scenarios_pass": true,
+    "thirty_target_requests": true,
+    "all_requests_forwarded_once": true,
+    "no_workflow_action": true,
+    "no_late_target_request": true,
+    "same_final_source": true
+  },
+  "passed": true,
+  "target_requests": 30,
+  "compile_patterns": [
+    {
+      "pattern": "TOKEN_ALPHA",
+      "flags": 0,
+      "count": 1
+    },
+    {
+      "pattern": "TOKEN_ALPHA",
+      "flags": 34,
+      "count": 2
+    },
+    {
+      "pattern": "TOKEN_BETA",
+      "flags": 34,
+      "count": 2
+    },
+    {
+      "pattern": "[",
+      "flags": 0,
+      "count": 1
+    },
+    {
+      "pattern": "[",
+      "flags": 34,
+      "count": 1
+    },
+    {
+      "pattern": "a{1,3},b",
+      "flags": 34,
+      "count": 1
+    },
+    {
+      "pattern": "token_alpha",
+      "flags": 0,
+      "count": 1
+    }
+  ],
+  "parse_numbers": 3,
+  "target_rechecks": {
+    "display": {
+      "run": "k07-87eb8c28ec9b",
+      "action_count": 0,
+      "event_count": 6,
+      "recent_events": [
+        {
+          "sequence": 23,
+          "time_ns": 1793475266144283400,
+          "run": "k07-87eb8c28ec9b",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-87eb8c28ec9b"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctODdlYjhjMjhlYzliDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 24,
+          "time_ns": 1793475266174533600,
+          "run": "k07-87eb8c28ec9b",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_BETA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-87eb8c28ec9b"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy04N2ViOGMyOGVjOWINCg0K",
+          "body_base64": ""
+        },
+        {
+          "sequence": 25,
+          "time_ns": 1793475266191034700,
+          "run": "k07-87eb8c28ec9b",
+          "method": "GET",
+          "target": "/echo?value=a,b",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-87eb8c28ec9b"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3ZhbHVlPWEsYiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctODdlYjhjMjhlYzliDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 26,
+          "time_ns": 1793475266206466100,
+          "run": "k07-87eb8c28ec9b",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-87eb8c28ec9b"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctODdlYjhjMjhlYzliDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 27,
+          "time_ns": 1793475266222549800,
+          "run": "k07-87eb8c28ec9b",
+          "method": "GET",
+          "target": "/bytes?size=8",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-87eb8c28ec9b"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTg3ZWI4YzI4ZWM5Yg0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 28,
+          "time_ns": 1793475266550452100,
+          "run": "k07-87eb8c28ec9b",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-87eb8c28ec9b"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctODdlYjhjMjhlYzliDQoNCg==",
+          "body_base64": ""
+        }
+      ],
+      "session": null
+    },
+    "capture": {
+      "run": "k07-988001cb4037",
+      "action_count": 0,
+      "event_count": 17,
+      "recent_events": [
+        {
+          "sequence": 29,
+          "time_ns": 1793475271728194100,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 30,
+          "time_ns": 1793475271759959000,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_BETA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy05ODgwMDFjYjQwMzcNCg0K",
+          "body_base64": ""
+        },
+        {
+          "sequence": 31,
+          "time_ns": 1793475272304497300,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 32,
+          "time_ns": 1793475272320854200,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_BETA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy05ODgwMDFjYjQwMzcNCg0K",
+          "body_base64": ""
+        },
+        {
+          "sequence": 33,
+          "time_ns": 1793475272881665700,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 34,
+          "time_ns": 1793475273398885700,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=3",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 35,
+          "time_ns": 1793475273414379600,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=8",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 36,
+          "time_ns": 1793475273429965000,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 37,
+          "time_ns": 1793475273965084500,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=3",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 38,
+          "time_ns": 1793475273981271300,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=8",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 39,
+          "time_ns": 1793475273997113100,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 40,
+          "time_ns": 1793475274543641200,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=3",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 41,
+          "time_ns": 1793475274559301500,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=8",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 42,
+          "time_ns": 1793475274575153300,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 43,
+          "time_ns": 1793475275106537400,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=3",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 44,
+          "time_ns": 1793475275121628100,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/bytes?size=8",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 45,
+          "time_ns": 1793475275137758500,
+          "run": "k07-988001cb4037",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-988001cb4037"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+          "body_base64": ""
+        }
+      ],
+      "session": null
+    },
+    "clear": {
+      "run": "k07-01a533375943",
+      "action_count": 0,
+      "event_count": 7,
+      "recent_events": [
+        {
+          "sequence": 46,
+          "time_ns": 1793475280771686600,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 47,
+          "time_ns": 1793475280803699300,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_BETA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy0wMWE1MzMzNzU5NDMNCg0K",
+          "body_base64": ""
+        },
+        {
+          "sequence": 48,
+          "time_ns": 1793475280819867100,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/echo?value=a,b",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3ZhbHVlPWEsYiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 49,
+          "time_ns": 1793475280851948800,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 50,
+          "time_ns": 1793475280865969700,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/bytes?size=8",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTAxYTUzMzM3NTk0Mw0KDQo=",
+          "body_base64": ""
+        },
+        {
+          "sequence": 51,
+          "time_ns": 1793475281369254300,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_ALPHA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 52,
+          "time_ns": 1793475281681242200,
+          "run": "k07-01a533375943",
+          "method": "GET",
+          "target": "/echo?tag=TOKEN_BETA",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k07-01a533375943"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy0wMWE1MzMzNzU5NDMNCg0K",
+          "body_base64": ""
+        }
+      ],
+      "session": null
+    }
+  },
+  "note": "All three terminal scenarios completed before this later direct target recheck; no GUI/file commands issued after the final direct-reload request."
+}

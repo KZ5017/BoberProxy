@@ -1,0 +1,395 @@
+{
+  "cases": [
+    {
+      "actual": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "name": "all", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        3
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        3
+      ], 
+      "name": "host_case_sensitive", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        2, 
+        4, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        2, 
+        4, 
+        5
+      ], 
+      "name": "host_not_eq", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        3
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        3
+      ], 
+      "name": "host_OR", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        5
+      ], 
+      "name": "path_substring_case_sensitive", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        3, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        3, 
+        5
+      ], 
+      "name": "method_exact", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        4
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        4
+      ], 
+      "name": "status_exact", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        3
+      ], 
+      "kind": "display", 
+      "expected": [
+        3
+      ], 
+      "name": "body_zero", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        4, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        4, 
+        5
+      ], 
+      "name": "body_not_zero_includes_unknown", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        4
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        4
+      ], 
+      "name": "body_numbers_OR", 
+      "passed": true
+    }, 
+    {
+      "actual": [], 
+      "kind": "display", 
+      "expected": [], 
+      "name": "empty_active_rejects_even_not_eq", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        4
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        4
+      ], 
+      "name": "regex_case_insensitive", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1
+      ], 
+      "kind": "display", 
+      "expected": [
+        1
+      ], 
+      "name": "regex_dotall_and_comma", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "name": "regex_on_headers", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        4
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        4
+      ], 
+      "name": "regex_OR", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        2, 
+        3, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        2, 
+        3, 
+        5
+      ], 
+      "name": "regex_not_eq", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "kind": "display", 
+      "expected": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "name": "regex_quantifier_comma", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        3
+      ], 
+      "kind": "display", 
+      "expected": [
+        3
+      ], 
+      "name": "fields_AND", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "kind": "admission", 
+      "expected": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "name": "all", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        5
+      ], 
+      "kind": "admission", 
+      "expected": [
+        1, 
+        5
+      ], 
+      "name": "status_2xx", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        2, 
+        4
+      ], 
+      "kind": "admission", 
+      "expected": [
+        2, 
+        4
+      ], 
+      "name": "status_3xx_5xx", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        4
+      ], 
+      "kind": "admission", 
+      "expected": [
+        1, 
+        2, 
+        4
+      ], 
+      "name": "body_min_uses_smallest", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "kind": "admission", 
+      "expected": [
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "name": "body_max_uses_largest", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1
+      ], 
+      "kind": "admission", 
+      "expected": [
+        1
+      ], 
+      "name": "body_not_equal", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        4
+      ], 
+      "kind": "admission", 
+      "expected": [
+        4
+      ], 
+      "name": "regex_case_sensitive", 
+      "passed": true
+    }, 
+    {
+      "actual": [], 
+      "kind": "admission", 
+      "expected": [], 
+      "name": "regex_no_dotall", 
+      "passed": true
+    }, 
+    {
+      "actual": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "kind": "admission", 
+      "expected": [
+        1, 
+        2, 
+        3, 
+        4, 
+        5
+      ], 
+      "name": "regex_on_headers", 
+      "passed": true
+    }, 
+    {
+      "actual": [], 
+      "kind": "admission", 
+      "expected": [], 
+      "name": "paused", 
+      "passed": true
+    }
+  ], 
+  "kind": "K06-legacy-Java-filter-characterization-no-network", 
+  "source_sha256": "ddf7d0a34ebe4017b4d5bb76e35b081491650f51752cc5fda524b8a4a1e6ba91", 
+  "passed": true
+}

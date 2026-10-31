@@ -1,0 +1,1302 @@
+{
+  "kind": "K07-real-Burp-filter-wire-with-explicit-test-entry",
+  "scenario": "clear",
+  "source_on_disk_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+  "run": "k07-01a533375943",
+  "checks": {
+    "clear_is_immediate": true,
+    "epoch_advanced": true,
+    "no_old_snapshot_or_pending_row_restored": true,
+    "new_generation_row_preserved": true,
+    "no_unexpected_overload": true,
+    "all_HTTP_requests_forwarded_once": true,
+    "same_main_source": true
+  },
+  "responses": [
+    {
+      "label": "alpha",
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "455"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDQ2LCAidGltZV9ucyI6IDE3OTM0NzUyODA3NzE2ODY2MDAsICJydW4iOiAiazA3LTAxYTUzMzM3NTk0MyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQUxQSEEiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDctMDFhNTMzMzc1OTQzIl1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQM1JoWnoxVVQwdEZUbDlCVEZCSVFTQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURjdE1ERmhOVE16TXpjMU9UUXpEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.022541,
+        "json": {
+          "request": {
+            "sequence": 46,
+            "time_ns": 1793475280771686600,
+            "run": "k07-01a533375943",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_ALPHA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-01a533375943"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "beta",
+      "path": "/echo?tag=TOKEN_BETA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "450"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDQ3LCAidGltZV9ucyI6IDE3OTM0NzUyODA4MDM2OTkzMDAsICJydW4iOiAiazA3LTAxYTUzMzM3NTk0MyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQkVUQSIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswNy0wMWE1MzMzNzU5NDMiXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAzUmhaejFVVDB0RlRsOUNSVlJCSUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM05qVU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dOeTB3TVdFMU16TXpOelU1TkRNTkNnMEsiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+        "seconds": 0.031919,
+        "json": {
+          "request": {
+            "sequence": 47,
+            "time_ns": 1793475280803699300,
+            "run": "k07-01a533375943",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_BETA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-01a533375943"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy0wMWE1MzMzNzU5NDMNCg0K",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "comma",
+      "path": "/echo?value=a,b",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "441"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDQ4LCAidGltZV9ucyI6IDE3OTM0NzUyODA4MTk4NjcxMDAsICJydW4iOiAiazA3LTAxYTUzMzM3NTk0MyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz92YWx1ZT1hLGIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDctMDFhNTMzMzc1OTQzIl1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQM1poYkhWbFBXRXNZaUJJVkZSUUx6RXVNUTBLU0c5emREb2dNVEkzTGpBdU1DNHhPakU0TnpZMURRcERiMjV1WldOMGFXOXVPaUJyWldWd0xXRnNhWFpsRFFwWUxVSnZZbVZ5TFZSbGMzUXRVblZ1T2lCck1EY3RNREZoTlRNek16YzFPVFF6RFFvTkNnPT0iLCAiYm9keV9iYXNlNjQiOiAiIn19",
+        "seconds": 0.016254,
+        "json": {
+          "request": {
+            "sequence": 48,
+            "time_ns": 1793475280819867100,
+            "run": "k07-01a533375943",
+            "method": "GET",
+            "target": "/echo?value=a,b",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-01a533375943"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3ZhbHVlPWEsYiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "empty",
+      "path": "/empty",
+      "response": {
+        "status": 204,
+        "headers": [
+          [
+            "Content-Length",
+            "0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "body_base64": "",
+        "seconds": 0.031745
+      }
+    },
+    {
+      "label": "bytes",
+      "path": "/bytes?size=8",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "8"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAECAwQFBgc=",
+        "seconds": 0.014456
+      }
+    },
+    {
+      "label": "queued-before-clear",
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "455"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDUxLCAidGltZV9ucyI6IDE3OTM0NzUyODEzNjkyNTQzMDAsICJydW4iOiAiazA3LTAxYTUzMzM3NTk0MyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQUxQSEEiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDctMDFhNTMzMzc1OTQzIl1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQM1JoWnoxVVQwdEZUbDlCVEZCSVFTQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURjdE1ERmhOVE16TXpjMU9UUXpEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.022278,
+        "json": {
+          "request": {
+            "sequence": 51,
+            "time_ns": 1793475281369254300,
+            "run": "k07-01a533375943",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_ALPHA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-01a533375943"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "new-after-clear",
+      "path": "/echo?tag=TOKEN_BETA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "450"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDUyLCAidGltZV9ucyI6IDE3OTM0NzUyODE2ODEyNDIyMDAsICJydW4iOiAiazA3LTAxYTUzMzM3NTk0MyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQkVUQSIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswNy0wMWE1MzMzNzU5NDMiXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAzUmhaejFVVDB0RlRsOUNSVlJCSUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM05qVU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dOeTB3TVdFMU16TXpOelU1TkRNTkNnMEsiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+        "seconds": 0.024469,
+        "json": {
+          "request": {
+            "sequence": 52,
+            "time_ns": 1793475281681242200,
+            "run": "k07-01a533375943",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_BETA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-01a533375943"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy0wMWE1MzMzNzU5NDMNCg0K",
+            "body_base64": ""
+          }
+        }
+      }
+    }
+  ],
+  "states": {
+    "base": {
+      "displayed": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 28,
+      "epoch": 9,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 28,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 5,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        },
+        {
+          "index": 4,
+          "path": "/empty",
+          "body_len": 0,
+          "status": 204
+        },
+        {
+          "index": 3,
+          "path": "/echo?value=a,b",
+          "body_len": 441,
+          "status": 200
+        },
+        {
+          "index": 2,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 450,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 455,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "gated": {
+      "displayed": [
+        2,
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": true,
+      "callbacks_done": 28,
+      "epoch": 9,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 28,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 5,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        },
+        {
+          "index": 4,
+          "path": "/empty",
+          "body_len": 0,
+          "status": 204
+        },
+        {
+          "index": 3,
+          "path": "/echo?value=a,b",
+          "body_len": 441,
+          "status": 200
+        },
+        {
+          "index": 2,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 450,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 455,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": true,
+        "rows": 0,
+        "running_ms": 60.706300001591444,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "queued": {
+      "displayed": [
+        2,
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": true,
+      "callbacks_done": 29,
+      "epoch": 9,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 29,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 5,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        },
+        {
+          "index": 4,
+          "path": "/empty",
+          "body_len": 0,
+          "status": 204
+        },
+        {
+          "index": 3,
+          "path": "/echo?value=a,b",
+          "body_len": 441,
+          "status": 200
+        },
+        {
+          "index": 2,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 450,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 455,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": true,
+        "rows": 1,
+        "running_ms": 124.17379999905825,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "clear": {
+      "displayed": [],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 29,
+      "epoch": 10,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 29,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [],
+      "parse_numbers": 3,
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": true,
+        "rows": 1,
+        "running_ms": 185.29969999939203,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "released": {
+      "displayed": [],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 29,
+      "epoch": 10,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 29,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [],
+      "parse_numbers": 3,
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "fresh": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 30,
+      "epoch": 10,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 30,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 450,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "final": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 2
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [
+            "TOKEN_ALPHA",
+            "TOKEN_BETA"
+          ],
+          "active": true,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 30,
+      "epoch": 10,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 30,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_BETA",
+          "body_len": 450,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": true,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    }
+  },
+  "target": {
+    "run": "k07-01a533375943",
+    "action_count": 0,
+    "event_count": 7,
+    "recent_events": [
+      {
+        "sequence": 46,
+        "time_ns": 1793475280771686600,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 47,
+        "time_ns": 1793475280803699300,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_BETA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy0wMWE1MzMzNzU5NDMNCg0K",
+        "body_base64": ""
+      },
+      {
+        "sequence": 48,
+        "time_ns": 1793475280819867100,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/echo?value=a,b",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3ZhbHVlPWEsYiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 49,
+        "time_ns": 1793475280851948800,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/empty",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 50,
+        "time_ns": 1793475280865969700,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/bytes?size=8",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTAxYTUzMzM3NTk0Mw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 51,
+        "time_ns": 1793475281369254300,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctMDFhNTMzMzc1OTQzDQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 52,
+        "time_ns": 1793475281681242200,
+        "run": "k07-01a533375943",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_BETA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-01a533375943"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy0wMWE1MzMzNzU5NDMNCg0K",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "wrapper_session": {
+    "instance": "4233d00efcdd4c71b1df75c556ff6ebc",
+    "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b"
+  },
+  "passed": true
+}

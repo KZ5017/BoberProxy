@@ -1,0 +1,41 @@
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "K07-native-Java-regex-and-finite-Swing-no-network", 
+  "logic_log": "test_busy_capture_is_visible_and_does_not_accept_unknown_match (probe_filters_native.NativeFilters) ... ok\ntest_busy_display_retains_already_admitted_entry (probe_filters_native.NativeFilters) ... ok\ntest_capture_characterized_matches (probe_filters_native.NativeFilters) ... ok\ntest_clear_during_rebuild_never_restores_old_rows (probe_filters_native.NativeFilters) ... ok\ntest_clear_selected_invalidates_search_but_not_new_admission (probe_filters_native.NativeFilters) ... ok\ntest_clear_while_callback_analyzes_does_not_resurrect_event (probe_filters_native.NativeFilters) ... ok\ntest_clearing_regex_with_valid_size_does_not_wait_for_busy_worker (probe_filters_native.NativeFilters) ... ok\ntest_close_ignores_pending_search_result (probe_filters_native.NativeFilters) ... ok\ntest_compilation_is_not_repeated_per_row (probe_filters_native.NativeFilters) ... ok\ntest_display_characterized_matches (probe_filters_native.NativeFilters) ... ok\ntest_invalid_capture_regex_retains_last_valid_plan (probe_filters_native.NativeFilters) ... ok\ntest_invalid_display_is_atomic_and_keeps_previous_filter (probe_filters_native.NativeFilters) ... ok\ntest_invalid_numeric_retains_last_valid_capture (probe_filters_native.NativeFilters) ... ok\ntest_legacy_empty_regex_item_has_no_response_decode (probe_filters_native.NativeFilters) ... ok\ntest_metadata_rejection_does_not_queue_regex_work (probe_filters_native.NativeFilters) ... ok\ntest_new_filter_wins_over_late_old_search (probe_filters_native.NativeFilters) ... ok\ntest_new_rows_merge_into_stable_rebuild_snapshot (probe_filters_native.NativeFilters) ... ok\ntest_no_display_filter_erases_stored_entries (probe_filters_native.NativeFilters) ... ok\ntest_other_settings_reuse_unchanged_compiled_patterns (probe_filters_native.NativeFilters) ... ok\ntest_unknown_new_row_is_rechecked_instead_of_lost (probe_filters_native.NativeFilters) ... ok\ntest_worker_capacity_and_coalesced_controls_are_bounded (probe_filters_native.NativeFilters) ... ok\n\n----------------------------------------------------------------------\nRan 21 tests in 0.280s\n\nOK\n", 
+  "checks": {
+    "store_still_empty_after_old_result": true, 
+    "invalid_dialog_visible_and_previous_plan_retained": true, 
+    "capture_correction_clears_error": true, 
+    "search_executes_off_edt": true, 
+    "unload_stops_filter_timer": true, 
+    "filter_timer_on_edt_ui": true, 
+    "display_filter_keeps_store": true, 
+    "unload_closes_filter_worker": true, 
+    "two_lines_preserve_embedded_commas": true, 
+    "progress_visible_during_search": true, 
+    "late_result_does_not_restore_clear": true, 
+    "invalid_capture_plan_not_published": true, 
+    "display_java_flags_unchanged": true, 
+    "capture_java_flags_unchanged": true, 
+    "no_implicit_unicode_case_flag": true, 
+    "unload_disposes_filter_dialog": true, 
+    "ten_thousand_matches_applied": true, 
+    "native_filter_regressions": true, 
+    "legacy_list_roundtrip_lossless": true, 
+    "invalid_capture_numeric_visible": true, 
+    "edt_responds_during_search": true, 
+    "clear_immediate_during_search": true
+  }, 
+  "source_sha256": "67d68ccb99042666c7193fc3332d24504f6031110dc367c18ff3fa59a3b237db", 
+  "java_version": "26.0.2", 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "passed": true, 
+  "actual_burp_helpers": true, 
+  "errors": [], 
+  "native_message_editors": true, 
+  "logic_cases": 21
+}

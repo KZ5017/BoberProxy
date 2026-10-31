@@ -1,0 +1,28 @@
+{
+  "guaranteed_hard_interrupt": false,
+  "kind": "K07-disposable-JVM-actual-expensive-Java-regex",
+  "observed": {
+    "controls": 0,
+    "active": true,
+    "rows": 1,
+    "running_ms": 95.68349999934435,
+    "closed": false,
+    "results": 0
+  },
+  "checks": {
+    "edt_heartbeat": true,
+    "closed_admission_rejected": true,
+    "entered": true,
+    "one_pending_accepted": true,
+    "submitted": true,
+    "no_reload_worker_accumulation": true,
+    "queue_bounded": true
+  },
+  "source_sha256": "67d68ccb99042666c7193fc3332d24504f6031110dc367c18ff3fa59a3b237db",
+  "cleanup": "System.exit is used ONLY in this dedicated child JVM after writing the report.",
+  "passed": true,
+  "worker_alive_at_close": true,
+  "parent_exit_code": 0,
+  "child_reaped": true,
+  "external_timeout_seconds": 25
+}

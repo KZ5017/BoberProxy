@@ -1,0 +1,17 @@
+{
+  "kind": "K07-standalone-fixed-profile-wrapper-no-network", 
+  "checks": {
+    "unload_stops_filter_timer": true, 
+    "capture_profile_compiled": true, 
+    "display_profile_preserves_store": true, 
+    "unload_stops_controller": true, 
+    "invalid_keeps_plan": true, 
+    "clear_works_while_gated": true, 
+    "old_result_cannot_restore": true, 
+    "no_rowwise_compilation": true, 
+    "main_ready_on_edt": true
+  }, 
+  "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b", 
+  "passed": true, 
+  "errors": []
+}

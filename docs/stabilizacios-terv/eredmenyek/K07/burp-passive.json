@@ -1,0 +1,91 @@
+{
+  "kind": "external-burp-traffic",
+  "scenario": "passive",
+  "run": "k00-8fa413e710c0",
+  "checks": {
+    "http_200": true,
+    "no_transport_error": true,
+    "one_request": true,
+    "raw_query_preserved": true,
+    "original_method": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "462"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDIyLCAidGltZV9ucyI6IDE3OTM0NzM1MzUxMTAzNTYwMDAsICJydW4iOiAiazAwLThmYTQxM2U3MTBjMCIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZW50cnk/cT0lMjUyRislMkImdz1UV08iLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDAtOGZhNDEzZTcxMGMwIl1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bGJuUnllVDl4UFNVeU5USkdLeVV5UWlaM1BWUlhUeUJJVkZSUUx6RXVNUTBLU0c5emREb2dNVEkzTGpBdU1DNHhPakU0TnpZMURRcERiMjV1WldOMGFXOXVPaUJyWldWd0xXRnNhWFpsRFFwWUxVSnZZbVZ5TFZSbGMzUXRVblZ1T2lCck1EQXRPR1poTkRFelpUY3hNR013RFFvTkNnPT0iLCAiYm9keV9iYXNlNjQiOiAiIn19",
+    "seconds": 0.03118,
+    "json": {
+      "request": {
+        "sequence": 22,
+        "time_ns": 1793473535110356000,
+        "run": "k00-8fa413e710c0",
+        "method": "GET",
+        "target": "/entry?q=%252F+%2B&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-8fa413e710c0"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPSUyNTJGKyUyQiZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtOGZhNDEzZTcxMGMwDQoNCg==",
+        "body_base64": ""
+      }
+    }
+  },
+  "observed": {
+    "run": "k00-8fa413e710c0",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 22,
+        "time_ns": 1793473535110356000,
+        "run": "k00-8fa413e710c0",
+        "method": "GET",
+        "target": "/entry?q=%252F+%2B&w=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k00-8fa413e710c0"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9xPSUyNTJGKyUyQiZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtOGZhNDEzZTcxMGMwDQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "transport_error": null,
+  "source_on_disk_sha256": "67d68ccb99042666c7193fc3332d24504f6031110dc367c18ff3fa59a3b237db",
+  "note": "Loaded Burp source hash and UI settings require separate confirmation."
+}

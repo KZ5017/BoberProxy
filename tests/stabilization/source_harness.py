@@ -234,6 +234,21 @@ class SwingDouble(object):
     SwingUtilities = SwingUtilitiesDouble
 
 
+class PatternDouble(object):
+    """Portable basic-pattern model only; native probes use actual Java Pattern."""
+    CASE_INSENSITIVE, DOTALL = re.IGNORECASE, re.DOTALL
+    @staticmethod
+    def compile(value, flags=0):
+        compiled = re.compile(value, flags)
+        class Compiled(object):
+            def matcher(self, text):
+                class Matcher(object):
+                    def find(self):
+                        return compiled.search(text) is not None
+                return Matcher()
+        return Compiled()
+
+
 def load_namespace():
     with codecs.open(SOURCE, 'r', 'latin-1') as handle:
         source = handle.read()
@@ -247,6 +262,8 @@ def load_namespace():
                    '_start_custom_worker', 'CustomJob', 'CustomExecutor'])
     wanted.update(['RuntimeConfig', '_session_cookie_copy', '_session_pattern_state',
                    '_session_csrf_copy', 'SessionContext', 'SessionCoordinator'])
+    wanted.update(['FilterInputError', '_filter_text', '_filter_numbers', '_filter_pattern', '_filter_diagnostic',
+                   'CaptureFilterPlan', 'DisplayFilterPlan', 'FilterJob', 'FilterWorker'])
     starts = list(re.finditer(r'^(?:class|def)\s+(\w+)\b', source, re.M))
     blocks = []
     for i, match in enumerate(starts):
@@ -261,7 +278,8 @@ def load_namespace():
                      IProxyListener=type('IProxyListener', (object,), {}),
                      IExtensionStateListener=type('IExtensionStateListener', (object,), {}),
                      AbstractTableModel=ModelBase, Integer=int, JavaException=Exception,
-                     swing=SwingDouble)
+                     swing=SwingDouble, JavaThrowable=Exception, Pattern=PatternDouble,
+                     DISPLAY_FILTER_FIELDS=('Host','Method','Path','Status','BodyLen','ResponseContent'))
     for name in ['TEMPLATE_PAYLOAD_MARKER_1', 'TEMPLATE_PAYLOAD_MARKER_2',
                  'TEMPLATE_CSRF_MARKER']:
         match = re.search(r'^' + name + r'\s*=\s*("[^"\n]*")', source, re.M)
@@ -329,4 +347,6 @@ def new_ui(namespace):
         ui._init_custom_runtime()
     if hasattr(ui, '_init_session_runtime'):
         ui._init_session_runtime()
+    if hasattr(ui, '_init_filter_runtime'):
+        ui._init_filter_runtime()
     return ui

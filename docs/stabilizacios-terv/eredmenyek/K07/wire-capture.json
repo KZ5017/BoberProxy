@@ -1,0 +1,2198 @@
+{
+  "kind": "K07-real-Burp-filter-wire-with-explicit-test-entry",
+  "scenario": "capture",
+  "source_on_disk_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+  "run": "k07-988001cb4037",
+  "checks": {
+    "admission_regex_selects_one": true,
+    "no_capture_recompile_per_response": true,
+    "invalid_capture_preserves_filter": true,
+    "capture_remains_case_sensitive": true,
+    "min_uses_smallest_threshold": true,
+    "no_numeric_parse_per_row": true,
+    "unchanged_numeric_condition_reused": true,
+    "max_uses_largest_threshold": true,
+    "not_equal_uses_set": true,
+    "invalid_number_preserves_condition": true,
+    "no_unexpected_overload": true,
+    "all_HTTP_requests_forwarded_once": true,
+    "same_main_source": true
+  },
+  "responses": [
+    {
+      "label": "alpha",
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "455"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDI5LCAidGltZV9ucyI6IDE3OTM0NzUyNzE3MjgxOTQxMDAsICJydW4iOiAiazA3LTk4ODAwMWNiNDAzNyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQUxQSEEiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDctOTg4MDAxY2I0MDM3Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQM1JoWnoxVVQwdEZUbDlCVEZCSVFTQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURjdE9UZzRNREF4WTJJME1ETTNEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.01721,
+        "json": {
+          "request": {
+            "sequence": 29,
+            "time_ns": 1793475271728194100,
+            "run": "k07-988001cb4037",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_ALPHA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-988001cb4037"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "beta",
+      "path": "/echo?tag=TOKEN_BETA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "450"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDMwLCAidGltZV9ucyI6IDE3OTM0NzUyNzE3NTk5NTkwMDAsICJydW4iOiAiazA3LTk4ODAwMWNiNDAzNyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQkVUQSIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswNy05ODgwMDFjYjQwMzciXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAzUmhaejFVVDB0RlRsOUNSVlJCSUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM05qVU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dOeTA1T0Rnd01ERmpZalF3TXpjTkNnMEsiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+        "seconds": 0.03149,
+        "json": {
+          "request": {
+            "sequence": 30,
+            "time_ns": 1793475271759959000,
+            "run": "k07-988001cb4037",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_BETA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-988001cb4037"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy05ODgwMDFjYjQwMzcNCg0K",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "alpha-invalid-draft",
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "455"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDMxLCAidGltZV9ucyI6IDE3OTM0NzUyNzIzMDQ0OTczMDAsICJydW4iOiAiazA3LTk4ODAwMWNiNDAzNyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQUxQSEEiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDctOTg4MDAxY2I0MDM3Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQM1JoWnoxVVQwdEZUbDlCVEZCSVFTQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURjdE9UZzRNREF4WTJJME1ETTNEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.020063,
+        "json": {
+          "request": {
+            "sequence": 31,
+            "time_ns": 1793475272304497300,
+            "run": "k07-988001cb4037",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_ALPHA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-988001cb4037"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "beta-invalid-draft",
+      "path": "/echo?tag=TOKEN_BETA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "450"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDMyLCAidGltZV9ucyI6IDE3OTM0NzUyNzIzMjA4NTQyMDAsICJydW4iOiAiazA3LTk4ODAwMWNiNDAzNyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQkVUQSIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3NjUiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImswNy05ODgwMDFjYjQwMzciXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAzUmhaejFVVDB0RlRsOUNSVlJCSUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM05qVU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3dOeTA1T0Rnd01ERmpZalF3TXpjTkNnMEsiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+        "seconds": 0.016324,
+        "json": {
+          "request": {
+            "sequence": 32,
+            "time_ns": 1793475272320854200,
+            "run": "k07-988001cb4037",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_BETA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-988001cb4037"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy05ODgwMDFjYjQwMzcNCg0K",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "case-sensitive",
+      "path": "/echo?tag=TOKEN_ALPHA",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "455"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDMzLCAidGltZV9ucyI6IDE3OTM0NzUyNzI4ODE2NjU3MDAsICJydW4iOiAiazA3LTk4ODAwMWNiNDAzNyIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZWNobz90YWc9VE9LRU5fQUxQSEEiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMDctOTg4MDAxY2I0MDM3Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bFkyaHZQM1JoWnoxVVQwdEZUbDlCVEZCSVFTQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROelkxRFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTURjdE9UZzRNREF4WTJJME1ETTNEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.014577,
+        "json": {
+          "request": {
+            "sequence": 33,
+            "time_ns": 1793475272881665700,
+            "run": "k07-988001cb4037",
+            "method": "GET",
+            "target": "/echo?tag=TOKEN_ALPHA",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18765"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k07-988001cb4037"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+            "body_base64": ""
+          }
+        }
+      }
+    },
+    {
+      "label": "size3",
+      "path": "/bytes?size=3",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "3"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAEC",
+        "seconds": 0.014967
+      }
+    },
+    {
+      "label": "size8",
+      "path": "/bytes?size=8",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "8"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAECAwQFBgc=",
+        "seconds": 0.0153
+      }
+    },
+    {
+      "label": "zero",
+      "path": "/empty",
+      "response": {
+        "status": 204,
+        "headers": [
+          [
+            "Content-Length",
+            "0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "body_base64": "",
+        "seconds": 0.013591
+      }
+    },
+    {
+      "label": "size3",
+      "path": "/bytes?size=3",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "3"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAEC",
+        "seconds": 0.019013
+      }
+    },
+    {
+      "label": "size8",
+      "path": "/bytes?size=8",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "8"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAECAwQFBgc=",
+        "seconds": 0.015968
+      }
+    },
+    {
+      "label": "zero",
+      "path": "/empty",
+      "response": {
+        "status": 204,
+        "headers": [
+          [
+            "Content-Length",
+            "0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "body_base64": "",
+        "seconds": 0.015623
+      }
+    },
+    {
+      "label": "size3",
+      "path": "/bytes?size=3",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "3"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAEC",
+        "seconds": 0.016749
+      }
+    },
+    {
+      "label": "size8",
+      "path": "/bytes?size=8",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "8"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAECAwQFBgc=",
+        "seconds": 0.015658
+      }
+    },
+    {
+      "label": "zero",
+      "path": "/empty",
+      "response": {
+        "status": 204,
+        "headers": [
+          [
+            "Content-Length",
+            "0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "body_base64": "",
+        "seconds": 0.015521
+      }
+    },
+    {
+      "label": "size3",
+      "path": "/bytes?size=3",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "3"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAEC",
+        "seconds": 0.020022
+      }
+    },
+    {
+      "label": "size8",
+      "path": "/bytes?size=8",
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "8"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/octet-stream"
+          ]
+        ],
+        "body_base64": "AAECAwQFBgc=",
+        "seconds": 0.014913
+      }
+    },
+    {
+      "label": "zero",
+      "path": "/empty",
+      "response": {
+        "status": 204,
+        "headers": [
+          [
+            "Content-Length",
+            "0"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "body_base64": "",
+        "seconds": 0.015863
+      }
+    }
+  ],
+  "states": {
+    "alpha_profile": {
+      "displayed": [],
+      "capture_pattern": "TOKEN_ALPHA",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 6,
+      "epoch": 2,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 6,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [],
+      "parse_numbers": 0,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "alpha": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "TOKEN_ALPHA",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 8,
+      "epoch": 2,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 8,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 455,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "invalid_profile": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "TOKEN_ALPHA",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 8,
+      "epoch": 2,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 8,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 455,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "gate_entered": false,
+      "capture_error": "Previous capture filter retained: Response regex: java.util.regex.PatternSyntaxException: Unclosed character class near index 0\r\n[\r\n^",
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "invalid_regex": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "TOKEN_ALPHA",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 10,
+      "epoch": 3,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 10,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/echo?tag=TOKEN_ALPHA",
+          "body_len": 455,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 0,
+      "gate_entered": false,
+      "capture_error": "Previous capture filter retained: Response regex: java.util.regex.PatternSyntaxException: Unclosed character class near index 0\r\n[\r\n^",
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "case_sensitive": {
+      "displayed": [],
+      "capture_pattern": "token_alpha",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [],
+      "rebuilding": false,
+      "callbacks_done": 11,
+      "epoch": 4,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 11,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [],
+      "parse_numbers": 0,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "min_profile": {
+      "displayed": [],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        2,
+        6
+      ],
+      "rebuilding": false,
+      "callbacks_done": 11,
+      "epoch": 4,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 11,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [],
+      "parse_numbers": 1,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "min": {
+      "displayed": [
+        2,
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        2,
+        6
+      ],
+      "rebuilding": false,
+      "callbacks_done": 14,
+      "epoch": 5,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 14,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 2,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/bytes?size=3",
+          "body_len": 3,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 1,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "max_profile": {
+      "displayed": [
+        2,
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        2,
+        6
+      ],
+      "rebuilding": false,
+      "callbacks_done": 14,
+      "epoch": 5,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 14,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 2,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        },
+        {
+          "index": 1,
+          "path": "/bytes?size=3",
+          "body_len": 3,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 1,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "max": {
+      "displayed": [
+        2,
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        2,
+        6
+      ],
+      "rebuilding": false,
+      "callbacks_done": 17,
+      "epoch": 6,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 17,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 2,
+          "path": "/empty",
+          "body_len": 0,
+          "status": 204
+        },
+        {
+          "index": 1,
+          "path": "/bytes?size=3",
+          "body_len": 3,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 1,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "noteq": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        0,
+        3
+      ],
+      "rebuilding": false,
+      "callbacks_done": 20,
+      "epoch": 7,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 20,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 2,
+      "gate_entered": false,
+      "capture_error": null,
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "invalid_number": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        0,
+        3
+      ],
+      "rebuilding": false,
+      "callbacks_done": 23,
+      "epoch": 8,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 23,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": false,
+      "capture_error": "Previous capture filter retained: Len value: Invalid integer: bad",
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    },
+    "final": {
+      "displayed": [
+        1
+      ],
+      "capture_pattern": "",
+      "dirty": false,
+      "rejected": 0,
+      "display_error": null,
+      "compile_patterns": [
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_ALPHA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "TOKEN_BETA",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 0,
+          "count": 1
+        },
+        {
+          "pattern": "[",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "a{1,3},b",
+          "flags": 34,
+          "count": 1
+        },
+        {
+          "pattern": "token_alpha",
+          "flags": 0,
+          "count": 1
+        }
+      ],
+      "display": {
+        "Path": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Status": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "ResponseContent": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Host": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "Method": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        },
+        "BodyLen": {
+          "values": [],
+          "active": false,
+          "mode": "eq"
+        }
+      },
+      "custom": false,
+      "numbers": [
+        0,
+        3
+      ],
+      "rebuilding": false,
+      "callbacks_done": 23,
+      "epoch": 8,
+      "use_cp": false,
+      "proxy": false,
+      "callbacks_seen": 23,
+      "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+      "ready": true,
+      "stored": [
+        {
+          "index": 1,
+          "path": "/bytes?size=8",
+          "body_len": 8,
+          "status": 200
+        }
+      ],
+      "parse_numbers": 3,
+      "gate_entered": false,
+      "capture_error": "Previous capture filter retained: Len value: Invalid integer: bad",
+      "worker": {
+        "controls": 0,
+        "active": false,
+        "rows": 0,
+        "running_ms": 0,
+        "closed": false,
+        "results": 0
+      }
+    }
+  },
+  "target": {
+    "run": "k07-988001cb4037",
+    "action_count": 0,
+    "event_count": 17,
+    "recent_events": [
+      {
+        "sequence": 29,
+        "time_ns": 1793475271728194100,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 30,
+        "time_ns": 1793475271759959000,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_BETA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy05ODgwMDFjYjQwMzcNCg0K",
+        "body_base64": ""
+      },
+      {
+        "sequence": 31,
+        "time_ns": 1793475272304497300,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 32,
+        "time_ns": 1793475272320854200,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_BETA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9CRVRBIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3NjUNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGswNy05ODgwMDFjYjQwMzcNCg0K",
+        "body_base64": ""
+      },
+      {
+        "sequence": 33,
+        "time_ns": 1793475272881665700,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/echo?tag=TOKEN_ALPHA",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP3RhZz1UT0tFTl9BTFBIQSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 34,
+        "time_ns": 1793475273398885700,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=3",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 35,
+        "time_ns": 1793475273414379600,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=8",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 36,
+        "time_ns": 1793475273429965000,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/empty",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 37,
+        "time_ns": 1793475273965084500,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=3",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 38,
+        "time_ns": 1793475273981271300,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=8",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 39,
+        "time_ns": 1793475273997113100,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/empty",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 40,
+        "time_ns": 1793475274543641200,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=3",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 41,
+        "time_ns": 1793475274559301500,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=8",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 42,
+        "time_ns": 1793475274575153300,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/empty",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      },
+      {
+        "sequence": 43,
+        "time_ns": 1793475275106537400,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=3",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 44,
+        "time_ns": 1793475275121628100,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/bytes?size=8",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc2NQ0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazA3LTk4ODAwMWNiNDAzNw0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 45,
+        "time_ns": 1793475275137758500,
+        "run": "k07-988001cb4037",
+        "method": "GET",
+        "target": "/empty",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k07-988001cb4037"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDctOTg4MDAxY2I0MDM3DQoNCg==",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "wrapper_session": {
+    "instance": "4233d00efcdd4c71b1df75c556ff6ebc",
+    "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b"
+  },
+  "passed": true
+}

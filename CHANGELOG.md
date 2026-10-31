@@ -1,5 +1,11 @@
 # CHANGELOG.md
 
+## 2026-10-31 — K07
+
+- User accepted D10 line-based ResponseContent patterns and visible validation errors retaining the previous valid configuration. Preserve Java flags/find semantics and the distinction between admission and display filtering.
+- Added reusable compiled filter plans, bounded JVM-wide background filter work, stable rebuild snapshots/generations and new-row merging; Clear/removal/unload invalidate stale results. Keep already-admitted records during display overload and show a counter when unknown capture matches cannot be admitted. No regex hard-stop or full log-memory bound is claimed.
+- Closed K07 in the recorded environment. Final source includes a targeted Reset fix: clear rejected-draft errors and supersede pending validation even when resetting to already-active defaults. CPython/Jython182 cases/181 pass/one accepted K05 limit; legacy characterization28; standalone and actual-Burp23 filter cases +23 native/UI checks pass. Real display/capture/clear profiles pass with30 once-forwarded HTTP requests,9 regex compilation attempts and3 numeric parses. Prior custom/isolated-regex checks keep their actual source hash and an unchanged-code scope proof. Final direct-entry normal/custom regression passes: one action/one CheckPage/exactly two new custom calls, raw payloads and correct cookie/token; delayed counters unchanged. Environment and closure recorded; prepared the user-requested K07 commit/push checkpoint, revision in Git history. K08 not started; generated runtime captures remain ignored.
+
 ## 2026-10-31 — K06
 
 - Added EDT-published configuration versions for complete template workflows and callback logging decisions, native editor document observation with a 100 ms public-API polling fallback, a real status label, EDT startup and unload/partial-registration cleanup.

@@ -1,5 +1,16 @@
 # Stabilizálási tesztkörnyezet
 
+## K07 aktuális kiegészítés (2026-10-31)
+
+- [Lezárt K07 és aktuális állapot](../../docs/stabilizacios-terv/eredmenyek/K07/README.md). A végleges szűrő-helper23 logikai +23 natív/UI ellenőrzése, mindhárom irányított forgalmi eset és a közvetlen normál/custom zárópróba sikeres. Az aktuális főpéldány közvetlen betöltésű; a normál tesztkapcsolók ON állapotban maradtak, nem alap/OFF.
+- `run_logic.py --suite filters`:23 célzott eset; `--suite all`:182 eset,181 siker és egy elfogadott K05 hard-stop korlát CPython/Jython alatt. `filter_cases.py` közös28 elemű legacy találati mátrixát a `probe_filter_characterization.py` változatlan K06-on valódi Java Patternnel is rögzítette.
+- `probe_filters_native.py` / ideiglenes `burp_k07_probe.py`:23 logikai eset +23 Swing/UI állítás, saját véges tesztpéldányokon; nincs hálózat vagy főpéldány-konfiguráció-váltás. Az élő helper valódi Burp-helperrel és szerkesztőkkel is sikeres. A standalone próba szerkesztőhelyettesítőt használ.
+- `probe_filter_isolated.py` saját,25s külső keretű JVM-ben indítja a `probe_filter_isolated_child.py` költséges Java-regex próbáját. **A child soha nem tölthető Burp-extensionként:** saját JVM-jét System.exit hívással zárja. A kapacitás/EDT/reload ellenőrzés nem jelent Java-regex hard megszakítást.
+- `burp_k07_instrumented.py`: kizárólag tesztbelépő, a változatlan főforrást tölti. Csak `X-Bober-Test-Run:k07-*` jelölésű127.0.0.1:18765 forgalmat figyel. Saját EDT-profilok, fordítási/parse számlálók és véges5s újraszűrési kapu; példányazonosítós helyi fájlparancsok. Nincs tetszőleges kódot vagy hálózati vezérlőt nyitó csatorna; a termékkód nem tartalmazza ezt az instrumentálást. Betöltéskor privát natív ellenőrzést is végez.
+- `probe_k07_wrapper.py`: kilenc külön JVM-es, hálózat nélküli smoke-állítás. **Nem futtatható a valódi wrapperrel egyszerre**, mert a csatornafájlok közösek. `probe_k07_traffic.py --scenario display/capture/clear --report ...` csak visszaigazolt instrumentált betöltés után, új riportfájllal és egyenként futtatható. HTTP-kérést nem próbál újra; a display/capture/clear három eset már sikeresen lefutott,30 céloldali kéréssel.
+- `prepare_k07.py` a generált `runtime/custom-k07-pass-through.py` fájlt készíti, saját `k07-custom-trace.jsonl` útvonallal. A záró normál regresszióhoz előbb a wrapper eltávolítása és a gyökér BoberProxy.py közvetlen betöltése szükséges; normál, előtag nélküli HTTP-sablonok és a generált `.py` kellenek. A `.py.in` nem másolandó a custom szerkesztőbe. A `probe_custom.py` explicit `--trace` argumentummal a futás előtti sorszámhoz képest pontosan két új hívást vizsgál.
+- A korábbi hibás Reset/folyamatjelzés/fallback próbák és a korábbi forráshash-ek saját bizonyítékként megmaradnak. A végső Reset-javítás gépi scope-proofja igazolja a custom/regex-worker kód változatlanságát; a korábbi izolált/custom mérések hash-e nem lett átírva.
+
 ## K06 aktuális kiegészítés (2026-10-31)
 
 - [Lezárt K06 és aktuális állapot](../../docs/stabilizacios-terv/eredmenyek/K06/README.md). A hat irányított wire-eset, a végső valódi helper15+23 és a közvetlen normál 2-call regresszió sikeres. A forgalmi jelölt és a csak regisztrációs védelmet módosító végső forrás pontos verzióhatára dokumentált.

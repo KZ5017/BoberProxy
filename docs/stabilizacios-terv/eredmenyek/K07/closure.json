@@ -1,0 +1,35 @@
+{
+  "kind": "K07-closure-in-recorded-environment",
+  "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+  "checks": {
+    "logic_cpython": true,
+    "logic_jython": true,
+    "final_logic_hashes": true,
+    "native_standalone": true,
+    "actual_native": true,
+    "actual_loaded_hash": true,
+    "final_change_scope": true,
+    "custom_regression_unchanged_scope": true,
+    "isolated_regex_unchanged_scope": true,
+    "wrapper_smoke": true,
+    "directed_wire_three_cases": true,
+    "direct_normal": true,
+    "exactly_two_custom_calls": true,
+    "no_late_extra_request": true
+  },
+  "passed": true,
+  "prior_custom_and_isolated_regex_source": "67d68ccb99042666c7193fc3332d24504f6031110dc367c18ff3fa59a3b237db",
+  "accepted_limits": [
+    "Java regex has no guaranteed hard interruption; a stuck worker can require a Burp restart",
+    "Bounded filter work/results do not bound the full log store in bytes; K08 batching and K09 storage remain",
+    "When capture regex cannot be queued, unknown matches are not logged and a visible FILTER_BUSY/ERROR counter records the event; HTTP forwarding is unaffected",
+    "D06 global cookie jar/single token, without host/path/Secure partition; D08 custom hard-stop limits remain"
+  ],
+  "not_claimed": [
+    "Full K11 load/memory matrix",
+    "Other Burp/Jython versions",
+    "Entire K00-K11 plan completion"
+  ],
+  "commit_made": false,
+  "push_made": false
+}

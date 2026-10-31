@@ -1,0 +1,49 @@
+{
+  "kind": "K07-tested-environment",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_version": "26.0.2",
+  "java_vendor": "Oracle Corporation",
+  "max_heap_bytes": 17112760320,
+  "heap_arguments": [
+    "-XX:MaxRAMPercentage=50"
+  ],
+  "source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+  "proxy": "127.0.0.1:8080",
+  "target": "127.0.0.1:18765",
+  "final_entry": "BoberProxy.py (user-confirmed direct reload; no separate helper loaded)",
+  "native_helper_entry": "burp_k07_instrumented.py (23 logic cases; 23 native/UI checks), removed before final direct test",
+  "final_UI": {
+    "request_template": "fixtures/request-template.http",
+    "checkpage_template": "fixtures/checkpage-template.http",
+    "custom_code": "runtime/custom-k07-pass-through.py",
+    "timeout_ms": 2000,
+    "payload_names": [
+      "q",
+      "w"
+    ],
+    "csrf_regex": "default",
+    "on": [
+      "Injecting proxy from templates",
+      "Use CheckPageTemplate",
+      "Use custom codeblock",
+      "Auto-update cookies from responses",
+      "Auto-update CSRF from responses"
+    ],
+    "off": [
+      "AutoFollow redirect on RT",
+      "Burp Intercept"
+    ],
+    "logging_filters": "default",
+    "display_filters": "default",
+    "logging_paused": false
+  },
+  "cached_fixture_state": {
+    "cookie": "sid.k00-workflow.1",
+    "csrf": "csrf.k00-workflow.1"
+  }
+}

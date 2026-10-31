@@ -31,6 +31,10 @@ class SourceCase(unittest.TestCase):
             if executor.worker is not None:
                 executor.worker.join(2)
                 self.assertFalse(executor.worker.is_alive(), 'Finite probe worker did not finish')
+        filter_worker = getattr(self.ui, '_filter_worker', None)
+        if filter_worker is not None and filter_worker.worker is not None:
+            filter_worker.worker.join(2)
+            self.assertFalse(filter_worker.worker.is_alive(), 'Finite filter worker did not finish')
         self.capture.__exit__()
         self.ns['time'] = time
         for thread in self.ns['_probe_threads']:

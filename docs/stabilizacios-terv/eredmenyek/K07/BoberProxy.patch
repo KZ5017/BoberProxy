@@ -1,0 +1,1218 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index 3109ff6..34eebf9 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -12,7 +12,7 @@ from java.awt import (
+ )
+ from java.awt.event import MouseAdapter
+ from java.util.regex import Pattern
+-from java.lang import Integer, Exception as JavaException
++from java.lang import Integer, Exception as JavaException, Throwable as JavaThrowable
+ 
+ import threading, time, traceback, re
+ 
+@@ -1020,13 +1020,14 @@ class CustomWorkerHandle(object):
+         self.thread.join(max(1, int(seconds * 1000)) if self.java else seconds)
+ 
+ 
+-def _start_custom_worker(target):
++def _start_custom_worker(target, gate_name=None):
+     """Claim one process-wide worker, including other Jython interpreters.
+ 
+     A bootstrap Java class monitor makes check/start atomic across interpreters.
+     A dedicated ThreadGroup remains identifiable if custom code renames its
+     thread. This is lifecycle coordination, not a sandbox for arbitrary code.
+     """
++    gate_name = gate_name or CUSTOM_GATE_NAME
+     try:
+         from java.lang import Thread, ThreadGroup, Runnable, Class
+         from synchronize import apply_synchronized
+@@ -1034,9 +1035,9 @@ def _start_custom_worker(target):
+         # CPython logic harness only; the production runtime uses the JVM gate.
+         import threading as native_threads
+         with CUSTOM_START_LOCK:
+-            if any(t.name == CUSTOM_GATE_NAME and t.is_alive() for t in native_threads.enumerate()):
++            if any(t.name == gate_name and t.is_alive() for t in native_threads.enumerate()):
+                 return None
+-            thread = threading.Thread(target=target, name=CUSTOM_GATE_NAME)
++            thread = threading.Thread(target=target, name=gate_name)
+             thread.setDaemon(True)
+             thread.start()
+             return CustomWorkerHandle(thread)
+@@ -1048,10 +1049,10 @@ def _start_custom_worker(target):
+     def claim():
+         for thread in Thread.getAllStackTraces().keySet():
+             group = thread.getThreadGroup()
+-            if thread.isAlive() and group is not None and group.getName() == CUSTOM_GATE_NAME:
++            if thread.isAlive() and group is not None and group.getName() == gate_name:
+                 return None
+-        group = ThreadGroup(CUSTOM_GATE_NAME)
+-        thread = Thread(group, Worker(), CUSTOM_GATE_NAME)
++        group = ThreadGroup(gate_name)
++        thread = Thread(group, Worker(), gate_name)
+         thread.setDaemon(True)
+         thread.start()
+         return CustomWorkerHandle(thread, java=True)
+@@ -1228,6 +1229,234 @@ class CustomExecutor(object):
+ 
+ 
+ # --- Filter dialog / UI ------------------------------------------
++class FilterInputError(Exception):
++    def __init__(self, field, detail):
++        Exception.__init__(self, field + ": " + detail)
++        self.field, self.detail = field, detail
++
++
++def _filter_text(value):
++    try:
++        return unicode(value)
++    except NameError:
++        return str(value)
++
++
++def _filter_numbers(values, field):
++    result = []
++    for value in values:
++        try:
++            result.append(int(value))
++        except (ValueError, TypeError, OverflowError):
++            raise FilterInputError(field, "Invalid integer: " + _filter_text(value)[:160])
++    return tuple(result)
++
++
++def _filter_diagnostic(error):
++    text = _filter_text(error)
++    return text[:480] + ("..." if len(text) > 480 else "")
++
++
++def _filter_pattern(value, flags, field):
++    try:
++        return Pattern.compile(value, flags)
++    except (Exception, JavaThrowable) as error:
++        raise FilterInputError(field, _filter_text(error))
++
++
++class CaptureFilterPlan(object):
++    def __init__(self, values, previous=None):
++        self.statuses = tuple(values.get("statuses", ()))
++        text = values.get("size", "")
++        self.size_text = text
++        self.numbers = (previous.numbers if previous is not None and previous.size_text == text
++                        else _filter_numbers([s.strip() for s in text.split(",") if s.strip()], "Len value") if text else ())
++        if text and not self.numbers:
++            raise FilterInputError("Len value", "Enter at least one integer")
++        self.len_type = values.get("len_type", "Total len")
++        self.comparator = values.get("size_comp", "Min Len")
++        self.pattern_text = values.get("log_regex", "")
++        self.pattern = (previous.pattern if previous is not None and previous.pattern_text == self.pattern_text
++                        else _filter_pattern(self.pattern_text, 0, "Response regex") if self.pattern_text else None)
++        if previous is not None and self.numbers is previous.numbers:
++            self.minimum, self.maximum, self.number_set = previous.minimum, previous.maximum, previous.number_set
++        else:
++            self.minimum = min(self.numbers) if self.numbers else None
++            self.maximum = max(self.numbers) if self.numbers else None
++            self.number_set = frozenset(self.numbers)
++
++    def accepts(self, status, total_len, body_len, response, helpers, search=True):
++        if self.statuses and not any(status is not None and n*100 <= status < (n+1)*100 for n in self.statuses):
++            return False
++        if self.numbers:
++            actual = total_len if self.len_type == "Total len" else body_len
++            if actual in (None, ""):
++                actual = total_len
++            if self.comparator == "Min Len" and actual < self.minimum:
++                return False
++            if self.comparator == "Max Len" and actual > self.maximum:
++                return False
++            if self.comparator == "Not eq Len" and actual in self.number_set:
++                return False
++        return not search or self.pattern is None or bool(self.pattern.matcher(helpers.bytesToString(response) if response else "").find())
++
++
++class DisplayFilterPlan(object):
++    def __init__(self, config, previous=None):
++        self.patterns = {}
++        self.fields, self.has_regex, self.version = [], False, 0
++        for name in DISPLAY_FILTER_FIELDS:
++            values = config.get(name, {})
++            if not values.get("active"):
++                continue
++            tokens = tuple(values.get("values", ()))
++            mode = values.get("mode", "eq")
++            if mode not in ("eq", "not eq"):
++                raise FilterInputError(name, "Unknown comparison mode")
++            compiled = tokens
++            if name == "BodyLen":
++                compiled = frozenset(_filter_numbers(tokens, name))
++            elif name == "ResponseContent":
++                patterns = []
++                for value in tokens:
++                    if not value:
++                        continue
++                    key = (value, Pattern.CASE_INSENSITIVE | Pattern.DOTALL)
++                    if key not in self.patterns:
++                        self.patterns[key] = (previous.patterns[key] if previous is not None and key in previous.patterns
++                                              else _filter_pattern(value, key[1], name))
++                    patterns.append(self.patterns[key])
++                compiled = tuple(patterns)
++                self.has_regex = bool(compiled)
++            self.fields.append((name, mode, bool(tokens), compiled))
++        self.fields = tuple(self.fields)
++
++    def matches(self, entry, helpers):
++        hay = None
++        for name, mode, populated, values in self.fields:
++            if not populated:
++                return False  # Legacy: empty active filter rejects even not eq.
++            if name == "BodyLen":
++                try:
++                    matched = entry.body_len not in (None, "") and int(entry.body_len) in values
++                except (ValueError, TypeError, OverflowError):
++                    matched = False
++            elif name == "ResponseContent":
++                if not values:
++                    if mode == "eq":
++                        return False
++                    continue
++                if hay is None:
++                    response = entry.messageInfo.getResponse() if entry.messageInfo else None
++                    hay = helpers.bytesToString(response) if response else ""
++                matched = any(pattern.matcher(hay).find() for pattern in values)
++            else:
++                value = {"Host":entry.host, "Method":entry.method, "Path":entry.path,
++                         "Status":_filter_text(entry.status or "")}.get(name, "") or ""
++                value = _filter_text(value).strip()
++                matched = any(token and (token in value if name == "Path" else token == value) for token in values)
++            if (mode == "eq" and not matched) or (mode == "not eq" and matched):
++                return False
++        return True
++
++
++class FilterJob(object):
++    def __init__(self, operation, apply, key):
++        self.operation, self.apply, self.key = operation, apply, key
++        self.result, self.error, self.started = None, None, None
++
++
++class FilterWorker(object):
++    """One JVM-wide worker, 128 row jobs, three coalesced controls/results.
++
++    A Java regex can ignore interruption. No replacement while old work lives,
++    no blocking queue admission, and no hard-timeout claim.
++    """
++    def __init__(self):
++        from collections import deque, OrderedDict
++        self.condition = threading.Condition()
++        self.rows, self.controls, self.results = deque(), OrderedDict(), deque()
++        self.capacity = 128
++        self.worker = self.active = None
++        self.closed = False
++        self.retry_at = 0
++
++    def submit(self, operation, apply, key=None):
++        with self.condition:
++            if self.closed:
++                return False
++            if self.worker is None:
++                if _monotonic_ms() < self.retry_at:
++                    return False
++                self.worker = _start_custom_worker(self._work, "BoberProxy.filters.v1")
++                if self.worker is None:
++                    self.retry_at = _monotonic_ms() + 1000
++                    return False
++            if not self.worker.is_alive():
++                return False
++            if key is None:
++                if len(self.rows) >= self.capacity:
++                    return False
++                self.rows.append(FilterJob(operation, apply, key))
++            else:
++                if key not in ("capture", "display", "rebuild"):
++                    raise ValueError("Unknown filter control")
++                self.controls[key] = FilterJob(operation, apply, key)
++            self.condition.notifyAll()
++            return True
++
++    def _work(self):
++        try:
++            while True:
++                with self.condition:
++                    while not self.closed and (not self.rows and not self.controls or len(self.results) >= self.capacity):
++                        self.condition.wait()
++                    if self.closed:
++                        return
++                    if self.controls:
++                        key = next(iter(self.controls))
++                        job = self.controls.pop(key)
++                    else:
++                        job = self.rows.popleft()
++                    self.active, job.started = job, _monotonic_ms()
++                try:
++                    job.result = job.operation()
++                except (BaseException, JavaThrowable) as error:
++                    job.error = error
++                job.operation = None
++                with self.condition:
++                    self.active = None
++                    if not self.closed:
++                        self.results.append(job)
++                    self.condition.notifyAll()
++        finally:
++            with self.condition:
++                self.closed = True
++                self.condition.notifyAll()
++
++    def poll(self):
++        with self.condition:
++            if not self.results:
++                return None
++            job = self.results.popleft()
++            self.condition.notifyAll()
++            return job
++
++    def state(self):
++        with self.condition:
++            return dict(closed=self.closed, rows=len(self.rows), controls=len(self.controls),
++                        results=len(self.results), active=self.active is not None,
++                        running_ms=_monotonic_ms()-self.active.started if self.active else 0)
++
++    def close(self):
++        with self.condition:
++            self.closed = True
++            self.rows.clear()
++            self.controls.clear()
++            self.results.clear()
++            self.condition.notifyAll()
++
++
+ class RuntimePublisher(object):
+     """Coalesce EDT edits; use public editor getters on the EDT only.
+ 
+@@ -1327,161 +1556,93 @@ class RuntimePublisher(object):
+ 
+ class FilterDialog(object):
+     def __init__(self, parent):
+-        self.parent = parent
++        from java.awt.event import WindowAdapter
++        self.parent, self.closed = parent, False
+         self.dialog = swing.JDialog()
+         self.dialog.setTitle("Display filter")
+-        # use simple JPanel as content
+-        p = swing.JPanel(GridBagLayout())
++        self.dialog.setModal(True)
++        self.dialog.setDefaultCloseOperation(swing.JDialog.DISPOSE_ON_CLOSE)
++        owner = self
++        class Closing(WindowAdapter):
++            def windowClosing(self, event):
++                owner._on_cancel()
++        self.dialog.addWindowListener(Closing())
++        panel = swing.JPanel(GridBagLayout())
+         c = GridBagConstraints()
+-        c.insets = Insets(4,4,4,4)
+-        c.fill = GridBagConstraints.HORIZONTAL
+-        row = 0
+-        # header
+-        c.gridx = 0; c.gridy = row; c.gridwidth = 3
+-        p.add(swing.JLabel("Select the options you want to filter by"), c)
+-        c.gridwidth = 1; row += 1
+-
+-        # Build one control row per supported display filter.
++        c.insets, c.fill = Insets(4,4,4,4), GridBagConstraints.HORIZONTAL
+         self.controls = {}
+-        for fname in DISPLAY_FILTER_FIELDS:
+-            cb = swing.JCheckBox("", False)
++        self.loaded_text, self.loaded_values = {}, {}
++        for row, name in enumerate(DISPLAY_FILTER_FIELDS):
++            enabled = swing.JCheckBox("",False)
+             mode = swing.JComboBox(["eq","not eq"])
+-            vals = swing.JTextField("", 40)
+-            c.gridx = 0; c.gridy = row; c.weightx = 0.0
+-            p.add(cb, c)
+-            c.gridx = 1; c.weightx = 0.0
+-            p.add(swing.JLabel(fname), c)
+-            c.gridx = 2; c.weightx = 0.0
+-            p.add(mode, c)
+-            c.gridx = 3; c.weightx = 1.0
+-            p.add(vals, c)
+-            self.controls[fname] = (cb, mode, vals)
+-            row += 1
+-
+-        try:
+-            pref = p.getPreferredSize()
+-            p.setPreferredSize(Dimension(pref.width, max(pref.height, 300)))
+-        except:
+-            pass
+-        # majd setContentPane(p), pack(), stb.
+-
+-        # set dialog content and sizing so components are visible
+-        try:
+-            self.dialog.setContentPane(p)
+-            self.dialog.pack()
+-            try:
+-                self.dialog.setModal(True)
+-            except:
+-                pass
+-            try:
+-                # position relative to parent component if available
+-                try:
+-                    self.dialog.setLocationRelativeTo(self.parent._component)
+-                except:
+-                    self.dialog.setLocationRelativeTo(None)
+-            except:
+-                pass
+-            # optional: set default close operation if available in Jython context
+-            try:
+-                self.dialog.setDefaultCloseOperation(swing.JDialog.DISPOSE_ON_CLOSE)
+-            except:
+-                pass
+-        except Exception:
+-            pass
+-
+-        # buttons row: Apply / Reset / Cancel
+-        btnPanel = swing.JPanel(FlowLayout(FlowLayout.RIGHT, 6, 0))
+-        applyBtn = swing.JButton("Apply", actionPerformed=self._on_apply)
+-        resetBtn = swing.JButton("Reset", actionPerformed=self._on_reset)
+-        cancelBtn = swing.JButton("Cancel", actionPerformed=lambda e: self.dialog.dispose())
+-        btnPanel.add(applyBtn); btnPanel.add(resetBtn); btnPanel.add(cancelBtn)
+-        c.gridx = 0; c.gridy = row; c.gridwidth = 4; c.weightx = 1.0
+-        p.add(btnPanel, c)
+-
++            value = swing.JTextArea(3,40) if name == "ResponseContent" else swing.JTextField("",40)
++            value.setToolTipText("One Java regex per line; commas stay inside a pattern." if name == "ResponseContent"
++                                 else "Comma-separated values")
++            c.gridy, c.gridx, c.weightx = row,0,0.0
++            panel.add(enabled,c)
++            c.gridx = 1
++            panel.add(swing.JLabel(name),c)
++            c.gridx = 2
++            panel.add(mode,c)
++            c.gridx, c.weightx = 3,1.0
++            panel.add(swing.JScrollPane(value) if name == "ResponseContent" else value,c)
++            self.controls[name] = enabled,mode,value
++        self.errorLabel = swing.JLabel("")
++        c.gridy, c.gridx, c.gridwidth = len(DISPLAY_FILTER_FIELDS),0,4
++        panel.add(self.errorLabel,c)
++        buttons = swing.JPanel(FlowLayout(FlowLayout.RIGHT,6,0))
++        self.applyBtn = swing.JButton("Apply",actionPerformed=self._on_apply)
++        buttons.add(self.applyBtn)
++        buttons.add(swing.JButton("Reset",actionPerformed=self._on_reset))
++        buttons.add(swing.JButton("Cancel",actionPerformed=self._on_cancel))
++        c.gridy += 1
++        panel.add(buttons,c)
++        self.dialog.setContentPane(panel)
++        self.dialog.pack()
++        self.dialog.setLocationRelativeTo(parent._component)
++        parent._filter_dialog = self
+ 
+     def load_from_parent(self):
+-        # populate controls with current parent display_filters
+-        try:
+-            for fname, (cb, mode, vals) in self.controls.items():
+-                cfg = self.parent.display_filters.get(fname, {"active": False, "mode": "eq", "values": []})
+-                try:
+-                    cb.setSelected(bool(cfg.get("active", False)))
+-                except:
+-                    pass
+-                try:
+-                    mode.setSelectedItem(str(cfg.get("mode","eq")))
+-                except:
+-                    pass
+-                try:
+-                    vals.setText(",".join(cfg.get("values",[])))
+-                except:
+-                    pass
+-        except:
+-            pass
+-
+-    def _on_apply(self, evt=None):
+-        try:
+-            # build new config and set to parent
+-            for fname, (cb, mode, vals) in self.controls.items():
+-                active = bool(cb.isSelected())
+-                m = str(mode.getSelectedItem()) if mode.getSelectedItem() else "eq"
+-                vtxt = str(vals.getText() or "").strip()
+-                vals_list = [x.strip() for x in vtxt.split(",") if x.strip()]
+-                self.parent.display_filters[fname] = {"active": active, "mode": m, "values": vals_list}
+-            # close dialog
+-            self.dialog.dispose()
+-            # apply on parent UI thread
+-            try:
+-                swing.SwingUtilities.invokeLater(lambda: self.parent._refresh_table_display())
+-            except:
+-                self.parent._refresh_table_display()
+-        except Exception as e:
+-            try:
+-                self.parent.customStatusArea.setText("Filter apply error: %s" % e)
+-            except:
+-                pass
+-        
+-    def _on_reset(self, evt=None):
+-        """
+-        Reset all filter controls to inactive / empty and update parent.display_filters to defaults (inactive).
+-        """
+-        try:
+-            # Clear UI controls
+-            for fname, (cb, mode, vals) in self.controls.items():
+-                try:
+-                    cb.setSelected(False)
+-                except:
+-                    pass
+-                try:
+-                    mode.setSelectedItem("eq")
+-                except:
+-                    pass
+-                try:
+-                    vals.setText("")
+-                except:
+-                    pass
++        for name, (enabled,mode,field) in self.controls.items():
++            config = self.parent.display_filters.get(name,{})
++            enabled.setSelected(bool(config.get("active")))
++            mode.setSelectedItem(config.get("mode","eq"))
++            values = list(config.get("values",[]))
++            text = ("\n" if name == "ResponseContent" else ",").join(_filter_text(value) for value in values)
++            field.setText(text)
++            self.loaded_text[name], self.loaded_values[name] = text,values
++
++    def candidate(self):
++        result = {}
++        for name, (enabled,mode,field) in self.controls.items():
++            text = _filter_text(field.getText() or "")
++            if text == self.loaded_text.get(name):
++                # Preserve existing in-memory list items, even a legacy pattern
++                # containing a literal newline, until the user edits that text.
++                values = list(self.loaded_values[name])
++            else:
++                parts = text.splitlines() if name == "ResponseContent" else text.split(",")
++                values = [part.strip() for part in parts if part.strip()]
++            result[name] = dict(active=bool(enabled.isSelected()),
++                               mode=_filter_text(mode.getSelectedItem()),values=values)
++        return result
+ 
+-            # Reset parent's filter config to default inactive entries
+-            try:
+-                for fname in self.controls.keys():
+-                    self.parent.display_filters[fname] = {"active": False, "mode": "eq", "values": []}
+-            except:
+-                pass
++    def _on_apply(self, event=None):
++        self.parent._apply_display_filters(self.candidate(),self)
+ 
+-            # Refresh parent display on UI thread
+-            try:
+-                swing.SwingUtilities.invokeLater(lambda: self.parent._refresh_table_display())
+-            except:
+-                try:
+-                    self.parent._refresh_table_display()
+-                except:
+-                    pass
++    def _on_cancel(self, event=None):
++        self.closed = True
++        if self.parent._filter_dialog is self:
++            self.parent._filter_dialog = None
++        self.dialog.dispose()
+ 
+-        except Exception as e:
+-            try:
+-                self.parent.customStatusArea.setText("Filter reset error: %s" % e)
+-            except:
+-                pass
++    def _on_reset(self, event=None):
++        for enabled,mode,field in self.controls.values():
++            enabled.setSelected(False)
++            mode.setSelectedItem("eq")
++            field.setText("")
++        self.errorLabel.setText("")
++        self.parent._apply_display_filters(self.candidate())
+ 
+ 
+ class LoggerUI(ITab):
+@@ -1525,6 +1686,7 @@ class LoggerUI(ITab):
+         #------------------NEW---------------------------
+ 
+         self._init_display_filters()
++        self._init_filter_runtime()
+ 
+         # search / highlight state
+         self._search_matches = []
+@@ -2063,6 +2225,10 @@ class LoggerUI(ITab):
+         row += 1  
+ 
+         c.gridy = row; c.gridx = 0; c.gridwidth = 2
++        self.filterStatusLabel = swing.JLabel("Filters ready")
++        rightContent.add(self.filterStatusLabel, c)
++        row += 1
++        c.gridy = row
+         self.statusLabel = swing.JLabel("Running")
+         rightContent.add(self.statusLabel, c)
+         row += 1
+@@ -2098,6 +2264,8 @@ class LoggerUI(ITab):
+ 
+         self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
+         self._runtime_publisher = RuntimePublisher(self)
++        self._filter_timer = swing.Timer(20, lambda event: self._filter_tick())
++        self._filter_timer.start()
+ 
+     # --- Error/output area (isolated in its own container, expands only within itself) ---
+     def _log(self, msg):
+@@ -2379,6 +2547,219 @@ class LoggerUI(ITab):
+     #   "Method": {...},
+     #   ...
+     # }
++    def _init_filter_runtime(self):
++        self._capture_filter_plan = CaptureFilterPlan({})
++        self._display_filter_plan = DisplayFilterPlan({})
++        self._filter_worker = FilterWorker()
++        self._capture_signature = None
++        self._capture_error = self._display_error = None
++        self._capture_serial = self._display_serial = 0
++        self._filter_generation = self._log_generation = 0
++        self._filter_store_epoch = 0
++        self._rebuild_serial = self._filter_rebuilding = 0
++        self._filter_dirty = False
++        self._filter_rejected = 0
++        self._filter_timer = None
++        self._filter_dialog = None
++
++    def _filter_message(self):
++        errors = [s for s in (self._capture_error, self._display_error) if s]
++        state = self._filter_worker.state()
++        if errors:
++            message = "Filter error: " + "; ".join(errors)
++        elif self._filter_rebuilding or state["active"] or state["controls"]:
++            message = "Filtering... (%d queued; %d ms running)" % (state["rows"], state["running_ms"])
++        else:
++            message = "Filters ready"
++        if errors and (self._filter_rebuilding or state["active"] or state["controls"]):
++            message += " | Filtering... (%d ms running)" % state["running_ms"]
++        if self._filter_rejected:
++            message += " | %d log responses not accepted (FILTER_BUSY/ERROR)" % self._filter_rejected
++        label = getattr(self, "filterStatusLabel", None)
++        if label is not None and label.getText() != message:
++            label.setText(message)
++
++    def _observe_capture_filter(self, values):
++        keys = ("statuses","size","len_type","size_comp","log_regex")
++        values = dict((key,values.get(key)) for key in keys)
++        signature = tuple(values.get(key) for key in keys)
++        if signature == self._capture_signature:
++            return
++        self._capture_serial += 1
++        serial = self._capture_serial
++        def apply(result, error):
++            if self._custom_ui_closed or serial != self._capture_serial:
++                return
++            if error is not None:
++                self._capture_error = "Previous capture filter retained: " + _filter_diagnostic(error)
++            else:
++                self._capture_filter_plan = result
++                self._capture_error = None
++                self._publish_runtime()
++        known_size = not values.get("size") or values.get("size") == self._capture_filter_plan.size_text
++        known_pattern = not values.get("log_regex") or values.get("log_regex") == self._capture_filter_plan.pattern_text
++        if known_size and known_pattern:
++            self._capture_signature = signature
++            self._capture_filter_plan = CaptureFilterPlan(values,self._capture_filter_plan)
++            self._capture_error = None
++        elif self._filter_worker.submit(lambda previous=self._capture_filter_plan: CaptureFilterPlan(values,previous), apply, "capture"):
++            self._capture_signature = signature
++        else:
++            self._capture_error = "FILTER_BUSY: previous regex worker still occupied"
++
++    def _apply_display_filters(self, candidate, dialog=None):
++        if self._custom_ui_closed or dialog is not None and dialog.closed:
++            return
++        import copy
++        candidate = copy.deepcopy(candidate)
++        self._display_serial += 1
++        serial = self._display_serial
++        if candidate == self.display_filters:
++            self._display_error = None
++            if dialog is not None:
++                dialog._on_cancel()
++            self._refresh_table_display()
++            return
++        def apply(plan, error):
++            if self._custom_ui_closed or serial != self._display_serial:
++                return
++            if dialog is not None and (dialog.closed or dialog.candidate() != candidate):
++                if not dialog.closed:
++                    dialog.errorLabel.setText("Settings changed; press Apply again.")
++                return
++            if error is not None:
++                message = "Previous display filter retained: " + _filter_diagnostic(error)
++                self._display_error = message
++                if dialog is not None:
++                    dialog.errorLabel.setText("Filter error: " + message)
++                return
++            self._display_error = None
++            self._filter_generation += 1
++            plan.version = self._filter_generation
++            self.display_filters = candidate
++            self._display_filter_plan = plan
++            self._publish_runtime()
++            if dialog is not None:
++                dialog._on_cancel()
++            self._refresh_table_display()
++        if not any(cfg.get("active") for cfg in candidate.values()):
++            apply(DisplayFilterPlan(candidate), None)
++        elif not self._filter_worker.submit(lambda previous=self._display_filter_plan: DisplayFilterPlan(candidate,previous), apply, "display"):
++            apply(None, FilterInputError("Filter", "FILTER_BUSY: previous regex worker still occupied"))
++        elif dialog is not None:
++            dialog.errorLabel.setText("Validating filters...")
++
++    def _filter_tick(self):
++        if self._custom_ui_closed:
++            return
++        end = _monotonic_ms() + 6
++        for unused in range(32):
++            job = self._filter_worker.poll()
++            if job is None:
++                break
++            try:
++                job.apply(job.result, job.error)
++            except (Exception, JavaThrowable) as error:
++                self._display_error = "Filter result error: " + _filter_diagnostic(error)
++            if _monotonic_ms() >= end:
++                break
++        if self._filter_dirty and not self._filter_rebuilding:
++            self._refresh_table_display()
++        self._filter_message()
++
++    def _refresh_table_display(self):
++        if self._custom_ui_closed:
++            return
++        plan, epoch = self._display_filter_plan, (self._log_generation,self._filter_store_epoch)
++        if not plan.fields:
++            self._filter_dirty = False
++            self._filter_rebuilding = 0
++            self.logTableModel.displayed = list(self.logStore.entries)
++            self.logTableModel.fireTableDataChanged()
++            return
++        entries = tuple(self.logStore.entries)
++        newest = entries[0].index if entries else 0
++        self._rebuild_serial += 1
++        serial = self._rebuild_serial
++        def match():
++            return [entry for entry in entries if plan.matches(entry, self.helpers)]
++        def apply(matches, error):
++            if serial == self._filter_rebuilding:
++                self._filter_rebuilding = 0
++            if self._custom_ui_closed or epoch != (self._log_generation,self._filter_store_epoch) or plan is not self._display_filter_plan:
++                return
++            if error is not None:
++                self._filter_dirty = False
++                self._display_error = "Search failed: " + _filter_diagnostic(error)
++                return
++            additions = []
++            for entry in self.logStore.entries:
++                if entry.index <= newest:
++                    break
++                if getattr(entry,"_filter_version",None) != plan.version:
++                    self._filter_dirty = True
++                    return  # Rebuild from a fresh snapshot; never lose a new row.
++                if entry._filter_match:
++                    additions.append(entry)
++            self.logTableModel.displayed = additions + matches
++            self.logTableModel.fireTableDataChanged()
++        if self._filter_worker.submit(match, apply, "rebuild"):
++            self._filter_dirty, self._filter_rebuilding = False, serial
++        else:
++            self._display_error = "FILTER_BUSY: previous regex worker still occupied"
++
++    def _queue_filter_log(self, data, config, log_generation=None):
++        # No widget access here: this entry point runs on Burp callback threads.
++        if self._custom_ui_closed or config.get("paused"):
++            return
++        epoch = self._log_generation if log_generation is None else log_generation
++        if epoch != self._log_generation:
++            return
++        capture = config.get("capture_filter_plan") or self._capture_filter_plan
++        display = config.get("display_filter_plan") or self._display_filter_plan
++        tool, host, method, path, status, length, info, is_request, body_len = data
++        response = info.getResponse()
++        if not capture.accepts(status,length,body_len,response,self.helpers,search=False):
++            return
++        entry = LogEntry(0,"",host,method,path,status,length,body_len,info)
++        def evaluate():
++            if not capture.accepts(status,length,body_len,response,self.helpers):
++                return False, False, None
++            try:
++                return True, display.matches(entry,self.helpers), None
++            except (Exception, JavaThrowable) as error:
++                return True, None, _filter_diagnostic(error)
++        def apply(result, error):
++            if self._custom_ui_closed or epoch != self._log_generation:
++                return
++            if error is not None:
++                with self._filter_worker.condition:
++                    self._filter_rejected += 1
++                self._capture_error = "Search failed: " + _filter_diagnostic(error)
++                return
++            accepted, visible, failure = result
++            if not accepted:
++                return
++            if failure:
++                self._display_error = "Search failed: " + failure
++            self.append_log_row(tool,host,method,path,status,length,info,is_request,config,
++                                filter_result=(display,visible), log_generation=epoch,
++                                provided_body_len=body_len)
++        if capture.pattern is None and not display.has_regex:
++            # Metadata predicates are bounded and use already validated values.
++            result = evaluate()
++            swing.SwingUtilities.invokeLater(lambda: apply(result,None))
++        elif not self._filter_worker.submit(evaluate, apply):
++            if capture.pattern is not None:
++                with self._filter_worker.condition:
++                    self._filter_rejected += 1
++            else:
++                # Admission already decidable: retain accepted rows even when
++                # their display regex is busy; a later rebuild resolves visibility.
++                if capture.accepts(status,length,body_len,response,self.helpers):
++                    swing.SwingUtilities.invokeLater(lambda: apply((True,None,None),None))
++
++
+     def _init_display_filters(self):
+         # default fields (extended)
+         try:
+@@ -2395,113 +2776,20 @@ class LoggerUI(ITab):
+ 
+ 
+     def _row_matches_filters(self, entry, filters=None):
+-        """
+-        entry: LogEntry
+-        """
+-        try:
+-            method = entry.method or ""
+-            host = entry.host or ""
+-            path = entry.path or ""
+-            status = str(entry.status or "")
+-            body_len = entry.body_len
+-            msg = entry.messageInfo
+-        except:
+-            return True
+-
+-        field_map = {
+-            "Host": host,
+-            "Method": method,
+-            "Path": path,
+-            "Status": status,
+-        }
+-
+-        try:
+-            for fname, cfg in (self.display_filters if filters is None else filters).items():
+-                if not cfg.get("active"):
+-                    continue
+-
+-                mode = cfg.get("mode", "eq")
+-                vals = cfg.get("values", [])
+-                if not vals:
+-                    return False
+-
+-                matched = False
+-                cell = str(field_map.get(fname, "")).strip()
+-
+-                # --- BodyLen ---
+-                if fname == "BodyLen":
+-                    try:
+-                        if body_len == "" or body_len is None:
+-                            matched = False
+-                        else:
+-                            actual = int(body_len)
+-                            for v in vals:
+-                                try:
+-                                    if int(v) == actual:
+-                                        matched = True
+-                                        break
+-                                except:
+-                                    pass
+-                    except:
+-                        matched = False
+-
+-                # --- ResponseContent ---
+-                elif fname == "ResponseContent":
+-                    try:
+-                        resp = msg.getResponse()
+-                        hay = ""
+-                        if resp:
+-                            hay = self.helpers.bytesToString(resp)
+-                        for v in vals:
+-                            if not v:
+-                                continue
+-                            try:
+-                                pat = Pattern.compile(v, Pattern.CASE_INSENSITIVE | Pattern.DOTALL)
+-                                if pat.matcher(hay).find():
+-                                    matched = True
+-                                    break
+-                            except:
+-                                pass
+-                    except:
+-                        matched = False
+-
+-                # --- Path partial ---
+-                elif fname == "Path":
+-                    for v in vals:
+-                        if v and v in cell:
+-                            matched = True
+-                            break
+-
+-                # --- Default exact ---
+-                else:
+-                    for v in vals:
+-                        if v and cell == v:
+-                            matched = True
+-                            break
+-
+-                # --- apply mode ---
+-                if mode == "eq":
+-                    if not matched:
+-                        return False
+-                else:
+-                    if matched:
+-                        return False
+-
+-            return True
+-
+-        except:
+-            return True
+-
+-
+-    def _refresh_table_display(self):
+-        try:
+-            self.logTableModel.rebuild(self._row_matches_filters)
+-        except Exception as e:
+-            self.customStatusArea.append(
+-                "refresh error: %s\n" % e
+-            )
+-
+-
++        # Compatibility reader for explicit model callers. Production passes a
++        # compiled plan and runs response regexes only on the filter worker.
++        if isinstance(filters, DisplayFilterPlan):
++            plan = filters
++        else:
++            config = self.display_filters if filters is None else filters
++            if config == getattr(self, "_row_filter_config", None):
++                plan = self._row_filter_plan
++            else:
++                import copy
++                plan = DisplayFilterPlan(config)
++                self._row_filter_config = copy.deepcopy(config)
++                self._row_filter_plan = plan
++        return plan.matches(entry,self.helpers)
+ 
+     def set_status(self, txt):
+         def publish():
+@@ -2517,6 +2805,10 @@ class LoggerUI(ITab):
+ 
+     def clear_log(self, evt=None):
+         try:
++            self._log_generation += 1
++            self._filter_store_epoch += 1
++            self._filter_dirty = False
++            self._filter_rebuilding = 0
+             self.logStore.clear()
+             self.logTableModel.clear()
+             self._log("Log cleared OK!")
+@@ -2541,6 +2833,7 @@ class LoggerUI(ITab):
+             )
+ 
+             removed = 0
++            removed_entries = set()
+ 
+             for r in model_rows:
+                 try:
+@@ -2549,14 +2842,15 @@ class LoggerUI(ITab):
+                     if entry in self.logStore.entries:
+                         self.logStore.entries.remove(entry)
+                         removed += 1
++                        removed_entries.add(entry)
+                 except:
+                     pass
+ 
+             # tábla újraépítése (filterek megtartása)
+-            try:
+-                self.logTableModel.rebuild(self._row_matches_filters)
+-            except:
+-                self.logTableModel.rebuild()
++            self._filter_store_epoch += 1
++            self.logTableModel.displayed = [e for e in self.logTableModel.displayed if e not in removed_entries]
++            self.logTableModel.fireTableDataChanged()
++            self._refresh_table_display()
+ 
+             self._log("Cleared %d selected" % removed)
+ 
+@@ -2652,19 +2946,22 @@ class LoggerUI(ITab):
+     # append_log_row (filter-aware)
+     # append_log_row (LogStore-alapú, de UI-kompatibilis)
+     def append_log_row(self, toolFlag, host, method, path,
+-                    status, total_length, messageInfo, isRequest, runtime_config=None):
++                    status, total_length, messageInfo, isRequest, runtime_config=None,
++                    filter_result=None, log_generation=None, provided_body_len=None):
+ 
+         if self._custom_ui_closed:
+             return
++        if log_generation is not None and log_generation != self._log_generation:
++            return
+         config = runtime_config or self._capture_runtime()
+         if config.get("paused"):
+             return
+ 
+         ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+ 
+-        body_len = ""
++        body_len = provided_body_len if provided_body_len is not None else ""
+         try:
+-            if not isRequest and messageInfo.getResponse():
++            if provided_body_len is None and not isRequest and messageInfo.getResponse():
+                 ar = self.helpers.analyzeResponse(messageInfo.getResponse())
+                 body_len = len(messageInfo.getResponse()) - ar.getBodyOffset()
+         except:
+@@ -2678,13 +2975,16 @@ class LoggerUI(ITab):
+             messageInfo
+         )
+ 
+-        show = True
+-        try:
+-            if hasattr(self, "_row_matches_filters"):
+-                show = self._row_matches_filters(entry, config.get("display_filters", {}))
+-        except:
+-            pass
+-
++        plan, show = filter_result if filter_result is not None else (self._display_filter_plan, None)
++        if plan is not self._display_filter_plan:
++            show = None
++        if show is None and not self._display_filter_plan.has_regex:
++            plan = self._display_filter_plan
++            show = plan.matches(entry,self.helpers)
++        entry._filter_version = plan.version if show is not None else None
++        entry._filter_match = bool(show)
++        if show is None:
++            self._filter_dirty = True
+         self.logTableModel.add_entry_top(entry, show)
+ 
+         try:
+@@ -2696,74 +2996,22 @@ class LoggerUI(ITab):
+ 
+     def should_log(self, toolFlag, messageIsRequest, messageInfo, runtime_config=None):
+         config = runtime_config or self._capture_runtime()
+-        if config.get("paused"):
+-            return False
+-        if messageIsRequest:
++        if config.get("paused") or messageIsRequest:
+             return False
+-        resp = messageInfo.getResponse()
+-        if resp is None:
++        response = messageInfo.getResponse()
++        if response is None:
+             return False
++        status, body_len = None, len(response)
+         try:
+-            analyzed = self.helpers.analyzeResponse(resp)
+-            status = None
+-            try:
+-                status = analyzed.getStatusCode()
+-            except:
+-                status = None
+-        except:
+-            analyzed = None
+-            status = None
+-        selected_statuses = config.get("statuses", ())
+-        if selected_statuses and not any(status is not None and base * 100 <= status < (base + 1) * 100
+-                                         for base in selected_statuses):
+-            return False
+-        val_text = config.get("size", "")
+-        if val_text:
+-            blocked_values = []
+-            for part in val_text.split(","):
+-                part = part.strip()
+-                if not part:
+-                    continue
+-                try:
+-                    blocked_values.append(int(part))
+-                except:
+-                    pass
+-            if not blocked_values:
+-                return False
+-            len_type = config.get("len_type")
+-            try:
+-                if len_type == "Total len":
+-                    actual = len(resp)
+-                else:
+-                    if analyzed is not None:
+-                        body_off = analyzed.getBodyOffset()
+-                        actual = len(resp) - body_off
+-                    else:
+-                        actual = len(resp)
+-            except:
+-                actual = len(resp)
+-            comp = config.get("size_comp")
+-            if comp == "Min Len":
+-                if actual < min(blocked_values):
+-                    return False
+-            elif comp == "Max Len":
+-                if actual > max(blocked_values):
+-                    return False
+-            elif comp == "Not eq Len":
+-                if actual in blocked_values:
+-                    return False
+-
+-        pattern_text = config.get("log_regex", "")
+-        if pattern_text:
+-            try:
+-                pat = Pattern.compile(pattern_text)
+-                hay = self.helpers.bytesToString(resp) if resp else ""
+-                m = pat.matcher(hay)
+-                if not m.find():
+-                    return False
+-            except:
+-                return False
+-        return True
++            analyzed = self.helpers.analyzeResponse(response)
++            status = analyzed.getStatusCode()
++            body_len = len(response)-analyzed.getBodyOffset()
++        except (Exception, JavaException):
++            pass
++        plan = config.get("capture_filter_plan")
++        if plan is None:
++            plan = CaptureFilterPlan(config._values)  # Explicit compatibility callers.
++        return plan.accepts(status,len(response),body_len,response,self.helpers)
+ 
+ 
+     # COOKIE and CSRF HELPERS
+@@ -2918,7 +3166,14 @@ class LoggerUI(ITab):
+         self._custom_ui_closed = True
+         self._custom_executor.close()
+         self.sessions.close()
++        if hasattr(self, "_filter_worker"):
++            self._filter_worker.close()
+         def close_timer():
++            if getattr(self, "_filter_dialog", None) is not None:
++                self._filter_dialog._on_cancel()
++            if getattr(self, "_filter_timer", None) is not None:
++                self._filter_timer.stop()
++                self._filter_timer = None
+             if self._runtime_publisher is not None:
+                 self._runtime_publisher.close()
+             if self._custom_test_timer is not None:
+@@ -3275,7 +3530,7 @@ class LoggerUI(ITab):
+         auto = getattr(self, "autoFollowRTChk", None)
+         statuses = tuple(sorted(int(label[0]) for label, field in getattr(self, "statusChecks", {}).items()
+                                 if field.isSelected()))
+-        return dict(proxy=selected("proxyModeBtn", getattr(self, "_proxy_mode_active", False)),
++        values = dict(proxy=selected("proxyModeBtn", getattr(self, "_proxy_mode_active", False)),
+                     use_cp=selected("useCheckPageChk", getattr(self, "useCheckPageTemplate", False)),
+                     follow=bool(auto and auto.isSelected() and auto.isEnabled()),
+                     payload1=text("payloadParamField", "q"), payload2=text("payloadParam2Field", "w"),
+@@ -3288,6 +3543,10 @@ class LoggerUI(ITab):
+                     size=text("sizeField"), len_type=combo("lenTypeCombo", "Total len"),
+                     size_comp=combo("compCombo", "Min Len"), log_regex=text("regexField"),
+                     display_filters=copy.deepcopy(getattr(self, "display_filters", {})))
++        self._observe_capture_filter(values)
++        values["capture_filter_plan"] = self._capture_filter_plan
++        values["display_filter_plan"] = self._display_filter_plan
++        return values
+ 
+     def _publish_runtime(self):
+         if self._custom_ui_closed:
+@@ -3582,7 +3841,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 installed.append("proxy")
+                 if not still_open():
+                     return
+-                print("BoberProxy loaded (stabilization K06)")
++                print("BoberProxy loaded (stabilization K07)")
+             except (Exception, JavaException):
+                 diagnostic = traceback.format_exc()
+                 withdraw()
+@@ -3599,65 +3858,39 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             ui.close_custom_runtime()
+ 
+     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
+-
+         try:
+-            ui = getattr(self, "ui", None)
+-            if ui is None or ui._custom_ui_closed:
++            ui = getattr(self,"ui",None)
++            if ui is None or ui._custom_ui_closed or messageIsRequest:
+                 return
++            epoch = ui._log_generation
+             config = ui._capture_runtime()
++            if config.get("paused"):
++                return
++            response = messageInfo.getResponse()
++            if response is None:
++                return
+             host = method = path = ""
+-            status = None
+-            length = None
++            status, body_len = None, ""
+             try:
+-                if messageIsRequest:
+-                    analyzed = self.helpers.analyzeRequest(messageInfo)
+-                    method = analyzed.getMethod()
+-                    url = analyzed.getUrl()
+-                    if url:
+-                        host = url.getHost()
+-                        q = url.getQuery()
+-                        path = url.getPath() + (("?" + q) if q else "")
+-                    reqb = messageInfo.getRequest()
+-                    length = len(reqb) if reqb else 0
+-                else:
+-                    respb = messageInfo.getResponse()
+-                    if respb:
+-                        analyzedResp = self.helpers.analyzeResponse(respb)
+-                        try:
+-                            status = analyzedResp.getStatusCode()
+-                        except:
+-                            status = None
+-                        length = len(respb)
+-                    try:
+-                        analyzedReq = self.helpers.analyzeRequest(messageInfo)
+-                        method = analyzedReq.getMethod()
+-                        url = analyzedReq.getUrl()
+-                        if url:
+-                            host = url.getHost()
+-                            q = url.getQuery()
+-                            path = url.getPath() + (("?" + q) if q else "")
+-                    except:
+-                        pass
+-            except:
++                analyzed = self.helpers.analyzeResponse(response)
++                status = analyzed.getStatusCode()
++                body_len = len(response)-analyzed.getBodyOffset()
++            except (Exception, JavaException):
+                 pass
+-
+             try:
+-                should = ui.should_log(toolFlag, messageIsRequest, messageInfo, config)
+-            except:
+-                should = True
+-
+-            if should:
+-                # attach transformed payload info into log entry (as 7th element) — non-invasive
+-                def _append():
+-                    try:
+-                        # For requests, show the outgoing_payload_from_custom (if set) in the detail view only when selected.
+-                        ui.append_log_row(toolFlag, host, method, path, status, length, messageInfo, messageIsRequest, config)
+-                        # Optionally annotate latest row's status label if transform exists
+-                    except Exception as e:
+-                        print("append invoke error:", e)
+-                swing.SwingUtilities.invokeLater(_append)
+-        except Exception as e:
+-            print("processHttpMessage error:", e)
++                request = self.helpers.analyzeRequest(messageInfo)
++                method = request.getMethod()
++                url = request.getUrl()
++                if url:
++                    host = url.getHost()
++                    query = url.getQuery()
++                    path = url.getPath()+(("?"+query) if query else "")
++            except (Exception, JavaException):
++                pass
++            data = (toolFlag,host,method,path,status,len(response),messageInfo,False,body_len)
++            ui._queue_filter_log(data,config,epoch)
++        except (Exception, JavaException) as error:
++            print("processHttpMessage error:",error)
+ 
+ 
+     def _report_workflow_error(self, result):

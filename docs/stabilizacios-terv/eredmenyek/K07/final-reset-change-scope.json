@@ -1,0 +1,10 @@
+{
+  "kind": "K07-final-reset-fix-scope",
+  "before_source_sha256": "67d68ccb99042666c7193fc3332d24504f6031110dc367c18ff3fa59a3b237db",
+  "after_source_sha256": "1309ff082c80aeab7bf1775a62f3679f3409aee73a5aadc777feed2137db300b",
+  "checks": {
+    "outside_apply_display_filters_unchanged": true
+  },
+  "note": "Only display validation intent advancement and same-current-filter error reset changed. Matcher/capture/callback/worker/workflow code unchanged.",
+  "passed": true
+}

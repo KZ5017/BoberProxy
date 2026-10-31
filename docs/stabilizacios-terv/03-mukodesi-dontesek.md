@@ -108,6 +108,8 @@ Az eredeti tervezési indoklás:
 
 ## D10 — Regexbevitel és költséges keresések
 
+K07 döntés, 2026-10-31: a felhasználó kifejezetten elfogadta az egy sor/egy ResponseContent regex bevitelt, a többi mező vesszőlistájának megtartását, valamint a látható hibát és az utolsó érvényes szűrő megőrzését hibás regex/szám esetén. A Java motor és a találati szabályok megmaradnak; korlátos háttérmunka, garantált megszakítás állítása nélkül.
+
 - Érintett: F26–F28, K07.
 - Ajánlás: ResponseContent mezőben egy sor egy minta; egy regexen belüli vessző nem elválasztó. A többi mező vesszőlistája megmarad. A meglévő memóriabeli konfiguráció listájának jelentése megőrzendő.
 - Java regex és a meglévő mezőnkénti flagkülönbségek maradnak; nem váltunk automatikusan másik regexmotorra.

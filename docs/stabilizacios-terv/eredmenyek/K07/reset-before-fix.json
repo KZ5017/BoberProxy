@@ -1,0 +1,151 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000334,
+      "test": "test_filters.FilterTests.test_busy_capture_is_visible_and_does_not_accept_unknown_match"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000253,
+      "test": "test_filters.FilterTests.test_busy_display_retains_already_admitted_entry"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000374,
+      "test": "test_filters.FilterTests.test_capture_characterized_matches"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00344,
+      "test": "test_filters.FilterTests.test_clear_during_rebuild_never_restores_old_rows"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.006024,
+      "test": "test_filters.FilterTests.test_clear_selected_invalidates_search_but_not_new_admission"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000178,
+      "test": "test_filters.FilterTests.test_clear_while_callback_analyzes_does_not_resurrect_event"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000775,
+      "test": "test_filters.FilterTests.test_clearing_regex_with_valid_size_does_not_wait_for_busy_worker"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000803,
+      "test": "test_filters.FilterTests.test_close_ignores_pending_search_result"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.075927,
+      "test": "test_filters.FilterTests.test_compilation_is_not_repeated_per_row"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000816,
+      "test": "test_filters.FilterTests.test_display_characterized_matches"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.010683,
+      "test": "test_filters.FilterTests.test_invalid_capture_regex_retains_last_valid_plan"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00547,
+      "test": "test_filters.FilterTests.test_invalid_display_is_atomic_and_keeps_previous_filter"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.011021,
+      "test": "test_filters.FilterTests.test_invalid_numeric_retains_last_valid_capture"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000137,
+      "test": "test_filters.FilterTests.test_legacy_empty_regex_item_has_no_response_decode"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00012,
+      "test": "test_filters.FilterTests.test_metadata_rejection_does_not_queue_regex_work"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003208,
+      "test": "test_filters.FilterTests.test_new_filter_wins_over_late_old_search"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.005422,
+      "test": "test_filters.FilterTests.test_new_rows_merge_into_stable_rebuild_snapshot"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.008012,
+      "test": "test_filters.FilterTests.test_no_display_filter_erases_stored_entries"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000201,
+      "test": "test_filters.FilterTests.test_other_settings_reuse_unchanged_compiled_patterns"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_filters.py\", line 323, in test_reset_to_current_filter_cancels_pending_new_validation\n    self.assertEqual(self.ui.display_filters,{})\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'Host': {'active': True, 'mode': 'eq', 'values': ['alpha']}} != {}\n- {'Host': {'active': True, 'mode': 'eq', 'values': ['alpha']}}\n+ {}\n",
+      "outcome": "failed",
+      "seconds": 0.008793,
+      "test": "test_filters.FilterTests.test_reset_to_current_filter_cancels_pending_new_validation"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_filters.py\", line 308, in test_reset_to_current_filter_clears_invalid_draft_error\n    self.assertIsNone(self.ui._display_error)\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'Invalid draft' is not None\n",
+      "outcome": "failed",
+      "seconds": 0.000254,
+      "test": "test_filters.FilterTests.test_reset_to_current_filter_clears_invalid_draft_error"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.008202,
+      "test": "test_filters.FilterTests.test_unknown_new_row_is_rechecked_instead_of_lost"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001463,
+      "test": "test_filters.FilterTests.test_worker_capacity_and_coalesced_controls_are_bounded"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 21,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "67d68ccb99042666c7193fc3332d24504f6031110dc367c18ff3fa59a3b237db",
+  "successful_baseline_run": false,
+  "suite": "filters",
+  "total": 23
+}
