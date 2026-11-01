@@ -1,0 +1,478 @@
+{
+  "kind": "SI00-wire-rules",
+  "run": "si00-rules-381d5ab108",
+  "checks": {
+    "no_transport_error": true,
+    "exactly_two_target_requests": true,
+    "no_actions": true,
+    "query_preserved": true,
+    "no_unowned_cookies": true,
+    "native_cookie_on_both_requests": true,
+    "both_rule_actions_for_each_request": true,
+    "owned_cleanup_complete": true
+  },
+  "passed": true,
+  "observed": {
+    "run": "si00-rules-381d5ab108",
+    "action_count": 0,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 6,
+        "time_ns": 1793564662018884500,
+        "run": "si00-rules-381d5ab108",
+        "method": "GET",
+        "target": "/si00/echo?run=si00-rules-381d5ab108&via=api&value=%252F+%2B",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18780"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cookie",
+            "BP_SI00_WIRE_7ebcb96ea3f1=API_SEED"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "9f0fbc60433c59d06ad4541dea1db327c082dd2970147be1d1ab915531bd3788",
+        "body_base64": ""
+      },
+      {
+        "sequence": 7,
+        "time_ns": 1793564662081825100,
+        "run": "si00-rules-381d5ab108",
+        "method": "GET",
+        "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18780"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "Cookie",
+            "BP_SI00_WIRE_7ebcb96ea3f1=API_SEED"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "33da8a338ab2059276930e2e4549e094a01a6f0ae47fe1f141b5f4cdf84fe9bb",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "records": [
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257733186100,
+      "run": "si00-rules-381d5ab108",
+      "tool": null,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=api&value=%252F+%2B",
+      "request_sha256": "e1ed8f1c52f78fad6dc3cd9ce5e322bb415c24f08190e38c926f232601a9a4c6",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 10,
+      "message_identity": 1526585035,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257737223900,
+      "run": "si00-rules-381d5ab108",
+      "tool": null,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=api&value=%252F+%2B",
+      "request_sha256": "9f0fbc60433c59d06ad4541dea1db327c082dd2970147be1d1ab915531bd3788",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 11,
+      "message_identity": 315217383,
+      "own_cookie_values": [
+        "API_SEED"
+      ],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257737867700,
+      "run": "si00-rules-381d5ab108",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=api&value=%252F+%2B",
+      "request_sha256": "9f0fbc60433c59d06ad4541dea1db327c082dd2970147be1d1ab915531bd3788",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 12,
+      "message_identity": 1784744386,
+      "own_cookie_values": [
+        "API_SEED"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257740676100,
+      "run": "si00-rules-381d5ab108",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=api&value=%252F+%2B",
+      "request_sha256": "9f0fbc60433c59d06ad4541dea1db327c082dd2970147be1d1ab915531bd3788",
+      "response_sha256": "4bce71b2e3c178f63aa854c4dfd652c4a92186485e937f13f82bd9a9a13f93dd",
+      "other_cookie_count": 0,
+      "sequence": 13,
+      "message_identity": 274938616,
+      "own_cookie_values": [
+        "API_SEED"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257799260200,
+      "run": "si00-rules-381d5ab108",
+      "tool": null,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+      "request_sha256": "31d84702976e86bf963cba25b52e1b748d7911ce5de98cf8152764eb2e6eb1dc",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 15,
+      "message_identity": 641102182,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257800042500,
+      "run": "si00-rules-381d5ab108",
+      "tool": null,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+      "request_sha256": "31d84702976e86bf963cba25b52e1b748d7911ce5de98cf8152764eb2e6eb1dc",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 16,
+      "message_identity": 582300033,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257800477200,
+      "run": "si00-rules-381d5ab108",
+      "tool": null,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+      "request_sha256": "33da8a338ab2059276930e2e4549e094a01a6f0ae47fe1f141b5f4cdf84fe9bb",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 17,
+      "message_identity": 1164455805,
+      "own_cookie_values": [
+        "API_SEED"
+      ],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257800947400,
+      "run": "si00-rules-381d5ab108",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+      "request_sha256": "33da8a338ab2059276930e2e4549e094a01a6f0ae47fe1f141b5f4cdf84fe9bb",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 18,
+      "message_identity": 300022814,
+      "own_cookie_values": [
+        "API_SEED"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257803020300,
+      "run": "si00-rules-381d5ab108",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+      "request_sha256": "33da8a338ab2059276930e2e4549e094a01a6f0ae47fe1f141b5f4cdf84fe9bb",
+      "response_sha256": "e675c401859fc8f5d2e53c1c6f9f8236d9bb1159ec29b6c2a82893e9997ab221",
+      "other_cookie_count": 0,
+      "sequence": 19,
+      "message_identity": 80282117,
+      "own_cookie_values": [
+        "API_SEED"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 66257803927100,
+      "run": "si00-rules-381d5ab108",
+      "tool": null,
+      "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+      "request_sha256": "31d84702976e86bf963cba25b52e1b748d7911ce5de98cf8152764eb2e6eb1dc",
+      "response_sha256": "e675c401859fc8f5d2e53c1c6f9f8236d9bb1159ec29b6c2a82893e9997ab221",
+      "other_cookie_count": 0,
+      "sequence": 20,
+      "message_identity": 268112420,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    }
+  ],
+  "results": {
+    "seed": {
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    "api": {
+      "response_json": {
+        "request": {
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18780"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Cookie",
+              "BP_SI00_WIRE_7ebcb96ea3f1=API_SEED"
+            ]
+          ],
+          "method": "GET",
+          "body_base64": "",
+          "run": "si00-rules-381d5ab108",
+          "target": "/si00/echo?run=si00-rules-381d5ab108&via=api&value=%252F+%2B",
+          "request_sha256": "9f0fbc60433c59d06ad4541dea1db327c082dd2970147be1d1ab915531bd3788",
+          "other_cookie_count": 0,
+          "sequence": 6,
+          "time_ns": 1793564662018884500
+        }
+      },
+      "response_first_line": "HTTP/1.1 200 OK",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    "proxy": {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "437"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "application/json"
+        ]
+      ],
+      "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDcsICJ0aW1lX25zIjogMTc5MzU2NDY2MjA4MTgyNTEwMCwgInJ1biI6ICJzaTAwLXJ1bGVzLTM4MWQ1YWIxMDgiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL3NpMDAvZWNobz9ydW49c2kwMC1ydWxlcy0zODFkNWFiMTA4JnZpYT1wcm94eSZ2YWx1ZT0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzgwIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiQ29va2llIiwgIkJQX1NJMDBfV0lSRV83ZWJjYjk2ZWEzZjE9QVBJX1NFRUQiXV0sICJvdGhlcl9jb29raWVfY291bnQiOiAwLCAicmVxdWVzdF9zaGEyNTYiOiAiMzNkYThhMzM4YWIyMDU5Mjc2OTMwZTJlNDU0OWUwOTRhMDFhNmYwYWU0N2ZlMWYxNDFiNWY0Y2RmODRmZTliYiIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+      "seconds": 0.027729,
+      "json": {
+        "request": {
+          "sequence": 7,
+          "time_ns": 1793564662081825100,
+          "run": "si00-rules-381d5ab108",
+          "method": "GET",
+          "target": "/si00/echo?run=si00-rules-381d5ab108&via=proxy&value=%252F+%2B",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18780"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "Cookie",
+              "BP_SI00_WIRE_7ebcb96ea3f1=API_SEED"
+            ]
+          ],
+          "other_cookie_count": 0,
+          "request_sha256": "33da8a338ab2059276930e2e4549e094a01a6f0ae47fe1f141b5f4cdf84fe9bb",
+          "body_base64": ""
+        }
+      }
+    },
+    "inspect": {
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    "cleanup": {
+      "remaining": [],
+      "cleanup_complete": true
+    }
+  },
+  "transport_error": null,
+  "no_application_request_replayed": true,
+  "observer_instance": "1e918531130740e7b7deb2ece42da21d",
+  "cookie_name": "BP_SI00_WIRE_7ebcb96ea3f1",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209"
+}

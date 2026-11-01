@@ -1,0 +1,17 @@
+{
+  "kind": "UI02-proxy-button-appearance-refinement",
+  "date": "2026-11-01",
+  "source_sha256": "aa68d55eacf86891fdabdda5fe6bf07741899839bf6e5498b69e1780ef7190db",
+  "previous_approved_source_sha256": "f761ab0b110d25911fcb523cfb94306d5e665aa202c0bac5ad88ba488d45a062",
+  "changes": [
+    "No hover/background fill",
+    "No painted border/focus ring",
+    "Rollover disabled"
+  ],
+  "keyboard_focus_retained": true,
+  "action_and_icon_unchanged": true,
+  "source_encoding": "Latin-1/CRLF",
+  "actual_reload_confirmed": false,
+  "new_tests_run": false,
+  "note": "Four local JButton appearance flags only. Earlier UI02 reports retain their original source hash; user reload/visual check pending. Startup stays UI02."
+}

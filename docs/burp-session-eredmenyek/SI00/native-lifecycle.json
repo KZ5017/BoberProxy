@@ -1,0 +1,692 @@
+{
+  "reports": {
+    "domain-name-only": {
+      "kind": "SI00-owned-synthetic-cookie-API-characterization", 
+      "cleanup_complete": true, 
+      "checks": {
+        "update_returns": true, 
+        "owned_namespace_initially_empty": true, 
+        "null_deletion_returns": true, 
+        "empty_value_update_returns": true, 
+        "past_expiration_update_returns": true, 
+        "only_owned_cookie_writes": true, 
+        "added_value_readable": true, 
+        "null_deletes_existing_cookie": true, 
+        "literal_deleted_update_returns": true, 
+        "add_returns": true, 
+        "owned_cookies_removed": true, 
+        "read_cookie_jar": true, 
+        "different_path_update_returns": true, 
+        "updated_value_readable": true
+      }, 
+      "elapsed_ms": 2, 
+      "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+      "observations": {
+        "update_returns": [
+          {
+            "expiration_ms": 1793567858113, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "TWO"
+          }
+        ], 
+        "null_deletion_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": 1793560598113, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_expired", 
+            "value": "PAST"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "PATH"
+          }
+        ], 
+        "empty_value_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "PATH"
+          }
+        ], 
+        "past_expiration_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_deleted", 
+            "value": "deleted"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": 1793560598113, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_expired", 
+            "value": "PAST"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "PATH"
+          }
+        ], 
+        "owned_after_cleanup": [], 
+        "same_name_path_behavior": {
+          "count": 1, 
+          "paths": [
+            "/si00/deep"
+          ]
+        }, 
+        "namespace_acquired": true, 
+        "literal_deleted_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_deleted", 
+            "value": "deleted"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "PATH"
+          }
+        ], 
+        "add_returns": [
+          {
+            "expiration_ms": 1793564258113, 
+            "path": "/", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "ONE"
+          }
+        ], 
+        "different_path_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+            "value": "PATH"
+          }
+        ]
+      }, 
+      "cancelled": false, 
+      "cookie_names": [
+        "BP_SI00_480666164fbc423eac598a0754420e3a_main", 
+        "BP_SI00_480666164fbc423eac598a0754420e3a_empty", 
+        "BP_SI00_480666164fbc423eac598a0754420e3a_deleted", 
+        "BP_SI00_480666164fbc423eac598a0754420e3a_expired"
+      ], 
+      "passed": true, 
+      "writes": [
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main"
+        }, 
+        {
+          "path": "/si00/deep", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_empty"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_deleted"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_expired"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": false, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_deleted"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_empty"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_expired"
+        }, 
+        {
+          "path": "/si00/deep", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-480666164fbc423eac598a0754420e3a.invalid", 
+          "name": "BP_SI00_480666164fbc423eac598a0754420e3a_main"
+        }
+      ], 
+      "errors": [], 
+      "main_extension_settings_changed": false, 
+      "network_requests": 0
+    }, 
+    "injected-api-error": {
+      "kind": "SI00-owned-synthetic-cookie-API-characterization", 
+      "cleanup_complete": true, 
+      "checks": {
+        "update_returns": true, 
+        "owned_namespace_initially_empty": true, 
+        "only_owned_cookie_writes": true, 
+        "added_value_readable": true, 
+        "add_returns": true, 
+        "owned_cookies_removed": true, 
+        "read_cookie_jar": true, 
+        "different_path_update_returns": true, 
+        "updated_value_readable": true
+      }, 
+      "elapsed_ms": 2, 
+      "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+      "observations": {
+        "update_returns": [
+          {
+            "expiration_ms": 1793567858116, 
+            "path": "/", 
+            "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main", 
+            "value": "TWO"
+          }
+        ], 
+        "owned_after_cleanup": [], 
+        "same_name_path_behavior": {
+          "count": 2, 
+          "paths": [
+            "/", 
+            "/si00/deep"
+          ]
+        }, 
+        "namespace_acquired": true, 
+        "add_returns": [
+          {
+            "expiration_ms": 1793564258116, 
+            "path": "/", 
+            "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main", 
+            "value": "ONE"
+          }
+        ], 
+        "different_path_update_returns": [
+          {
+            "expiration_ms": 1793567858116, 
+            "path": "/", 
+            "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main", 
+            "value": "TWO"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main", 
+            "value": "PATH"
+          }
+        ]
+      }, 
+      "cancelled": false, 
+      "cookie_names": [
+        "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main", 
+        "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_empty", 
+        "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_deleted", 
+        "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_expired"
+      ], 
+      "passed": false, 
+      "writes": [
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+          "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+          "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main"
+        }, 
+        {
+          "path": "/si00/deep", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+          "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+          "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_empty"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+          "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main"
+        }, 
+        {
+          "path": "/si00/deep", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-7ed17be2917b4bd8b36842be263a1b77.invalid", 
+          "name": "BP_SI00_7ed17be2917b4bd8b36842be263a1b77_main"
+        }
+      ], 
+      "errors": [
+        {
+          "type": "IOException", 
+          "stage": "probe"
+        }
+      ], 
+      "main_extension_settings_changed": false, 
+      "network_requests": 0
+    }, 
+    "path-aware": {
+      "kind": "SI00-owned-synthetic-cookie-API-characterization", 
+      "cleanup_complete": true, 
+      "checks": {
+        "update_returns": true, 
+        "owned_namespace_initially_empty": true, 
+        "null_deletion_returns": true, 
+        "empty_value_update_returns": true, 
+        "past_expiration_update_returns": true, 
+        "only_owned_cookie_writes": true, 
+        "added_value_readable": true, 
+        "null_deletes_existing_cookie": true, 
+        "literal_deleted_update_returns": true, 
+        "add_returns": true, 
+        "owned_cookies_removed": true, 
+        "read_cookie_jar": true, 
+        "different_path_update_returns": true, 
+        "updated_value_readable": true
+      }, 
+      "elapsed_ms": 13, 
+      "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+      "observations": {
+        "update_returns": [
+          {
+            "expiration_ms": 1793567858097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "TWO"
+          }
+        ], 
+        "null_deletion_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": 1793560598097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_expired", 
+            "value": "PAST"
+          }, 
+          {
+            "expiration_ms": 1793567858097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "TWO"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "PATH"
+          }
+        ], 
+        "empty_value_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": 1793567858097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "TWO"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "PATH"
+          }
+        ], 
+        "past_expiration_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_deleted", 
+            "value": "deleted"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": 1793560598097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_expired", 
+            "value": "PAST"
+          }, 
+          {
+            "expiration_ms": 1793567858097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "TWO"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "PATH"
+          }
+        ], 
+        "owned_after_cleanup": [], 
+        "same_name_path_behavior": {
+          "count": 2, 
+          "paths": [
+            "/", 
+            "/si00/deep"
+          ]
+        }, 
+        "namespace_acquired": true, 
+        "literal_deleted_update_returns": [
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_deleted", 
+            "value": "deleted"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_empty", 
+            "value": ""
+          }, 
+          {
+            "expiration_ms": 1793567858097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "TWO"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "PATH"
+          }
+        ], 
+        "add_returns": [
+          {
+            "expiration_ms": 1793564258097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "ONE"
+          }
+        ], 
+        "different_path_update_returns": [
+          {
+            "expiration_ms": 1793567858097, 
+            "path": "/", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "TWO"
+          }, 
+          {
+            "expiration_ms": null, 
+            "path": "/si00/deep", 
+            "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+            "value": "PATH"
+          }
+        ]
+      }, 
+      "cancelled": false, 
+      "cookie_names": [
+        "BP_SI00_894f63bd45004901aaeae31658815a59_main", 
+        "BP_SI00_894f63bd45004901aaeae31658815a59_empty", 
+        "BP_SI00_894f63bd45004901aaeae31658815a59_deleted", 
+        "BP_SI00_894f63bd45004901aaeae31658815a59_expired"
+      ], 
+      "passed": true, 
+      "writes": [
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main"
+        }, 
+        {
+          "path": "/si00/deep", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_empty"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_deleted"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_expired"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": false, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_deleted"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_empty"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_expired"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main"
+        }, 
+        {
+          "path": "/si00/deep", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-894f63bd45004901aaeae31658815a59.invalid", 
+          "name": "BP_SI00_894f63bd45004901aaeae31658815a59_main"
+        }
+      ], 
+      "errors": [], 
+      "main_extension_settings_changed": false, 
+      "network_requests": 0
+    }, 
+    "unload-during-probe": {
+      "kind": "SI00-owned-synthetic-cookie-API-characterization", 
+      "cleanup_complete": true, 
+      "checks": {
+        "update_returns": true, 
+        "owned_namespace_initially_empty": true, 
+        "only_owned_cookie_writes": true, 
+        "added_value_readable": true, 
+        "add_returns": true, 
+        "owned_cookies_removed": true, 
+        "read_cookie_jar": true, 
+        "updated_value_readable": true
+      }, 
+      "elapsed_ms": 0, 
+      "domain": "si00-569d3a0a32cc4c1383740503dc660ad4.invalid", 
+      "observations": {
+        "update_returns": [
+          {
+            "expiration_ms": 1793567858119, 
+            "path": "/", 
+            "name": "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_main", 
+            "value": "TWO"
+          }
+        ], 
+        "owned_after_cleanup": [], 
+        "namespace_acquired": true, 
+        "add_returns": [
+          {
+            "expiration_ms": 1793564258119, 
+            "path": "/", 
+            "name": "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_main", 
+            "value": "ONE"
+          }
+        ]
+      }, 
+      "cancelled": true, 
+      "cookie_names": [
+        "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_main", 
+        "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_empty", 
+        "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_deleted", 
+        "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_expired"
+      ], 
+      "passed": false, 
+      "writes": [
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-569d3a0a32cc4c1383740503dc660ad4.invalid", 
+          "name": "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": false, 
+          "cleanup": false, 
+          "domain": "si00-569d3a0a32cc4c1383740503dc660ad4.invalid", 
+          "name": "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_main"
+        }, 
+        {
+          "path": "/", 
+          "deletion": true, 
+          "cleanup": true, 
+          "domain": "si00-569d3a0a32cc4c1383740503dc660ad4.invalid", 
+          "name": "BP_SI00_569d3a0a32cc4c1383740503dc660ad4_main"
+        }
+      ], 
+      "errors": [], 
+      "main_extension_settings_changed": false, 
+      "network_requests": 0
+    }
+  }, 
+  "actual_burp_cookie_jar": false, 
+  "kind": "SI00-private-native-fake-cookie-jar", 
+  "checks": {
+    "path-aware-probe-and-owned-cleanup": true, 
+    "domain-name-only-unrelated-cookie-preserved": true, 
+    "domain-name-only-path-semantics-observed-not-assumed": true, 
+    "path-aware-manifest-before-first-write": true, 
+    "path-aware-unrelated-cookie-preserved": true, 
+    "registration-cleanup-action": true, 
+    "registration-cleanup-None": true, 
+    "domain-name-only-probe-and-owned-cleanup": true, 
+    "domain-name-only-manifest-before-first-write": true, 
+    "api-error-not-pass": true, 
+    "registration-cleanup-state": true, 
+    "domain-name-only-no-unrelated-jar-values-in-report": true, 
+    "native_cookie_getters_no_bean_recursion": true, 
+    "path-aware-no-unrelated-jar-values-in-report": true, 
+    "api-error-text-not-in-report": true, 
+    "api-error-owned-cleanup-and-unrelated-preserved": true, 
+    "path-aware-path-semantics-observed-not-assumed": true, 
+    "unload-cancels-but-still-cleans-owned-data": true
+  }, 
+  "passed": true, 
+  "network_requests": 0
+}

@@ -1,0 +1,125 @@
+{
+  "kind": "UI02-private-status-and-shortcut-no-network", 
+  "checks": {
+    "bar_visible_when_sidebar_scrolls": true, 
+    "missing_button_visible_status": true, 
+    "logging_resume_clear": true, 
+    "long_status_does_not_grow_bar": true, 
+    "logging_pause_clear": true, 
+    "finder_excludes_own_and_menu": true, 
+    "disabled_host_button_not_invoked": true, 
+    "one_click_original_event_source": true, 
+    "full_messages_in_tooltips": true, 
+    "shortcut_not_a_fourth_tab": true, 
+    "checkpage_tab_spacing": true, 
+    "one_row_at_each_size": true, 
+    "clear_logging_caption": true, 
+    "labels_single_row": true, 
+    "bar_fixed_height_full_log_width": true, 
+    "toolbar_visible_in_flatlaf": true, 
+    "status_outside_sidebar": true, 
+    "shortcut_trailing_property": true
+  }, 
+  "source_sha256": "f761ab0b110d25911fcb523cfb94306d5e665aa202c0bac5ad88ba488d45a062", 
+  "regression": {
+    "kind": "K10-A-private-native-no-network", 
+    "diagnostic_cases": 6, 
+    "checks": {
+      "startup_only_expected_line": true, 
+      "no_unused_editor_or_search_state": true, 
+      "private_unload_closes_timers_and_session": true, 
+      "native_callbacks_registered": true, 
+      "multiple_selection_preserved": true, 
+      "java_status_error_has_safe_diagnostic": true, 
+      "java_checkpage_exception_safe_none_fallback": true, 
+      "exactly_four_editors_all_on_edt": true, 
+      "native_diagnostic_cases": true, 
+      "mode_buttons_preserve_enable_and_selection_rules": true
+    }, 
+    "source_sha256": "f761ab0b110d25911fcb523cfb94306d5e665aa202c0bac5ad88ba488d45a062", 
+    "java_version": "26.0.2", 
+    "actual_burp_helpers": false, 
+    "passed": true, 
+    "errors": [], 
+    "logging_regression": {
+      "kind": "K08-K09-native-Jython-Swing-private-no-network", 
+      "logic_log": "test_archive_exact_binary_and_null_versus_empty (probe_logging_native.NativeLogs) ... ok\ntest_archive_refuses_edt_io (probe_logging_native.NativeLogs) ... ok\ntest_byte_limit_rejects_before_snapshot_and_pauses_visibly (probe_logging_native.NativeLogs) ... ok\ntest_clear_and_selected_release_only_owned_files (probe_logging_native.NativeLogs) ... ok\ntest_clear_while_write_in_progress_cannot_restore_row_or_file (probe_logging_native.NativeLogs) ... ok\ntest_concurrent_rejection_accounting_has_no_lost_increment (probe_logging_native.NativeLogs) ... ok\ntest_model_index_lookup_and_multiple_removal_are_stable (probe_logging_native.NativeLogs) ... ok\ntest_one_batch_notification_covers_a_burst (probe_logging_native.NativeLogs) ... ok\ntest_pending_accepted_rows_finish_after_pause (probe_logging_native.NativeLogs) ... ok\ntest_preparation_order_cannot_overtake_first_snapshot (probe_logging_native.NativeLogs) ... ok\ntest_shared_raw_budget_and_close_release_reservations (probe_logging_native.NativeLogs) ... ok\ntest_snapshot_freezes_mutable_source_before_return (probe_logging_native.NativeLogs) ... ok\ntest_storage_write_failure_pauses_new_admission_without_erasing_old (probe_logging_native.NativeLogs) ... ok\ntest_truncated_file_is_visible_read_failure (probe_logging_native.NativeLogs) ... ok\ntest_unload_after_persist_before_publish_cleans_owned_files (probe_logging_native.NativeLogs) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.376s\n\nOK\n", 
+      "checks": {
+        "edt_disk_read_rejected": true, 
+        "frozen_snapshot_native_interface": true, 
+        "sorted_selection_uses_same_message": true, 
+        "no_initial_files_or_workers": true, 
+        "paused_events_skip_analysis": true, 
+        "one_selection_listener": true, 
+        "viewer_read_is_background": true, 
+        "unload_stops_owned_workers_and_releases_content": true, 
+        "metadata_analyzed_once_per_response": true, 
+        "late_viewer_cannot_replace_new_selection": true, 
+        "one_explicit_sorter": true, 
+        "source_startup_on_edt": true, 
+        "unload_deletes_owned_directory": true, 
+        "stored_rows_hold_no_bodies": true, 
+        "sitemap_and_scope_preserve_sorted_selection": true, 
+        "native_storage_contracts": true, 
+        "raw_budget_released_after_persist": true, 
+        "template_load_from_disk_is_exact": true, 
+        "all_rows_newest_first": true, 
+        "single_burst_notification": true, 
+        "selected_clear_preserves_other_rows": true, 
+        "disk_roundtrip_exact": true, 
+        "unload_stops_timer": true, 
+        "request_events_skip_analysis": true
+      }, 
+      "source_sha256": "f761ab0b110d25911fcb523cfb94306d5e665aa202c0bac5ad88ba488d45a062", 
+      "java_version": "26.0.2", 
+      "passed": true, 
+      "actual_burp_helpers": false, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "network_requests": 0
+    }, 
+    "network_requests": 0
+  }, 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "errors": [], 
+  "dimensions": [
+    {
+      "toolbar_height": 32, 
+      "bar_height": 29, 
+      "label_y": [
+        7, 
+        7
+      ], 
+      "log_width": 594, 
+      "width": 1000, 
+      "height": 550, 
+      "bar_width": 594
+    }, 
+    {
+      "toolbar_height": 32, 
+      "bar_height": 29, 
+      "label_y": [
+        7, 
+        7
+      ], 
+      "log_width": 994, 
+      "width": 1400, 
+      "height": 900, 
+      "bar_width": 994
+    }, 
+    {
+      "toolbar_height": 32, 
+      "bar_height": 29, 
+      "label_y": [
+        7, 
+        7
+      ], 
+      "log_width": 1444, 
+      "width": 1850, 
+      "height": 700, 
+      "bar_width": 1444
+    }
+  ], 
+  "network_requests": 0
+}

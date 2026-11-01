@@ -1,0 +1,24 @@
+{
+  "kind": "SI00-wire-gate-preparation",
+  "cookie_name": "BP_SI00_WIRE_7ebcb96ea3f1",
+  "source_hashes": {
+    "tests/stabilization/si00_wire.py": "f056fcd149bd29c9bc558cd5d279e1e0958f298a69f6b2f305f64182aca52bee",
+    "tests/stabilization/burp_si00_wire_probe.py": "12fc0fe57034411c032c097d45aacafc815059909864194e782b47c77d9ede53",
+    "tests/stabilization/probe_si00_wire.py": "f5123a4cddf3f7edbf85cbea7f4417307c475f919688eb6b8fb0c8aa0b544a4c",
+    "tests/stabilization/prepare_si00_wire.py": "aa703d791e0cf09fc9ea6404d2cfdd53276c601a84a9bf297290b5b51a54e580",
+    "tests/stabilization/target_server_si00.py": "0ad5cc4da0c2684d0b3ff16e8ad9d7be081bc3289c4b5d5a0fa4bdc6f22f8737",
+    "tests/stabilization/probe_si00_wire_native.py": "cc41974e13af4f4b5b04aa804bd756a5da8264141eef8da56e5ea5cc83d843cb",
+    "tests/stabilization/test_si00_fixture.py": "0ac5f55d622bc0fc7d9f8906ef553fced7bae27a8c129361ed62b543ba5d4ac7"
+  },
+  "wire_native_passed": true,
+  "wire_native_checks": 20,
+  "fixture_selftest_cases": 5,
+  "main_source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "fixture_port": 18780,
+  "fixture_exec_session": 63881,
+  "direct_health_passed": true,
+  "live_wrapper_standalone_controller_concurrent_use_forbidden": true,
+  "private_tests_used_separate_channel": true,
+  "initial_profile": "No new session rules/macros",
+  "live_probe_gate_pending": true
+}

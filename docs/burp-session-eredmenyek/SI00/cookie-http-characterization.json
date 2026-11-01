@@ -1,0 +1,440 @@
+{
+  "kind": "SI00-native-cookie-HTTP-characterization",
+  "checks": {
+    "no_transport_error": true,
+    "cases_completed": true,
+    "all_actions_zero": true,
+    "no_unowned_cookies": true,
+    "own_cookie_name": "BP_SI00_WIRE_7ebcb96ea3f1"
+  },
+  "passed": true,
+  "cases": [
+    {
+      "case": "domain-selection-127-vs-localhost",
+      "observed": {
+        "run": "si00-domain-f9170dbc",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 8,
+            "time_ns": 1793564910056334500,
+            "run": "si00-domain-f9170dbc",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-domain-f9170dbc",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1=DOMAIN_A"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "46d71cfd7420aa5abacaf60b59c518aa0ecd13785a69cd9c74eb903be2702928",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "DOMAIN_A"
+        },
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "localhost",
+          "value": "DOMAIN_B"
+        }
+      ],
+      "finding": {
+        "correct_domain": true
+      }
+    },
+    {
+      "case": "same-name-path-selection-and-boundary",
+      "observed": {
+        "run": "si00-path-0ecf829b",
+        "action_count": 0,
+        "event_count": 3,
+        "recent_events": [
+          {
+            "sequence": 9,
+            "time_ns": 1793564910386658300,
+            "run": "si00-path-0ecf829b",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-path-0ecf829b",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1=ROOT"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "fe2991f8481c6dd344c11fa1948cf9365cb68bb0208b687649c740107e806220",
+            "body_base64": ""
+          },
+          {
+            "sequence": 10,
+            "time_ns": 1793564910461199300,
+            "run": "si00-path-0ecf829b",
+            "method": "GET",
+            "target": "/si00/deep/echo?run=si00-path-0ecf829b",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1=DEEP"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "d4909d5b8035da18cc26be6951ad96ebb5a446b4a4137a5dbc0344c33e5c48a4",
+            "body_base64": ""
+          },
+          {
+            "sequence": 11,
+            "time_ns": 1793564910524453800,
+            "run": "si00-path-0ecf829b",
+            "method": "GET",
+            "target": "/si00/deeper/echo?run=si00-path-0ecf829b",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1=ROOT"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "1a53076b5ceeb39e9d86a565df30d7d7468034b6f1a296586cdcf3b53a4454e9",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "ROOT"
+        },
+        {
+          "expiration_ms": null,
+          "path": "/si00/deep/",
+          "domain": "127.0.0.1",
+          "value": "DEEP"
+        }
+      ],
+      "finding": {
+        "values_by_request": [
+          [
+            "ROOT"
+          ],
+          [
+            "DEEP"
+          ],
+          [
+            "ROOT"
+          ]
+        ],
+        "root_scope": true,
+        "deep_selected": true,
+        "path_boundary": true
+      }
+    },
+    {
+      "case": "proxy-response-collection",
+      "observed": {
+        "run": "si00-cookie-29220e48",
+        "action_count": 0,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 12,
+            "time_ns": 1793564910694036600,
+            "run": "si00-cookie-29220e48",
+            "method": "GET",
+            "target": "/si00/cookie?run=si00-cookie-29220e48&kind=root",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "6a4f52039d7641b19496b756f2ee76f1efb9b888f9a76ae8e03636b23a83a9c8",
+            "body_base64": ""
+          },
+          {
+            "sequence": 13,
+            "time_ns": 1793564910777042900,
+            "run": "si00-cookie-29220e48",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-cookie-29220e48",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1=ROOT"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "b18b666be5229c85d745eb380b8f780f5dff3b33745927bf920a4b73cf6909dc",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "jar_after_response": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "ROOT"
+        }
+      ],
+      "finding": {
+        "cookie_values_on_echo": [
+          "ROOT"
+        ]
+      }
+    },
+    {
+      "case": "extension-response-collection",
+      "observed": {
+        "run": "si00-cookie-64f20ba1",
+        "action_count": 0,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 14,
+            "time_ns": 1793564910903233900,
+            "run": "si00-cookie-64f20ba1",
+            "method": "GET",
+            "target": "/si00/cookie?run=si00-cookie-64f20ba1&kind=root",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "dfeff51525d4f7af2d17ecfc5f758adf27786295d91551741f6dcb7a7aaa20bb",
+            "body_base64": ""
+          },
+          {
+            "sequence": 15,
+            "time_ns": 1793564910992914000,
+            "run": "si00-cookie-64f20ba1",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-cookie-64f20ba1",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "010335a61f336e438f2ffd45873ef413cb265986069e4e95181cba780487b442",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "jar_after_response": [],
+      "finding": {
+        "cookie_values_on_echo": []
+      }
+    },
+    {
+      "case": "empty-cookie-response",
+      "observed": {
+        "run": "si00-cookie-bc2cae21",
+        "action_count": 0,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 16,
+            "time_ns": 1793564911170186300,
+            "run": "si00-cookie-bc2cae21",
+            "method": "GET",
+            "target": "/si00/cookie?run=si00-cookie-bc2cae21&kind=empty",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "eab49fb9cdddc874dbbe61e8eff964f1cbac59f15f59ef751384034a7442abb3",
+            "body_base64": ""
+          },
+          {
+            "sequence": 17,
+            "time_ns": 1793564911280142800,
+            "run": "si00-cookie-bc2cae21",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-cookie-bc2cae21",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1="
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "09ff827295bb1c59d23e7f45cf6b55e2ae4be2c2a74376cc2c561757705d27c3",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "jar_after_response": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": ""
+        }
+      ],
+      "finding": {
+        "cookie_values_on_echo": [
+          ""
+        ]
+      }
+    },
+    {
+      "case": "literal-deleted-response",
+      "observed": {
+        "run": "si00-cookie-d4a60772",
+        "action_count": 0,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 18,
+            "time_ns": 1793564911401567500,
+            "run": "si00-cookie-d4a60772",
+            "method": "GET",
+            "target": "/si00/cookie?run=si00-cookie-d4a60772&kind=deleted",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "bf7ad6b52d87176fd352ac672524b146121accc8df710cfdd8739c33229e6b86",
+            "body_base64": ""
+          },
+          {
+            "sequence": 19,
+            "time_ns": 1793564911529724200,
+            "run": "si00-cookie-d4a60772",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-cookie-d4a60772",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18780"
+              ],
+              [
+                "Connection",
+                "close"
+              ],
+              [
+                "Cookie",
+                "BP_SI00_WIRE_7ebcb96ea3f1=deleted"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "958e4f4043ae33d49d6156b2d8dd85d573c0d417369fe1b28dc7b3d36a28c805",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "jar_after_response": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "deleted"
+        }
+      ],
+      "finding": {
+        "cookie_values_on_echo": [
+          "deleted"
+        ]
+      }
+    }
+  ],
+  "transport_error": null,
+  "no_request_replayed": true,
+  "settings": "Main/Intercept OFF; own cookie-only rule ON; jar collection settings unchanged."
+}

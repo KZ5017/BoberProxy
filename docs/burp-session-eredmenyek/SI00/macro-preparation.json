@@ -1,0 +1,8 @@
+{
+  "kind": "SI00-native-macro-preparation",
+  "controller_sha256": "7b4234ac7bc356d6eeacdd5d93c38216437a800e0432078808fb171c0a647da0",
+  "request_material": "macro-recorder-request.json",
+  "main_source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "macro_profile_confirmed": false,
+  "live_macro_tests_executed": false
+}

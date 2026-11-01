@@ -1,0 +1,28 @@
+{
+  "kind": "SI00-existing-cookie-observation-assessment",
+  "original_report": "existing-cookie-header.json",
+  "original_report_sha256": "dbacfc6b6daa9def312c3c21d41b4c93fa2c57cd80bc437c5556d95ec309b896",
+  "original_preserved": true,
+  "corrected_checks": {
+    "controller_completed": true,
+    "three_cases": true,
+    "exact_target_counts": true,
+    "no_application_action": true,
+    "raw_other_parameter_preserved": true,
+    "no_macro_triggered": true,
+    "no_unowned_cookies": true,
+    "owned_cleanup": true
+  },
+  "corrected_observation_passed": true,
+  "capabilities": {
+    "empty-jar": [
+      "BP_SI00_WIRE_7ebcb96ea3f1=TEMPLATE"
+    ],
+    "live-jar": [
+      "BP_SI00_WIRE_7ebcb96ea3f1=API_SEED"
+    ],
+    "expired-jar": []
+  },
+  "reason": "The native non-macro action supplied an empty macroItems array (count0), not null. Original controller required None. All captured actions have count0 or None, no macro_count1, and exact target counts match. Correction uses the same captured evidence; no repeated traffic.",
+  "scope": "Existing owned Cookie header on Proxy GET; root template/redirect remains a separate pending case."
+}

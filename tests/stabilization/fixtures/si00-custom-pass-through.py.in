@@ -1,0 +1,34 @@
+# -*- coding: utf-8 -*-
+def custom_codeblock(payload1, payload2, csrf_token):
+    import re
+    if not re.match(r'^si00-(normal|interleave)-[a-f0-9]{10}$', payload1 or ''):
+        return payload1, payload2, csrf_token
+    import json
+    import os
+    import time
+    from java.lang import System
+    trace_path = "__TRACE_PATH__"
+    gate_root = "__GATE_ROOT__"
+    after_action = csrf_token == 'csrf.' + payload1 + '.1'
+    gated = payload1.startswith('si00-interleave-') and after_action
+    record = dict(run=payload1, payload2=payload2, csrf_token=csrf_token,
+                  phase='check' if after_action else 'rt', gated=gated,
+                  nano=long(System.nanoTime()))
+    with open(trace_path, 'ab') as handle:
+        handle.write((json.dumps(record, ensure_ascii=True) + '\n').encode('utf-8'))
+    if gated:
+        release = os.path.join(gate_root, 'si00-release-' + payload1 + '.json')
+        deadline = System.nanoTime() + 1250000000
+        released = False
+        while System.nanoTime() < deadline:
+            try:
+                with open(release, 'r') as handle:
+                    if json.load(handle).get('run') == payload1:
+                        released = True
+                        break
+            except (IOError, ValueError):
+                pass
+            time.sleep(0.01)
+        if not released:
+            raise ValueError('SI00_GATE_TIMEOUT')
+    return payload1, payload2, csrf_token

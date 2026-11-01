@@ -1,0 +1,20 @@
+{
+  "kind": "SI00-closed-with-no-integration-decision",
+  "date": "2026-11-01",
+  "decision": "User declines Burp cookie/session integration.",
+  "production_source_unchanged": true,
+  "production_source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "baseline_commit": "9bf37c8",
+  "G00_outcome": "retain_existing_session_handling_no_native_integration",
+  "SI00_closed": true,
+  "SI01_SI05_implemented": false,
+  "K11_started": false,
+  "restore_user_confirmed": true,
+  "user_reported_errors_empty": true,
+  "decision_basis": "Primary purpose is routing command-line fuzzing through Burp with payload transformation, tracking rotating cookies/CSRF and returning a known secondary result via CheckPage. Current handling meets that need; a second native mode adds unjustified complexity.",
+  "research_evidence_retained": true,
+  "main_current_state": "User confirmed one freshly reloaded root UI01.6, all switches/default filters OFF, empty editors, Intercept OFF, Errors empty.",
+  "commit_made": false,
+  "push_made": false,
+  "scope": "Documentation/decision closure only. No source changes, new test traffic, new UI mode, jar purge or helper deletion. Historical measurements retain their limitations and original hashes."
+}

@@ -1,0 +1,895 @@
+{
+  "kind": "SI00-macro-fault-characterization",
+  "scenario": "missing",
+  "passed": true,
+  "checks": {
+    "controller_completed": true,
+    "two_parent_attempts": true,
+    "exactly_two_macro_requests": true,
+    "macro_fixture_matches": true,
+    "no_application_action": true,
+    "no_parent_replay": true,
+    "no_delayed_extra_requests": true,
+    "correlated_macro_items": true,
+    "raw_other_parameter_preserved": true,
+    "no_unowned_cookies": true,
+    "owned_cleanup": true,
+    "no_client_transport_errors": true
+  },
+  "capabilities": {
+    "parent_reached_target": {
+      "api": true,
+      "proxy": true
+    },
+    "sent_token_values": [
+      "OLD",
+      "OLD"
+    ],
+    "callback_without_extracted_token": true,
+    "client_timeout_observed": false,
+    "api_elapsed_seconds": 0.05429879999428522
+  },
+  "trials": [
+    {
+      "run": "si00-macro-missing-api-3d1e75195e",
+      "via": "api",
+      "client_timeout_seconds": 7,
+      "result": {
+        "response_json": {
+          "request": {
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "method": "GET",
+            "body_base64": "",
+            "run": "si00-macro-missing-api-3d1e75195e",
+            "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+            "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+            "other_cookie_count": 0,
+            "sequence": 27,
+            "time_ns": 1793567952698616000
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        },
+        "response_first_line": "HTTP/1.1 200 OK",
+        "jar": []
+      },
+      "elapsed_seconds": 0.05429879999428522,
+      "observed": {
+        "run": "si00-macro-missing-api-3d1e75195e",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 27,
+            "time_ns": 1793567952698616000,
+            "run": "si00-macro-missing-api-3d1e75195e",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "delayed_observed": {
+        "run": "si00-macro-missing-api-3d1e75195e",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 27,
+            "time_ns": 1793567952698616000,
+            "run": "si00-macro-missing-api-3d1e75195e",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      }
+    },
+    {
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "via": "proxy",
+      "client_timeout_seconds": 7,
+      "result": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "460"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDI5LCAidGltZV9ucyI6IDE3OTM1Njc5NTI3NDA1MTE5MDAsICJydW4iOiAic2kwMC1tYWNyby1taXNzaW5nLXByb3h5LTZiOGI4NzU1MzUiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL3NpMDAvZWNobz9ydW49c2kwMC1tYWNyby1taXNzaW5nLXByb3h5LTZiOGI4NzU1MzUmc2kwMF90b2tlbj1PTEQmdmFsdWU9JTI1MkYrJTJCIiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc4MSJdLCBbIkNvbm5lY3Rpb24iLCAia2VlcC1hbGl2ZSJdXSwgIm90aGVyX2Nvb2tpZV9jb3VudCI6IDAsICJyZXF1ZXN0X3NoYTI1NiI6ICI1YTU2ZTAyZDVjYmRmZTBiOWM1YTY1YWY4ZGY5ZDc4ODk0NGIwYTE1MTBjOTBmNWU4OGZhYmZmNWJlYmQ5YjRjIiwgImJvZHlfYmFzZTY0IjogIiJ9LCAiY29va2llX29rIjogZmFsc2UsICJ0b2tlbl9vayI6IGZhbHNlfQ==",
+        "seconds": 0.035556,
+        "json": {
+          "request": {
+            "sequence": 29,
+            "time_ns": 1793567952740511900,
+            "run": "si00-macro-missing-proxy-6b8b875535",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+            "body_base64": ""
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        }
+      },
+      "elapsed_seconds": 0.03566740000678692,
+      "observed": {
+        "run": "si00-macro-missing-proxy-6b8b875535",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 29,
+            "time_ns": 1793567952740511900,
+            "run": "si00-macro-missing-proxy-6b8b875535",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "delayed_observed": {
+        "run": "si00-macro-missing-proxy-6b8b875535",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 29,
+            "time_ns": 1793567952740511900,
+            "run": "si00-macro-missing-proxy-6b8b875535",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      }
+    }
+  ],
+  "macro_before": {
+    "run": "si00-macro-template",
+    "action_count": 0,
+    "event_count": 5,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793566918207015200,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 18,
+        "time_ns": 1793567794673129400,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 20,
+        "time_ns": 1793567794802236000,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 22,
+        "time_ns": 1793567794927997300,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 23,
+        "time_ns": 1793567794928391600,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "macro_after": {
+    "run": "si00-macro-template",
+    "action_count": 0,
+    "event_count": 7,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793566918207015200,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 18,
+        "time_ns": 1793567794673129400,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 20,
+        "time_ns": 1793567794802236000,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 22,
+        "time_ns": 1793567794927997300,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 23,
+        "time_ns": 1793567794928391600,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 26,
+        "time_ns": 1793567952695063500,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/not-found?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "3af0e18cac372a47ff4d32ea78878b0004e6fb629d7026a85d0b1516762faf15",
+        "body_base64": ""
+      },
+      {
+        "sequence": 28,
+        "time_ns": 1793567952737682700,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/not-found?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "3af0e18cac372a47ff4d32ea78878b0004e6fb629d7026a85d0b1516762faf15",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "delayed_macro": {
+    "run": "si00-macro-template",
+    "action_count": 0,
+    "event_count": 7,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793566918207015200,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 18,
+        "time_ns": 1793567794673129400,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 20,
+        "time_ns": 1793567794802236000,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 22,
+        "time_ns": 1793567794927997300,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 23,
+        "time_ns": 1793567794928391600,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 26,
+        "time_ns": 1793567952695063500,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/not-found?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "3af0e18cac372a47ff4d32ea78878b0004e6fb629d7026a85d0b1516762faf15",
+        "body_base64": ""
+      },
+      {
+        "sequence": 28,
+        "time_ns": 1793567952737682700,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/not-found?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "3af0e18cac372a47ff4d32ea78878b0004e6fb629d7026a85d0b1516762faf15",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "wire_records": [
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548413127400,
+      "run": "si00-macro-missing-api-3d1e75195e",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 228,
+      "message_identity": 1971951916,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548413459100,
+      "run": "si00-macro-missing-api-3d1e75195e",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 229,
+      "message_identity": 1680345368,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548417060000,
+      "run": "si00-macro-missing-api-3d1e75195e",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 232,
+      "message_identity": 48409620,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 1,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548417607200,
+      "run": "si00-macro-missing-api-3d1e75195e",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 233,
+      "message_identity": 11855334,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548419875600,
+      "run": "si00-macro-missing-api-3d1e75195e",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-macro-missing-api-3d1e75195e&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "b566f68a0f303030535ddd0abe94f0663686d2ee342ccc66e64ce9fca53266e3",
+      "response_sha256": "4bbba6dbc0f608976f415b36291fcaae7fc284ff8600f6ed2badf6ad4ed9eefc",
+      "other_cookie_count": 0,
+      "sequence": 234,
+      "message_identity": 1993310496,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548455094200,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 236,
+      "message_identity": 1030698642,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548455832700,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 237,
+      "message_identity": 128076670,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548456096500,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 238,
+      "message_identity": 1867167299,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548459330100,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 241,
+      "message_identity": 564617771,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 1,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548459641700,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 242,
+      "message_identity": 1540204039,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548461590700,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": "87cf35bdf5a063f734663376b896204efacfe66fd3798c42daec18b1d9637f5b",
+      "other_cookie_count": 0,
+      "sequence": 243,
+      "message_identity": 514098628,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69548462725100,
+      "run": "si00-macro-missing-proxy-6b8b875535",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-missing-proxy-6b8b875535&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "5a56e02d5cbdfe0b9c5a65af8df9d788944b0a1510c90f5e88fabff5bebd9b4c",
+      "response_sha256": "87cf35bdf5a063f734663376b896204efacfe66fd3798c42daec18b1d9637f5b",
+      "other_cookie_count": 0,
+      "sequence": 244,
+      "message_identity": 912404565,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    }
+  ],
+  "errors": [],
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "observer_instance": "1e918531130740e7b7deb2ece42da21d",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "note": "Measurement success is not fail-closed behavior. No RT/CheckPage/application action, HTTP retry, hard Burp timeout or cancellation guarantee is claimed."
+}

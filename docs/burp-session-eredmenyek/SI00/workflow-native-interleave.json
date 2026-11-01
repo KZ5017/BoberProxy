@@ -1,0 +1,445 @@
+{
+  "kind": "SI00-unmodified-main-native-cookie-workflow",
+  "scenario": "interleave",
+  "run": "si00-interleave-cf7c0221b0",
+  "checks": {
+    "no_transport_error": true,
+    "action_once": true,
+    "exactly_two_target_requests": true,
+    "two_custom_calls": true,
+    "raw_payloads_preserved": true,
+    "correct_methods_and_targets": true,
+    "local_token_correct": true,
+    "no_unowned_cookies": true,
+    "own_cleanup_complete": true,
+    "controlled_interleave_completed": true
+  },
+  "capabilities": {
+    "native_cookie_matches_local_token": false,
+    "custom_token_matches_own_RT": true
+  },
+  "passed": true,
+  "observed": {
+    "run": "si00-interleave-cf7c0221b0",
+    "action_count": 1,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 14,
+        "time_ns": 1793566710145442600,
+        "run": "si00-interleave-cf7c0221b0",
+        "method": "POST",
+        "target": "/si00/action?run=si00-interleave-cf7c0221b0",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "44"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "a2661280ebadd2148cbe15fe8fffddbd6feccdd80a370ac1d44c7b1e8baeadb1",
+        "body_base64": "b25lPXNpMDAtaW50ZXJsZWF2ZS1jZjdjMDIyMWIwJnR3bz0lMjUyRislMkI="
+      },
+      {
+        "sequence": 15,
+        "time_ns": 1793566710226597900,
+        "run": "si00-interleave-cf7c0221b0",
+        "method": "POST",
+        "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "83"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cookie",
+            "BP_SI00_WIRE_7ebcb96ea3f1=FOREIGN"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "6c1598fc330ee710373379f3877501147afca20230619a326b47bd40519266a6",
+        "body_base64": "Y3NyZj1jc3JmLnNpMDAtaW50ZXJsZWF2ZS1jZjdjMDIyMWIwLjEmb25lPXNpMDAtaW50ZXJsZWF2ZS1jZjdjMDIyMWIwJnR3bz0lMjUyRislMkI="
+      }
+    ],
+    "session": [
+      "sid.si00-interleave-cf7c0221b0.1",
+      "csrf.si00-interleave-cf7c0221b0.1"
+    ]
+  },
+  "custom_records": [
+    {
+      "phase": "rt",
+      "gated": false,
+      "payload2": "%252F+%2B",
+      "csrf_token": "csrf.si00-normal-6c32b3854a.1",
+      "nano": 68305861118500,
+      "run": "si00-interleave-cf7c0221b0"
+    },
+    {
+      "phase": "check",
+      "gated": true,
+      "payload2": "%252F+%2B",
+      "csrf_token": "csrf.si00-interleave-cf7c0221b0.1",
+      "nano": 68305867950300,
+      "run": "si00-interleave-cf7c0221b0"
+    }
+  ],
+  "wire_records": [
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305863504800,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": null,
+      "target": "/si00/action?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "a2661280ebadd2148cbe15fe8fffddbd6feccdd80a370ac1d44c7b1e8baeadb1",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 169,
+      "message_identity": 289611424,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305863896300,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": null,
+      "target": "/si00/action?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "a2661280ebadd2148cbe15fe8fffddbd6feccdd80a370ac1d44c7b1e8baeadb1",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 170,
+      "message_identity": 733186382,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305864278000,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": 1024,
+      "target": "/si00/action?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "a2661280ebadd2148cbe15fe8fffddbd6feccdd80a370ac1d44c7b1e8baeadb1",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 171,
+      "message_identity": 1900172066,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305866860000,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": 1024,
+      "target": "/si00/action?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "a2661280ebadd2148cbe15fe8fffddbd6feccdd80a370ac1d44c7b1e8baeadb1",
+      "response_sha256": "5aa7f6b8e2406e8ffa0cdc672f51f6d82b4b1c91e94717425b6d3fdf6c07ccc2",
+      "other_cookie_count": 0,
+      "sequence": 172,
+      "message_identity": 772567478,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305944334800,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": null,
+      "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "9b08d3496b586133ba6cef4e297f9e9cb41114581fb3e23f17b7c6f035360926",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 173,
+      "message_identity": 132471413,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "FOREIGN"
+        }
+      ]
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305944966700,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": null,
+      "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "9b08d3496b586133ba6cef4e297f9e9cb41114581fb3e23f17b7c6f035360926",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 174,
+      "message_identity": 2032298905,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "FOREIGN"
+        }
+      ]
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305945321300,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": null,
+      "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "6c1598fc330ee710373379f3877501147afca20230619a326b47bd40519266a6",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 175,
+      "message_identity": 547996729,
+      "own_cookie_values": [
+        "FOREIGN"
+      ],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "FOREIGN"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305945663400,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": 4,
+      "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "6c1598fc330ee710373379f3877501147afca20230619a326b47bd40519266a6",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 176,
+      "message_identity": 1454500353,
+      "own_cookie_values": [
+        "FOREIGN"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "FOREIGN"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305947882200,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": 4,
+      "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "6c1598fc330ee710373379f3877501147afca20230619a326b47bd40519266a6",
+      "response_sha256": "391631be82271a0c72f0b61054d21ff7438bda15bf0c4f44845d1174a348089a",
+      "other_cookie_count": 0,
+      "sequence": 177,
+      "message_identity": 2066359376,
+      "own_cookie_values": [
+        "FOREIGN"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "FOREIGN"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68305949059300,
+      "run": "si00-interleave-cf7c0221b0",
+      "tool": null,
+      "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+      "request_sha256": "9b08d3496b586133ba6cef4e297f9e9cb41114581fb3e23f17b7c6f035360926",
+      "response_sha256": "391631be82271a0c72f0b61054d21ff7438bda15bf0c4f44845d1174a348089a",
+      "other_cookie_count": 0,
+      "sequence": 178,
+      "message_identity": 2144886797,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "FOREIGN"
+        }
+      ]
+    }
+  ],
+  "replies": [
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "649"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "application/json"
+        ]
+      ],
+      "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE1LCAidGltZV9ucyI6IDE3OTM1NjY3MTAyMjY1OTc5MDAsICJydW4iOiAic2kwMC1pbnRlcmxlYXZlLWNmN2MwMjIxYjAiLCAibWV0aG9kIjogIlBPU1QiLCAidGFyZ2V0IjogIi9zaTAwL2NoZWNrP3J1bj1zaTAwLWludGVybGVhdmUtY2Y3YzAyMjFiMCIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3ODEiXSwgWyJDb250ZW50LVR5cGUiLCAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkIl0sIFsiQ29udGVudC1MZW5ndGgiLCAiODMiXSwgWyJDb25uZWN0aW9uIiwgImNsb3NlIl0sIFsiQ29va2llIiwgIkJQX1NJMDBfV0lSRV83ZWJjYjk2ZWEzZjE9Rk9SRUlHTiJdXSwgIm90aGVyX2Nvb2tpZV9jb3VudCI6IDAsICJyZXF1ZXN0X3NoYTI1NiI6ICI2YzE1OThmYzMzMGVlNzEwMzczMzc5ZjM4Nzc1MDExNDdhZmNhMjAyMzA2MTlhMzI2YjQ3YmQ0MDUxOTI2NmE2IiwgImJvZHlfYmFzZTY0IjogIlkzTnlaajFqYzNKbUxuTnBNREF0YVc1MFpYSnNaV0YyWlMxalpqZGpNREl5TVdJd0xqRW1iMjVsUFhOcE1EQXRhVzUwWlhKc1pXRjJaUzFqWmpkak1ESXlNV0l3Sm5SM2J6MGxNalV5UmlzbE1rST0ifSwgImNvb2tpZV9vayI6IGZhbHNlLCAidG9rZW5fb2siOiB0cnVlfQ==",
+      "seconds": 0.109502,
+      "json": {
+        "request": {
+          "sequence": 15,
+          "time_ns": 1793566710226597900,
+          "run": "si00-interleave-cf7c0221b0",
+          "method": "POST",
+          "target": "/si00/check?run=si00-interleave-cf7c0221b0",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18781"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "83"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Cookie",
+              "BP_SI00_WIRE_7ebcb96ea3f1=FOREIGN"
+            ]
+          ],
+          "other_cookie_count": 0,
+          "request_sha256": "6c1598fc330ee710373379f3877501147afca20230619a326b47bd40519266a6",
+          "body_base64": "Y3NyZj1jc3JmLnNpMDAtaW50ZXJsZWF2ZS1jZjdjMDIyMWIwLjEmb25lPXNpMDAtaW50ZXJsZWF2ZS1jZjdjMDIyMWIwJnR3bz0lMjUyRislMkI="
+        },
+        "cookie_ok": false,
+        "token_ok": true
+      }
+    }
+  ],
+  "errors": [],
+  "injected": {
+    "jar": [
+      {
+        "expiration_ms": null,
+        "path": "/",
+        "domain": "127.0.0.1",
+        "value": "FOREIGN"
+      }
+    ]
+  },
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "main_settings": "Templates/CheckPage/custom/CSRF ON, own cookies OFF; native rule/collection ON; Intercept/AutoFollow OFF.",
+  "note": "For interleave, measurement PASS is separate from native isolation capability."
+}

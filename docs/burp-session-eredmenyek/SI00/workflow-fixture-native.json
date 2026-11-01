@@ -1,0 +1,16 @@
+{
+  "kind": "SI00-private-custom-fixture-no-live-channel", 
+  "live_channel_used": false, 
+  "missing_release_elapsed_seconds": 1.2590000629425049, 
+  "checks": {
+    "checkpage_token_preserved": true, 
+    "raw_values_and_none_preserved": true, 
+    "gate_accepts_only_matching_release": true, 
+    "non_fixture_payload_no_files_or_trace": true, 
+    "empty_token_preserved": true, 
+    "missing_release_is_controlled_finite_error": true
+  }, 
+  "main_source_executed": false, 
+  "passed": true, 
+  "network_requests": 0
+}

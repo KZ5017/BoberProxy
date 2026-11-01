@@ -1,0 +1,25 @@
+{
+  "controls": [
+    {
+      "component_class": "<type 'burp.Zzwp'>", 
+      "listeners": 1, 
+      "font_size": 13.0, 
+      "action_present": false, 
+      "enabled": true, 
+      "actionable": true, 
+      "icon_size": [
+        19, 
+        19
+      ], 
+      "showing": false
+    }
+  ], 
+  "kind": "UI02-native-proxy-settings-button-inspection", 
+  "visited": 9956, 
+  "bounded_scan_complete": true, 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ]
+}

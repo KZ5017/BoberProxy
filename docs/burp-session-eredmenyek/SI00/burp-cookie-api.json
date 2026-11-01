@@ -1,0 +1,269 @@
+{
+  "kind": "SI00-owned-synthetic-cookie-API-characterization", 
+  "session_action_registered": true, 
+  "cleanup_complete": true, 
+  "checks": {
+    "update_returns": true, 
+    "owned_namespace_initially_empty": true, 
+    "null_deletion_returns": true, 
+    "empty_value_update_returns": true, 
+    "past_expiration_update_returns": true, 
+    "session_action_registered": true, 
+    "only_owned_cookie_writes": true, 
+    "added_value_readable": true, 
+    "null_deletes_existing_cookie": true, 
+    "main_source_unchanged": true, 
+    "literal_deleted_update_returns": true, 
+    "add_returns": true, 
+    "owned_cookies_removed": true, 
+    "read_cookie_jar": true, 
+    "different_path_update_returns": true, 
+    "updated_value_readable": true
+  }, 
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209", 
+  "elapsed_ms": 72, 
+  "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+  "observations": {
+    "update_returns": [
+      {
+        "expiration_ms": 1793569837019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "TWO"
+      }
+    ], 
+    "null_deletion_returns": [
+      {
+        "expiration_ms": null, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty", 
+        "value": ""
+      }, 
+      {
+        "expiration_ms": 1793562577019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_expired", 
+        "value": "PAST"
+      }, 
+      {
+        "expiration_ms": 1793569837019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "TWO"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/si00/deep", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "PATH"
+      }
+    ], 
+    "empty_value_update_returns": [
+      {
+        "expiration_ms": null, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty", 
+        "value": ""
+      }, 
+      {
+        "expiration_ms": 1793569837019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "TWO"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/si00/deep", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "PATH"
+      }
+    ], 
+    "past_expiration_update_returns": [
+      {
+        "expiration_ms": null, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_deleted", 
+        "value": "deleted"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty", 
+        "value": ""
+      }, 
+      {
+        "expiration_ms": 1793562577019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_expired", 
+        "value": "PAST"
+      }, 
+      {
+        "expiration_ms": 1793569837019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "TWO"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/si00/deep", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "PATH"
+      }
+    ], 
+    "owned_after_cleanup": [], 
+    "same_name_path_behavior": {
+      "count": 2, 
+      "paths": [
+        "/", 
+        "/si00/deep"
+      ]
+    }, 
+    "namespace_acquired": true, 
+    "literal_deleted_update_returns": [
+      {
+        "expiration_ms": null, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_deleted", 
+        "value": "deleted"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty", 
+        "value": ""
+      }, 
+      {
+        "expiration_ms": 1793569837019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "TWO"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/si00/deep", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "PATH"
+      }
+    ], 
+    "add_returns": [
+      {
+        "expiration_ms": 1793566237019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "ONE"
+      }
+    ], 
+    "different_path_update_returns": [
+      {
+        "expiration_ms": 1793569837019, 
+        "path": "/", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "TWO"
+      }, 
+      {
+        "expiration_ms": null, 
+        "path": "/si00/deep", 
+        "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+        "value": "PATH"
+      }
+    ]
+  }, 
+  "java_version": "26.0.2", 
+  "cancelled": false, 
+  "session_action_name": "BoberProxy SI00 observer (no request changes)", 
+  "session_action_calls": 0, 
+  "cookie_names": [
+    "BP_SI00_15fec81d677e46868a1444d53e818e7d_main", 
+    "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty", 
+    "BP_SI00_15fec81d677e46868a1444d53e818e7d_deleted", 
+    "BP_SI00_15fec81d677e46868a1444d53e818e7d_expired"
+  ], 
+  "burp_version": [
+    "Burp Suite Community Edition", 
+    "2026", 
+    "10.1"
+  ], 
+  "passed": true, 
+  "writes": [
+    {
+      "path": "/", 
+      "deletion": false, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main"
+    }, 
+    {
+      "path": "/", 
+      "deletion": false, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main"
+    }, 
+    {
+      "path": "/si00/deep", 
+      "deletion": false, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main"
+    }, 
+    {
+      "path": "/", 
+      "deletion": false, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty"
+    }, 
+    {
+      "path": "/", 
+      "deletion": false, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_deleted"
+    }, 
+    {
+      "path": "/", 
+      "deletion": false, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_expired"
+    }, 
+    {
+      "path": "/", 
+      "deletion": true, 
+      "cleanup": false, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_deleted"
+    }, 
+    {
+      "path": "/", 
+      "deletion": true, 
+      "cleanup": true, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_empty"
+    }, 
+    {
+      "path": "/", 
+      "deletion": true, 
+      "cleanup": true, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_expired"
+    }, 
+    {
+      "path": "/", 
+      "deletion": true, 
+      "cleanup": true, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main"
+    }, 
+    {
+      "path": "/si00/deep", 
+      "deletion": true, 
+      "cleanup": true, 
+      "domain": "si00-15fec81d677e46868a1444d53e818e7d.invalid", 
+      "name": "BP_SI00_15fec81d677e46868a1444d53e818e7d_main"
+    }
+  ], 
+  "errors": [], 
+  "main_extension_settings_changed": false, 
+  "network_requests": 0
+}

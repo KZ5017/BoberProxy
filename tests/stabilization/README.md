@@ -1,5 +1,23 @@
 # Stabilizálási tesztkörnyezet
 
+## UI02 — settings rövidút/státuszsáv, lezárva
+
+- [Eredmények és pontos aktuális kapu](../../docs/ui-vezerlopanel-eredmenyek/UI02/README.md). `probe_ui02_native.py` külön JVM-ben FlatLaf mellett18 UI-eset +10 cleanup/UI +24 logging regressziót futtat, hálózat nélkül; `--preview` privát, üres editoros képet ad. A standalone témaállítás sosem a felhasználó Burpjában fut.
+- `burp_ui02_inspect.py` egyszeri, csak olvasó natív gombvizsgálat; végső változata egy használható natív gombot talált, nem kattintott. Régi helperkísérletek hibái az eredményeknél megőrzöttek.
+- `burp_ui02_probe.py` saját példányos tényleges Burp ellenőrzése UI02_LAYOUT PASS18/10/24 eredménnyel lezárult, egyező forráshash mellett. A root betöltése, a tényleges gombnyitás/státuszsáv és üres Errors kézzel is visszaigazolt. Nincs SI00 újraindítás vagy tesztforgalom.
+
+## SI00 — lezárt kutatás, integráció elvetve
+
+- [Archivált terv](../../docs/burp-session-integracios-terv.md), [G00 döntés](../../docs/burp-session-eredmenyek/SI00/ertekeles-es-G00.md), [lezárás](../../docs/burp-session-eredmenyek/SI00/closure.json). A felhasználó elvetette az integrációt; a segédek kutatási anyagként megmaradnak. Fő forrás változatlan, saját kezelés marad. Burp visszaállítása és üres Errors visszaigazolt; SI01–SI05 nem indul, K11 külön feladat. Az alábbi vezérlők nem futtatandók új megbízás és pontos új setup nélkül.
+- `probe_si00_native.py`:23 privát, valódi interfészes/szimulált jar ownership/lifecycle ellenőrzés. A régi K04 `probe_session_native.py` külön fájl, változatlan. `burp_session_probe.py`:16 valódi cookie API-ellenőrzés, saját UUID adatok, hálózat nélkül.
+- `si00_wire.py` / `burp_si00_wire_probe.py`: szűken hatókörözött élő megfigyelő, két session action, véges egyszeri parancsok. `prepare_si00_wire.py` egyszer készít saját cookie-nevet; futó helper mellett nem forgatható. `probe_si00_wire_native.py` csak saját külön csatornával fut, élő Burp-csatornát nem helyettesíthet.
+- `target_server_si00.py`: saját HTTP18780/18781 és HTTPS18782 fixture. `test_si00_fixture.py` hét közvetlen self-checket tartalmaz; a már futó18780 v1 forrása külön megőrzött az eredményeknél. Ezek nem általános HTTP/2/RFC vagy teljesítménytesztek.
+- `probe_si00_wire.py`, `probe_si00_cookie_edges.py`: alap/rule, domain/path, gyűjtés, lejárat, Secure mérések; mind a hozzá tartozó kézi kapu után, egyszer, új reportfájlba. A PASS nem állítja a natív izoláció/lejárat teljes megfelelőségét.
+- `prepare_si00_workflow.py`, `probe_si00_workflow_native.py`, `probe_si00_workflow.py`: változatlan főforrás RT/CheckPage és véges köztes jar-frissítés. Az ignorált runtime/custom-si00-workflow.py másolandó a szerkesztőbe; a `.py.in` közvetlenül nem használható.
+- `probe_si00_macro.py`, `probe_si00_macro_faults.py`: pozitív és két párhuzamos korreláció, 404/hiányzó token,600ms válasz/100ms kliens-timeout. Mind külön Burp makróprofilhoz kötött, nem futtatható vakon sorozatként. A kliens-timeout nem Burp-megszakítás, nincs HTTP-retry.
+- `probe_si00_existing_cookie.py`: meglévő Cookie fejlécek mérése. Az eredeti null-vs-üres macroItems tesztelvárás hibája és a változatlan felvételekből készült pontosítás megőrzött. `prepare_si00_redirect.py`, `probe_si00_redirect.py`: külön CRLF sablonokkal főforrásos POST→GET→POST natív cookie zárópróba.
+- Saját takarítás teljes; a két saját SI00 rule kikapcsolása megelőzi az observer eltávolítását. Sem teljes jar-purge, sem más felhasználói rule módosítása nincs. A pozitív makróprofilhoz képest a makró most a szándékos600ms/token nélküli változatban maradt; új futáshoz a pontos profil újabb kézi visszaigazolása kell.
+
 ## UI01 — vezérlőpanel, lezárva
 
 - A végső helyi/natív/valódi Burp és forgalmi kapuk, késleltetett számlálók, naplósor/viewer/Errors kézi visszaigazolás sikeres. [Lezárás és pontos aktuális konfiguráció](../../docs/ui-vezerlopanel-eredmenyek/final-ui016/README.md). Nincs további szükséges UI01-kérés; K11 külön kör.

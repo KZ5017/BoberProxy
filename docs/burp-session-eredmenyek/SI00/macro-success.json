@@ -1,0 +1,1270 @@
+{
+  "kind": "SI00-native-macroItems-and-parameter-characterization",
+  "checks": {
+    "no_transport_error": true,
+    "five_parent_clients": true,
+    "one_echo_each": true,
+    "no_application_action": true,
+    "negative_parameter_scope": true,
+    "exactly_four_macro_requests": true,
+    "raw_other_parameter_preserved": true,
+    "fresh_macro_tokens_correlated": true,
+    "distinct_tokens_for_each_parent": true,
+    "no_unowned_cookies": true,
+    "owned_cleanup": true
+  },
+  "passed": true,
+  "trials": [
+    {
+      "run": "si00-macro-unmatched-a7e70fb819",
+      "via": "api",
+      "result": {
+        "response_json": {
+          "request": {
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "method": "GET",
+            "body_base64": "",
+            "run": "si00-macro-unmatched-a7e70fb819",
+            "target": "/si00/echo?run=si00-macro-unmatched-a7e70fb819&value=%252F+%2B",
+            "request_sha256": "c31fd669514031083522f48dadd3e510681b8645df02600932d748729d9a3b27",
+            "other_cookie_count": 0,
+            "sequence": 17,
+            "time_ns": 1793567794530243200
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        },
+        "response_first_line": "HTTP/1.1 200 OK",
+        "jar": []
+      },
+      "observed": {
+        "run": "si00-macro-unmatched-a7e70fb819",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 17,
+            "time_ns": 1793567794530243200,
+            "run": "si00-macro-unmatched-a7e70fb819",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-unmatched-a7e70fb819&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "c31fd669514031083522f48dadd3e510681b8645df02600932d748729d9a3b27",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "has_token": false
+    },
+    {
+      "run": "si00-macro-api-bcbf5c09ae",
+      "via": "api",
+      "result": {
+        "response_json": {
+          "request": {
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "method": "GET",
+            "body_base64": "",
+            "run": "si00-macro-api-bcbf5c09ae",
+            "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=SI00.si00-macro-template.2&value=%252F+%2B",
+            "request_sha256": "38c134937cc7e0fde8cc012fb18e1f20e94a0391abd70fdd091585d511c2e9f2",
+            "other_cookie_count": 0,
+            "sequence": 19,
+            "time_ns": 1793567794700310600
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        },
+        "response_first_line": "HTTP/1.1 200 OK",
+        "jar": [
+          {
+            "expiration_ms": null,
+            "path": "/",
+            "domain": "127.0.0.1",
+            "value": "MACRO"
+          }
+        ]
+      },
+      "observed": {
+        "run": "si00-macro-api-bcbf5c09ae",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 19,
+            "time_ns": 1793567794700310600,
+            "run": "si00-macro-api-bcbf5c09ae",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=SI00.si00-macro-template.2&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "38c134937cc7e0fde8cc012fb18e1f20e94a0391abd70fdd091585d511c2e9f2",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "has_token": true
+    },
+    {
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "via": "proxy",
+      "result": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "467"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDIxLCAidGltZV9ucyI6IDE3OTM1Njc3OTQ4MDg0NDQ1MDAsICJydW4iOiAic2kwMC1tYWNyby1wcm94eS01OGEzZGQ1MGY0IiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9zaTAwL2VjaG8/cnVuPXNpMDAtbWFjcm8tcHJveHktNThhM2RkNTBmNCZzaTAwX3Rva2VuPVNJMDAuc2kwMC1tYWNyby10ZW1wbGF0ZS4zJnZhbHVlPSUyNTJGKyUyQiIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3ODEiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXV0sICJvdGhlcl9jb29raWVfY291bnQiOiAwLCAicmVxdWVzdF9zaGEyNTYiOiAiZWJlYjAzNzVkOTVlZmMwMmNmM2ZhZmEzMDc3ZTVhYTAyOTg1ZWRjYTY5MjA4Mjc3MTJiODM2MmFjNzc5ZjE4NCIsICJib2R5X2Jhc2U2NCI6ICIifSwgImNvb2tpZV9vayI6IGZhbHNlLCAidG9rZW5fb2siOiBmYWxzZX0=",
+        "seconds": 0.034499,
+        "json": {
+          "request": {
+            "sequence": 21,
+            "time_ns": 1793567794808444500,
+            "run": "si00-macro-proxy-58a3dd50f4",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=SI00.si00-macro-template.3&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "ebeb0375d95efc02cf3fafa3077e5aa02985edca6920827712b8362ac779f184",
+            "body_base64": ""
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        }
+      },
+      "observed": {
+        "run": "si00-macro-proxy-58a3dd50f4",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 21,
+            "time_ns": 1793567794808444500,
+            "run": "si00-macro-proxy-58a3dd50f4",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=SI00.si00-macro-template.3&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "ebeb0375d95efc02cf3fafa3077e5aa02985edca6920827712b8362ac779f184",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "has_token": true
+    },
+    {
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "via": "proxy",
+      "result": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "477"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDI1LCAidGltZV9ucyI6IDE3OTM1Njc3OTQ5MzQ5MDM1MDAsICJydW4iOiAic2kwMC1tYWNyby1wYXJhbGxlbC1hLThjOTE0NjY5NGQiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL3NpMDAvZWNobz9ydW49c2kwMC1tYWNyby1wYXJhbGxlbC1hLThjOTE0NjY5NGQmc2kwMF90b2tlbj1TSTAwLnNpMDAtbWFjcm8tdGVtcGxhdGUuNSZ2YWx1ZT0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzgxIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl1dLCAib3RoZXJfY29va2llX2NvdW50IjogMCwgInJlcXVlc3Rfc2hhMjU2IjogIjcyNWNmNDZkNTk3M2JlNGQ4ZTI3ZWE5ZmMwNzc1YzAxZTY4OGQ3ZDE1ZmEzMTEzZmZkM2ZlZDU0MDZhMzZlNDIiLCAiYm9keV9iYXNlNjQiOiAiIn0sICJjb29raWVfb2siOiBmYWxzZSwgInRva2VuX29rIjogZmFsc2V9",
+        "seconds": 0.036316,
+        "json": {
+          "request": {
+            "sequence": 25,
+            "time_ns": 1793567794934903500,
+            "run": "si00-macro-parallel-a-8c9146694d",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=SI00.si00-macro-template.5&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "725cf46d5973be4d8e27ea9fc0775c01e688d7d15fa3113ffd3fed5406a36e42",
+            "body_base64": ""
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        }
+      },
+      "observed": {
+        "run": "si00-macro-parallel-a-8c9146694d",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 25,
+            "time_ns": 1793567794934903500,
+            "run": "si00-macro-parallel-a-8c9146694d",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=SI00.si00-macro-template.5&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "725cf46d5973be4d8e27ea9fc0775c01e688d7d15fa3113ffd3fed5406a36e42",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "has_token": true
+    },
+    {
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "via": "proxy",
+      "result": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "477"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDI0LCAidGltZV9ucyI6IDE3OTM1Njc3OTQ5MzQ0OTA3MDAsICJydW4iOiAic2kwMC1tYWNyby1wYXJhbGxlbC1iLTY3ZWE0YmQ1ZjIiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL3NpMDAvZWNobz9ydW49c2kwMC1tYWNyby1wYXJhbGxlbC1iLTY3ZWE0YmQ1ZjImc2kwMF90b2tlbj1TSTAwLnNpMDAtbWFjcm8tdGVtcGxhdGUuNCZ2YWx1ZT0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzgxIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl1dLCAib3RoZXJfY29va2llX2NvdW50IjogMCwgInJlcXVlc3Rfc2hhMjU2IjogImM5MGFmNGIwYjg4N2JhNzk4ODU2MWNhODU3NGJlZmZmMjQ2M2RkODM1YTZmMDQyMDIyOWMwYzA4YzQ2ZTJjNGIiLCAiYm9keV9iYXNlNjQiOiAiIn0sICJjb29raWVfb2siOiBmYWxzZSwgInRva2VuX29rIjogZmFsc2V9",
+        "seconds": 0.035952,
+        "json": {
+          "request": {
+            "sequence": 24,
+            "time_ns": 1793567794934490700,
+            "run": "si00-macro-parallel-b-67ea4bd5f2",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=SI00.si00-macro-template.4&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "c90af4b0b887ba7988561ca8574befff2463dd835a6f0420229c0c08c46e2c4b",
+            "body_base64": ""
+          },
+          "cookie_ok": false,
+          "token_ok": false
+        }
+      },
+      "observed": {
+        "run": "si00-macro-parallel-b-67ea4bd5f2",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 24,
+            "time_ns": 1793567794934490700,
+            "run": "si00-macro-parallel-b-67ea4bd5f2",
+            "method": "GET",
+            "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=SI00.si00-macro-template.4&value=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18781"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ]
+            ],
+            "other_cookie_count": 0,
+            "request_sha256": "c90af4b0b887ba7988561ca8574befff2463dd835a6f0420229c0c08c46e2c4b",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "has_token": true
+    }
+  ],
+  "wire_records": [
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390246304200,
+      "run": "si00-macro-unmatched-a7e70fb819",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-unmatched-a7e70fb819&value=%252F+%2B",
+      "request_sha256": "c31fd669514031083522f48dadd3e510681b8645df02600932d748729d9a3b27",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 186,
+      "message_identity": 1228260237,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390247648800,
+      "run": "si00-macro-unmatched-a7e70fb819",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-unmatched-a7e70fb819&value=%252F+%2B",
+      "request_sha256": "c31fd669514031083522f48dadd3e510681b8645df02600932d748729d9a3b27",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 187,
+      "message_identity": 797566171,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390248844800,
+      "run": "si00-macro-unmatched-a7e70fb819",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-macro-unmatched-a7e70fb819&value=%252F+%2B",
+      "request_sha256": "c31fd669514031083522f48dadd3e510681b8645df02600932d748729d9a3b27",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 188,
+      "message_identity": 1995221565,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390253530400,
+      "run": "si00-macro-unmatched-a7e70fb819",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-macro-unmatched-a7e70fb819&value=%252F+%2B",
+      "request_sha256": "c31fd669514031083522f48dadd3e510681b8645df02600932d748729d9a3b27",
+      "response_sha256": "5671f7dcdf8d7650b0492b18d2e5d54e7e777fa161b8a6d02fabb4d38498b1a9",
+      "other_cookie_count": 0,
+      "sequence": 189,
+      "message_identity": 2117550136,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390384297800,
+      "run": "si00-macro-api-bcbf5c09ae",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "88c75198a0ce1ba66a2dc0905dfbb56c10bf6b5d10d7ed7387aed84af278cfca",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 192,
+      "message_identity": 2035122500,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390385494900,
+      "run": "si00-macro-api-bcbf5c09ae",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "88c75198a0ce1ba66a2dc0905dfbb56c10bf6b5d10d7ed7387aed84af278cfca",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 193,
+      "message_identity": 1824194013,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390418556000,
+      "run": "si00-macro-api-bcbf5c09ae",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=SI00.si00-macro-template.2&value=%252F+%2B",
+      "request_sha256": "38c134937cc7e0fde8cc012fb18e1f20e94a0391abd70fdd091585d511c2e9f2",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 196,
+      "message_identity": 1657493204,
+      "own_cookie_values": [],
+      "macro_tokens": [
+        "SI00.si00-macro-template.2"
+      ],
+      "macro_count": 1,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390419185300,
+      "run": "si00-macro-api-bcbf5c09ae",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=SI00.si00-macro-template.2&value=%252F+%2B",
+      "request_sha256": "38c134937cc7e0fde8cc012fb18e1f20e94a0391abd70fdd091585d511c2e9f2",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 197,
+      "message_identity": 314055272,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390422373300,
+      "run": "si00-macro-api-bcbf5c09ae",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-macro-api-bcbf5c09ae&si00_token=SI00.si00-macro-template.2&value=%252F+%2B",
+      "request_sha256": "38c134937cc7e0fde8cc012fb18e1f20e94a0391abd70fdd091585d511c2e9f2",
+      "response_sha256": "70714eee56dfa198ffc34ebce1c04a1894d4c18fe9db6b2638160fa1738c36a3",
+      "other_cookie_count": 0,
+      "sequence": 198,
+      "message_identity": 1929800928,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390518643400,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "433ea2316e76f385d1e028bc5566715009be076cdfbd8c1bd78754819a38df9f",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 200,
+      "message_identity": 864248661,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390520146600,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "433ea2316e76f385d1e028bc5566715009be076cdfbd8c1bd78754819a38df9f",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 201,
+      "message_identity": 1589496596,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390520587100,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "433ea2316e76f385d1e028bc5566715009be076cdfbd8c1bd78754819a38df9f",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 202,
+      "message_identity": 598074489,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390526067100,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=SI00.si00-macro-template.3&value=%252F+%2B",
+      "request_sha256": "ebeb0375d95efc02cf3fafa3077e5aa02985edca6920827712b8362ac779f184",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 205,
+      "message_identity": 653719144,
+      "own_cookie_values": [],
+      "macro_tokens": [
+        "SI00.si00-macro-template.3"
+      ],
+      "macro_count": 1,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390527355800,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=SI00.si00-macro-template.3&value=%252F+%2B",
+      "request_sha256": "ebeb0375d95efc02cf3fafa3077e5aa02985edca6920827712b8362ac779f184",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 206,
+      "message_identity": 105878676,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390530466800,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=SI00.si00-macro-template.3&value=%252F+%2B",
+      "request_sha256": "ebeb0375d95efc02cf3fafa3077e5aa02985edca6920827712b8362ac779f184",
+      "response_sha256": "d07c960f3a6a76cb63e409f0f8c8b79e44e1195963aded25b36a3cef18bebdd9",
+      "other_cookie_count": 0,
+      "sequence": 207,
+      "message_identity": 987011409,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390533909000,
+      "run": "si00-macro-proxy-58a3dd50f4",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-proxy-58a3dd50f4&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "433ea2316e76f385d1e028bc5566715009be076cdfbd8c1bd78754819a38df9f",
+      "response_sha256": "d07c960f3a6a76cb63e409f0f8c8b79e44e1195963aded25b36a3cef18bebdd9",
+      "other_cookie_count": 0,
+      "sequence": 208,
+      "message_identity": 1320348681,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390643721100,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "e96b3a7594d8f937bc9651911d003a85d04df4d02b3aa0d95d3925ad6724201c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 209,
+      "message_identity": 715338683,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390643769800,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "91e5f2455f93f54bbc149b93af22e98739fefe8e5db8be7658a63e4e18f0bd1f",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 210,
+      "message_identity": 1886409438,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390645627800,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "e96b3a7594d8f937bc9651911d003a85d04df4d02b3aa0d95d3925ad6724201c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 211,
+      "message_identity": 1158397192,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390645660200,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "91e5f2455f93f54bbc149b93af22e98739fefe8e5db8be7658a63e4e18f0bd1f",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 212,
+      "message_identity": 559212780,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390646104700,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "e96b3a7594d8f937bc9651911d003a85d04df4d02b3aa0d95d3925ad6724201c",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 213,
+      "message_identity": 469811972,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390646167100,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "91e5f2455f93f54bbc149b93af22e98739fefe8e5db8be7658a63e4e18f0bd1f",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 214,
+      "message_identity": 818149197,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390652369700,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=SI00.si00-macro-template.4&value=%252F+%2B",
+      "request_sha256": "c90af4b0b887ba7988561ca8574befff2463dd835a6f0420229c0c08c46e2c4b",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 219,
+      "message_identity": 726425226,
+      "own_cookie_values": [],
+      "macro_tokens": [
+        "SI00.si00-macro-template.4"
+      ],
+      "macro_count": 1,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390652452300,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=SI00.si00-macro-template.5&value=%252F+%2B",
+      "request_sha256": "725cf46d5973be4d8e27ea9fc0775c01e688d7d15fa3113ffd3fed5406a36e42",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 220,
+      "message_identity": 511035755,
+      "own_cookie_values": [],
+      "macro_tokens": [
+        "SI00.si00-macro-template.5"
+      ],
+      "macro_count": 1,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390653261900,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=SI00.si00-macro-template.5&value=%252F+%2B",
+      "request_sha256": "725cf46d5973be4d8e27ea9fc0775c01e688d7d15fa3113ffd3fed5406a36e42",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 221,
+      "message_identity": 1470018784,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390653307600,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=SI00.si00-macro-template.4&value=%252F+%2B",
+      "request_sha256": "c90af4b0b887ba7988561ca8574befff2463dd835a6f0420229c0c08c46e2c4b",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 222,
+      "message_identity": 1594524823,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390657130400,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=SI00.si00-macro-template.4&value=%252F+%2B",
+      "request_sha256": "c90af4b0b887ba7988561ca8574befff2463dd835a6f0420229c0c08c46e2c4b",
+      "response_sha256": "c31152151edc075b7ceec611f2a746cc861b042aaebfb21dd4ec44b0e44da953",
+      "other_cookie_count": 0,
+      "sequence": 223,
+      "message_identity": 865169177,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390657861700,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=SI00.si00-macro-template.5&value=%252F+%2B",
+      "request_sha256": "725cf46d5973be4d8e27ea9fc0775c01e688d7d15fa3113ffd3fed5406a36e42",
+      "response_sha256": "d600783438037323b96da582d8fbb7ed42aed3eb2a383d278ba43909e24b7ef0",
+      "other_cookie_count": 0,
+      "sequence": 224,
+      "message_identity": 482143815,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390661022800,
+      "run": "si00-macro-parallel-b-67ea4bd5f2",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-b-67ea4bd5f2&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "91e5f2455f93f54bbc149b93af22e98739fefe8e5db8be7658a63e4e18f0bd1f",
+      "response_sha256": "c31152151edc075b7ceec611f2a746cc861b042aaebfb21dd4ec44b0e44da953",
+      "other_cookie_count": 0,
+      "sequence": 225,
+      "message_identity": 1790757746,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 69390661065000,
+      "run": "si00-macro-parallel-a-8c9146694d",
+      "tool": null,
+      "target": "/si00/echo?run=si00-macro-parallel-a-8c9146694d&si00_token=OLD&value=%252F+%2B",
+      "request_sha256": "e96b3a7594d8f937bc9651911d003a85d04df4d02b3aa0d95d3925ad6724201c",
+      "response_sha256": "d600783438037323b96da582d8fbb7ed42aed3eb2a383d278ba43909e24b7ef0",
+      "other_cookie_count": 0,
+      "sequence": 226,
+      "message_identity": 1653970465,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "MACRO"
+        }
+      ]
+    }
+  ],
+  "macro_before": {
+    "run": "si00-macro-template",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793566918207015200,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "macro_after": {
+    "run": "si00-macro-template",
+    "action_count": 0,
+    "event_count": 5,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793566918207015200,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 18,
+        "time_ns": 1793567794673129400,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 20,
+        "time_ns": 1793567794802236000,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 22,
+        "time_ns": 1793567794927997300,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      },
+      {
+        "sequence": 23,
+        "time_ns": 1793567794928391600,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "errors": [],
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "token_values": [
+    "SI00.si00-macro-template.2",
+    "SI00.si00-macro-template.3",
+    "SI00.si00-macro-template.5",
+    "SI00.si00-macro-template.4"
+  ],
+  "observer_instance": "1e918531130740e7b7deb2ece42da21d",
+  "note": "Macro-to-parent mapping only; no claim about server-side token validity under parallel invalidation or automatic integration into existing custom arguments."
+}

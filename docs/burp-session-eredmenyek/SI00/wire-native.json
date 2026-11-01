@@ -1,0 +1,30 @@
+{
+  "kind": "SI00-private-wire-observer-channel-no-network", 
+  "live_channel_used": false, 
+  "actual_cookie_jar": false, 
+  "checks": {
+    "ignore-foreign-port": true, 
+    "cleanup-preserves-unrelated": true, 
+    "withdraw-owned-handlers-state": true, 
+    "withdraw-owned-handlers-None": true, 
+    "reject-send-path": true, 
+    "duplicate-command-not-sent-twice": true, 
+    "reject-send-host": true, 
+    "only-scoped-macro-tokens-observed": true, 
+    "uncertain-send-command-not-replayed": true, 
+    "withdraw-owned-handlers-action": true, 
+    "ignore-unmarked": true, 
+    "ignore-other-path": true, 
+    "unowned-cookie-values-not-in-trace": true, 
+    "ignore-foreign-host": true, 
+    "closed-probe-cannot-send": true, 
+    "seed-is-owned-and-readable": true, 
+    "reject-send-tls-disabled": true, 
+    "withdraw-owned-handlers-proxy": true, 
+    "withdraw-owned-handlers-http": true, 
+    "trace-buffer-bounded-with-visible-drops": true
+  }, 
+  "passed": true, 
+  "errors": [], 
+  "network_requests": 0
+}

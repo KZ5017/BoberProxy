@@ -1,0 +1,19 @@
+{
+  "kind": "SI00-unmodified-main-order-and-native-isolation-assessment",
+  "summaries": [
+    {
+      "scenario": "normal",
+      "custom_before_native_rt_rule": true,
+      "custom_before_native_cp_rule": true,
+      "native_cookie_matches_local_token": true
+    },
+    {
+      "scenario": "interleave",
+      "custom_before_native_rt_rule": true,
+      "custom_before_native_cp_rule": true,
+      "native_cookie_matches_local_token": false
+    }
+  ],
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "conclusion": "Native rules run after each existing custom call. A mid-flow jar update changes final cookie while own RT token stays local. Keeping the coordinator alone does not freeze the shared native jar."
+}

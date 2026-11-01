@@ -1,0 +1,436 @@
+{
+  "kind": "SI00-unmodified-main-native-cookie-workflow",
+  "scenario": "normal",
+  "run": "si00-normal-6c32b3854a",
+  "checks": {
+    "no_transport_error": true,
+    "action_once": true,
+    "exactly_two_target_requests": true,
+    "two_custom_calls": true,
+    "raw_payloads_preserved": true,
+    "correct_methods_and_targets": true,
+    "local_token_correct": true,
+    "no_unowned_cookies": true,
+    "own_cleanup_complete": true,
+    "normal_cookie_correct": true
+  },
+  "capabilities": {
+    "native_cookie_matches_local_token": true,
+    "custom_token_matches_own_RT": true
+  },
+  "passed": true,
+  "observed": {
+    "run": "si00-normal-6c32b3854a",
+    "action_count": 1,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 12,
+        "time_ns": 1793566706804071000,
+        "run": "si00-normal-6c32b3854a",
+        "method": "POST",
+        "target": "/si00/action?run=si00-normal-6c32b3854a",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "40"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "7e28f975ca254248b5d0d6efc69724ae1e038abb1201bc02625c6835cd5880f3",
+        "body_base64": "b25lPXNpMDAtbm9ybWFsLTZjMzJiMzg1NGEmdHdvPSUyNTJGKyUyQg=="
+      },
+      {
+        "sequence": 13,
+        "time_ns": 1793566706824814200,
+        "run": "si00-normal-6c32b3854a",
+        "method": "POST",
+        "target": "/si00/check?run=si00-normal-6c32b3854a",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "75"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cookie",
+            "BP_SI00_WIRE_7ebcb96ea3f1=sid.si00-normal-6c32b3854a.1"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "0218b5840dacd7d3d0d84a7a027f610c56afc38af182b2be6c26f8b684cc979e",
+        "body_base64": "Y3NyZj1jc3JmLnNpMDAtbm9ybWFsLTZjMzJiMzg1NGEuMSZvbmU9c2kwMC1ub3JtYWwtNmMzMmIzODU0YSZ0d289JTI1MkYrJTJC"
+      }
+    ],
+    "session": [
+      "sid.si00-normal-6c32b3854a.1",
+      "csrf.si00-normal-6c32b3854a.1"
+    ]
+  },
+  "custom_records": [
+    {
+      "phase": "rt",
+      "gated": false,
+      "payload2": "%252F+%2B",
+      "csrf_token": null,
+      "nano": 68302495164300,
+      "run": "si00-normal-6c32b3854a"
+    },
+    {
+      "phase": "check",
+      "gated": false,
+      "payload2": "%252F+%2B",
+      "csrf_token": "csrf.si00-normal-6c32b3854a.1",
+      "nano": 68302534438400,
+      "run": "si00-normal-6c32b3854a"
+    }
+  ],
+  "wire_records": [
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302520230500,
+      "run": "si00-normal-6c32b3854a",
+      "tool": null,
+      "target": "/si00/action?run=si00-normal-6c32b3854a",
+      "request_sha256": "7e28f975ca254248b5d0d6efc69724ae1e038abb1201bc02625c6835cd5880f3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 159,
+      "message_identity": 1887001004,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302522145300,
+      "run": "si00-normal-6c32b3854a",
+      "tool": null,
+      "target": "/si00/action?run=si00-normal-6c32b3854a",
+      "request_sha256": "7e28f975ca254248b5d0d6efc69724ae1e038abb1201bc02625c6835cd5880f3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 160,
+      "message_identity": 1944730668,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302522875700,
+      "run": "si00-normal-6c32b3854a",
+      "tool": 1024,
+      "target": "/si00/action?run=si00-normal-6c32b3854a",
+      "request_sha256": "7e28f975ca254248b5d0d6efc69724ae1e038abb1201bc02625c6835cd5880f3",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 161,
+      "message_identity": 1231339460,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302527340600,
+      "run": "si00-normal-6c32b3854a",
+      "tool": 1024,
+      "target": "/si00/action?run=si00-normal-6c32b3854a",
+      "request_sha256": "7e28f975ca254248b5d0d6efc69724ae1e038abb1201bc02625c6835cd5880f3",
+      "response_sha256": "2b58c6177d218336d00edf76a68288b72c2cfa267f25f65c7aad60395c9aacf1",
+      "other_cookie_count": 0,
+      "sequence": 162,
+      "message_identity": 2013201207,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": []
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302540257200,
+      "run": "si00-normal-6c32b3854a",
+      "tool": null,
+      "target": "/si00/check?run=si00-normal-6c32b3854a",
+      "request_sha256": "c5771d844d0c1b836237f968359870da4e08a8f6bc8c2f55c236a02cc3d94396",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 163,
+      "message_identity": 456781755,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "sid.si00-normal-6c32b3854a.1"
+        }
+      ]
+    },
+    {
+      "phase": "rule-before cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302541937600,
+      "run": "si00-normal-6c32b3854a",
+      "tool": null,
+      "target": "/si00/check?run=si00-normal-6c32b3854a",
+      "request_sha256": "c5771d844d0c1b836237f968359870da4e08a8f6bc8c2f55c236a02cc3d94396",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 164,
+      "message_identity": 1367433847,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "sid.si00-normal-6c32b3854a.1"
+        }
+      ]
+    },
+    {
+      "phase": "rule-after cookie",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302542760700,
+      "run": "si00-normal-6c32b3854a",
+      "tool": null,
+      "target": "/si00/check?run=si00-normal-6c32b3854a",
+      "request_sha256": "0218b5840dacd7d3d0d84a7a027f610c56afc38af182b2be6c26f8b684cc979e",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 165,
+      "message_identity": 2009582289,
+      "own_cookie_values": [
+        "sid.si00-normal-6c32b3854a.1"
+      ],
+      "macro_tokens": [],
+      "macro_count": 0,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "sid.si00-normal-6c32b3854a.1"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302543549300,
+      "run": "si00-normal-6c32b3854a",
+      "tool": 4,
+      "target": "/si00/check?run=si00-normal-6c32b3854a",
+      "request_sha256": "0218b5840dacd7d3d0d84a7a027f610c56afc38af182b2be6c26f8b684cc979e",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 166,
+      "message_identity": 241017398,
+      "own_cookie_values": [
+        "sid.si00-normal-6c32b3854a.1"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "sid.si00-normal-6c32b3854a.1"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302547114200,
+      "run": "si00-normal-6c32b3854a",
+      "tool": 4,
+      "target": "/si00/check?run=si00-normal-6c32b3854a",
+      "request_sha256": "0218b5840dacd7d3d0d84a7a027f610c56afc38af182b2be6c26f8b684cc979e",
+      "response_sha256": "55fc81ee57c117f8ff2595cfc0d1fea7cfaea662b6d9aa2ed99d78d10d47d13f",
+      "other_cookie_count": 0,
+      "sequence": 167,
+      "message_identity": 1523433585,
+      "own_cookie_values": [
+        "sid.si00-normal-6c32b3854a.1"
+      ],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "sid.si00-normal-6c32b3854a.1"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "POST",
+      "nano": 68302549043800,
+      "run": "si00-normal-6c32b3854a",
+      "tool": null,
+      "target": "/si00/check?run=si00-normal-6c32b3854a",
+      "request_sha256": "c5771d844d0c1b836237f968359870da4e08a8f6bc8c2f55c236a02cc3d94396",
+      "response_sha256": "55fc81ee57c117f8ff2595cfc0d1fea7cfaea662b6d9aa2ed99d78d10d47d13f",
+      "other_cookie_count": 0,
+      "sequence": 168,
+      "message_identity": 1239236614,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18781,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "sid.si00-normal-6c32b3854a.1"
+        }
+      ]
+    }
+  ],
+  "replies": [
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "649"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "application/json"
+        ]
+      ],
+      "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDEzLCAidGltZV9ucyI6IDE3OTM1NjY3MDY4MjQ4MTQyMDAsICJydW4iOiAic2kwMC1ub3JtYWwtNmMzMmIzODU0YSIsICJtZXRob2QiOiAiUE9TVCIsICJ0YXJnZXQiOiAiL3NpMDAvY2hlY2s/cnVuPXNpMDAtbm9ybWFsLTZjMzJiMzg1NGEiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzgxIl0sIFsiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJdLCBbIkNvbnRlbnQtTGVuZ3RoIiwgIjc1Il0sIFsiQ29ubmVjdGlvbiIsICJjbG9zZSJdLCBbIkNvb2tpZSIsICJCUF9TSTAwX1dJUkVfN2ViY2I5NmVhM2YxPXNpZC5zaTAwLW5vcm1hbC02YzMyYjM4NTRhLjEiXV0sICJvdGhlcl9jb29raWVfY291bnQiOiAwLCAicmVxdWVzdF9zaGEyNTYiOiAiMDIxOGI1ODQwZGFjZDdkM2QwZDg0YTdhMDI3ZjYxMGM1NmFmYzM4YWYxODJiMmJlNmMyNmY4YjY4NGNjOTc5ZSIsICJib2R5X2Jhc2U2NCI6ICJZM055WmoxamMzSm1Mbk5wTURBdGJtOXliV0ZzTFRaak16SmlNemcxTkdFdU1TWnZibVU5YzJrd01DMXViM0p0WVd3dE5tTXpNbUl6T0RVMFlTWjBkMjg5SlRJMU1rWXJKVEpDIn0sICJjb29raWVfb2siOiB0cnVlLCAidG9rZW5fb2siOiB0cnVlfQ==",
+      "seconds": 0.316404,
+      "json": {
+        "request": {
+          "sequence": 13,
+          "time_ns": 1793566706824814200,
+          "run": "si00-normal-6c32b3854a",
+          "method": "POST",
+          "target": "/si00/check?run=si00-normal-6c32b3854a",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18781"
+            ],
+            [
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            ],
+            [
+              "Content-Length",
+              "75"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Cookie",
+              "BP_SI00_WIRE_7ebcb96ea3f1=sid.si00-normal-6c32b3854a.1"
+            ]
+          ],
+          "other_cookie_count": 0,
+          "request_sha256": "0218b5840dacd7d3d0d84a7a027f610c56afc38af182b2be6c26f8b684cc979e",
+          "body_base64": "Y3NyZj1jc3JmLnNpMDAtbm9ybWFsLTZjMzJiMzg1NGEuMSZvbmU9c2kwMC1ub3JtYWwtNmMzMmIzODU0YSZ0d289JTI1MkYrJTJC"
+        },
+        "cookie_ok": true,
+        "token_ok": true
+      }
+    }
+  ],
+  "errors": [],
+  "injected": null,
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "main_settings": "Templates/CheckPage/custom/CSRF ON, own cookies OFF; native rule/collection ON; Intercept/AutoFollow OFF.",
+  "note": "For interleave, measurement PASS is separate from native isolation capability."
+}

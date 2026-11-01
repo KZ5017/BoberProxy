@@ -1,0 +1,30 @@
+test_busy_capture_is_visible_and_does_not_accept_unknown_match (test_filters.FilterTests.test_busy_capture_is_visible_and_does_not_accept_unknown_match) ... ok
+test_busy_display_retains_already_admitted_entry (test_filters.FilterTests.test_busy_display_retains_already_admitted_entry) ... ok
+test_capture_characterized_matches (test_filters.FilterTests.test_capture_characterized_matches) ... ok
+test_clear_during_rebuild_never_restores_old_rows (test_filters.FilterTests.test_clear_during_rebuild_never_restores_old_rows) ... ok
+test_clear_selected_invalidates_search_but_not_new_admission (test_filters.FilterTests.test_clear_selected_invalidates_search_but_not_new_admission) ... ok
+test_clear_while_callback_analyzes_does_not_resurrect_event (test_filters.FilterTests.test_clear_while_callback_analyzes_does_not_resurrect_event) ... ok
+test_clearing_regex_with_valid_size_does_not_wait_for_busy_worker (test_filters.FilterTests.test_clearing_regex_with_valid_size_does_not_wait_for_busy_worker) ... ok
+test_close_ignores_pending_search_result (test_filters.FilterTests.test_close_ignores_pending_search_result) ... ok
+test_compilation_is_not_repeated_per_row (test_filters.FilterTests.test_compilation_is_not_repeated_per_row) ... ok
+test_display_characterized_matches (test_filters.FilterTests.test_display_characterized_matches) ... ok
+test_invalid_capture_regex_retains_last_valid_plan (test_filters.FilterTests.test_invalid_capture_regex_retains_last_valid_plan) ... ok
+test_invalid_display_is_atomic_and_keeps_previous_filter (test_filters.FilterTests.test_invalid_display_is_atomic_and_keeps_previous_filter) ... ok
+test_invalid_numeric_retains_last_valid_capture (test_filters.FilterTests.test_invalid_numeric_retains_last_valid_capture) ... ok
+test_legacy_empty_regex_item_has_no_response_decode (test_filters.FilterTests.test_legacy_empty_regex_item_has_no_response_decode) ... ok
+test_metadata_rejection_does_not_queue_regex_work (test_filters.FilterTests.test_metadata_rejection_does_not_queue_regex_work) ... ok
+test_new_filter_wins_over_late_old_search (test_filters.FilterTests.test_new_filter_wins_over_late_old_search) ... ok
+test_new_rows_merge_into_stable_rebuild_snapshot (test_filters.FilterTests.test_new_rows_merge_into_stable_rebuild_snapshot) ... ok
+test_no_display_filter_erases_stored_entries (test_filters.FilterTests.test_no_display_filter_erases_stored_entries) ... ok
+test_other_settings_reuse_unchanged_compiled_patterns (test_filters.FilterTests.test_other_settings_reuse_unchanged_compiled_patterns) ... ok
+test_reset_to_current_filter_cancels_pending_new_validation (test_filters.FilterTests.test_reset_to_current_filter_cancels_pending_new_validation) ... ok
+test_reset_to_current_filter_clears_invalid_draft_error (test_filters.FilterTests.test_reset_to_current_filter_clears_invalid_draft_error) ... ok
+test_unknown_new_row_is_rechecked_instead_of_lost (test_filters.FilterTests.test_unknown_new_row_is_rechecked_instead_of_lost) ... ok
+test_worker_capacity_and_coalesced_controls_are_bounded (test_filters.FilterTests.test_worker_capacity_and_coalesced_controls_are_bounded) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.213s
+
+OK
+Baseline: 23 tests; 0 known unfixed defects.
+Expected failures are reproduced defects, not fixed acceptance tests.

@@ -1,0 +1,21 @@
+{
+  "kind": "UI02-closed",
+  "date": "2026-11-01",
+  "source_sha256": "f761ab0b110d25911fcb523cfb94306d5e665aa202c0bac5ad88ba488d45a062",
+  "local_native_passed": true,
+  "actual_burp_layout_passed": true,
+  "manual_approved": true,
+  "errors_empty": true,
+  "layout_checks": 18,
+  "cleanup_checks": 10,
+  "logging_checks": 24,
+  "filter_logic_cases": 23,
+  "network_requests_sent_for_UI02": 0,
+  "remaining_required_checks": [],
+  "current_main": "One fresh root UI02, all switches/default filters OFF, editors empty, Intercept OFF. UI02 verification helper may remain installed; private resources closed.",
+  "known_scope": "Native Proxy settings shortcut verified in recorded English Burp Community 2026.10.1 UI; other Burp versions/themes/languages not established.",
+  "SI00_integration": "Declined; research remains closed.",
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false
+}

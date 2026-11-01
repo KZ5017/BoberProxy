@@ -38,6 +38,12 @@ when you want to review the original matching requests manually.
 
 **BoberProxy** is a Burp Suite plugin (written in Jython-compatible Python) designed for power-users who need **full control over HTTP request transformation**, **automatic session/cookie/CSRF handling**, and **complex proxy-level workflows**.
 
+The primary use case is routing command-line testing tools such as sqlmap, sstimap,
+and ffuf through Burp, with custom transformations of selected payload parameter
+values before the outgoing request is sent. Cookie and CSRF automation tracks
+rotating session state during fuzzing. An optional CheckPage template retrieves
+results from another known location and returns that response to the calling tool.
+
 It introduces a new tab inside Burp that includes:
 
 * A full traffic logger
@@ -191,15 +197,16 @@ During initialization, BoberProxy:
 ### Left Panel
 
 * Request and Response viewers (Burp-provided)
-* Request Template and CheckPageTemplate editors, each with Load from Viewer/Clear
+* Request Template and CheckPage Template editors, each with Load from Viewer/Clear
 * Template tooltip and helper controls
+* Proxy settings shortcut at the right end of the tab row
 * Full log table below the viewers/templates, with the existing vertical divider
+* Fixed single-row status strip below the log, visible independently of sidebar scrolling
 
 ### Right Panel
 
 * Filters button
 * Status/length/response-regex capture controls
-* Status bar
 * Custom codeblock editor
 * Cookie & CSRF settings
 * Proxy mode toggle
@@ -220,6 +227,16 @@ their own horizontal scrollbar when the pattern exceeds the available width.
 Injecting and Site map actions fill their rows. Logging, cookie/CSRF and
 Test/Reset button pairs share each row equally. Request/response viewers start
 at equal widths and share resizing space equally; their divider remains draggable.
+
+The bottom status strip shows filter and recent-operation messages; long text is
+available in tooltips. **Logging enabled** means capture is not paused, while
+**Logging paused** means the Pause logging switch is active. These captions do
+not indicate that a network request is running.
+
+The **Proxy settings** shortcut opens Burp's existing native control. It reuses
+the host button's gear icon and click behavior; availability depends on the
+Burp UI. If the native control cannot be found, a status message directs you to
+Proxy > Proxy settings.
 
 The extension has no separate log search box, next-match navigator or row
 highlighting function. Use **Filter → ResponseContent** to search stored

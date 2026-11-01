@@ -1,5 +1,70 @@
 # CHANGELOG.md
 
+## 2026-11-01 — SI00/UI02 Git checkpoint
+
+- Prepare user-requested checkpoint of closed SI00 research/declined integration and UI02 shortcut/status-strip work, including synthetic evidence and private helpers. Generated runtime data stays ignored.
+- Preserve actual-tested hashes separately from the four cosmetic button flags; current source passes syntax/line-ending checks and differs from the approved UI02 candidate only by those flags. K11 not started.
+
+## 2026-11-01 — Simplify Proxy settings button appearance
+
+- Disable hover background, painted border/focus ring and rollover on the local shortcut button. Preserve its icon, native click behavior and keyboard focus. Cosmetic change only; reload/visual confirmation pending.
+
+## 2026-11-01 — UI02 validation closed
+
+- Archive actual Burp UI02 layout/helper PASS18/10/24 with matching source hash and user approval of native Proxy settings opening, fixed status strip and empty Errors. All required UI02 checks complete; no additional source change or traffic. K11 not started.
+
+## 2026-11-01 — UI02 settings shortcut and visible status strip
+
+- Add tab-row Proxy settings shortcut using original native button/icon; add CheckPage Template spacing. Keep host control in place and invoke its original event source; handle unavailable controls visibly.
+- Move filter/operation labels below the log into a fixed single-row strip, with full-text tooltips; clarify Logging enabled/paused captions. Preserve processing, source Latin-1/CRLF and existing sidebar layout.
+- Native18 layout +10cleanup/UI +24logging and CPython filter23 checks pass. Preserve initial/helper failures and corrected evidence; final actual Burp/manual gate pending. No traffic, K11 or Git checkpoint.
+
+## 2026-11-01 — Close SI00 research without integration
+
+- Record explicit user decision to retain existing cookie/CSRF workflow and abandon SI01–SI05. Preserve research evidence and restored Burp configuration; main source unchanged.
+- Clarify primary purpose in README/handoff: CLI payload transformation, rotating session/token tracking and CheckPage result retrieval. K11 remains separate/not started; no new traffic or Git checkpoint.
+
+## 2026-11-01 — SI00 Burp restoration confirmed
+
+- Recorded user-confirmed own-rule shutdown, original Extensions jar collection setting, observer removal and fresh all-OFF root with empty Errors. G00 is undecided; user requested a clearer explanation before selecting integration scope. No source, traffic or Git action.
+
+## 2026-11-01 — SI00 directed measurements collected, G00 pending
+
+- Final unmodified-main redirect/template trial passes13 checks:POST/GET/POST, native response-cookie propagation,2custom calls, raw bodies and exact/delayed counts, owned cleanup.
+- Added capability assessment and limited native cooperation proposal; preserve Compatibility default and documented expiry/shared-jar/macro-order/deadline limits. G00 acceptance and manual restoration remain pending, production source unchanged, no SI01/K11/Git action.
+
+## 2026-11-01 — SI00 macro failure, deadline and existing Cookie measurements
+
+- Actual missing/slow macro responses do not prevent OLD-token parent sends; a100ms client timeout did not cancel the delayed native send. Counts/owned cleanup/delayed observations recorded; no application actions or retries.
+- Characterized existing owned Cookie headers; preserve first FAIL caused by empty macroItems array versus null and attach corrected assessment from identical captures.
+- Prepared separate CRLF main redirect/template fixtures and a finite controller, pending manual profile gate. Main source unchanged; no G00/SI01/Git yet.
+
+## 2026-11-01 — SI00 native macro correlation
+
+- Recorded actual API/Proxy and two concurrent Proxy macro-token correlation:11 checks,5 parent GETs/4 macro GETs/0application actions, exact raw query and own cleanup. Production source unchanged.
+- Prepared finite missing-token/slow macro characterization controller; only syntax checked so far. Requested isolated 404 macro profile before negative traffic. G00 remains open.
+
+## 2026-11-01 — SI00 session API inspection started
+
+- Unmodified main's normal native-cookie RT/CheckPage workflow passes; controlled shared-jar interleave preserves local token but substitutes FOREIGN cookie, demonstrating missing native flow isolation. Counts/raw/custom remain correct; delayed checks unchanged. nanoTime trace confirms existing custom calls precede native rules. Macro recorder material/controller prepared; scoped macro profile gate pending, no main/backend implementation.
+
+- Enabled Extensions collection by user; collection and Secure HTTP/HTTPS measured successfully. Max-Age=1-only cookie remained sent after >2s with null API expiry, a real difference from own cookie manager. Corrected interpretation of the immutable combined Expires/Max-Age0 report: suppression, not proven physical deletion or isolated Max-Age0 behavior.
+- Prepared unchanged-root native-cookie workflow and finite interleave custom fixture (six private native checks); main UI setup gate pending. No backend implementation or G00 decision yet.
+
+- Native cookie-only rule PASS on API/Proxy; actual callback order recorded. Six HTTP cases show correct tested domain/path selection, valid empty/deleted values, Proxy response collection and absent Extensions response collection in the current configuration. Prepared separate HTTP/TLS edge fixtures (seven self-checks) and expiry/Secure controller; collection/profile confirmation pending. Main source unchanged, no SI00/G00 closure yet.
+
+- Actual no-rule baseline PASS: one API GET and one Proxy GET, raw query preserved, no injected cookie/session action, complete own cleanup. The jar alone did not inject the seeded cookie. Native cookie-only rule profile documented; user setup confirmation pending, no rules comparison or macros run yet.
+
+- Actual cookie API PASS16 and owned cleanup confirmed in Burp, main unchanged/OFF. Same-name distinct paths coexist; expired-cookie enumeration recorded without inferring outgoing behavior. Prepared scoped wire observer/controller and separate loopback fixture: native20 and fixture5 self-checks pass; actual wire-helper load gate pending, no session rule/macro yet.
+
+- User authorized plan execution. Added finite, owned synthetic cookie API probe and actual Burp entry point; private native23 checks cover cleanup variants, unrelated data preservation and partial registration/unload. No production source change, network request or native session-rule/macro configuration yet.
+- First actual Burp API gate pending. SI00/G00 not closed; SI01/K11 and new Git checkpoint not started.
+
+## 2026-11-01 — Burp session integration plan
+
+- Added a detailed SI00–SI05 implementation plan: isolated capability/order probes, compatibility-preserving integration layer, native cookies, UI/Clear/lifecycle, conditional macro token preparation and final regression. Includes shared-state ownership, cookie API limitations, token/custom timing, decision gates, test matrix, evidence and rollback.
+- K11 deferred by user. Planning only: no production/test implementation, Burp settings, traffic or commit/push changed. UI01 checkpoint remains `9bf37c8`.
+
 ## 2026-11-01 — UI01.6 final validation closed
 
 - User requested a commit/push checkpoint of the complete closed UI01 state, including its plan, helpers and synthetic evidence. Generated runtime captures stay ignored; closure reports retain their validation-time Git state.

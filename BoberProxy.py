@@ -2189,7 +2189,9 @@ class LoggerUI(ITab):
         self.tabbed = swing.JTabbedPane()
         self.tabbed.addTab("Viewer", viewerPanel)
         self.tabbed.addTab("Request Template", reqTemplatePanel)
-        self.tabbed.addTab("CheckPageTemplate", checkPagePanel)
+        self.tabbed.addTab("CheckPage Template", checkPagePanel)
+        self.tabbed.setTabLayoutPolicy(swing.JTabbedPane.SCROLL_TAB_LAYOUT)
+        self._install_proxy_settings_shortcut()
 
         # Tab change handling: reset scroll/caret so user sees top
 
@@ -2197,7 +2199,11 @@ class LoggerUI(ITab):
 
 
 
-        self.leftSplit.setRightComponent(swing.JScrollPane(self.table))
+        self.logScroll = swing.JScrollPane(self.table)
+        self.logPanel = swing.JPanel(BorderLayout())
+        self.logPanel.add(self.logScroll, BorderLayout.CENTER)
+        self.logPanel.add(self._build_status_bar(), BorderLayout.SOUTH)
+        self.leftSplit.setRightComponent(self.logPanel)
 
         self.mainPanel.add(self.leftSplit, BorderLayout.CENTER)
         self.mainPanel.add(self._build_controls_panel(), BorderLayout.EAST)
@@ -2207,6 +2213,84 @@ class LoggerUI(ITab):
         self._runtime_publisher = RuntimePublisher(self)
         self._filter_timer = swing.Timer(50, lambda event: self._filter_tick())
         self._filter_timer.start()
+
+    @staticmethod
+    def _find_proxy_settings_control(root):
+        from java.awt import Container
+        from javax.swing.text import JTextComponent
+        pending = [root] if root is not None else []
+        visited = 0
+        while pending and visited < 20000:
+            component = pending.pop()
+            visited += 1
+            if (isinstance(component, swing.AbstractButton)
+                    and not isinstance(component, swing.JMenuItem)
+                    and component.getName() != "BoberProxy.proxySettings"):
+                text = re.sub(r"<[^>]+>", "", unicode(component.getText() or ""))
+                if text.strip().lower() == "proxy settings":
+                    return component
+            if (isinstance(component, Container)
+                    and not isinstance(component, (JTextComponent, JTable, swing.JTree))):
+                pending.extend(component.getComponents())
+        return None
+
+    def _sync_proxy_settings_shortcut(self):
+        root = swing.SwingUtilities.getWindowAncestor(self.mainPanel)
+        native = self._find_proxy_settings_control(root)
+        if native is not None and native.getIcon() is not None:
+            self.proxySettingsBtn.setText("Proxy settings")
+            self.proxySettingsBtn.setIcon(native.getIcon())
+            self.proxySettingsBtn.setFont(native.getFont())
+        return native
+
+    def _open_proxy_settings(self, event=None):
+        if self._custom_ui_closed:
+            return
+        try:
+            native = self._sync_proxy_settings_shortcut()
+            if native is None or not native.isEnabled():
+                self.set_status("Proxy settings shortcut unavailable; open Proxy > Proxy settings.")
+                return
+            # Invoke the real control, preserving its action/context and event source.
+            # Never reparent the host component or retain it across reloads.
+            native.doClick(0)
+        except (Exception, JavaException) as error:
+            self._ui_error("PROXY_SETTINGS_OPEN_FAILED", error)
+
+    def _install_proxy_settings_shortcut(self):
+        from java.awt.event import HierarchyListener, HierarchyEvent
+        self.proxySettingsBtn = swing.JButton(u"\u2699 Proxy settings", actionPerformed=self._open_proxy_settings)
+        self.proxySettingsBtn.setName("BoberProxy.proxySettings")
+        self.proxySettingsBtn.putClientProperty("JButton.buttonType", "toolBarButton")
+        self.proxySettingsBtn.setContentAreaFilled(False)
+        self.proxySettingsBtn.setBorderPainted(False)
+        self.proxySettingsBtn.setFocusPainted(False)
+        self.proxySettingsBtn.setRolloverEnabled(False)
+        self.proxySettingsBtn.setToolTipText("Open Burp's Proxy settings")
+        toolbar = swing.JPanel(GridBagLayout())
+        toolbar.setOpaque(False)
+        c = GridBagConstraints()
+        c.gridx, c.gridy, c.weightx = 0, 0, 1.0
+        c.fill = GridBagConstraints.HORIZONTAL
+        toolbar.add(swing.Box.createHorizontalGlue(), c)
+        c = GridBagConstraints()
+        c.gridx, c.gridy, c.fill = 1, 0, GridBagConstraints.VERTICAL
+        c.insets = Insets(6, 6, 6, 6)
+        toolbar.add(swing.JSeparator(swing.SwingConstants.VERTICAL), c)
+        c = GridBagConstraints()
+        c.gridx, c.gridy, c.insets = 2, 0, Insets(0, 2, 0, 6)
+        toolbar.add(self.proxySettingsBtn, c)
+        self.proxySettingsToolbar = toolbar
+        self.tabbed.putClientProperty("JTabbedPane.trailingComponent", toolbar)
+        ui = self
+        class ShortcutAppearance(HierarchyListener):
+            def hierarchyChanged(self, event):
+                if event.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED and ui.mainPanel.isShowing():
+                    try:
+                        ui._sync_proxy_settings_shortcut()
+                    except (Exception, JavaException) as error:
+                        _print_diagnostic("[BoberProxy] PROXY_SETTINGS_APPEARANCE_FAILED", error)
+        self.mainPanel.addHierarchyListener(ShortcutAppearance())
 
     @staticmethod
     def _controls_row(components, stretch=None, right=False):
@@ -2407,17 +2491,34 @@ class LoggerUI(ITab):
         c.gridx, c.gridy, c.weightx, c.weighty = 0, 0, 1.0, 1.0
         c.fill, c.insets = GridBagConstraints.BOTH, Insets(3, 4, 3, 4)
         panel.add(scroll, c)
+        return panel
+
+    def _build_status_bar(self):
+        self.statusBar = swing.JPanel(GridBagLayout())
+        self.statusLabel = swing.JLabel("Logging enabled")
         self.filterStatusLabel = swing.JLabel("Filters ready")
-        self.statusLabel = swing.JLabel("Running")
-        for row, label in enumerate([self.filterStatusLabel, self.statusLabel]):
-            height = label.getPreferredSize().height
+        height = max(label.getPreferredSize().height for label in
+                     (self.statusLabel, self.filterStatusLabel))
+        for column, label in enumerate((self.statusLabel, self.filterStatusLabel)):
             label.setPreferredSize(Dimension(0, height))
             label.setMinimumSize(Dimension(0, height))
+            label.setToolTipText(label.getText())
             c = GridBagConstraints()
-            c.gridx, c.gridy, c.weightx = 0, row + 1, 1.0
-            c.fill, c.insets = GridBagConstraints.HORIZONTAL, Insets(3, 4, 3, 4)
-            panel.add(label, c)
-        return panel
+            c.gridx, c.gridy, c.weightx = column * 2, 0, 0.4 if column == 0 else 0.6
+            c.fill, c.insets = GridBagConstraints.HORIZONTAL, Insets(6, 8, 6, 8)
+            self.statusBar.add(label, c)
+        separator = swing.JSeparator(swing.SwingConstants.VERTICAL)
+        separator.setPreferredSize(Dimension(1, height))
+        c = GridBagConstraints()
+        c.gridx, c.gridy, c.fill = 1, 0, GridBagConstraints.VERTICAL
+        c.insets = Insets(6, 0, 6, 0)
+        self.statusBar.add(separator, c)
+        color = swing.UIManager.getColor("Separator.foreground") or Color.GRAY
+        self.statusBar.setBorder(swing.BorderFactory.createMatteBorder(1, 0, 0, 0, color))
+        self.statusBar.setPreferredSize(Dimension(0, height + 13))
+        self.statusBar.setMinimumSize(Dimension(0, height + 13))
+        self.statusBar.setMaximumSize(Dimension(2147483647, height + 13))
+        return self.statusBar
 
     def _install_neutral_focus(self, root):
         from java.awt.event import MouseAdapter
@@ -2565,13 +2666,13 @@ class LoggerUI(ITab):
         def loaded(message):
             self.checkPageEditor.setMessage(message.getRequest(),True)
             self.tabbed.setSelectedIndex(2)
-            self.set_status("Loaded request into CheckPageTemplate")
+            self.set_status("Loaded request into CheckPage Template")
         self._request_selected_message(loaded)
 
     def _clear_check_template(self, event=None):
         try:
             self.checkPageEditor.setMessage(self.helpers.stringToBytes(""), True)
-            self.set_status("CheckPageTemplate cleared")
+            self.set_status("CheckPage Template cleared")
         except (Exception, JavaException) as error:
             self._ui_error("CHECKPAGE_TEMPLATE_CLEAR_FAILED", error)
 
@@ -2633,6 +2734,8 @@ class LoggerUI(ITab):
         label = getattr(self, "filterStatusLabel", None)
         if label is not None and label.getText() != message:
             label.setText(message)
+            if hasattr(label, "setToolTipText"):
+                label.setToolTipText(message)
 
     def _observe_capture_filter(self, values):
         keys = ("statuses","size","len_type","size_comp","log_regex")
@@ -2905,6 +3008,7 @@ class LoggerUI(ITab):
             label = getattr(self, "statusLabel", None)
             if label is not None:
                 label.setText(txt)
+                label.setToolTipText(txt)
         if swing.SwingUtilities.isEventDispatchThread():
             publish()
         else:
@@ -2964,7 +3068,7 @@ class LoggerUI(ITab):
         self.paused = bool(self.pauseBtn.isSelected())
         if not self.paused:
             with self._log_budget.lock: self._log_error = None
-        self.set_status("Paused" if self.paused else "Running")
+        self.set_status("Logging paused" if self.paused else "Logging enabled")
 
 
     def reset_sorting_to_model_order(self):
@@ -3926,7 +4030,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
                 installed.append("proxy")
                 if not still_open():
                     return
-                _print_diagnostic("BoberProxy loaded (UI01.6)")
+                _print_diagnostic("BoberProxy loaded (UI02)")
             except (Exception, JavaException) as error:
                 withdraw()
                 _print_diagnostic("[BoberProxy] UI_INITIALIZATION_FAILED", error)

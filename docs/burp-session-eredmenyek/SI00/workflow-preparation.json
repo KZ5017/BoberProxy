@@ -1,0 +1,17 @@
+{
+  "kind": "SI00-workflow-preparation",
+  "source_hashes": {
+    "tests/stabilization/fixtures/si00-custom-pass-through.py.in": "dbc7b3c6dea3f118589fc297ff3e3ddc821c5ec5da57ca7da1945f6f0e630d3b",
+    "tests/stabilization/fixtures/si00-request-template.http": "7c3705d3fbd44872f0791fffa5e3ba7a8a07ebdeb4ca6516dcfa0ac15296f3d7",
+    "tests/stabilization/fixtures/si00-checkpage-template.http": "815e6758c08d8e27604332d5287cd24641eeae3be8fb8c5dc9dd0d973028e403",
+    "tests/stabilization/prepare_si00_workflow.py": "f628f1849d7fdfa5444fa536242d867ee911dea96513682b8b1f4961c97de025",
+    "tests/stabilization/probe_si00_workflow.py": "3d75a4dba390f11d92772e2459367498af2e2d0e1c63ec60836f6009f452a2f0",
+    "tests/stabilization/probe_si00_workflow_native.py": "24aef41eb17def6b24da01ef4187871618a4c3da4e6a7559e2f42d2068ed0ffb"
+  },
+  "private_native_checks": 6,
+  "private_native_passed": true,
+  "finite_custom_gate_ms": 1250,
+  "main_source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "root_source_modified": false,
+  "live_workflow_gate_pending": true
+}

@@ -1,0 +1,209 @@
+{
+  "kind": "SI00-cookie-edge-characterization",
+  "scenario": "secure",
+  "run": "si00-secure-bacb53fb7f",
+  "observer_instance": "1e918531130740e7b7deb2ece42da21d",
+  "results": [
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "20"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Set-Cookie",
+          "BP_SI00_WIRE_7ebcb96ea3f1=SECURE; Path=/si00/secure/; Secure"
+        ]
+      ],
+      "body_base64": "U0kwMCBjb29raWUgcmVzcG9uc2U=",
+      "seconds": 0.023075
+    },
+    {
+      "response_json": {
+        "request": {
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18781"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "method": "GET",
+          "body_base64": "",
+          "run": "si00-secure-bacb53fb7f",
+          "target": "/si00/secure/echo?run=si00-secure-bacb53fb7f&via=http",
+          "request_sha256": "0f0d7996127b64e1cdbb656bca609d17d981f70a617d5c23b7aa4b24bdd2f560",
+          "other_cookie_count": 0,
+          "sequence": 11,
+          "time_ns": 1793565767582261300
+        },
+        "cookie_ok": false,
+        "token_ok": false
+      },
+      "response_first_line": "HTTP/1.1 200 OK",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/si00/secure/",
+          "domain": "127.0.0.1",
+          "value": "SECURE"
+        }
+      ]
+    },
+    {
+      "status": 200,
+      "json": {
+        "request": {
+          "sequence": 2,
+          "time_ns": 1793565767866572800,
+          "run": "si00-secure-bacb53fb7f",
+          "method": "GET",
+          "target": "/si00/secure/echo?run=si00-secure-bacb53fb7f&via=https",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18782"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "Cookie",
+              "BP_SI00_WIRE_7ebcb96ea3f1=SECURE"
+            ]
+          ],
+          "other_cookie_count": 0,
+          "request_sha256": "0036e4d9eee8ddf65e329ec225aa602892557fad43fc1b951b1e8dd9a30d321a",
+          "body_base64": ""
+        },
+        "cookie_ok": false,
+        "token_ok": false
+      }
+    }
+  ],
+  "observed": {
+    "run": "si00-secure-bacb53fb7f",
+    "action_count": 0,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 10,
+        "time_ns": 1793565767490693500,
+        "run": "si00-secure-bacb53fb7f",
+        "method": "GET",
+        "target": "/si00/cookie?run=si00-secure-bacb53fb7f&kind=secure",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "24da3511af2caf0f65b674f834836708cdff5f27de98edd9a127453869eb10bc",
+        "body_base64": ""
+      },
+      {
+        "sequence": 11,
+        "time_ns": 1793565767582261300,
+        "run": "si00-secure-bacb53fb7f",
+        "method": "GET",
+        "target": "/si00/secure/echo?run=si00-secure-bacb53fb7f&via=http",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "0f0d7996127b64e1cdbb656bca609d17d981f70a617d5c23b7aa4b24bdd2f560",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "observed_tls": {
+    "run": "si00-secure-bacb53fb7f",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 2,
+        "time_ns": 1793565767866572800,
+        "run": "si00-secure-bacb53fb7f",
+        "method": "GET",
+        "target": "/si00/secure/echo?run=si00-secure-bacb53fb7f&via=https",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18782"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "Cookie",
+            "BP_SI00_WIRE_7ebcb96ea3f1=SECURE"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "0036e4d9eee8ddf65e329ec225aa602892557fad43fc1b951b1e8dd9a30d321a",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "observations": {
+    "jar_after_secure_cookie": [
+      {
+        "expiration_ms": null,
+        "path": "/si00/secure/",
+        "domain": "127.0.0.1",
+        "value": "SECURE"
+      }
+    ],
+    "final_jar": [
+      {
+        "expiration_ms": null,
+        "path": "/si00/secure/",
+        "domain": "127.0.0.1",
+        "value": "SECURE"
+      }
+    ]
+  },
+  "capabilities": {
+    "secure_cookie_not_sent_over_http": true,
+    "secure_cookie_sent_over_https": true
+  },
+  "checks": {
+    "no_transport_error": true,
+    "exact_target_count": true,
+    "no_application_actions": true,
+    "no_unowned_cookie_values": true,
+    "own_cleanup_complete": true
+  },
+  "transport_error": null,
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "passed": true,
+  "note": "Transport/measurement PASS does not imply all native capabilities are true. Read capability flags."
+}

@@ -1,0 +1,147 @@
+{
+  "kind": "SI00-cookie-edge-characterization",
+  "scenario": "collection",
+  "run": "si00-collection-d60eef134b",
+  "observer_instance": "1e918531130740e7b7deb2ece42da21d",
+  "results": [
+    {
+      "response_json": null,
+      "response_first_line": "HTTP/1.1 200 OK",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "ROOT"
+        }
+      ]
+    },
+    {
+      "response_json": {
+        "request": {
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18781"
+            ],
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Cookie",
+              "BP_SI00_WIRE_7ebcb96ea3f1=ROOT"
+            ]
+          ],
+          "method": "GET",
+          "body_base64": "",
+          "run": "si00-collection-d60eef134b",
+          "target": "/si00/echo?run=si00-collection-d60eef134b",
+          "request_sha256": "f5999bc70d736f1d39c60f2371c73b97c9bfa803347c30f75d788c3cc8629452",
+          "other_cookie_count": 0,
+          "sequence": 3,
+          "time_ns": 1793565758160165800
+        },
+        "cookie_ok": false,
+        "token_ok": false
+      },
+      "response_first_line": "HTTP/1.1 200 OK",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "ROOT"
+        }
+      ]
+    }
+  ],
+  "observed": {
+    "run": "si00-collection-d60eef134b",
+    "action_count": 0,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 2,
+        "time_ns": 1793565758009007100,
+        "run": "si00-collection-d60eef134b",
+        "method": "GET",
+        "target": "/si00/cookie?run=si00-collection-d60eef134b&kind=root",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "59298fe42c9720d8387fbc2574d1db2d0b61d31b0dfddb2decdfaba6e7c089b1",
+        "body_base64": ""
+      },
+      {
+        "sequence": 3,
+        "time_ns": 1793565758160165800,
+        "run": "si00-collection-d60eef134b",
+        "method": "GET",
+        "target": "/si00/echo?run=si00-collection-d60eef134b",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cookie",
+            "BP_SI00_WIRE_7ebcb96ea3f1=ROOT"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "f5999bc70d736f1d39c60f2371c73b97c9bfa803347c30f75d788c3cc8629452",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "observed_tls": null,
+  "observations": {
+    "jar_after_extension_response": [
+      {
+        "expiration_ms": null,
+        "path": "/",
+        "domain": "127.0.0.1",
+        "value": "ROOT"
+      }
+    ],
+    "final_jar": [
+      {
+        "expiration_ms": null,
+        "path": "/",
+        "domain": "127.0.0.1",
+        "value": "ROOT"
+      }
+    ]
+  },
+  "capabilities": {
+    "extension_response_collection": true
+  },
+  "checks": {
+    "no_transport_error": true,
+    "exact_target_count": true,
+    "no_application_actions": true,
+    "no_unowned_cookie_values": true,
+    "own_cleanup_complete": true
+  },
+  "transport_error": null,
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "passed": true,
+  "note": "Transport/measurement PASS does not imply all native capabilities are true. Read capability flags."
+}

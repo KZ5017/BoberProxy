@@ -1,0 +1,338 @@
+{
+  "kind": "SI00-wire-baseline",
+  "run": "si00-baseline-8dea2ab9f9",
+  "checks": {
+    "no_transport_error": true,
+    "exactly_two_target_requests": true,
+    "no_actions": true,
+    "query_preserved": true,
+    "no_unowned_cookies": true,
+    "no_native_cookie_injection": true,
+    "no_session_action_calls": true,
+    "owned_cleanup_complete": true
+  },
+  "passed": true,
+  "observed": {
+    "run": "si00-baseline-8dea2ab9f9",
+    "action_count": 0,
+    "event_count": 2,
+    "recent_events": [
+      {
+        "sequence": 3,
+        "time_ns": 1793563811963582700,
+        "run": "si00-baseline-8dea2ab9f9",
+        "method": "GET",
+        "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=api&value=%252F+%2B",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18780"
+          ],
+          [
+            "Connection",
+            "close"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "f87f0bd1117e5ea5eb3b846b5fc282eb211daf4339178bffafc56e97824eee83",
+        "body_base64": ""
+      },
+      {
+        "sequence": 4,
+        "time_ns": 1793563812339594600,
+        "run": "si00-baseline-8dea2ab9f9",
+        "method": "GET",
+        "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=proxy&value=%252F+%2B",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18780"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "f4f25b452e91fb74460737bdedd52e12b4f2ff42e7eb115f6e96b825edf0b1b9",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "records": [
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 65407679590100,
+      "run": "si00-baseline-8dea2ab9f9",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=api&value=%252F+%2B",
+      "request_sha256": "f87f0bd1117e5ea5eb3b846b5fc282eb211daf4339178bffafc56e97824eee83",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 2,
+      "message_identity": 759354333,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 65407730525400,
+      "run": "si00-baseline-8dea2ab9f9",
+      "tool": 1024,
+      "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=api&value=%252F+%2B",
+      "request_sha256": "f87f0bd1117e5ea5eb3b846b5fc282eb211daf4339178bffafc56e97824eee83",
+      "response_sha256": "3e077e71dc75c763a0f22c327f0e2e7746b73d5c892c06009bec6eb23bdda214",
+      "other_cookie_count": 0,
+      "sequence": 3,
+      "message_identity": 272198788,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 65408045205200,
+      "run": "si00-baseline-8dea2ab9f9",
+      "tool": null,
+      "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=proxy&value=%252F+%2B",
+      "request_sha256": "f4f25b452e91fb74460737bdedd52e12b4f2ff42e7eb115f6e96b825edf0b1b9",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 5,
+      "message_identity": 1058960712,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": true,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 65408056200000,
+      "run": "si00-baseline-8dea2ab9f9",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=proxy&value=%252F+%2B",
+      "request_sha256": "f4f25b452e91fb74460737bdedd52e12b4f2ff42e7eb115f6e96b825edf0b1b9",
+      "response_sha256": null,
+      "other_cookie_count": 0,
+      "sequence": 6,
+      "message_identity": 40728389,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "http-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 65408069393200,
+      "run": "si00-baseline-8dea2ab9f9",
+      "tool": 4,
+      "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=proxy&value=%252F+%2B",
+      "request_sha256": "f4f25b452e91fb74460737bdedd52e12b4f2ff42e7eb115f6e96b825edf0b1b9",
+      "response_sha256": "adb685736e60533f85e9dfbda43838bca13ccd20ee2ba830dbff75b3c18630b1",
+      "other_cookie_count": 0,
+      "sequence": 7,
+      "message_identity": 1367549462,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    {
+      "phase": "proxy-listener",
+      "is_request": false,
+      "instance": "1e918531130740e7b7deb2ece42da21d",
+      "method": "GET",
+      "nano": 65408088648900,
+      "run": "si00-baseline-8dea2ab9f9",
+      "tool": null,
+      "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=proxy&value=%252F+%2B",
+      "request_sha256": "f4f25b452e91fb74460737bdedd52e12b4f2ff42e7eb115f6e96b825edf0b1b9",
+      "response_sha256": "adb685736e60533f85e9dfbda43838bca13ccd20ee2ba830dbff75b3c18630b1",
+      "other_cookie_count": 0,
+      "sequence": 8,
+      "message_identity": 1678402483,
+      "own_cookie_values": [],
+      "macro_tokens": [],
+      "macro_count": null,
+      "port": 18780,
+      "host": "127.0.0.1",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    }
+  ],
+  "results": {
+    "seed": {
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    "api": {
+      "response_json": {
+        "request": {
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18780"
+            ],
+            [
+              "Connection",
+              "close"
+            ]
+          ],
+          "method": "GET",
+          "body_base64": "",
+          "run": "si00-baseline-8dea2ab9f9",
+          "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=api&value=%252F+%2B",
+          "request_sha256": "f87f0bd1117e5ea5eb3b846b5fc282eb211daf4339178bffafc56e97824eee83",
+          "other_cookie_count": 0,
+          "sequence": 3,
+          "time_ns": 1793563811963582700
+        }
+      },
+      "response_first_line": "HTTP/1.1 200 OK",
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    "proxy": {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "393"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "application/json"
+        ]
+      ],
+      "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDQsICJ0aW1lX25zIjogMTc5MzU2MzgxMjMzOTU5NDYwMCwgInJ1biI6ICJzaTAwLWJhc2VsaW5lLThkZWEyYWI5ZjkiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL3NpMDAvZWNobz9ydW49c2kwMC1iYXNlbGluZS04ZGVhMmFiOWY5JnZpYT1wcm94eSZ2YWx1ZT0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzgwIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl1dLCAib3RoZXJfY29va2llX2NvdW50IjogMCwgInJlcXVlc3Rfc2hhMjU2IjogImY0ZjI1YjQ1MmU5MWZiNzQ0NjA3MzdiZGVkZDUyZTEyYjRmMmZmNDJlN2ViMTE1ZjZlOTZiODI1ZWRmMGIxYjkiLCAiYm9keV9iYXNlNjQiOiAiIn19",
+      "seconds": 0.294234,
+      "json": {
+        "request": {
+          "sequence": 4,
+          "time_ns": 1793563812339594600,
+          "run": "si00-baseline-8dea2ab9f9",
+          "method": "GET",
+          "target": "/si00/echo?run=si00-baseline-8dea2ab9f9&via=proxy&value=%252F+%2B",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18780"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ]
+          ],
+          "other_cookie_count": 0,
+          "request_sha256": "f4f25b452e91fb74460737bdedd52e12b4f2ff42e7eb115f6e96b825edf0b1b9",
+          "body_base64": ""
+        }
+      }
+    },
+    "inspect": {
+      "jar": [
+        {
+          "expiration_ms": null,
+          "path": "/",
+          "domain": "127.0.0.1",
+          "value": "API_SEED"
+        }
+      ]
+    },
+    "cleanup": {
+      "remaining": [],
+      "cleanup_complete": true
+    }
+  },
+  "transport_error": null,
+  "no_application_request_replayed": true,
+  "observer_instance": "1e918531130740e7b7deb2ece42da21d",
+  "cookie_name": "BP_SI00_WIRE_7ebcb96ea3f1",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209"
+}

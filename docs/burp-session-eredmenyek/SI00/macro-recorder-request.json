@@ -1,0 +1,60 @@
+{
+  "kind": "SI00-one-time-macro-recorder-material",
+  "path": "/si00/token?run=si00-macro-template",
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "93"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "text/html"
+      ],
+      [
+        "Set-Cookie",
+        "BP_SI00_WIRE_7ebcb96ea3f1=MACRO; Path=/"
+      ]
+    ],
+    "body_base64": "PGZvcm0gYWN0aW9uPSIvc2kwMC9lY2hvIj48aW5wdXQgbmFtZT0ic2kwMF90b2tlbiIgdmFsdWU9IlNJMDAuc2kwMC1tYWNyby10ZW1wbGF0ZS4xIj48L2Zvcm0+",
+    "seconds": 0.03627
+  },
+  "observed": {
+    "run": "si00-macro-template",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 16,
+        "time_ns": 1793566918207015200,
+        "run": "si00-macro-template",
+        "method": "GET",
+        "target": "/si00/token?run=si00-macro-template",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18781"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "other_cookie_count": 0,
+        "request_sha256": "c0fe9ec7d9a1c5da34ca8fe984789e63b11f463e78303e077ddc7c179c107556",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "cleanup": {
+    "remaining": [],
+    "cleanup_complete": true
+  },
+  "passed": true
+}

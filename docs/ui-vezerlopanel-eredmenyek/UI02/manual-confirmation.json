@@ -1,0 +1,16 @@
+{
+  "kind": "UI02-user-manual-confirmation",
+  "date": "2026-11-01",
+  "source_sha256": "f761ab0b110d25911fcb523cfb94306d5e665aa202c0bac5ad88ba488d45a062",
+  "startup_confirmed": "BoberProxy loaded (UI02)",
+  "helper_result": "UI02_LAYOUT PASS (18 layout cases; 10 cleanup/UI checks; 24 logging checks)",
+  "user_confirmation": "Minden más kérdésre a válasz az hogy rendben, jó lett.",
+  "proxy_settings_separator_and_icon_visible": true,
+  "proxy_settings_correct_window_opens": true,
+  "settings_closed_without_changes": true,
+  "status_visible_while_sidebar_scrolls": true,
+  "status_height_accepted": true,
+  "errors_empty": true,
+  "main_configuration": "One root UI02; default/OFF controls, empty editors, Intercept OFF.",
+  "note": "Manual approval of requested checks; actual helper report separately archived. No additional traffic or broader compatibility claim."
+}

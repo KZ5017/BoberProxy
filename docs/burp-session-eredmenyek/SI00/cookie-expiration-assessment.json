@@ -1,0 +1,13 @@
+{
+  "kind": "SI00-expiry-interpretation",
+  "report": "cookie-expiration.json",
+  "observed_wait_ms": 2244.8136,
+  "max_age_one_cookie_sent_after_wait": true,
+  "api_expiration_for_max_age_one": null,
+  "far_expires_and_max_age_zero_not_transmitted": true,
+  "expired_record_still_in_jar": true,
+  "caution": "Historical capability name max_age_zero_removes_cookie is too broad: target suppression was measured for combined far-past Expires + Max-Age=0; isolated Max-Age=0 deletion was not proved.",
+  "full_legacy_expiry_equivalence": false,
+  "historical_reference": "https://portswigger.net/burp/releases/professional-1-4-06",
+  "historical_reference_note": "2012 release mentions one-day expiry tolerance; no claim this is the measured current mechanism. Max-Age-only response had null API expiration."
+}
