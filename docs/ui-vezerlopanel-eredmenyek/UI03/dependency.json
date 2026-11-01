@@ -1,0 +1,10 @@
+{
+  "artifact": "com.fifesoft:rsyntaxtextarea:3.6.3",
+  "download_url": "https://repo.maven.apache.org/maven2/com/fifesoft/rsyntaxtextarea/3.6.3/rsyntaxtextarea-3.6.3.jar",
+  "license_url": "https://raw.githubusercontent.com/bobbylight/RSyntaxTextArea/3.6.3/LICENSE.md",
+  "sha256": "5d81946b70a97fa5ea6884295a7fdd2a703cc3b0ef944796c7c696b4395413f6",
+  "maven_sha1_verified": "7c0980adcca5bb7823dc291fa4ebb375885e26d1",
+  "bytes": 1340341,
+  "license_origin": "META-INF/LICENSE copied byte-for-byte from the pinned JAR",
+  "license_sha256": "3b68fa753f71486d0cb4f123e280ea223f5fdd9c64ef0ca0e904938a0b4c609b"
+}

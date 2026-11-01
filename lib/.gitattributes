@@ -1,0 +1,3 @@
+# Preserve the distributed dependency and its upstream license bytes.
+*.jar -text
+RSyntaxTextArea-LICENSE.txt -text

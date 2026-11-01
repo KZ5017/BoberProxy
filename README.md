@@ -144,6 +144,7 @@ These placeholders are replaced during proxy request processing.
 * Burp Suite Professional or Community
 * Jython standalone JAR; verified with **Jython 2.7.4**
 * Python 2.7 syntax and libraries available in Burp's Jython runtime
+* Bundled `lib/` directory for the enhanced Python code editor (RSyntaxTextArea 3.6.3)
 
 The recorded integration environment is **Burp Suite Community 2026.10.1,
 Jython 2.7.4, Java 26.0.2 on Windows**. Other Burp/Jython/Java versions have not
@@ -152,7 +153,10 @@ development helpers; install the root extension for normal use.
 
 ### **Steps**
 
-1. Download or clone this repository.
+1. Download and extract the complete repository ZIP, or clone the repository.
+   Keep `lib/` next to `BoberProxy.py`; copying only the Python file omits the
+   enhanced editor. The library JAR and its license are already included. Do not
+   add the JAR as a separate Burp extension or change the Java classpath.
 2. In Burp **Settings**, find **Extensions → Python environment**.
 3. Browse and select the **Jython standalone** JAR.
 4. Go to **Extensions → Installed → Add**.
@@ -207,7 +211,7 @@ During initialization, BoberProxy:
 
 * Filters button
 * Status/length/response-regex capture controls
-* Custom codeblock editor
+* Python code editor with syntax highlighting, line numbers, indentation and undo/redo
 * Cookie & CSRF settings
 * Proxy mode toggle
 
@@ -237,6 +241,15 @@ The **Proxy settings** shortcut opens Burp's existing native control. It reuses
 the host button's gear icon and click behavior; availability depends on the
 Burp UI. If the native control cannot be found, a status message directs you to
 Proxy > Proxy settings.
+
+The custom editor uses the bundled [RSyntaxTextArea library](lib/README.md).
+It keeps the existing outer size and supports Python highlighting, line numbers,
+automatic indentation, four-space Tab input, bracket matching and undo/redo.
+Long lines scroll horizontally. Editor colors follow the startup light/dark
+appearance; code still runs under Jython 2.7, with the same Test/Reset and timeout
+behavior. Syntax colors are an editing aid, not a Python validator. Typing does
+not run code. If the library cannot be loaded, the basic editor remains available
+with a visible warning; restore the complete package and reload.
 
 The extension has no separate log search box, next-match navigator or row
 highlighting function. Use **Filter → ResponseContent** to search stored

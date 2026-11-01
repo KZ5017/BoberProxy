@@ -1,0 +1,9 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.kenai.jffi.internal.StubLoader in an unnamed module (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Traceback (most recent call last):
+  File "tests/stabilization/probe_ui03_native.py", line 12, in <module>
+    import javax.swing as swing
+ImportError: No module named swing

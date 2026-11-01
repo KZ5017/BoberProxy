@@ -4,6 +4,8 @@ Készült: 2026-10-29. Frissítve: 2026-11-01. Állapot: K00–[K10](eredmenyek/
 
 K11 előtt a külön [UI02 felületi finomítás](../ui-vezerlopanel-eredmenyek/UI02/README.md) lezárult; helyi/natív, valódi Burp-helper és végső kézi gomb-/státuszsáv-ellenőrzése sikeres, Errors üres.
 
+A külön [UI03 kész kódszerkesztő](../ui-vezerlopanel-eredmenyek/UI03/README.md) is lezárult: a mellékelt könyvtár, helyi/natív és tényleges Burp-helper ellenőrzés, valamint kézi szerkesztő-jóváhagyás sikeres. K11 továbbra is külön kör.
+
 A felhasználó K11-et későbbre helyezte. A külön [Burp süti-/munkamenet-integrációs terv](../burp-session-integracios-terv.md) SI00 képességmérése lezárult: a felhasználó a [G00 döntésben elvetette az integrációt](../burp-session-eredmenyek/SI00/ertekeles-es-G00.md). A jelenlegi saját kezelés marad; a kutatás nem módosította a fő forrást, a Burp tesztprofil visszaállítása visszaigazolt. SI01–SI05 nem indul.
 
 Ez a dokumentumcsomag a teljes forrásáttekintés alapján meghatározza a stabilitási, teljesítménybeli és működési hibák javításának sorrendjét. A K00 az alapfolyamatokat rögzítette; a K01 az egyszeri küldést biztosító hibakezelést, a K02 a sablon-/payload-helyességet és a custom hibadiagnosztikát javította és ellenőrizte. Bizonyítékok: [K00](eredmenyek/K00/README.md), [K01](eredmenyek/K01/README.md), [K02](eredmenyek/K02/README.md).

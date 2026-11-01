@@ -15,7 +15,7 @@ from probe_logging_native import NativeHelpers
 from probe_cleanup_native import run_checks as cleanup_checks
 
 
-def run_checks(actual_callbacks=None, preview=None):
+def run_checks(actual_callbacks=None, preview=None, expected_line='BoberProxy loaded (UI02)'):
     ns, raw = load_source(os.path.join(ROOT, 'BoberProxy.py'))
     checks, errors, dimensions, owned = {}, [], [], []
     helpers = actual_callbacks.getHelpers() if actual_callbacks else NativeHelpers()
@@ -130,7 +130,7 @@ def run_checks(actual_callbacks=None, preview=None):
         for ui in owned:
             for owner in (ui._filter_worker, ui._log_writer, ui._log_io):
                 if owner.worker is not None: owner.worker.join(5)
-    regression = cleanup_checks(actual_callbacks, expected_line='BoberProxy loaded (UI02)')
+    regression = cleanup_checks(actual_callbacks, expected_line=expected_line)
     return dict(kind='UI02-private-status-and-shortcut-no-network', checks=checks, errors=errors,
                 dimensions=dimensions, regression=regression, source_sha256=hashlib.sha256(raw).hexdigest(),
                 actual_burp_helpers=bool(actual_callbacks), network_requests=0,

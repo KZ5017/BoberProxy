@@ -1,5 +1,10 @@
 # Stabilizálási tesztkörnyezet
 
+## UI03 — kész Python-editor, lezárva
+
+- [Terv](../../docs/custom-kodszerkeszto-terv.md), [eredmények/pontos kézi kapu](../../docs/ui-vezerlopanel-eredmenyek/UI03/README.md). `probe_ui03_native.py --report ÚJ_FÁJL` külön JVM-ben22 editor +18 layout +10 cleanup/UI +24 logging, hálózat nélkül. A két peer-interpreter és globális standalone témaállítás nem fut a felhasználó Burpjában. Hiányzó/sérült JAR csak saját ideiglenes példányon tesztelt.
+- `burp_ui03_probe.py` saját UI-kon20 editor +18/10/24 eset, a fő beállítások és valódi globális téma módosítása nélkül. Root UI03 és a lib könyvtár együtt szükséges. A végső root betöltése és a szerkesztő kézi jóváhagyása visszaigazolt, Errors üres; a helper a Reset/Testet is sikeresen ellenőrizte. Az izolált classloader-reprodukció külön standalone-only próba, nem tölthető Burp-segédként. Korábbi UI02 helper helyett ezt használjuk; nincs új SI00 vagy K11 forgalom.
+
 ## UI02 — settings rövidút/státuszsáv, lezárva
 
 - [Eredmények és pontos aktuális kapu](../../docs/ui-vezerlopanel-eredmenyek/UI02/README.md). `probe_ui02_native.py` külön JVM-ben FlatLaf mellett18 UI-eset +10 cleanup/UI +24 logging regressziót futtat, hálózat nélkül; `--preview` privát, üres editoros képet ad. A standalone témaállítás sosem a felhasználó Burpjában fut.

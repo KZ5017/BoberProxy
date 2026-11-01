@@ -1,5 +1,30 @@
 # CHANGELOG.md
 
+## 2026-11-02 — UI03 Git checkpoint
+
+- Prepare user-requested commit/push of the closed Python-editor implementation, bundled dependency/license, installation documentation and validation evidence. Runtime captures remain ignored; source/JAR hashes match actual Burp results. K11 not started.
+
+## 2026-11-02 — UI03 validation closed
+
+- Archive matching-source actual Burp PASS20 editor/18layout/10cleanup/UI/24logging, including four-space Tab, Enter indentation and private Test OK; user approves editor and reports no Errors. Historical failed reports remain intact.
+- All required UI03 checks complete. K11 not started; no additional source change, traffic or Git action for closure.
+
+## 2026-11-02 — Isolate editor keys across Burp classloaders
+
+- Reproduce stale shared RSTA actions/default typing across independent classloaders and fix with per-editor key/action maps using its own EditorKit. Do not reset shared Burp/Swing defaults.
+- Isolated loader proof and native22 editor +18/10/24 checks pass; preserve two initial actual-helper failures. Final main/helper reload and manual Test confirmation pending.
+
+## 2026-11-02 — UI03 bundled Python editor candidate
+
+- Bundle pinned RSyntaxTextArea3.6.3/license/provenance and replace the custom editor with Python highlighting, line numbers, four-space Tab/indentation, bracket matching and undo/redo at the previous outer dimensions. Keep existing execution/Test/Reset/session flow.
+- Load dependency/theme resources off EDT from extension-relative lib path; use local theme/key settings, visible plain-editor fallback, and ignore unchanged custom snapshots. Document complete-folder installation.
+- Native21 editor +18layout +10cleanup/UI +24logging and CPython custom13 pass; final actual Burp/helper/manual gate pending. Preserve failed harness attempts; no network traffic or Git checkpoint.
+
+## 2026-11-02 — Targeted custom code-editor plan
+
+- Add UI03 plan for a bundled RSyntaxTextArea JAR and a narrow custom-editor replacement, preserving current dimensions and execution behavior. Include dependency packaging, focused validation and installation handoff.
+- Planning only; production source, Burp state and dependencies unchanged. K11 not started.
+
 ## 2026-11-01 — SI00/UI02 Git checkpoint
 
 - Prepare user-requested checkpoint of closed SI00 research/declined integration and UI02 shortcut/status-strip work, including synthetic evidence and private helpers. Generated runtime data stays ignored.

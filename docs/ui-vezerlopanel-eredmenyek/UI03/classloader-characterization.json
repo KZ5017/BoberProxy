@@ -1,0 +1,24 @@
+{
+  "note": "Standalone disposable JVM only; no user Burp UI/defaults are touched.", 
+  "kind": "UI03-isolated-classloader-keymap-characterization", 
+  "observations": [
+    {
+      "action_from_editor_loader": true, 
+      "index": 0, 
+      "text_after_own_tab": "    ", 
+      "text_after_cached_tab": "    ", 
+      "own_default_action_present": true, 
+      "text_after_cached_typing": "x"
+    }, 
+    {
+      "action_from_editor_loader": false, 
+      "index": 1, 
+      "text_after_own_tab": "    ", 
+      "text_after_cached_tab": "", 
+      "own_default_action_present": true, 
+      "text_after_cached_typing": ""
+    }
+  ], 
+  "errors": [], 
+  "network_requests": 0
+}

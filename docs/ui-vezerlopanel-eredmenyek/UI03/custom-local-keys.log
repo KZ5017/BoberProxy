@@ -1,0 +1,20 @@
+test_close_resolves_waiters_and_prevents_reload_worker_accumulation (test_custom_executor.CustomTests.test_close_resolves_waiters_and_prevents_reload_worker_accumulation) ... ok
+test_compile_cache_does_not_cache_namespace_or_skip_top_level (test_custom_executor.CustomTests.test_compile_cache_does_not_cache_namespace_or_skip_top_level) ... ok
+test_default_and_timeout_validation (test_custom_executor.CustomTests.test_default_and_timeout_validation) ... ok
+test_exception_text_cannot_kill_worker (test_custom_executor.CustomTests.test_exception_text_cannot_kill_worker) ... ok
+test_idle_close_terminates_worker_and_rejects_new_jobs (test_custom_executor.CustomTests.test_idle_close_terminates_worker_and_rejects_new_jobs) ... ok
+test_invalid_ui_timeout_is_visible_pre_send_error (test_custom_executor.CustomTests.test_invalid_ui_timeout_is_visible_pre_send_error) ... ok
+test_late_function_result_is_discarded (test_custom_executor.CustomTests.test_late_function_result_is_discarded) ... ok
+test_late_top_level_cannot_proceed_to_function_or_replace_worker (test_custom_executor.CustomTests.test_late_top_level_cannot_proceed_to_function_or_replace_worker) ... ok
+test_one_active_one_waiting_then_busy (test_custom_executor.CustomTests.test_one_active_one_waiting_then_busy) ... ok
+test_python_base_exception_cannot_kill_worker (test_custom_executor.CustomTests.test_python_base_exception_cannot_kill_worker) ... ok
+test_queue_time_counts_and_expired_job_never_executes (test_custom_executor.CustomTests.test_queue_time_counts_and_expired_job_never_executes) ... ok
+test_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8 (test_custom_executor.CustomTests.test_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8) ... ok
+test_workflow_freezes_source_timeout_and_enabled_state_for_both_calls (test_custom_executor.CustomTests.test_workflow_freezes_source_timeout_and_enabled_state_for_both_calls) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.970s
+
+OK
+Baseline: 13 tests; 0 known unfixed defects.
+Expected failures are reproduced defects, not fixed acceptance tests.

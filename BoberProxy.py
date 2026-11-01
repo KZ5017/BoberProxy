@@ -15,6 +15,69 @@ from java.lang import Integer, Exception as JavaException, Throwable as JavaThro
 
 import threading, time, traceback, re
 
+CODE_EDITOR_JAR = "rsyntaxtextarea-3.6.3.jar"
+
+
+def _code_editor_local_keys(editor):
+    """Keep RSTA actions/keymaps local when Burp hosts different classloaders."""
+    from javax.swing.text import JTextComponent, DefaultEditorKit
+    actions = dict((unicode(action.getValue(swing.Action.NAME)), action)
+                   for action in editor.getActions()
+                   if action.getValue(swing.Action.NAME) is not None)
+    previous = editor.getKeymap()
+    local = JTextComponent.addKeymap(None, None)
+    local.setDefaultAction(actions[unicode(DefaultEditorKit.defaultKeyTypedAction)])
+    if previous is not None:
+        for stroke in previous.getBoundKeyStrokes() or ():
+            action = previous.getAction(stroke)
+            replacement = actions.get(unicode(action.getValue(swing.Action.NAME)))
+            if replacement is not None:
+                local.addActionForKeyStroke(stroke, replacement)
+    editor.setKeymap(local)
+    local_actions = swing.ActionMap()
+    local_actions.setParent(editor.getActionMap())
+    for name, action in actions.items():
+        local_actions.put(name, action)
+    editor.setActionMap(local_actions)
+
+
+def _load_code_editor_support(source_file):
+    """Load optional editor classes/resources before constructing Swing widgets."""
+    if swing.SwingUtilities.isEventDispatchThread():
+        return {"error": "CODE_EDITOR_LOAD_SKIPPED_ON_EDT"}
+    try:
+        import os, sys
+        path = os.path.join(os.path.dirname(os.path.abspath(source_file)), "lib", CODE_EDITOR_JAR)
+        if not os.path.isfile(path):
+            return {"error": "CODE_EDITOR_JAR_MISSING"}
+        if path not in sys.path:
+            sys.path.append(path)
+        from org.fife.ui.rsyntaxtextarea import RSyntaxTextArea, SyntaxConstants, Theme
+        from org.fife.ui.rtextarea import RTextScrollPane
+        from java.util.jar import JarFile
+        themes = {}
+        archive = JarFile(path)
+        try:
+            for name in ("default", "dark"):
+                entry = archive.getJarEntry("org/fife/ui/rsyntaxtextarea/themes/" + name + ".xml")
+                if entry is None:
+                    raise ValueError("Editor theme missing")
+                stream = archive.getInputStream(entry)
+                try:
+                    themes[name] = Theme.load(stream)
+                finally:
+                    stream.close()
+        finally:
+            archive.close()
+        return {"editor": RSyntaxTextArea, "scroll": RTextScrollPane,
+                "syntax": SyntaxConstants, "themes": themes, "jar": path}
+    except (Exception, JavaThrowable) as error:
+        return {"error": "CODE_EDITOR_LOAD_FAILED", "error_type": type(error).__name__}
+
+
+# Burp imports the extension outside the EDT. Keep JAR/theme disk reads there.
+CODE_EDITOR_SUPPORT = _load_code_editor_support(globals().get("__file__", ""))
+
 CUSTOM_GATE_NAME = "BoberProxy.custom.v1"
 CUSTOM_START_LOCK = threading.Lock()
 
@@ -2208,6 +2271,9 @@ class LoggerUI(ITab):
         self.mainPanel.add(self.leftSplit, BorderLayout.CENTER)
         self.mainPanel.add(self._build_controls_panel(), BorderLayout.EAST)
         self._component = self.mainPanel
+        if self._code_editor_warning:
+            self._log(self._code_editor_warning + ": basic code editor active; restore the bundled lib folder.")
+            _print_diagnostic("[BoberProxy] " + self._code_editor_warning)
 
         self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
         self._runtime_publisher = RuntimePublisher(self)
@@ -2431,6 +2497,48 @@ class LoggerUI(ITab):
             self._controls_row([self.csrfRegexScroll], stretch=0),
         ])
 
+    def _create_custom_editor(self):
+        # Measure the old widget so line numbers cannot widen/heighten the sidebar.
+        basic = swing.JTextArea(self.default_code_text, 10, 28)
+        basic.setLineWrap(False)
+        basic_scroll = swing.JScrollPane(basic)
+        size, minimum = basic_scroll.getPreferredSize(), basic_scroll.getMinimumSize()
+        support = globals().get("CODE_EDITOR_SUPPORT", {})
+        self._code_editor_enhanced = False
+        self._code_editor_warning = support.get("error", "CODE_EDITOR_UNAVAILABLE")
+        if "editor" in support:
+            try:
+                editor = support["editor"](10, 28)
+                editor.setSyntaxEditingStyle(support["syntax"].SYNTAX_STYLE_PYTHON)
+                editor.setLineWrap(False)
+                editor.setAutoIndentEnabled(True)
+                editor.setTabsEmulated(True)
+                editor.setTabSize(4)
+                editor.setBracketMatchingEnabled(True)
+                editor.setAnimateBracketMatching(False)
+                editor.setCodeFoldingEnabled(False)
+                editor.setMarkOccurrences(False)
+                scroll = support["scroll"](editor)
+                scroll.setLineNumbersEnabled(True)
+                background = basic.getBackground()
+                dark = background.getRed() + background.getGreen() + background.getBlue() < 384
+                support["themes"]["dark" if dark else "default"].apply(editor)
+                editor.setFont(Font("Monospaced", Font.PLAIN, basic.getFont().getSize()))
+                scroll.getGutter().setLineNumberFont(editor.getFont())
+                _code_editor_local_keys(editor)
+                editor.setText(self.default_code_text)
+                editor.discardAllEdits()
+                scroll.setPreferredSize(size)
+                scroll.setMinimumSize(minimum)
+                self._code_editor_enhanced = True
+                self._code_editor_warning = None
+                return editor, scroll
+            except (Exception, JavaThrowable) as error:
+                self._code_editor_warning = "CODE_EDITOR_INIT_FAILED"
+                _print_diagnostic("[BoberProxy] CODE_EDITOR_INIT_FAILED", error)
+        basic_scroll.setPreferredSize(size)
+        return basic, basic_scroll
+
     def _build_custom_panel(self):
         from javax.swing.event import DocumentListener
         self.useCustomChk = swing.JCheckBox("Use custom codeblock", False, actionPerformed=self._on_toggle_custom)
@@ -2442,10 +2550,7 @@ class LoggerUI(ITab):
         self.payload_param2_name = "w"
         self.payloadParam2Field = swing.JTextField(self.payload_param2_name, 10)
         self.payloadParam2Field.setToolTipText("Payload 2 parameter; template marker: " + TEMPLATE_PAYLOAD_MARKER_2)
-        self.customCodeArea = swing.JTextArea(self.default_code_text, 10, 28)
-        self.customCodeArea.setLineWrap(False)
-        self.customCodeScroll = swing.JScrollPane(self.customCodeArea)
-        self.customCodeScroll.setPreferredSize(self.customCodeScroll.getPreferredSize())
+        self.customCodeArea, self.customCodeScroll = self._create_custom_editor()
         self.testCodeBtn = swing.JButton("Test", actionPerformed=self._on_test_code)
         self.resetBtn = swing.JButton("Reset", actionPerformed=self._reset_custom_code)
         ui = self
@@ -3315,6 +3420,8 @@ class LoggerUI(ITab):
         timeout = self.timeoutField.getText()
         enabled = self.custom_codeblock_status
         with self._custom_settings_lock:
+            if self._custom_settings is not None and self._custom_settings[:3] == (enabled, code, timeout):
+                return
             self._custom_version += 1
             self._custom_settings = (enabled, code, timeout, self._custom_version)
 
@@ -4030,7 +4137,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
                 installed.append("proxy")
                 if not still_open():
                     return
-                _print_diagnostic("BoberProxy loaded (UI02)")
+                _print_diagnostic("BoberProxy loaded (UI03)")
             except (Exception, JavaException) as error:
                 withdraw()
                 _print_diagnostic("[BoberProxy] UI_INITIALIZATION_FAILED", error)
@@ -4038,7 +4145,19 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
                     callbacks.printError("BoberProxy UI initialization failed: UI_INITIALIZATION_FAILED (%s)" % type(error).__name__)
                 except (Exception, JavaException) as failure:
                     _print_diagnostic("[BoberProxy] ERROR_OUTPUT_FAILED", failure)
-        if swing.SwingUtilities.isEventDispatchThread():
+        def prepare_editor():
+            # Burp may not set __file__; its callback supplies the actual path.
+            globals()["CODE_EDITOR_SUPPORT"] = _load_code_editor_support(unicode(callbacks.getExtensionFilename()))
+            if not self._extension_closed:
+                swing.SwingUtilities.invokeLater(initialize)
+        if hasattr(callbacks, "getExtensionFilename"):
+            if swing.SwingUtilities.isEventDispatchThread():
+                loader = threading.Thread(target=prepare_editor, name="BoberProxy.editor-load")
+                loader.setDaemon(True)
+                loader.start()
+            else:
+                prepare_editor()
+        elif swing.SwingUtilities.isEventDispatchThread():
             initialize()
         else:
             swing.SwingUtilities.invokeLater(initialize)
