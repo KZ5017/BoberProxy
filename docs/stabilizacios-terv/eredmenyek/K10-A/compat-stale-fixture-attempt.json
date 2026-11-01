@@ -1,0 +1,151 @@
+{
+  "reports": {
+    "probe_filters_native": {
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+      "kind": "K07-native-Java-regex-and-finite-Swing-no-network", 
+      "logic_log": "test_busy_capture_is_visible_and_does_not_accept_unknown_match (probe_filters_native.NativeFilters) ... ok\ntest_busy_display_retains_already_admitted_entry (probe_filters_native.NativeFilters) ... ok\ntest_capture_characterized_matches (probe_filters_native.NativeFilters) ... ok\ntest_clear_during_rebuild_never_restores_old_rows (probe_filters_native.NativeFilters) ... ok\ntest_clear_selected_invalidates_search_but_not_new_admission (probe_filters_native.NativeFilters) ... ok\ntest_clear_while_callback_analyzes_does_not_resurrect_event (probe_filters_native.NativeFilters) ... ok\ntest_clearing_regex_with_valid_size_does_not_wait_for_busy_worker (probe_filters_native.NativeFilters) ... ok\ntest_close_ignores_pending_search_result (probe_filters_native.NativeFilters) ... ok\ntest_compilation_is_not_repeated_per_row (probe_filters_native.NativeFilters) ... ok\ntest_display_characterized_matches (probe_filters_native.NativeFilters) ... ok\ntest_invalid_capture_regex_retains_last_valid_plan (probe_filters_native.NativeFilters) ... ok\ntest_invalid_display_is_atomic_and_keeps_previous_filter (probe_filters_native.NativeFilters) ... ok\ntest_invalid_numeric_retains_last_valid_capture (probe_filters_native.NativeFilters) ... ok\ntest_legacy_empty_regex_item_has_no_response_decode (probe_filters_native.NativeFilters) ... ok\ntest_metadata_rejection_does_not_queue_regex_work (probe_filters_native.NativeFilters) ... ok\ntest_new_filter_wins_over_late_old_search (probe_filters_native.NativeFilters) ... ok\ntest_new_rows_merge_into_stable_rebuild_snapshot (probe_filters_native.NativeFilters) ... ok\ntest_no_display_filter_erases_stored_entries (probe_filters_native.NativeFilters) ... ok\ntest_other_settings_reuse_unchanged_compiled_patterns (probe_filters_native.NativeFilters) ... ok\ntest_reset_to_current_filter_cancels_pending_new_validation (probe_filters_native.NativeFilters) ... ok\ntest_reset_to_current_filter_clears_invalid_draft_error (probe_filters_native.NativeFilters) ... ok\ntest_unknown_new_row_is_rechecked_instead_of_lost (probe_filters_native.NativeFilters) ... ok\ntest_worker_capacity_and_coalesced_controls_are_bounded (probe_filters_native.NativeFilters) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 0.306s\n\nOK\n", 
+      "checks": {
+        "invalid_dialog_visible_and_previous_plan_retained": true, 
+        "capture_correction_clears_error": true, 
+        "filter_timer_on_edt_ui": true, 
+        "display_filter_keeps_store": true, 
+        "two_lines_preserve_embedded_commas": true, 
+        "native_ui_flow": false, 
+        "invalid_capture_plan_not_published": true, 
+        "display_java_flags_unchanged": true, 
+        "capture_java_flags_unchanged": true, 
+        "no_implicit_unicode_case_flag": true, 
+        "ten_thousand_matches_applied": true, 
+        "native_filter_regressions": true, 
+        "invalid_capture_numeric_visible": true
+      }, 
+      "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d", 
+      "java_version": "26.0.2", 
+      "passed": false, 
+      "actual_burp_helpers": false, 
+      "errors": [
+        "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_filters_native.py\", line 122, in run_checks\n    edt(lambda:dialogs[-1]._on_reset())\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_filters_native.py\", line 49, in edt\n    raise AssertionError('\\n'.join(failed))\nAssertionError: Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_filters_native.py\", line 41, in invoke\n    operation()\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_filters_native.py\", line 122, in <lambda>\n    edt(lambda:dialogs[-1]._on_reset())\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 1908, in _on_reset\n    self.parent._apply_display_filters(self.candidate())\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 2832, in _apply_display_filters\n    apply(DisplayFilterPlan(candidate), None)\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 2830, in apply\n    self._refresh_table_display()\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 2896, in _refresh_table_display\n    self._set_display_rows(self.logStore.entries)\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 2887, in _set_display_rows\n    if table is not None and hasattr(self,\"controller\"): self._request_selected_message()\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 3143, in _request_selected_message\n    self._clear_log_viewer()\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 3136, in _clear_log_viewer\n    self.reqViewer.setMessage(self.helpers.stringToBytes(\"\"),True)\nAttributeError: 'Editor' object has no attribute 'setMessage'\n\n"
+      ], 
+      "native_message_editors": false, 
+      "logic_cases": 23
+    }, 
+    "probe_session_native": {
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+      "kind": "K04-native-manager-and-swing-checks-no-network", 
+      "message_editors_are_doubles": true, 
+      "checks": {
+        "native_max_age_precedes_expires": true, 
+        "empty_cookie_is_readdition": true, 
+        "native_utc_expiry_tombstone": true, 
+        "swing_edit_shows_missing_capture": true, 
+        "clear_restores_template": true, 
+        "swing_edit_shows_invalid_regex_immediately": true, 
+        "swing_clear_show_missing": true, 
+        "java_array_deleted_prefix_is_value": true, 
+        "unmanaged_cookie_and_high_byte_body_survive": true, 
+        "actual_header_name_only": true, 
+        "tombstone_suppresses_unicode_template_cookie": true, 
+        "signed_java_bytes_csrf_preserved": true, 
+        "native_unchanged_pattern_reuses_compilation": true, 
+        "native_clear_is_missing_token": true, 
+        "native_oversized_repeat_is_configuration_error": true, 
+        "native_invalid_regex_diagnostic": true, 
+        "native_capture_required": true, 
+        "swing_edited_pattern_extracts": true, 
+        "native_no_match_retains_token": true, 
+        "swing_default_regex_compiled_with_options_off": true, 
+        "swing_reset_recompiles_default": true, 
+        "native_empty_token_is_present": true
+      }, 
+      "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d", 
+      "java_version": "26.0.2", 
+      "actual_burp_helpers": false, 
+      "passed": true, 
+      "errors": []
+    }, 
+    "probe_custom_native": {
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+      "kind": "K05-finite-native-Jython-Swing-no-network", 
+      "executor_log": "test_close_resolves_waiters_and_prevents_reload_worker_accumulation (probe_custom_native.NativeCustom) ... ok\ntest_compile_cache_does_not_cache_namespace_or_skip_top_level (probe_custom_native.NativeCustom) ... ok\ntest_default_and_timeout_validation (probe_custom_native.NativeCustom) ... ok\ntest_exception_text_cannot_kill_worker (probe_custom_native.NativeCustom) ... ok\ntest_idle_close_terminates_worker_and_rejects_new_jobs (probe_custom_native.NativeCustom) ... ok\ntest_invalid_ui_timeout_is_visible_pre_send_error (probe_custom_native.NativeCustom) ... ok\ntest_late_function_result_is_discarded (probe_custom_native.NativeCustom) ... ok\ntest_late_top_level_cannot_proceed_to_function_or_replace_worker (probe_custom_native.NativeCustom) ... ok\ntest_one_active_one_waiting_then_busy (probe_custom_native.NativeCustom) ... ok\ntest_python_base_exception_cannot_kill_worker (probe_custom_native.NativeCustom) ... ok\ntest_queue_time_counts_and_expired_job_never_executes (probe_custom_native.NativeCustom) ... ok\ntest_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8 (probe_custom_native.NativeCustom) ... ok\ntest_workflow_freezes_source_timeout_and_enabled_state_for_both_calls (probe_custom_native.NativeCustom) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 1.016s\n\nOK\n", 
+      "message_editors_are_doubles": true, 
+      "checks": {
+        "test_uses_existing_executor": true, 
+        "test_success_published_on_edt": true, 
+        "unload_cannot_publish_test_output": true, 
+        "native_executor_regressions": true, 
+        "extension_state_listener_interface": true, 
+        "cross_interpreter_recovery_after_natural_finish": true, 
+        "test_top_level_timeout_visible": true, 
+        "cross_interpreter_reload_keeps_old_worker_capacity": true, 
+        "edt_responds_while_custom_runs": true, 
+        "late_test_result_not_published": true, 
+        "test_action_returns_before_custom_finishes": true, 
+        "unload_stops_timer": true, 
+        "edited_settings_discard_old_test_output": true
+      }, 
+      "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d", 
+      "java_version": "26.0.2", 
+      "actual_burp_helpers": false, 
+      "passed": true, 
+      "executor_cases": 13, 
+      "errors": [], 
+      "guaranteed_hard_stop": false
+    }, 
+    "probe_runtime_native": {
+      "registration_cancellation": [
+        {
+          "remaining": [], 
+          "stage": "tab", 
+          "passed": true
+        }, 
+        {
+          "remaining": [], 
+          "stage": "http", 
+          "passed": true
+        }, 
+        {
+          "remaining": [], 
+          "stage": "proxy", 
+          "passed": true
+        }
+      ], 
+      "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+      "kind": "K06-native-session-configuration-EDT-no-network", 
+      "session_cases": 15, 
+      "checks": {
+        "initial_custom_off": true, 
+        "unload_cannot_publish_status": true, 
+        "unload_closes_coordinator": true, 
+        "editor_programmatic_change_published": true, 
+        "old_template_all_256_bytes_immutable": true, 
+        "partial_registration_failure_cleans_ui": true, 
+        "source_ui_constructed_on_edt": true, 
+        "native_editor_bytes_published": true, 
+        "document_edit_publishes_version": true, 
+        "unload_preserves_snapshot": true, 
+        "unchanged_snapshot_keeps_version": true, 
+        "old_snapshot_unchanged": true, 
+        "initial_options_off": true, 
+        "unload_during_registration_cannot_leave_resources": true, 
+        "unload_stops_publisher": true, 
+        "unload_before_initialize_creates_no_orphan": true, 
+        "editors_created_on_edt": true, 
+        "unload_detaches_listeners": true, 
+        "callback_snapshot_has_no_widget_reads": true, 
+        "native_session_ordering_regressions": true, 
+        "snapshot_ready_before_listeners": true, 
+        "item_event_publishes_switch": true, 
+        "real_status_label_updated": true
+      }, 
+      "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d", 
+      "session_log": "test_callbacks_with_published_config_do_not_read_widgets (probe_runtime_native.NativeSessions) ... ok\ntest_clear_after_internal_send_stops_before_checkpage (probe_runtime_native.NativeSessions) ... ok\ntest_clear_csrf_invalidates_both_publication_channels (probe_runtime_native.NativeSessions) ... ok\ntest_clear_releases_owner_and_waiter_seeds_new_epoch (probe_runtime_native.NativeSessions) ... ok\ntest_clear_while_parser_waits_does_not_block_or_publish (probe_runtime_native.NativeSessions) ... ok\ntest_close_wakes_waiters_and_rejects_late_response (probe_runtime_native.NativeSessions) ... ok\ntest_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie (probe_runtime_native.NativeSessions) ... ok\ntest_metadata_capacity_expiry_and_unknown_response_are_explicit (probe_runtime_native.NativeSessions) ... ok\ntest_missing_final_response_keeps_lease_until_explicit_recovery (probe_runtime_native.NativeSessions) ... ok\ntest_next_owner_waits_until_final_proxy_response (probe_runtime_native.NativeSessions) ... ok\ntest_passive_response_does_not_replace_owner_local_state (probe_runtime_native.NativeSessions) ... ok\ntest_queue_capacity_and_deadline_do_not_release_owner (probe_runtime_native.NativeSessions) ... ok\ntest_reference_rehook_does_not_repeat_workflow_and_null_response_releases (probe_runtime_native.NativeSessions) ... ok\ntest_response_uses_request_time_flags_and_regex (probe_runtime_native.NativeSessions) ... ok\ntest_workflow_freezes_templates_flags_payload_names_and_regex (probe_runtime_native.NativeSessions) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.067s\n\nOK\n", 
+      "java_version": "26.0.2", 
+      "actual_burp_helpers": false, 
+      "passed": true, 
+      "native_message_editors": false, 
+      "errors": []
+    }
+  }, 
+  "passed": false, 
+  "network_requests": 0
+}

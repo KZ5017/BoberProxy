@@ -1,0 +1,431 @@
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -18,11 +18,8 @@
+ CUSTOM_GATE_NAME = "BoberProxy.custom.v1"
+ CUSTOM_START_LOCK = threading.Lock()
+ 
+-# URL parsing - choose one, depending on which one works in your environment
+-# Python 2 (old Jython versions):
++# Jython 2.7 URL parsing; production intentionally uses the Python 2 API.
+ from urlparse import urljoin, urlparse
+-# Python 3 (Jython and newer versions):
+-#from urllib.parse import urljoin, urlparse
+ 
+ 
+ TEMPLATE_PAYLOAD_MARKER_1 = "p4yl04dm4rk3r"
+@@ -2254,6 +2251,7 @@
+         buttonPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
+         # Add same set of buttons and keep names/actions
+         self.addSitemapBtn = swing.JButton("Add selected to Site map", actionPerformed=self.add_selected_to_sitemap)
++        self.addSitemapBtn.setToolTipText("Adds selected messages to Site map and includes their URLs in Burp scope.")
+         buttonPanel.add(self.addSitemapBtn)
+ 
+         self.clearBtn = swing.JButton("Clear log", actionPerformed=self.clear_log)
+@@ -2531,75 +2529,13 @@
+             swing.SwingUtilities.invokeLater(publish)
+ 
+ 
+-    def _to_text(self, data):
+-        """
+-        Robust conversion of various response forms to a unicode string.
+-        Handles:
+-         - bytes / bytearray
+-         - iterable of ints (Java byte[] / Jython byte[] view)
+-         - string repr like "array('b', [72, 84, ...])"
+-         - fallback to str()
+-        """
+-        try:
+-            # already bytes-like
+-            if isinstance(data, (bytes, bytearray)):
+-                try:
+-                    return data.decode("latin-1", "replace")
+-                except:
+-                    return data.decode("utf-8", "replace")
+-
+-            # If it's an actual iterable (Java byte[], list of ints, etc.) but not a str
+-            if hasattr(data, '__iter__') and not isinstance(data, str):
+-                try:
+-                    out = bytearray()
+-                    for b in data:
+-                        try:
+-                            iv = int(b)
+-                        except Exception:
+-                            try:
+-                                iv = ord(b)
+-                            except Exception:
+-                                iv = 0
+-                        if iv < 0:
+-                            iv = iv + 256
+-                        out.append(iv)
+-                    return bytes(out).decode("latin-1", "replace")
+-                except Exception:
+-                    # fallthrough to string handling
+-                    pass
+-
+-            # otherwise, try to parse common textual reprs like: array('b', [72, 84, ...])
+-            s = str(data)
+-
+-            # pattern: array('b', [72, 84, ...])
+-            try:
+-                m = re.match(r"^\s*array\('b'\s*,\s*\[([0-9,\s]+)\]\s*\)\s*$", s)
+-                if m:
+-                    nums = [int(x.strip()) for x in m.group(1).split(',') if x.strip()]
+-                    if nums:
+-                        return bytes(nums).decode("latin-1", "replace")
+-            except Exception:
+-                pass
+-
+-            # fallback: if string contains bracketed numbers like [72, 84, ...], try that
+-            try:
+-                m2 = re.search(r"\[([0-9,\s]+)\]", s)
+-                if m2:
+-                    parts = [p.strip() for p in m2.group(1).split(',') if p.strip().isdigit()]
+-                    if parts:
+-                        nums = [int(p) for p in parts]
+-                        return bytes(nums).decode("latin-1", "replace")
+-            except Exception:
+-                pass
+-
+-            # final fallback: return the string representation
+-            return s
+-
+-        except Exception:
+-            try:
+-                return str(data)
+-            except:
+-                return ""
++    def _ui_error(self, code, error):
++        """Report a fixed error code without depending on exception rendering."""
++        _print_diagnostic("[BoberProxy] " + code, error)
++        try:
++            self._log(code)
++        except (Exception, JavaException) as failure:
++            _print_diagnostic("[BoberProxy] STATUS_REPORT_FAILED", failure)
+ 
+ 
+     def _on_proxy_toggle(self):
+@@ -2636,31 +2572,18 @@
+ 
+ 
+     def _open_filter_dialog(self, evt=None):
+-        try:
+-            # I assume that there is a FilterDialog class that expects the parent in its constructor.
++        dlg = None
++        try:
+             dlg = FilterDialog(self)
+-            # if the dialog has a load_from_parent method, call it
+-            try:
+-                dlg.load_from_parent()
+-            except Exception:
+-                # if there is no such method, it is not critical
+-                pass
+-            # position relative to the logger component
+-            try:
+-                dlg.dialog.setLocationRelativeTo(self._component)
+-            except Exception:
++            dlg.load_from_parent()
++            dlg.dialog.setVisible(True)
++        except (Exception, JavaException) as error:
++            if dlg is not None:
+                 try:
+-                    dlg.dialog.setLocationRelativeTo(None)
+-                except Exception:
+-                    pass
+-            dlg.dialog.setVisible(True)
+-        except Exception as e:
+-            # Let's try to update customStatusArea if it is available
+-            try:
+-                self.customStatusArea.setText("Cannot open filter dialog: %s" % e)
+-            except Exception:
+-                # completely silent fallback
+-                pass
++                    dlg._on_cancel()
++                except (Exception, JavaException) as failure:
++                    _print_diagnostic("[BoberProxy] FILTER_DIALOG_CLEANUP_FAILED", failure)
++            self._ui_error("FILTER_DIALOG_FAILED", error)
+ 
+ 
+     def _load_template_from_viewer(self,event=None):
+@@ -2672,18 +2595,11 @@
+ 
+     def _clear_req_template(self, event=None):
+         try:
+-            if hasattr(self, "reqTemplateEditor"):
+-                try:
+-                    self.reqTemplateEditor.setMessage(None, True)
+-                except:
+-                    # fall back to setting empty bytes
+-                    try:
+-                        self.reqTemplateEditor.setMessage(self.helpers.stringToBytes(""), True)
+-                    except:
+-                        pass
++            self.reqTemplateEditor.setMessage(self.helpers.stringToBytes(""), True)
+             self.set_status("Request Template cleared")
+-        except:
+-            pass
++        except (Exception, JavaException) as error:
++            self._ui_error("REQUEST_TEMPLATE_CLEAR_FAILED", error)
++
+ 
+     def _load_check_from_viewer(self,event=None):
+         def loaded(message):
+@@ -2694,17 +2610,10 @@
+ 
+     def _clear_check_template(self, event=None):
+         try:
+-            if hasattr(self, "checkPageEditor"):
+-                try:
+-                    self.checkPageEditor.setMessage(None, True)
+-                except:
+-                    try:
+-                        self.checkPageEditor.setMessage(self.helpers.stringToBytes(""), True)
+-                    except:
+-                        pass
++            self.checkPageEditor.setMessage(self.helpers.stringToBytes(""), True)
+             self.set_status("CheckPageTemplate cleared")
+-        except:
+-            pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CHECKPAGE_TEMPLATE_CLEAR_FAILED", error)
+ 
+ 
+     def getTabCaption(self): return "BoberProxy"
+@@ -3052,13 +2961,10 @@
+             self.logTableModel.clear()
+             if hasattr(self,"controller"): self._clear_log_viewer()
+             self._log("Log cleared OK!")
+-        except Exception as e:
+-            try:
+-                self._log("Log cleared ERROR: %s\n" % str(e))
+-            except:
+-                pass
+-
+-        
++        except (Exception, JavaException) as error:
++            self._ui_error("LOG_CLEAR_FAILED", error)
++
++
+     def clear_selected(self, evt=None):
+         try:
+             view_rows = self.table.getSelectedRows()
+@@ -3090,11 +2996,8 @@
+ 
+             self._log("Cleared %d selected" % removed)
+ 
+-        except Exception as e:
+-            try:
+-                self._log("clear_selected error: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("LOG_SELECTED_CLEAR_FAILED", error)
+ 
+ 
+     def toggle_pause(self, evt=None):
+@@ -3110,11 +3013,9 @@
+             sorter = self.table.getRowSorter()
+             if sorter:
+                 sorter.setSortKeys(None)
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.append("reset_sorting_to_model_order error: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("SORT_RESET_FAILED", error)
++
+ 
+     def sort_by_index_asc(self):
+         """Sort JTable by '#' column (index ascending)."""
+@@ -3122,11 +3023,8 @@
+             sorter = self.table.getRowSorter()
+             if sorter:
+                 sorter.setSortKeys([RowSorter.SortKey(0, SortOrder.ASCENDING)])
+-        except Exception as e:
+-            try:
+-                self._log("sort_by_index_asc ERROR: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("SORT_INDEX_FAILED", error)
+ 
+ 
+     def _clear_log_viewer(self):
+@@ -3169,6 +3067,7 @@
+         self._request_selected_message()
+ 
+     def add_selected_to_sitemap(self,event=None):
++        """Export selected original messages and include their URLs in Burp scope."""
+         rows = self.table.getSelectedRows()
+         if not rows:
+             swing.JOptionPane.showMessageDialog(None,"No rows selected.")
+@@ -3272,43 +3171,35 @@
+         try:
+             self.sessions.clear("cookies")
+             self.customStatusArea.setText("Cookies cleared.")
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error clearing cookies: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("COOKIE_CLEAR_FAILED", error)
++
+ 
+     def _on_show_cookies(self, evt=None):
+         try:
+             txt = self.cookieManager.dump()
+             # put into customStatusArea so user sees current jar
+             self.customStatusArea.setText("Current cookies:\n%s" % txt)
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error showing cookies: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("COOKIE_SHOW_FAILED", error)
++
+ 
+     def _on_clear_csrf(self, evt=None):
+         try:
+             self.sessions.clear("csrf")
+             self.customStatusArea.setText("CSRF_token cleared")
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error clearing CSRF: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CSRF_CLEAR_FAILED", error)
++
+ 
+     def _on_show_csrf(self, evt=None):
+         try:
+             txt = self.csrfManager.dump()
+             # put into customStatusArea so user sees current jar
+             self.customStatusArea.setText("CSRF_token:\n%s" % txt)
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error showing CSRF: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CSRF_SHOW_FAILED", error)
++
+ 
+     def _on_csrf_regex_changed(self):
+         # Invoked by Swing document events on the UI thread.
+@@ -3324,16 +3215,10 @@
+         try:
+             self.csrfRegexArea.setText(self.csrf_default_pattern)
+             self.customStatusArea.setText("CSRF regex reset to default.")
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error resetting CSRF regex: %s" % e)
+-            except:
+-                pass
+-
+-
+-    # ---------------------------
+-    # Custom codeblock helpers
+-    # ---------------------------
++        except (Exception, JavaException) as error:
++            self._ui_error("CSRF_REGEX_RESET_FAILED", error)
++
++
+     def _on_toggle_custom(self, evt=None):
+         self.custom_codeblock_status = bool(self.useCustomChk.isSelected())
+         self._on_custom_settings_changed()
+@@ -3448,13 +3333,16 @@
+         try:
+             default_code_text = getattr(self, "default_code_text", "")
+             self.customCodeArea.setText(default_code_text)
+-        except:
+-            pass
+-
++        except (Exception, JavaException) as error:
++            self._ui_error("CUSTOM_CODE_RESET_FAILED", error)
+ 
+ 
+     def run_user_code(self, incoming_payload1, timeout_ms=500, incoming_payload2=None, incoming_csrf=None):
+-        """Frozen source; compile/exec/call/validation all use one bounded worker."""
++        """Return (ok, three_values_or_None, error_or_None) using one bounded worker.
++
++        Compilation, top-level exec, call and validation share the result deadline.
++        Expiry does not forcibly terminate arbitrary Python/Java execution.
++        """
+         snapshot = getattr(self._custom_context, "snapshot", None)
+         if snapshot is None:
+             snapshot = self._capture_custom_settings()
+@@ -3619,7 +3507,7 @@
+         fallback_resp=None,
+         custom_settings=None
+     ):
+-        """Return complete request bytes, or fallback_resp with TRANSFORM_ERROR.
++        """Return complete request bytes, or fallback_resp with a UI TRANSFORM_ERROR.
+ 
+         Only markers in the original template are substituted. The public
+         bytes-or-fallback contract is retained for the workflow's send states.
+@@ -3715,7 +3603,7 @@
+             return request_bytes
+         except (Exception, JavaException) as error:
+             code = error.code if isinstance(error, TemplateBuildError) else "TEMPLATE_BUILD_FAILED"
+-            detail = error.detail if isinstance(error, TemplateBuildError) else str(error)
++            detail = error.detail if isinstance(error, TemplateBuildError) else _custom_error_detail(error)
+             diagnostic = "TRANSFORM_ERROR [%s]\n%s" % (code, detail)
+             try:
+                 if callable(custom_status_setter):
+@@ -3821,6 +3709,11 @@
+ 
+     def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https,
+                                    runtime_config=None, session_context=None):
++        """Return ProxyWorkflowResult: NO_MATCH, READY, or pre/post-send error.
++
++        READY carries the single request Burp should forward. This method never
++        returns a tuple or resends an internally accepted Request Template.
++        """
+         config = runtime_config or self._capture_runtime()
+         # Unmatched requests must not queue behind a managed exchange.
+         if not raw_request_bytes:
+@@ -4026,7 +3919,10 @@
+             def withdraw():
+                 self.ui = None
+                 if ui is not None:
+-                    ui.close_custom_runtime()
++                    try:
++                        ui.close_custom_runtime()
++                    except (Exception, JavaException) as error:
++                        _print_diagnostic("[BoberProxy] UI_CLEANUP_FAILED", error)
+                 for kind in reversed(installed):
+                     try:
+                         if kind == "proxy":
+@@ -4035,8 +3931,8 @@
+                             callbacks.removeHttpListener(self)
+                         else:
+                             callbacks.removeSuiteTab(ui)
+-                    except (Exception, JavaException):
+-                        pass
++                    except (Exception, JavaException) as error:
++                        _print_diagnostic("[BoberProxy] LISTENER_WITHDRAW_FAILED", error)
+                 installed[:] = []
+             def still_open():
+                 if not self._extension_closed:
+@@ -4064,11 +3960,14 @@
+                 installed.append("proxy")
+                 if not still_open():
+                     return
+-                _print_diagnostic("BoberProxy loaded (stabilization K10-A)")
+-            except (Exception, JavaException):
+-                diagnostic = traceback.format_exc()
++                _print_diagnostic("BoberProxy loaded (stabilization K10-B)")
++            except (Exception, JavaException) as error:
+                 withdraw()
+-                callbacks.printError("BoberProxy UI initialization failed:\n" + diagnostic)
++                _print_diagnostic("[BoberProxy] UI_INITIALIZATION_FAILED", error)
++                try:
++                    callbacks.printError("BoberProxy UI initialization failed: UI_INITIALIZATION_FAILED (%s)" % type(error).__name__)
++                except (Exception, JavaException) as failure:
++                    _print_diagnostic("[BoberProxy] ERROR_OUTPUT_FAILED", failure)
+         if swing.SwingUtilities.isEventDispatchThread():
+             initialize()
+         else:

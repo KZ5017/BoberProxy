@@ -1,0 +1,330 @@
+{
+  "kind": "K10-B-individual-F01-F46-registry",
+  "total": 46,
+  "issues": [
+    {
+      "id": "F01",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K01 Git-ellenőrzőpont; revízió a Git-naplóban",
+      "evidence": "K01 logikai, Java/Swing és valódi forgalmi bizonyítékok",
+      "limits": "Legacy byte[] adattípus natív Jython alatt tesztelt; más Burp-verzió alatti legacy hálózati integráció nem állított."
+    },
+    {
+      "id": "F02",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K01 Git-ellenőrzőpont; revízió a Git-naplóban",
+      "evidence": "K01 logikai, Java/Swing és valódi forgalmi bizonyítékok",
+      "limits": "Legacy byte[] adattípus natív Jython alatt tesztelt; más Burp-verzió alatti legacy hálózati integráció nem állított."
+    },
+    {
+      "id": "F03",
+      "status": "Javítva és ellenőrizve",
+      "round": "K05a, 92F245...",
+      "evidence": "E28/P13: compile/exec/call ugyanazon job-deadline alatt, valódi top-level timeout",
+      "limits": "A futó exec kényszerleállítása ettől még nem garantált."
+    },
+    {
+      "id": "F04",
+      "status": "Időkeret/elkéső eredmény kezelt; hard-stop hiánya elfogadott korlát",
+      "round": "K05a; D08",
+      "evidence": "E29–E31/P14: kontrollált finite event, külön JVM-es végtelen Python/Java, későbbi feladatok BUSY és nincs második worker",
+      "limits": "P14 nem javított tulajdonság; saját custom mellékhatás/CPU-fogyasztás folytatódhat."
+    },
+    {
+      "id": "F05",
+      "status": "Custom-worker kapacitás és unload/reload kezelve",
+      "round": "K05a; további erőforrások K09",
+      "evidence": "E30/E56: 1+1 slot, pending expiry, cross-interpreter gate, tényleges worker-ID 269→291 reload után",
+      "limits": "Tetszőleges custom kód által önállóan indított szálakra nem sandbox."
+    },
+    {
+      "id": "F06",
+      "status": "Javítva és ellenőrizve",
+      "round": "K02, 2A5E... forrás",
+      "evidence": "E10/E04: logika, eredeti felületi trace, forgalmi elő-/utóhiba",
+      "limits": "Teljes exec-határidő és kapacitás K05; a diagnosztikai hiba nem indít újraküldést."
+    },
+    {
+      "id": "F07",
+      "status": "Javítva és ellenőrizve",
+      "round": "K02, 2A5E... forrás",
+      "evidence": "E11/E41: elemtípusok CPython/Jython/natív Java alatt, valódi hibás típus/Unicode forgalom",
+      "limits": "Byte-valued Unicode; más charset explicit custom encode."
+    },
+    {
+      "id": "F08",
+      "status": "Javítva és ellenőrizve",
+      "round": "K03, 37BC...",
+      "evidence": "E13: OFF 0 GET, ON lánc; kijelölés/engedélyezés és kezdeti pillanatkép",
+      "limits": "Teljes beállításverzió K06."
+    },
+    {
+      "id": "F09",
+      "status": "Saját callback-akció javítva és ellenőrizve",
+      "round": "K03, 37BC...",
+      "evidence": "E14: valódi akciómátrix, három kézi request/response Forward-pár, állapotgyűjtés",
+      "limits": "Külön extensionök adapterállapot-átadási korlátja dokumentált; általános pluginkompatibilitás nem állított."
+    },
+    {
+      "id": "F10",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K01 Git-ellenőrzőpont; revízió a Git-naplóban",
+      "evidence": "K01 logikai, Java/Swing és valódi forgalmi bizonyítékok",
+      "limits": "Legacy byte[] adattípus natív Jython alatt tesztelt; más Burp-verzió alatti legacy hálózati integráció nem állított."
+    },
+    {
+      "id": "F11",
+      "status": "K01/K03 kezelése és API-korlát igazolt",
+      "round": "Polling nélkül; közös monotón scheduling-keret",
+      "evidence": "E07/E19: valódi késleltetett API, közös keret, nincs további lépés",
+      "limits": "Blokkoló hívást és a Proxy későbbi CP hálózati várakozását ez nem szakítja meg; nincs garantált end-to-end hard timeout."
+    },
+    {
+      "id": "F12",
+      "status": "Javítva és ellenőrizve",
+      "round": "K03, 37BC...",
+      "evidence": "E15: két runtime URL-mátrix, valódi relatív/port/protokollváltás",
+      "limits": "Csak támogatott http/https cél, nincs találgatott fallback."
+    },
+    {
+      "id": "F13",
+      "status": "Redirectoldal javítva és K04 valós tárolóval újraellenőrzött",
+      "round": "K03/K04/K06",
+      "evidence": "E16: mind a 11 válasz egyszeri manager-frissítése logikailag; valódi tízhopos utolsó törlés/token a CP-ben, limit után is megtartott állapot",
+      "limits": "K06 folyamat-helyi tárolóval a teljes redirect-logikai regresszió és workflow-koordináció is ellenőrzött; új redirect szemantika nincs."
+    },
+    {
+      "id": "F14",
+      "status": "Megőrzött viselkedés dokumentálva és ellenőrizve",
+      "round": "K03; D04",
+      "evidence": "E17: 301/302/303/307/308 logikai GET-mátrix, valódi 302-lánc minimális header/body",
+      "limits": "Nem metódusmegőrző 307/308 támogatás."
+    },
+    {
+      "id": "F15",
+      "status": "Javítva és valódi forgalomban ellenőrizve",
+      "round": "K04, D900... / végső 15869...",
+      "evidence": "E20–E23: deleted/üres érték, Max-Age/Expires, pontos fejlécnév, több fejléc, tombstone/readdition/Clear, tényleges lejárat",
+      "limits": "A jelző a választott globális munkamenetben névalapú; Clear után a sablon saját sütije szándékosan visszaáll."
+    },
+    {
+      "id": "F16",
+      "status": "Javítva és valódi forgalomban ellenőrizve",
+      "round": "K04, D900... / végső 15869...",
+      "evidence": "E20–E23: deleted/üres érték, Max-Age/Expires, pontos fejlécnév, több fejléc, tombstone/readdition/Clear, tényleges lejárat",
+      "limits": "A jelző a választott globális munkamenetben névalapú; Clear után a sablon saját sütije szándékosan visszaáll."
+    },
+    {
+      "id": "F17",
+      "status": "Javítva és valódi forgalomban ellenőrizve",
+      "round": "K04, D900... / végső 15869...",
+      "evidence": "E20–E23: deleted/üres érték, Max-Age/Expires, pontos fejlécnév, több fejléc, tombstone/readdition/Clear, tényleges lejárat",
+      "limits": "A jelző a választott globális munkamenetben névalapú; Clear után a sablon saját sütije szándékosan visszaáll."
+    },
+    {
+      "id": "F18",
+      "status": "Javítva és valódi forgalomban ellenőrizve",
+      "round": "K04, D900... / végső 15869...",
+      "evidence": "E20–E23: deleted/üres érték, Max-Age/Expires, pontos fejlécnév, több fejléc, tombstone/readdition/Clear, tényleges lejárat",
+      "limits": "A jelző a választott globális munkamenetben névalapú; Clear után a sablon saját sütije szándékosan visszaáll."
+    },
+    {
+      "id": "F19",
+      "status": "D06 alapján elfogadott globális kompatibilitási korlát; nem elkülönítési javítás",
+      "round": "K04/K06",
+      "evidence": "E24: logikai szerződés, kifejezett felhasználói választás",
+      "limits": "Domain/Path/Secure szerinti kiválasztás nincs; más cél értéke bekerülhet a generált kérésbe."
+    },
+    {
+      "id": "F20",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K06, végleges ddf7...; wire-verzióhatár külön rögzített",
+      "evidence": "E25/E33/E34: saját állapot, A/B/passzív interleave, Clear az RT/végső CP alatt, egy verzió az egész folyamatban; EDT publikáló és nincs hálózat alatti koordinátorlock; végső közvetlen regresszió",
+      "limits": "A D06 globális korlátja megmarad. A már átadott kérés nem vonható vissza."
+    },
+    {
+      "id": "F21",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K06, végleges ddf7...; wire-verzióhatár külön rögzített",
+      "evidence": "E25/E33/E34: saját állapot, A/B/passzív interleave, Clear az RT/végső CP alatt, egy verzió az egész folyamatban; EDT publikáló és nincs hálózat alatti koordinátorlock; végső közvetlen regresszió",
+      "limits": "A D06 globális korlátja megmarad. A már átadott kérés nem vonható vissza."
+    },
+    {
+      "id": "F22",
+      "status": "Test custom-végrehajtás nem blokkolja az EDT-t",
+      "round": "K05a/K06",
+      "evidence": "E32: submit+Swing Timer, EDT-sentinel aktív kód mellett, késői/edited/unloaded Test kimenet eldobása, fő Test timeout visszaigazolva; K06 alatt a K05 natív regresszió is sikeres",
+      "limits": "A K06 Swing-konfiguráció/koordináció és végső közvetlen regresszió is sikeres."
+    },
+    {
+      "id": "F23",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K08–K09, végső7b91...; forgalmi f819... határ dokumentált",
+      "evidence": "Append/kötegelt UI, véges nyers budget és atomic elutasítási számláló, saját archive, pontos viewer/export és metadata-egyszeriség; memória/wire/normal eredmények",
+      "limits": "Teljes JVM/RSS nem32MiB; metadata-költség és K11 nagyterhelési mátrix külön rögzített."
+    },
+    {
+      "id": "F24",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K08–K09, végső7b91...; forgalmi f819... határ dokumentált",
+      "evidence": "Append/kötegelt UI, véges nyers budget és atomic elutasítási számláló, saját archive, pontos viewer/export és metadata-egyszeriség; memória/wire/normal eredmények",
+      "limits": "Teljes JVM/RSS nem32MiB; metadata-költség és K11 nagyterhelési mátrix külön rögzített."
+    },
+    {
+      "id": "F25",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K08–K09, végső7b91...; forgalmi f819... határ dokumentált",
+      "evidence": "Append/kötegelt UI, véges nyers budget és atomic elutasítási számláló, saját archive, pontos viewer/export és metadata-egyszeriség; memória/wire/normal eredmények",
+      "limits": "Teljes JVM/RSS nem32MiB; metadata-költség és K11 nagyterhelési mátrix külön rögzített."
+    },
+    {
+      "id": "F26",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K07, végleges1309ff...; D10",
+      "evidence": "E35–E40:28 legacy találat,23 célzott eset,23 valódi natív/UI állítás,30 wire-kérés, végső normál két-call regresszió",
+      "limits": "Egy Java-regex worker, korlátos sor; nincs hard-stop. K08–K09 kötegelt UI/archívum/budget elkészült; K11 összesített terhelés külön."
+    },
+    {
+      "id": "F27",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K07, végleges1309ff...; D10",
+      "evidence": "E35–E40:28 legacy találat,23 célzott eset,23 valódi natív/UI állítás,30 wire-kérés, végső normál két-call regresszió",
+      "limits": "Egy Java-regex worker, korlátos sor; nincs hard-stop. K08–K09 kötegelt UI/archívum/budget elkészült; K11 összesített terhelés külön."
+    },
+    {
+      "id": "F28",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K07, végleges1309ff...; D10",
+      "evidence": "E35–E40:28 legacy találat,23 célzott eset,23 valódi natív/UI állítás,30 wire-kérés, végső normál két-call regresszió",
+      "limits": "Egy Java-regex worker, korlátos sor; nincs hard-stop. K08–K09 kötegelt UI/archívum/budget elkészült; K11 összesített terhelés külön."
+    },
+    {
+      "id": "F29",
+      "status": "Javítva és ellenőrizve",
+      "round": "K02, 2A5E... forrás",
+      "evidence": "E12: nulla/hiányzó tárolás, eq/not eq 0; valódi Swing üres/nulla cella és rendezés",
+      "limits": "A korábbi UI-eltérés külön reprodukcióval megőrzött."
+    },
+    {
+      "id": "F30",
+      "status": "Javítva és ellenőrizve",
+      "round": "K02, 2A5E... forrás",
+      "evidence": "E09: egymásba ágyazott payload/token/cookie markerek, valódi markeres forgalom",
+      "limits": "Csak az eredeti sablon helyei cserélődnek."
+    },
+    {
+      "id": "F31",
+      "status": "Karakterizált, működési szerződés rögzítve",
+      "round": "K02; D07",
+      "evidence": "E08: query/form prioritás, ismétlődő/azonos név, üres/hiányzó, JSON/multipart kontroll",
+      "limits": "A nyers és első nem üres érték szerződése szándékosan megmarad; nincs új parser/dekódolás."
+    },
+    {
+      "id": "F32",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K08–K09, végső7b91...; forgalmi f819... határ dokumentált",
+      "evidence": "Append/kötegelt UI, véges nyers budget és atomic elutasítási számláló, saját archive, pontos viewer/export és metadata-egyszeriség; memória/wire/normal eredmények",
+      "limits": "Teljes JVM/RSS nem32MiB; metadata-költség és K11 nagyterhelési mátrix külön rögzített."
+    },
+    {
+      "id": "F33",
+      "status": "Érintett beépített konzolkimenetek javítva",
+      "round": "K01/K10-A/K10-B",
+      "evidence": "E57:12 diagnosztikai eset, natív Java hibák és tényleges normál/passzív regresszió",
+      "limits": "Kód/típus, payload/token és exception-text nélkül; saját custom print és kézzel kért UI-adat külön szerződés."
+    },
+    {
+      "id": "F34",
+      "status": "Érintett funkcionális hibaágak javítva; célzott fallbackek megtartva",
+      "round": "K01–K10-B",
+      "evidence": "E57/E58:startup/takarítás/reporting hibainjektálás, látható UI/parser/storage/transport/custom hibák",
+      "limits": "A 12 megmaradt csupasz except célja tételesen rögzített; nem teljes fájlos refaktor vagy tetszőleges JVM-hiba elleni garancia."
+    },
+    {
+      "id": "F35",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K06, végleges ddf7...",
+      "evidence": "E33: létező státuszcímke, EDT-frissítés és unload-védelem; külön JVM-es és valódi Burp-helperes startup/close próbák",
+      "limits": "A teljes terhelési/memóriamátrix későbbi körök feladata."
+    },
+    {
+      "id": "F36",
+      "status": "Javítva és ellenőrizve",
+      "round": "K10-A",
+      "evidence": "Hivatkozásleltár, hiányzó sync hívás nincs; actual startup/kapcsolószabályok PASS",
+      "limits": "Nem hoztunk létre szükségtelen új szinkronizálást."
+    },
+    {
+      "id": "F37",
+      "status": "Javítva és ellenőrizve",
+      "round": "K10-A",
+      "evidence": "Pontosan négy natív editor; ötödik használatlan editor és mező nincs; actual startup/close PASS",
+      "limits": "Burp/Swing callbackek megmaradtak."
+    },
+    {
+      "id": "F38",
+      "status": "Javítva és ellenőrizve a rögzített környezetben",
+      "round": "K08–K09/K10-A",
+      "evidence": "Egy listener/explicit sorter/egyetlen MULTIPLE beállítás; tényleges native multi-selection/Site map export és normál regresszió",
+      "limits": "Kezdeti redundáns SINGLE→MULTIPLE beállítás eltávolítva."
+    },
+    {
+      "id": "F39",
+      "status": "Bizonyítottan fölösleges kód eltávolítva; szükséges belső API megtartva",
+      "round": "K10-A/K10-B",
+      "evidence": "Aktuális leltár, változatlan kódhatár, teljes logikai/natív regresszió",
+      "limits": "Nem használt _to_text eltávolítva; set_token/filter kompatibilitás, callbackek és normalize_func hook megmarad."
+    },
+    {
+      "id": "F40",
+      "status": "Eredménytípusok és érintett leírások pontosítva",
+      "round": "K01/K10-B",
+      "evidence": "E58/E59:ProxyWorkflowResult, bytes/fallback, custom(ok,out,error) és doc/UI összevetés",
+      "limits": "Nincs tupleként dokumentált proxy bytes vagy elavult local-mode állítás; korlátok külön jelölve."
+    },
+    {
+      "id": "F41",
+      "status": "Szigorú wire-adatút javítva; framing-kompatibilitás megőrizve",
+      "round": "K02/K03/K10-B",
+      "evidence": "E41–E43:teljes256 bájt/Jythonstr/unicode/JavaString/byte[], valós-helper23 ellenőrzés és nyolc framing-paritás",
+      "limits": "Kézi Content-Length normalizálás megtartva. Teljes HTTP/2 viselkedés és más runtime nem állított támogatás."
+    },
+    {
+      "id": "F42",
+      "status": "Custom/session/log/archive saját életciklus javítva a rögzített környezetben",
+      "round": "K05a/K06/K08–K09",
+      "evidence": "E49/E55/E56: close/generációk, saját fájlok/reference cleanup, nyolc teljes natív UI/archive ciklus, nincs worker-akkumuláció",
+      "limits": "Megszakíthatatlan natív/custom művelet korlátja és K11 összesített terhelés külön marad."
+    },
+    {
+      "id": "F43",
+      "status": "D11 scope-mellékhatás megőrizve és dokumentálva; kézi tooltip-visszajelzés sikeres",
+      "round": "K08–K09/K10-B",
+      "evidence": "E50/E59:tényleges sorted multi-selection/Site map bájtegyezés; új tooltip és README",
+      "limits": "Kiválasztott üzenet exportja includeInScope hívást is végez; nincs új kapcsoló vagy csendes eltávolítás."
+    },
+    {
+      "id": "F44",
+      "status": "D12 célservice-szerződés rögzítve és ellenőrizve",
+      "round": "K03",
+      "evidence": "E18: eltérő Host mellett eredeti RT/CP, másik port/TLS redirect service",
+      "limits": "A Host módosítása önmagában nem retargetál."
+    },
+    {
+      "id": "F45",
+      "status": "A megőrzött kétlépéses custom szerződés és custom-pillanatkép ellenőrizve",
+      "round": "K02/K03/K05/K06; D13",
+      "evidence": "E27: két külön hívás/friss namespace/top-level mellékhatás; kód/enabled/timeout RT és CP között nem vált; valódi két-call regresszió",
+      "limits": "K06 az egyéb konfigurációk és a párhuzamos cookie/token állapot koordinációját is ellenőrizte, a D06 korlátaival."
+    },
+    {
+      "id": "F46",
+      "status": "README/AGENTS tárgyi javítása és kézi E59 zárókapu sikeres",
+      "round": "K10-B",
+      "evidence": "Valós BoberProxy.py fájlnév; dokumentáció/UI-leltár, actual helper/startup, záró normál próba",
+      "limits": "Nincs sandbox/hard-stop/host-szigetelés/önálló kereső/token-entry ígéret; verzió- és K11-határok nyíltak."
+    }
+  ],
+  "note": "K10 closed in recorded environment. Existing accepted limits preserved; K11 full load/version matrix remains separate.",
+  "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc"
+}

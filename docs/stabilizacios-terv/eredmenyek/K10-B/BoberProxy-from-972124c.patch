@@ -1,0 +1,747 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index 591fb24..a552a19 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -1,6 +1,6 @@
+ # -*- coding: latin-1 -*-
+ # Extender.py - BoberProxy (updated: tabs, template controls, custom codeblock)
+-from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener, IExtensionStateListener, IHttpRequestResponse
++from burp import IBurpExtender, ITab, IHttpListener, IMessageEditorController, IProxyListener, IExtensionStateListener, IHttpRequestResponse
+ 
+ from javax import swing
+ from javax.swing import SortOrder, RowSorter, JTable, ListSelectionModel
+@@ -10,7 +10,6 @@ from java.awt import (
+     GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout,
+     Color, Dimension, BorderLayout
+ )
+-from java.awt.event import MouseAdapter
+ from java.util.regex import Pattern
+ from java.lang import Integer, Exception as JavaException, Throwable as JavaThrowable
+ 
+@@ -19,11 +18,8 @@ import threading, time, traceback, re
+ CUSTOM_GATE_NAME = "BoberProxy.custom.v1"
+ CUSTOM_START_LOCK = threading.Lock()
+ 
+-# URL parsing - choose one, depending on which one works in your environment
+-# Python 2 (old Jython versions):
++# Jython 2.7 URL parsing; production intentionally uses the Python 2 API.
+ from urlparse import urljoin, urlparse
+-# Python 3 (Jython and newer versions):
+-#from urllib.parse import urljoin, urlparse
+ 
+ 
+ TEMPLATE_PAYLOAD_MARKER_1 = "p4yl04dm4rk3r"
+@@ -43,6 +39,16 @@ DISPLAY_FILTER_FIELDS = (
+     "ResponseContent",
+ )
+ 
++def _print_diagnostic(message, error=None):
++    """Print a fixed code/type only; reporting failure must not escape a callback."""
++    try:
++        if error is not None:
++            message += " (%s)" % type(error).__name__
++        print(message)
++    except (BaseException, JavaThrowable):
++        pass
++
++
+ class TemplateBuildError(Exception):
+     """A failed transformation must not produce a partially rebuilt request."""
+     def __init__(self, code, detail):
+@@ -1902,13 +1908,12 @@ class FilterDialog(object):
+ class LoggerUI(ITab):
+     """Burp tab implementation that owns the UI state and the proxy workflow."""
+ 
+-    def __init__(self, callbacks, controller, msgEditor, callbacks_ref):
++    def __init__(self, callbacks, controller):
+         # -------- core references / state ----------
+         self.callbacks = callbacks
+         self.helpers = callbacks.getHelpers()
+         self.controller = controller
+-        self.msgEditor = msgEditor
+-        self.callbacks_ref = callbacks_ref
++        self.callbacks_ref = callbacks
+         self._init_custom_runtime()
+         self._http_sender = None
+         self._workflow_lock = threading.Lock()
+@@ -1924,9 +1929,7 @@ class LoggerUI(ITab):
+ 
+         #  JTable
+         self.table = JTable(self.logTableModel)
+-        self.table.setSelectionMode(
+-            ListSelectionModel.SINGLE_SELECTION
+-        )
++        self.table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
+ 
+         #  Sorter
+         self.rowSorter = TableRowSorter(self.logTableModel)
+@@ -1941,16 +1944,11 @@ class LoggerUI(ITab):
+         self._init_display_filters()
+         self._init_filter_runtime()
+ 
+-        # search / highlight state
+-        self._search_matches = []
+-        self._current_match_idx = -1
+-
+         # Proxy toggle state: when True, extension will intercept proxy requests and run the processing flow
+         self._proxy_mode_active = False
+ 
+         # other flags / storage
+         self.paused = False
+-        self.running = False
+ 
+ 
+         # Custom codeblock defaults
+@@ -2005,7 +2003,6 @@ class LoggerUI(ITab):
+ 
+         # Create IMessageEditor instances (use controller that will be setMessageInfo on selection)
+         # left: request editor (editable False), right: response editor (editable False)
+-        # prefer the msgEditor passed in (existing), but create separate viewers via callbacks if available
+         self.reqViewer = callbacks.createMessageEditor(self.controller, False)
+         self.respViewer = callbacks.createMessageEditor(self.controller, False)
+         # obtain Swing components
+@@ -2149,7 +2146,6 @@ class LoggerUI(ITab):
+         self.leftSplit.setLeftComponent(self.tabbed)
+ 
+ 
+-        self.table.setSelectionMode(swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
+ 
+         self.leftSplit.setRightComponent(swing.JScrollPane(self.table))
+ 
+@@ -2255,6 +2251,7 @@ class LoggerUI(ITab):
+         buttonPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
+         # Add same set of buttons and keep names/actions
+         self.addSitemapBtn = swing.JButton("Add selected to Site map", actionPerformed=self.add_selected_to_sitemap)
++        self.addSitemapBtn.setToolTipText("Adds selected messages to Site map and includes their URLs in Burp scope.")
+         buttonPanel.add(self.addSitemapBtn)
+ 
+         self.clearBtn = swing.JButton("Clear log", actionPerformed=self.clear_log)
+@@ -2508,12 +2505,6 @@ class LoggerUI(ITab):
+         # expose final component
+         self._component = self.mainSplit
+ 
+-        # ensure mode buttons reflect initial state
+-        try:
+-            _sync_mode_buttons()
+-        except:
+-            pass
+-
+         self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
+         self._runtime_publisher = RuntimePublisher(self)
+         self._filter_timer = swing.Timer(50, lambda event: self._filter_tick())
+@@ -2531,82 +2522,20 @@ class LoggerUI(ITab):
+                     text_type = str
+                 self.customStatusArea.setText(text_type(msg))
+             except (Exception, JavaException) as error:
+-                print("customStatusArea_SETTEXT_ERROR:", error)
++                _print_diagnostic("[BoberProxy] CUSTOM_STATUS_UPDATE_FAILED", error)
+         if swing.SwingUtilities.isEventDispatchThread():
+             publish()
+         else:
+             swing.SwingUtilities.invokeLater(publish)
+ 
+ 
+-    def _to_text(self, data):
+-        """
+-        Robust conversion of various response forms to a unicode string.
+-        Handles:
+-         - bytes / bytearray
+-         - iterable of ints (Java byte[] / Jython byte[] view)
+-         - string repr like "array('b', [72, 84, ...])"
+-         - fallback to str()
+-        """
++    def _ui_error(self, code, error):
++        """Report a fixed error code without depending on exception rendering."""
++        _print_diagnostic("[BoberProxy] " + code, error)
+         try:
+-            # already bytes-like
+-            if isinstance(data, (bytes, bytearray)):
+-                try:
+-                    return data.decode("latin-1", "replace")
+-                except:
+-                    return data.decode("utf-8", "replace")
+-
+-            # If it's an actual iterable (Java byte[], list of ints, etc.) but not a str
+-            if hasattr(data, '__iter__') and not isinstance(data, str):
+-                try:
+-                    out = bytearray()
+-                    for b in data:
+-                        try:
+-                            iv = int(b)
+-                        except Exception:
+-                            try:
+-                                iv = ord(b)
+-                            except Exception:
+-                                iv = 0
+-                        if iv < 0:
+-                            iv = iv + 256
+-                        out.append(iv)
+-                    return bytes(out).decode("latin-1", "replace")
+-                except Exception:
+-                    # fallthrough to string handling
+-                    pass
+-
+-            # otherwise, try to parse common textual reprs like: array('b', [72, 84, ...])
+-            s = str(data)
+-
+-            # pattern: array('b', [72, 84, ...])
+-            try:
+-                m = re.match(r"^\s*array\('b'\s*,\s*\[([0-9,\s]+)\]\s*\)\s*$", s)
+-                if m:
+-                    nums = [int(x.strip()) for x in m.group(1).split(',') if x.strip()]
+-                    if nums:
+-                        return bytes(nums).decode("latin-1", "replace")
+-            except Exception:
+-                pass
+-
+-            # fallback: if string contains bracketed numbers like [72, 84, ...], try that
+-            try:
+-                m2 = re.search(r"\[([0-9,\s]+)\]", s)
+-                if m2:
+-                    parts = [p.strip() for p in m2.group(1).split(',') if p.strip().isdigit()]
+-                    if parts:
+-                        nums = [int(p) for p in parts]
+-                        return bytes(nums).decode("latin-1", "replace")
+-            except Exception:
+-                pass
+-
+-            # final fallback: return the string representation
+-            return s
+-
+-        except Exception:
+-            try:
+-                return str(data)
+-            except:
+-                return ""
++            self._log(code)
++        except (Exception, JavaException) as failure:
++            _print_diagnostic("[BoberProxy] STATUS_REPORT_FAILED", failure)
+ 
+ 
+     def _on_proxy_toggle(self):
+@@ -2617,21 +2546,12 @@ class LoggerUI(ITab):
+         try:
+             self._proxy_mode_active = bool(self.proxyModeBtn.isSelected())
+ 
+-            # mutual exclusion: if proxy ON, force local OFF
+-            if self._proxy_mode_active:
+-                try:
+-                    self._update_autofollow_enabled_on_proxy()
+-                except:
+-                    pass
+-            else:
+-                try:
+-                    self._update_autofollow_enabled_on_proxy()
+-                except:
+-                    pass
++            self._update_autofollow_enabled_on_proxy()
+ 
+             self._log("Proxy processing toggled: %s" % ("ON" if self._proxy_mode_active else "OFF"))
+-        except Exception as e:
+-            self._log("Error toggling proxy processing: %s" % str(e))
++        except (Exception, JavaException) as error:
++            _print_diagnostic("[BoberProxy] PROXY_TOGGLE_FAILED", error)
++            self._log("PROXY_TOGGLE_FAILED")
+ 
+ 
+     def _update_autofollow_enabled_on_proxy(self):
+@@ -2652,37 +2572,19 @@ class LoggerUI(ITab):
+ 
+ 
+     def _open_filter_dialog(self, evt=None):
++        dlg = None
+         try:
+-            # I assume that there is a FilterDialog class that expects the parent in its constructor.
+             dlg = FilterDialog(self)
+-            # if the dialog has a load_from_parent method, call it
+-            try:
+-                dlg.load_from_parent()
+-            except Exception:
+-                # if there is no such method, it is not critical
+-                pass
+-            # position relative to the logger component
+-            try:
+-                dlg.dialog.setLocationRelativeTo(self._component)
+-            except Exception:
+-                try:
+-                    dlg.dialog.setLocationRelativeTo(None)
+-                except Exception:
+-                    pass
++            dlg.load_from_parent()
+             dlg.dialog.setVisible(True)
+-        except Exception as e:
+-            # Let's try to update customStatusArea if it is available
+-            try:
+-                self.customStatusArea.setText("Cannot open filter dialog: %s" % e)
+-            except Exception:
+-                # completely silent fallback
+-                pass
+-
++        except (Exception, JavaException) as error:
++            if dlg is not None:
++                try:
++                    dlg._on_cancel()
++                except (Exception, JavaException) as failure:
++                    _print_diagnostic("[BoberProxy] FILTER_DIALOG_CLEANUP_FAILED", failure)
++            self._ui_error("FILTER_DIALOG_FAILED", error)
+ 
+-    def _get_request_text_from_selected(self):
+-        # Compatibility reader: only the already-loaded viewer snapshot is read.
+-        request = self.controller.getRequest()
+-        return self.helpers.bytesToString(request) if request is not None else ""
+ 
+     def _load_template_from_viewer(self,event=None):
+         def loaded(message):
+@@ -2693,18 +2595,11 @@ class LoggerUI(ITab):
+ 
+     def _clear_req_template(self, event=None):
+         try:
+-            if hasattr(self, "reqTemplateEditor"):
+-                try:
+-                    self.reqTemplateEditor.setMessage(None, True)
+-                except:
+-                    # fall back to setting empty bytes
+-                    try:
+-                        self.reqTemplateEditor.setMessage(self.helpers.stringToBytes(""), True)
+-                    except:
+-                        pass
++            self.reqTemplateEditor.setMessage(self.helpers.stringToBytes(""), True)
+             self.set_status("Request Template cleared")
+-        except:
+-            pass
++        except (Exception, JavaException) as error:
++            self._ui_error("REQUEST_TEMPLATE_CLEAR_FAILED", error)
++
+ 
+     def _load_check_from_viewer(self,event=None):
+         def loaded(message):
+@@ -2715,32 +2610,10 @@ class LoggerUI(ITab):
+ 
+     def _clear_check_template(self, event=None):
+         try:
+-            if hasattr(self, "checkPageEditor"):
+-                try:
+-                    self.checkPageEditor.setMessage(None, True)
+-                except:
+-                    try:
+-                        self.checkPageEditor.setMessage(self.helpers.stringToBytes(""), True)
+-                    except:
+-                        pass
++            self.checkPageEditor.setMessage(self.helpers.stringToBytes(""), True)
+             self.set_status("CheckPageTemplate cleared")
+-        except:
+-            pass
+-
+-
+-    def _set_right_controls_enabled(self, enabled):
+-        try:
+-            vp = self.rightScroll.getViewport().getView()
+-            for comp in vp.getComponents():
+-                pass
+-        except:
+-            pass
+-        for w in [self.sizeField, self.compCombo, self.lenTypeCombo, self.regexField,
+-                  self.addSitemapBtn, self.clearBtn, self.clearSelBtn, self.pauseBtn]:
+-            try:
+-                w.setEnabled(enabled)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CHECKPAGE_TEMPLATE_CLEAR_FAILED", error)
+ 
+ 
+     def getTabCaption(self): return "BoberProxy"
+@@ -3088,13 +2961,10 @@ class LoggerUI(ITab):
+             self.logTableModel.clear()
+             if hasattr(self,"controller"): self._clear_log_viewer()
+             self._log("Log cleared OK!")
+-        except Exception as e:
+-            try:
+-                self._log("Log cleared ERROR: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("LOG_CLEAR_FAILED", error)
++
+ 
+-        
+     def clear_selected(self, evt=None):
+         try:
+             view_rows = self.table.getSelectedRows()
+@@ -3126,11 +2996,8 @@ class LoggerUI(ITab):
+ 
+             self._log("Cleared %d selected" % removed)
+ 
+-        except Exception as e:
+-            try:
+-                self._log("clear_selected error: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("LOG_SELECTED_CLEAR_FAILED", error)
+ 
+ 
+     def toggle_pause(self, evt=None):
+@@ -3146,11 +3013,9 @@ class LoggerUI(ITab):
+             sorter = self.table.getRowSorter()
+             if sorter:
+                 sorter.setSortKeys(None)
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.append("reset_sorting_to_model_order error: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("SORT_RESET_FAILED", error)
++
+ 
+     def sort_by_index_asc(self):
+         """Sort JTable by '#' column (index ascending)."""
+@@ -3158,11 +3023,8 @@ class LoggerUI(ITab):
+             sorter = self.table.getRowSorter()
+             if sorter:
+                 sorter.setSortKeys([RowSorter.SortKey(0, SortOrder.ASCENDING)])
+-        except Exception as e:
+-            try:
+-                self._log("sort_by_index_asc ERROR: %s\n" % str(e))
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("SORT_INDEX_FAILED", error)
+ 
+ 
+     def _clear_log_viewer(self):
+@@ -3205,6 +3067,7 @@ class LoggerUI(ITab):
+         self._request_selected_message()
+ 
+     def add_selected_to_sitemap(self,event=None):
++        """Export selected original messages and include their URLs in Burp scope."""
+         rows = self.table.getSelectedRows()
+         if not rows:
+             swing.JOptionPane.showMessageDialog(None,"No rows selected.")
+@@ -3308,43 +3171,35 @@ class LoggerUI(ITab):
+         try:
+             self.sessions.clear("cookies")
+             self.customStatusArea.setText("Cookies cleared.")
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error clearing cookies: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("COOKIE_CLEAR_FAILED", error)
++
+ 
+     def _on_show_cookies(self, evt=None):
+         try:
+             txt = self.cookieManager.dump()
+             # put into customStatusArea so user sees current jar
+             self.customStatusArea.setText("Current cookies:\n%s" % txt)
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error showing cookies: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("COOKIE_SHOW_FAILED", error)
++
+ 
+     def _on_clear_csrf(self, evt=None):
+         try:
+             self.sessions.clear("csrf")
+             self.customStatusArea.setText("CSRF_token cleared")
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error clearing CSRF: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CSRF_CLEAR_FAILED", error)
++
+ 
+     def _on_show_csrf(self, evt=None):
+         try:
+             txt = self.csrfManager.dump()
+             # put into customStatusArea so user sees current jar
+             self.customStatusArea.setText("CSRF_token:\n%s" % txt)
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error showing CSRF: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CSRF_SHOW_FAILED", error)
++
+ 
+     def _on_csrf_regex_changed(self):
+         # Invoked by Swing document events on the UI thread.
+@@ -3360,16 +3215,10 @@ class LoggerUI(ITab):
+         try:
+             self.csrfRegexArea.setText(self.csrf_default_pattern)
+             self.customStatusArea.setText("CSRF regex reset to default.")
+-        except Exception as e:
+-            try:
+-                self.customStatusArea.setText("Error resetting CSRF regex: %s" % e)
+-            except:
+-                pass
++        except (Exception, JavaException) as error:
++            self._ui_error("CSRF_REGEX_RESET_FAILED", error)
+ 
+ 
+-    # ---------------------------
+-    # Custom codeblock helpers
+-    # ---------------------------
+     def _on_toggle_custom(self, evt=None):
+         self.custom_codeblock_status = bool(self.useCustomChk.isSelected())
+         self._on_custom_settings_changed()
+@@ -3484,13 +3333,16 @@ class LoggerUI(ITab):
+         try:
+             default_code_text = getattr(self, "default_code_text", "")
+             self.customCodeArea.setText(default_code_text)
+-        except:
+-            pass
+-
++        except (Exception, JavaException) as error:
++            self._ui_error("CUSTOM_CODE_RESET_FAILED", error)
+ 
+ 
+     def run_user_code(self, incoming_payload1, timeout_ms=500, incoming_payload2=None, incoming_csrf=None):
+-        """Frozen source; compile/exec/call/validation all use one bounded worker."""
++        """Return (ok, three_values_or_None, error_or_None) using one bounded worker.
++
++        Compilation, top-level exec, call and validation share the result deadline.
++        Expiry does not forcibly terminate arbitrary Python/Java execution.
++        """
+         snapshot = getattr(self._custom_context, "snapshot", None)
+         if snapshot is None:
+             snapshot = self._capture_custom_settings()
+@@ -3499,37 +3351,6 @@ class LoggerUI(ITab):
+                                            (incoming_payload1, incoming_payload2, incoming_csrf))
+         return self._custom_executor.wait(job)
+ 
+-    def extract_param_from_request(self, messageInfo, param_name):
+-        """
+-        Tries to extract parameter by name from the request's parameters.
+-        If not found, falls back to returning request body as string.
+-        """
+-        try:
+-            if not param_name:
+-                return ""
+-            try:
+-                analyzedReq = self.helpers.analyzeRequest(messageInfo)
+-            except:
+-                analyzedReq = None
+-            if analyzedReq:
+-                try:
+-                    params = analyzedReq.getParameters()
+-                    for p in params:
+-                        try:
+-                            if p.getName() == param_name:
+-                                try:
+-                                    return p.getValue()
+-                                except:
+-                                    return ""
+-                        except:
+-                            pass
+-                except:
+-                    pass
+-        except:
+-            pass
+-        return ""
+-
+-
+     def _update_cookies_and_csrf(self, response_bytes):
+         if response_bytes is None:
+             return
+@@ -3686,7 +3507,7 @@ class LoggerUI(ITab):
+         fallback_resp=None,
+         custom_settings=None
+     ):
+-        """Return complete request bytes, or fallback_resp with TRANSFORM_ERROR.
++        """Return complete request bytes, or fallback_resp with a UI TRANSFORM_ERROR.
+ 
+         Only markers in the original template are substituted. The public
+         bytes-or-fallback contract is retained for the workflow's send states.
+@@ -3782,7 +3603,7 @@ class LoggerUI(ITab):
+             return request_bytes
+         except (Exception, JavaException) as error:
+             code = error.code if isinstance(error, TemplateBuildError) else "TEMPLATE_BUILD_FAILED"
+-            detail = error.detail if isinstance(error, TemplateBuildError) else str(error)
++            detail = error.detail if isinstance(error, TemplateBuildError) else _custom_error_detail(error)
+             diagnostic = "TRANSFORM_ERROR [%s]\n%s" % (code, detail)
+             try:
+                 if callable(custom_status_setter):
+@@ -3792,7 +3613,7 @@ class LoggerUI(ITab):
+             except (Exception, JavaException):
+                 pass
+             try:
+-                print("[BoberProxy template] TRANSFORM_ERROR %s" % code)
++                _print_diagnostic("[BoberProxy template] TRANSFORM_ERROR %s" % code)
+             except (Exception, JavaException):
+                 pass
+             return fallback_resp
+@@ -3884,10 +3705,15 @@ class LoggerUI(ITab):
+         if now - self._last_session_warning >= 1000:
+             self._last_session_warning = now
+             self._log(code)
+-            print("[BoberProxy session] " + code)
++            _print_diagnostic("[BoberProxy session] " + code)
+ 
+     def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https,
+                                    runtime_config=None, session_context=None):
++        """Return ProxyWorkflowResult: NO_MATCH, READY, or pre/post-send error.
++
++        READY carries the single request Burp should forward. This method never
++        returns a tuple or resends an internally accepted Request Template.
++        """
+         config = runtime_config or self._capture_runtime()
+         # Unmatched requests must not queue behind a managed exchange.
+         if not raw_request_bytes:
+@@ -4063,24 +3889,18 @@ class LoggerUI(ITab):
+                     fallback_resp=None,
+                     custom_settings=custom_settings
+                 )
+-            except Exception as e:
+-                try:
+-                    print("build_checkpage_request: build_request_from_template error:", e)
+-                except:
+-                    pass
+-                return (None)
++            except (Exception, JavaException) as error:
++                _print_diagnostic("[BoberProxy] CHECKPAGE_BUILD_FAILED", error)
++                return None
+ 
+             if not request_bytes:
+                 return (None)
+ 
+             return (request_bytes)
+ 
+-        except Exception as e:
+-            try:
+-                print("build_checkpage_request top-level exception:", e)
+-            except:
+-                pass
+-            return (None)
++        except (Exception, JavaException) as error:
++            _print_diagnostic("[BoberProxy] CHECKPAGE_PREPARE_FAILED", error)
++            return None
+ 
+ 
+ 
+@@ -4099,7 +3919,10 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             def withdraw():
+                 self.ui = None
+                 if ui is not None:
+-                    ui.close_custom_runtime()
++                    try:
++                        ui.close_custom_runtime()
++                    except (Exception, JavaException) as error:
++                        _print_diagnostic("[BoberProxy] UI_CLEANUP_FAILED", error)
+                 for kind in reversed(installed):
+                     try:
+                         if kind == "proxy":
+@@ -4108,8 +3931,8 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                             callbacks.removeHttpListener(self)
+                         else:
+                             callbacks.removeSuiteTab(ui)
+-                    except (Exception, JavaException):
+-                        pass
++                    except (Exception, JavaException) as error:
++                        _print_diagnostic("[BoberProxy] LISTENER_WITHDRAW_FAILED", error)
+                 installed[:] = []
+             def still_open():
+                 if not self._extension_closed:
+@@ -4118,8 +3941,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 return False
+             try:
+                 self.controller = SimpleMessageController()
+-                self.msgEditor = callbacks.createMessageEditor(self.controller, False)
+-                ui = LoggerUI(callbacks, self.controller, self.msgEditor, callbacks)
++                ui = LoggerUI(callbacks, self.controller)
+                 # Publish before rechecking unload: either the unload callback
+                 # sees this UI, or this initializer closes it. Never hold a
+                 # lifecycle mutex across calls into the host.
+@@ -4138,11 +3960,14 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 installed.append("proxy")
+                 if not still_open():
+                     return
+-                print("BoberProxy loaded (stabilization K08-K09)")
+-            except (Exception, JavaException):
+-                diagnostic = traceback.format_exc()
++                _print_diagnostic("BoberProxy loaded (stabilization K10-B)")
++            except (Exception, JavaException) as error:
+                 withdraw()
+-                callbacks.printError("BoberProxy UI initialization failed:\n" + diagnostic)
++                _print_diagnostic("[BoberProxy] UI_INITIALIZATION_FAILED", error)
++                try:
++                    callbacks.printError("BoberProxy UI initialization failed: UI_INITIALIZATION_FAILED (%s)" % type(error).__name__)
++                except (Exception, JavaException) as failure:
++                    _print_diagnostic("[BoberProxy] ERROR_OUTPUT_FAILED", failure)
+         if swing.SwingUtilities.isEventDispatchThread():
+             initialize()
+         else:
+@@ -4172,8 +3997,8 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 analyzed = self.helpers.analyzeResponse(response)
+                 status = analyzed.getStatusCode()
+                 body_len = len(response)-analyzed.getBodyOffset()
+-            except (Exception, JavaException):
+-                pass
++            except (Exception, JavaException) as error:
++                _print_diagnostic("[BoberProxy] HTTP_RESPONSE_ANALYSIS_FAILED", error)
+             try:
+                 request = self.helpers.analyzeRequest(messageInfo)
+                 method = request.getMethod()
+@@ -4182,19 +4007,19 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                     host = url.getHost()
+                     query = url.getQuery()
+                     path = url.getPath()+(("?"+query) if query else "")
+-            except (Exception, JavaException):
+-                pass
++            except (Exception, JavaException) as error:
++                _print_diagnostic("[BoberProxy] HTTP_REQUEST_ANALYSIS_FAILED", error)
+             data = (toolFlag,host,method,path,status,len(response),messageInfo,False,body_len)
+             ui._queue_filter_log(data,config,epoch)
+         except (Exception, JavaException) as error:
+-            print("processHttpMessage error:",error)
++            _print_diagnostic("[BoberProxy] HTTP_LOG_FAILED", error)
+ 
+ 
+     def _report_workflow_error(self, result):
+         message = "[BoberProxy workflow %s] %s" % (result.workflow_id, result.error_code)
+         if result.error_type:
+             message += " (%s)" % result.error_type
+-        print(message)
++        _print_diagnostic(message)
+         try:
+             detail = getattr(result, "error_detail", None)
+             diagnostic = message + ("\n" + detail if detail else "")
+@@ -4248,7 +4073,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             if not isinstance(result, ProxyWorkflowResult):
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] WORKFLOW_INVALID_RESULT")
++                _print_diagnostic("[BoberProxy] WORKFLOW_INVALID_RESULT")
+                 return
+             if result.status in (ProxyWorkflowResult.ERROR_BEFORE_SEND, ProxyWorkflowResult.ERROR_AFTER_SEND):
+                 action = (interceptedMessage.ACTION_DROP if result.status == ProxyWorkflowResult.ERROR_AFTER_SEND
+@@ -4262,7 +4087,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             if result.status != ProxyWorkflowResult.READY or not result.request_bytes:
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
++                _print_diagnostic("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
+                 return
+             if not ui.sessions.commit(context):
+                 ui.sessions.finish(context, original_response=not context.any_sent)
+@@ -4278,9 +4103,9 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             except (Exception, JavaException) as error:
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] PROXY_REPLACE_FAILED (%s)" % type(error).__name__)
++                _print_diagnostic("[BoberProxy] PROXY_REPLACE_FAILED", error)
+         except (Exception, JavaException) as error:
+             if context is not None and context.matched:
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-            print("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE (%s)" % type(error).__name__)
++            _print_diagnostic("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE", error)

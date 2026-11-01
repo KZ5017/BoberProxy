@@ -206,6 +206,8 @@ Közös körzárás: célzott ellenőrzés, Burp-betöltési próba, a saját di
 
 **Függőség:** K01–K09 integrált állapota; D04/D06/D08/D10–D13. **Lefedés:** F33–F40/F41/F43/F46 maradék részei.
 
+**Elfogadott kétkörös végrehajtás (2026-11-01):** K10/A: egyszeri hivatkozásleltár, bizonyítottan fölösleges kód/editor, hiányzó sync név, redundáns kijelölési mód, érintett diagnosztika és célzott Jython/natív/Burp regresszió. K10/B: megmaradt konverziós fallbackek, docstringek/README/AGENTS tárgyi frissítése, F01–F46 végállapotok és összesített K10 lezárás. Mindkettőnek ellenőrzött megállópontja van; felderítés és K11 mátrix nem ismétlődik kétszer. [Tételes munkamegosztás](eredmenyek/K10-A/README.md).
+
 **Feladatok:**
 
 1. Újra lefuttatni a hivatkozáskeresést az aktuális kódon. A Burp/Swing által meghívott metódusok nem törölhetők csak azért, mert nincs Pythonon belüli hívójuk.

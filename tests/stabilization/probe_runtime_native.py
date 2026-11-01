@@ -194,7 +194,8 @@ def run_checks(actual_callbacks=None):
         ui_call(lambda: None)
         checks['partial_registration_failure_cleans_ui'] = (failed.ui is None and partial[0]._custom_ui_closed
             and not partial[0]._runtime_publisher.timer.isRunning() and 'removed' in partial
-            and 'K06 controlled registration failure' in str(partial[-1]))
+            and 'UI_INITIALIZATION_FAILED' in str(partial[-1]) and 'ValueError' in str(partial[-1])
+            and 'K06 controlled registration failure' not in str(partial[-1]))
 
         cancelled_registrations = []
         for cancel_at in ('tab', 'http', 'proxy'):

@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 8.8e-05,
+      "test": "test_cleanup.CleanupTests.test_broken_output_does_not_raise_from_diagnostic"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00027,
+      "test": "test_cleanup.CleanupTests.test_checkpage_exception_retains_none_fallback_with_safe_diagnostic"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 4.1e-05,
+      "test": "test_cleanup.CleanupTests.test_diagnostic_omits_exception_text_and_does_not_stringify_it"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 3.8e-05,
+      "test": "test_cleanup.CleanupTests.test_http_callback_failure_is_visible_without_exception_contents"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 9.1e-05,
+      "test": "test_cleanup.CleanupTests.test_partial_analysis_failures_remain_visible_and_preserve_admission"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 3.9e-05,
+      "test": "test_cleanup.CleanupTests.test_workflow_output_failure_cannot_prevent_error_status"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 72, in test_failed_filter_load_is_closed_without_showing_default_draft\n    self.assertEqual(events, ['cancelled'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['visible'] != ['cancelled']\n\nFirst differing element 0:\n'visible'\n'cancelled'\n\n- ['visible']\n+ ['cancelled']\n",
+      "outcome": "failed",
+      "seconds": 0.000804,
+      "test": "test_cleanup_final.FinalCleanupTests.test_failed_filter_load_is_closed_without_showing_default_draft"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 36, in test_failed_template_clear_is_visible_and_does_not_claim_success\n    self.assertEqual(statuses, [])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['Request Template cleared'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'Request Template cleared'\n\n- ['Request Template cleared']\n+ []\n",
+      "outcome": "failed",
+      "seconds": 0.000569,
+      "test": "test_cleanup_final.FinalCleanupTests.test_failed_template_clear_is_visible_and_does_not_claim_success"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 3424, in build_request_from_template\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 52, in fail\n    def fail(): raise Hostile()\n                ^^^^^^^^^^^^^^^\ntest_cleanup_final.FinalCleanupTests.test_hostile_parser_exception_keeps_template_fallback.<locals>.Hostile: <exception str() failed>\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 54, in test_hostile_parser_exception_keeps_template_fallback\n    result = self.ui.build_request_from_template(get_editor_message=fail, fallback_resp=b'FALLBACK')\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 3514, in build_request_from_template\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 51, in __str__\n    def __str__(self): raise ValueError('bad exception text: ' + SECRET)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: bad exception text: K10_SYNTHETIC_PAYLOAD_AND_TOKEN\n",
+      "outcome": "error",
+      "seconds": 0.000751,
+      "test": "test_cleanup_final.FinalCleanupTests.test_hostile_parser_exception_keeps_template_fallback"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 3844, in initialize\nNameError: name 'SimpleMessageController' is not defined\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 103, in test_startup_withdraw_continues_after_close_and_error_output_failures\n    with CapturedOutput() as output: extension.registerExtenderCallbacks(callbacks)\n                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 3870, in registerExtenderCallbacks\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 3868, in initialize\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 97, in printError\n    raise ValueError(SECRET)\nValueError: K10_SYNTHETIC_PAYLOAD_AND_TOKEN\n",
+      "outcome": "error",
+      "seconds": 0.006584,
+      "test": "test_cleanup_final.FinalCleanupTests.test_startup_withdraw_continues_after_close_and_error_output_failures"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 25, in test_template_clear_never_sends_null_to_either_editor\n    self.assertEqual(self.ui.reqTemplateEditor.calls, [(b'', True)])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [(None, True)] != [(b'', True)]\n\nFirst differing element 0:\n(None, True)\n(b'', True)\n\n- [(None, True)]\n+ [(b'', True)]\n",
+      "outcome": "failed",
+      "seconds": 0.000414,
+      "test": "test_cleanup_final.FinalCleanupTests.test_template_clear_never_sends_null_to_either_editor"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup_final.py\", line 44, in test_ui_error_reporting_failure_does_not_escape\n    with CapturedOutput() as output: self.ui._ui_error('CONTROLLED_UI_FAILURE', ValueError(SECRET))\n                                     ^^^^^^^^^^^^^^^^^\nAttributeError: 'LoggerUI' object has no attribute '_ui_error'. Did you mean: '_log_error'?\n",
+      "outcome": "error",
+      "seconds": 0.001015,
+      "test": "test_cleanup_final.FinalCleanupTests.test_ui_error_reporting_failure_does_not_escape"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 6,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d",
+  "successful_baseline_run": false,
+  "suite": "cleanup",
+  "total": 12
+}

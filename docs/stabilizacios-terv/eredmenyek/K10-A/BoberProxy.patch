@@ -1,0 +1,350 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index 591fb24..f1b2cb1 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -1,6 +1,6 @@
+ # -*- coding: latin-1 -*-
+ # Extender.py - BoberProxy (updated: tabs, template controls, custom codeblock)
+-from burp import IBurpExtender, ITab, IHttpListener, IContextMenuFactory, IMessageEditorController, IProxyListener, IExtensionStateListener, IHttpRequestResponse
++from burp import IBurpExtender, ITab, IHttpListener, IMessageEditorController, IProxyListener, IExtensionStateListener, IHttpRequestResponse
+ 
+ from javax import swing
+ from javax.swing import SortOrder, RowSorter, JTable, ListSelectionModel
+@@ -10,7 +10,6 @@ from java.awt import (
+     GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout,
+     Color, Dimension, BorderLayout
+ )
+-from java.awt.event import MouseAdapter
+ from java.util.regex import Pattern
+ from java.lang import Integer, Exception as JavaException, Throwable as JavaThrowable
+ 
+@@ -43,6 +42,16 @@ DISPLAY_FILTER_FIELDS = (
+     "ResponseContent",
+ )
+ 
++def _print_diagnostic(message, error=None):
++    """Print a fixed code/type only; reporting failure must not escape a callback."""
++    try:
++        if error is not None:
++            message += " (%s)" % type(error).__name__
++        print(message)
++    except (BaseException, JavaThrowable):
++        pass
++
++
+ class TemplateBuildError(Exception):
+     """A failed transformation must not produce a partially rebuilt request."""
+     def __init__(self, code, detail):
+@@ -1902,13 +1911,12 @@ class FilterDialog(object):
+ class LoggerUI(ITab):
+     """Burp tab implementation that owns the UI state and the proxy workflow."""
+ 
+-    def __init__(self, callbacks, controller, msgEditor, callbacks_ref):
++    def __init__(self, callbacks, controller):
+         # -------- core references / state ----------
+         self.callbacks = callbacks
+         self.helpers = callbacks.getHelpers()
+         self.controller = controller
+-        self.msgEditor = msgEditor
+-        self.callbacks_ref = callbacks_ref
++        self.callbacks_ref = callbacks
+         self._init_custom_runtime()
+         self._http_sender = None
+         self._workflow_lock = threading.Lock()
+@@ -1924,9 +1932,7 @@ class LoggerUI(ITab):
+ 
+         #  JTable
+         self.table = JTable(self.logTableModel)
+-        self.table.setSelectionMode(
+-            ListSelectionModel.SINGLE_SELECTION
+-        )
++        self.table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
+ 
+         #  Sorter
+         self.rowSorter = TableRowSorter(self.logTableModel)
+@@ -1941,16 +1947,11 @@ class LoggerUI(ITab):
+         self._init_display_filters()
+         self._init_filter_runtime()
+ 
+-        # search / highlight state
+-        self._search_matches = []
+-        self._current_match_idx = -1
+-
+         # Proxy toggle state: when True, extension will intercept proxy requests and run the processing flow
+         self._proxy_mode_active = False
+ 
+         # other flags / storage
+         self.paused = False
+-        self.running = False
+ 
+ 
+         # Custom codeblock defaults
+@@ -2005,7 +2006,6 @@ class LoggerUI(ITab):
+ 
+         # Create IMessageEditor instances (use controller that will be setMessageInfo on selection)
+         # left: request editor (editable False), right: response editor (editable False)
+-        # prefer the msgEditor passed in (existing), but create separate viewers via callbacks if available
+         self.reqViewer = callbacks.createMessageEditor(self.controller, False)
+         self.respViewer = callbacks.createMessageEditor(self.controller, False)
+         # obtain Swing components
+@@ -2149,7 +2149,6 @@ class LoggerUI(ITab):
+         self.leftSplit.setLeftComponent(self.tabbed)
+ 
+ 
+-        self.table.setSelectionMode(swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
+ 
+         self.leftSplit.setRightComponent(swing.JScrollPane(self.table))
+ 
+@@ -2508,12 +2507,6 @@ class LoggerUI(ITab):
+         # expose final component
+         self._component = self.mainSplit
+ 
+-        # ensure mode buttons reflect initial state
+-        try:
+-            _sync_mode_buttons()
+-        except:
+-            pass
+-
+         self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
+         self._runtime_publisher = RuntimePublisher(self)
+         self._filter_timer = swing.Timer(50, lambda event: self._filter_tick())
+@@ -2531,7 +2524,7 @@ class LoggerUI(ITab):
+                     text_type = str
+                 self.customStatusArea.setText(text_type(msg))
+             except (Exception, JavaException) as error:
+-                print("customStatusArea_SETTEXT_ERROR:", error)
++                _print_diagnostic("[BoberProxy] CUSTOM_STATUS_UPDATE_FAILED", error)
+         if swing.SwingUtilities.isEventDispatchThread():
+             publish()
+         else:
+@@ -2617,21 +2610,12 @@ class LoggerUI(ITab):
+         try:
+             self._proxy_mode_active = bool(self.proxyModeBtn.isSelected())
+ 
+-            # mutual exclusion: if proxy ON, force local OFF
+-            if self._proxy_mode_active:
+-                try:
+-                    self._update_autofollow_enabled_on_proxy()
+-                except:
+-                    pass
+-            else:
+-                try:
+-                    self._update_autofollow_enabled_on_proxy()
+-                except:
+-                    pass
++            self._update_autofollow_enabled_on_proxy()
+ 
+             self._log("Proxy processing toggled: %s" % ("ON" if self._proxy_mode_active else "OFF"))
+-        except Exception as e:
+-            self._log("Error toggling proxy processing: %s" % str(e))
++        except (Exception, JavaException) as error:
++            _print_diagnostic("[BoberProxy] PROXY_TOGGLE_FAILED", error)
++            self._log("PROXY_TOGGLE_FAILED")
+ 
+ 
+     def _update_autofollow_enabled_on_proxy(self):
+@@ -2679,11 +2663,6 @@ class LoggerUI(ITab):
+                 pass
+ 
+ 
+-    def _get_request_text_from_selected(self):
+-        # Compatibility reader: only the already-loaded viewer snapshot is read.
+-        request = self.controller.getRequest()
+-        return self.helpers.bytesToString(request) if request is not None else ""
+-
+     def _load_template_from_viewer(self,event=None):
+         def loaded(message):
+             self.reqTemplateEditor.setMessage(message.getRequest(),True)
+@@ -2728,21 +2707,6 @@ class LoggerUI(ITab):
+             pass
+ 
+ 
+-    def _set_right_controls_enabled(self, enabled):
+-        try:
+-            vp = self.rightScroll.getViewport().getView()
+-            for comp in vp.getComponents():
+-                pass
+-        except:
+-            pass
+-        for w in [self.sizeField, self.compCombo, self.lenTypeCombo, self.regexField,
+-                  self.addSitemapBtn, self.clearBtn, self.clearSelBtn, self.pauseBtn]:
+-            try:
+-                w.setEnabled(enabled)
+-            except:
+-                pass
+-
+-
+     def getTabCaption(self): return "BoberProxy"
+     def getUiComponent(self): return self._component
+ 
+@@ -3499,37 +3463,6 @@ class LoggerUI(ITab):
+                                            (incoming_payload1, incoming_payload2, incoming_csrf))
+         return self._custom_executor.wait(job)
+ 
+-    def extract_param_from_request(self, messageInfo, param_name):
+-        """
+-        Tries to extract parameter by name from the request's parameters.
+-        If not found, falls back to returning request body as string.
+-        """
+-        try:
+-            if not param_name:
+-                return ""
+-            try:
+-                analyzedReq = self.helpers.analyzeRequest(messageInfo)
+-            except:
+-                analyzedReq = None
+-            if analyzedReq:
+-                try:
+-                    params = analyzedReq.getParameters()
+-                    for p in params:
+-                        try:
+-                            if p.getName() == param_name:
+-                                try:
+-                                    return p.getValue()
+-                                except:
+-                                    return ""
+-                        except:
+-                            pass
+-                except:
+-                    pass
+-        except:
+-            pass
+-        return ""
+-
+-
+     def _update_cookies_and_csrf(self, response_bytes):
+         if response_bytes is None:
+             return
+@@ -3792,7 +3725,7 @@ class LoggerUI(ITab):
+             except (Exception, JavaException):
+                 pass
+             try:
+-                print("[BoberProxy template] TRANSFORM_ERROR %s" % code)
++                _print_diagnostic("[BoberProxy template] TRANSFORM_ERROR %s" % code)
+             except (Exception, JavaException):
+                 pass
+             return fallback_resp
+@@ -3884,7 +3817,7 @@ class LoggerUI(ITab):
+         if now - self._last_session_warning >= 1000:
+             self._last_session_warning = now
+             self._log(code)
+-            print("[BoberProxy session] " + code)
++            _print_diagnostic("[BoberProxy session] " + code)
+ 
+     def proxy_flow_process_request(self, raw_request_bytes, orig_host, orig_port, orig_https,
+                                    runtime_config=None, session_context=None):
+@@ -4063,24 +3996,18 @@ class LoggerUI(ITab):
+                     fallback_resp=None,
+                     custom_settings=custom_settings
+                 )
+-            except Exception as e:
+-                try:
+-                    print("build_checkpage_request: build_request_from_template error:", e)
+-                except:
+-                    pass
+-                return (None)
++            except (Exception, JavaException) as error:
++                _print_diagnostic("[BoberProxy] CHECKPAGE_BUILD_FAILED", error)
++                return None
+ 
+             if not request_bytes:
+                 return (None)
+ 
+             return (request_bytes)
+ 
+-        except Exception as e:
+-            try:
+-                print("build_checkpage_request top-level exception:", e)
+-            except:
+-                pass
+-            return (None)
++        except (Exception, JavaException) as error:
++            _print_diagnostic("[BoberProxy] CHECKPAGE_PREPARE_FAILED", error)
++            return None
+ 
+ 
+ 
+@@ -4118,8 +4045,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 return False
+             try:
+                 self.controller = SimpleMessageController()
+-                self.msgEditor = callbacks.createMessageEditor(self.controller, False)
+-                ui = LoggerUI(callbacks, self.controller, self.msgEditor, callbacks)
++                ui = LoggerUI(callbacks, self.controller)
+                 # Publish before rechecking unload: either the unload callback
+                 # sees this UI, or this initializer closes it. Never hold a
+                 # lifecycle mutex across calls into the host.
+@@ -4138,7 +4064,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 installed.append("proxy")
+                 if not still_open():
+                     return
+-                print("BoberProxy loaded (stabilization K08-K09)")
++                _print_diagnostic("BoberProxy loaded (stabilization K10-A)")
+             except (Exception, JavaException):
+                 diagnostic = traceback.format_exc()
+                 withdraw()
+@@ -4172,8 +4098,8 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 analyzed = self.helpers.analyzeResponse(response)
+                 status = analyzed.getStatusCode()
+                 body_len = len(response)-analyzed.getBodyOffset()
+-            except (Exception, JavaException):
+-                pass
++            except (Exception, JavaException) as error:
++                _print_diagnostic("[BoberProxy] HTTP_RESPONSE_ANALYSIS_FAILED", error)
+             try:
+                 request = self.helpers.analyzeRequest(messageInfo)
+                 method = request.getMethod()
+@@ -4182,19 +4108,19 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                     host = url.getHost()
+                     query = url.getQuery()
+                     path = url.getPath()+(("?"+query) if query else "")
+-            except (Exception, JavaException):
+-                pass
++            except (Exception, JavaException) as error:
++                _print_diagnostic("[BoberProxy] HTTP_REQUEST_ANALYSIS_FAILED", error)
+             data = (toolFlag,host,method,path,status,len(response),messageInfo,False,body_len)
+             ui._queue_filter_log(data,config,epoch)
+         except (Exception, JavaException) as error:
+-            print("processHttpMessage error:",error)
++            _print_diagnostic("[BoberProxy] HTTP_LOG_FAILED", error)
+ 
+ 
+     def _report_workflow_error(self, result):
+         message = "[BoberProxy workflow %s] %s" % (result.workflow_id, result.error_code)
+         if result.error_type:
+             message += " (%s)" % result.error_type
+-        print(message)
++        _print_diagnostic(message)
+         try:
+             detail = getattr(result, "error_detail", None)
+             diagnostic = message + ("\n" + detail if detail else "")
+@@ -4248,7 +4174,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             if not isinstance(result, ProxyWorkflowResult):
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] WORKFLOW_INVALID_RESULT")
++                _print_diagnostic("[BoberProxy] WORKFLOW_INVALID_RESULT")
+                 return
+             if result.status in (ProxyWorkflowResult.ERROR_BEFORE_SEND, ProxyWorkflowResult.ERROR_AFTER_SEND):
+                 action = (interceptedMessage.ACTION_DROP if result.status == ProxyWorkflowResult.ERROR_AFTER_SEND
+@@ -4262,7 +4188,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             if result.status != ProxyWorkflowResult.READY or not result.request_bytes:
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
++                _print_diagnostic("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
+                 return
+             if not ui.sessions.commit(context):
+                 ui.sessions.finish(context, original_response=not context.any_sent)
+@@ -4278,9 +4204,9 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+             except (Exception, JavaException) as error:
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-                print("[BoberProxy] PROXY_REPLACE_FAILED (%s)" % type(error).__name__)
++                _print_diagnostic("[BoberProxy] PROXY_REPLACE_FAILED", error)
+         except (Exception, JavaException) as error:
+             if context is not None and context.matched:
+                 ui.sessions.finish(context)
+                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+-            print("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE (%s)" % type(error).__name__)
++            _print_diagnostic("[BoberProxy] WORKFLOW_RESULT_UNAVAILABLE", error)

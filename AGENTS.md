@@ -11,11 +11,11 @@ This repository contains a single-file Burp Suite extension written for a Jython
 - Handoff notes for AI contributors: `AI_NOTES.md`
 - Change log for repository-level documentation updates: `CHANGELOG.md`
 
-## What The Project Appears To Do
+## What The Project Does
 
-BoberProxy appears to be a Burp Suite extension that:
+BoberProxy is a Burp Suite extension that:
 
-- logs HTTP traffic in a custom UI tab
+- logs accepted HTTP traffic in a custom UI tab, with metadata in memory and full content in an owned temporary archive
 - optionally intercepts and rewrites proxied requests from templates
 - manages cookies and CSRF tokens
 - optionally follows redirect chains
@@ -24,10 +24,10 @@ BoberProxy appears to be a Burp Suite extension that:
 ## Working Assumptions
 
 - The extension is intended to run inside Burp Suite through the Extender Python integration.
-- The target Python dialect is Jython-oriented and closer to Python 2 than modern CPython 3.
-- Manual testing inside Burp is the primary validation path.
+- Production targets Jython 2.7 syntax. The recorded environment is Burp Community 2026.10.1, Jython 2.7.4 and Java 26.0.2 on Windows.
+- Validation combines source-logic tests, standalone native/Swing probes, private helpers in actual Burp and directed loopback traffic. Manual loading/UI confirmation is still required.
 
-These assumptions are based on repository contents and have not been fully verified in a live Burp environment.
+The environment above has live integration evidence under `docs/stabilizacios-terv/eredmenyek`. It is not a compatibility claim for other versions. Read the latest `AI_NOTES.md` section for the current loaded version and switches; earlier sections are historical snapshots.
 
 ## Important Code Areas
 
@@ -41,6 +41,9 @@ These assumptions are based on repository contents and have not been fully verif
 - `build_request_from_template(...)`: request templating path
 - `proxy_flow_process_request(...)`: high-level proxy rewrite workflow
 - `_follow_redirects_chain(...)`: redirect handling
+- `RuntimePublisher` / `SessionCoordinator`: immutable configuration publication and workflow ownership/Clear generations
+- `CaptureFilterPlan` / `DisplayFilterPlan` / `FilterWorker`: admission/display filtering and bounded Java-regex work
+- `LogArchive` / `RawLogBudget` / `LogIoWorker`: owned content storage, raw snapshot reservations and guarded background reads
 
 ## Guardrails For Future Edits
 
@@ -49,13 +52,21 @@ These assumptions are based on repository contents and have not been fully verif
 - Treat broad `except:` blocks as behavior-sensitive areas; refactors there can change extension stability.
 - Treat the custom-code execution path as high risk because it uses `exec(...)`.
 - Test Burp loading behavior after any code edits, even if the change seems documentation-only adjacent.
+- `BoberProxy.py` declares Latin-1 and uses CRLF. Preserve its bytes/line endings; do not accidentally rewrite it as UTF-8. Documentation and new tests use UTF-8.
+- Preserve raw payloads, explicit wire conversion and one-time marker replacement. Do not infer a new target from a template Host header, auto-decode values or change GET redirect policy while cleaning up.
+- Never replay a possibly accepted workflow as a transport fallback. Record target-side request/action counters as well as client results.
+- Finite custom/regex capacity is not a sandbox or hard cancellation. Infinite/expensive probes run only in disposable, externally bounded JVMs, never in the user's main Burp process.
+- Own archive files must be reclaimed only through their ownership/read-pin lifecycle. Do not delete an arbitrary temporary directory or do disk I/O on the EDT.
+- For actual Burp tests use the root source plus the requested private helper. Instrumented wrappers have scoped loopback/file channels; never run their standalone controller concurrently with a loaded live wrapper sharing channel files.
+- Generated `tests/stabilization/runtime/*.py` custom fixtures are copied into the custom editor. Their `.py.in` templates are not directly usable. Runtime captures stay ignored; archive only synthetic evidence.
 
 ## Known Risks
 
 - The repository is a single large source file, which increases regression risk.
-- The README installation example references `BoberProxy_final_v1.py`, while the repository contains `BoberProxy.py`.
-- The README warns that proxy interception behavior may conflict with Burp's built-in intercept flow.
-- There is no automated test suite in the repository.
+- Disabled/unmatched Proxy traffic preserves its received interception action. Active rewrites forward automatically; pre/post-send failures have different fallback/drop behavior.
+- Global cookies/single CSRF token intentionally have no Domain/Path/Secure isolation. Workflow-local coordination does not remove this accepted cross-target limit.
+- Arbitrary custom code and pathological Java regexes cannot be forcibly stopped reliably. Bounded workers prevent replacement-worker accumulation, but restart can be necessary.
+- The raw log snapshot budget is not a total heap/RSS or metadata limit. Full K11 load/memory acceptance is separate from prior finite probes.
 
 ## Recommended Handoff Workflow
 
@@ -65,9 +76,8 @@ These assumptions are based on repository contents and have not been fully verif
 4. Prefer narrow changes and preserve behavior unless an explicit refactor is requested.
 5. If code changes are made later, record them in `CHANGELOG.md`.
 
-## Explicitly Unverified
+## Verification Boundaries
 
-- Live loading in Burp Suite
-- Exact Jython version compatibility
-- Redirect, cookie, and CSRF behavior against a real target
-- Whether all documented UI features still match current runtime behavior
+- Root loading and directed redirect/cookie/CSRF/custom/logging behavior have actual Burp evidence in the recorded environment. Preserve actual source hashes and failed attempts; never relabel old reports as a newer candidate.
+- Other Burp/Jython/Java versions and full HTTP/2 behavior have not been established by the HTTP/1.x loopback fixtures.
+- Full final long-run/load/memory matrix is tracked in K11. Existing results are scoped measurements, not a general throughput or deterministic GC guarantee.

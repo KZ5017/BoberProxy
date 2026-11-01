@@ -1,0 +1,54 @@
+{
+  "registration_cancellation": [
+    {
+      "remaining": [], 
+      "stage": "tab", 
+      "passed": true
+    }, 
+    {
+      "remaining": [], 
+      "stage": "http", 
+      "passed": true
+    }, 
+    {
+      "remaining": [], 
+      "stage": "proxy", 
+      "passed": true
+    }
+  ], 
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "K06-native-session-configuration-EDT-no-network", 
+  "session_cases": 15, 
+  "checks": {
+    "initial_custom_off": true, 
+    "unload_cannot_publish_status": true, 
+    "unload_closes_coordinator": true, 
+    "editor_programmatic_change_published": true, 
+    "old_template_all_256_bytes_immutable": true, 
+    "partial_registration_failure_cleans_ui": true, 
+    "source_ui_constructed_on_edt": true, 
+    "native_editor_bytes_published": true, 
+    "document_edit_publishes_version": true, 
+    "unload_preserves_snapshot": true, 
+    "unchanged_snapshot_keeps_version": true, 
+    "old_snapshot_unchanged": true, 
+    "initial_options_off": true, 
+    "unload_during_registration_cannot_leave_resources": true, 
+    "unload_stops_publisher": true, 
+    "unload_before_initialize_creates_no_orphan": true, 
+    "editors_created_on_edt": true, 
+    "unload_detaches_listeners": true, 
+    "callback_snapshot_has_no_widget_reads": true, 
+    "native_session_ordering_regressions": true, 
+    "snapshot_ready_before_listeners": true, 
+    "item_event_publishes_switch": true, 
+    "real_status_label_updated": true
+  }, 
+  "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc", 
+  "session_log": "test_callbacks_with_published_config_do_not_read_widgets (__main__.NativeSessions) ... ok\ntest_clear_after_internal_send_stops_before_checkpage (__main__.NativeSessions) ... ok\ntest_clear_csrf_invalidates_both_publication_channels (__main__.NativeSessions) ... ok\ntest_clear_releases_owner_and_waiter_seeds_new_epoch (__main__.NativeSessions) ... ok\ntest_clear_while_parser_waits_does_not_block_or_publish (__main__.NativeSessions) ... ok\ntest_close_wakes_waiters_and_rejects_late_response (__main__.NativeSessions) ... ok\ntest_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie (__main__.NativeSessions) ... ok\ntest_metadata_capacity_expiry_and_unknown_response_are_explicit (__main__.NativeSessions) ... ok\ntest_missing_final_response_keeps_lease_until_explicit_recovery (__main__.NativeSessions) ... ok\ntest_next_owner_waits_until_final_proxy_response (__main__.NativeSessions) ... ok\ntest_passive_response_does_not_replace_owner_local_state (__main__.NativeSessions) ... ok\ntest_queue_capacity_and_deadline_do_not_release_owner (__main__.NativeSessions) ... ok\ntest_reference_rehook_does_not_repeat_workflow_and_null_response_releases (__main__.NativeSessions) ... ok\ntest_response_uses_request_time_flags_and_regex (__main__.NativeSessions) ... ok\ntest_workflow_freezes_templates_flags_payload_names_and_regex (__main__.NativeSessions) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.122s\n\nOK\n", 
+  "java_version": "26.0.2", 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "native_message_editors": false, 
+  "errors": []
+}

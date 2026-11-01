@@ -4,7 +4,7 @@
 
 # **BoberProxy – Advanced Burp Suite Proxy Extension**
 
-A powerful Burp Suite extension providing customizable request/response manipulation, cookie & CSRF management, redirect following, logging, filtering, and a fully programmable custom code execution engine — all through an integrated GUI tab.
+A Jython Burp Suite extension for template-based Proxy request workflows, cookie and CSRF management, redirect following, traffic logging, filtering, and custom payload transformations through an integrated GUI tab.
 
 ---
 
@@ -46,10 +46,13 @@ It introduces a new tab inside Burp that includes:
 * Automated cookie & CSRF handling
 * Redirect-chain following logic
 * A programmable transformation pipeline
-* A filtering/searching system
+* Capture filters and separate filters for stored log rows
 * Proxy mode with custom request generation
 
-This extension works with both **Burp Proxy** traffic and **Burp Suite tools** (Repeater, Intruder, Scanner, etc.).
+The logger receives HTTP listener traffic from Burp tools, including Proxy and
+Repeater. Template rewriting runs only in the Proxy listener; it does not rewrite
+Repeater/Intruder requests merely because they appear in the log. Tool availability
+depends on the Burp edition.
 
 ---
 
@@ -59,7 +62,8 @@ This extension works with both **Burp Proxy** traffic and **Burp Suite tools** (
 
 * Displays host, method, URL, status code, body length, timestamps
 * Auto-numbered rows
-* Stores all entries, even filtered ones
+* Preserves accepted entries when display filters hide them
+* Stores full accepted request/response content in an owned temporary archive
 
 ### ✔ Advanced filtering system
 
@@ -70,7 +74,7 @@ Filter logs by:
 * Path
 * Response code
 * Length (min, max, equals, not equals)
-* Regex pattern search
+* Java regex filtering of complete raw responses
 
 ### ✔ Built-in request/response viewers
 
@@ -110,7 +114,7 @@ Intercepts Proxy requests and performs:
 
 ### ✔ Redirect following engine
 
-Optionally follows up to *N* redirect responses (301, 302, 307, etc.)
+Optionally follows up to ten redirect responses (301, 302, 303, 307, 308)
 while updating cookies and CSRF tokens at every hop.
 
 ### ✔ Request Template Editor
@@ -132,20 +136,28 @@ These placeholders are replaced during proxy request processing.
 ### **Requirements**
 
 * Burp Suite Professional or Community
-* Jython standalone .jar (2.7.x)
-* Python-like syntax compatible with Jython
+* Jython standalone JAR; verified with **Jython 2.7.4**
+* Python 2.7 syntax and libraries available in Burp's Jython runtime
+
+The recorded integration environment is **Burp Suite Community 2026.10.1,
+Jython 2.7.4, Java 26.0.2 on Windows**. Other Burp/Jython/Java versions have not
+been verified by these results. The test tools under `tests/stabilization` are
+development helpers; install the root extension for normal use.
 
 ### **Steps**
 
 1. Download or clone this repository.
-2. Open **Burp Suite → Extender → Options → Python Environment**.
+2. In Burp **Settings**, find **Extensions → Python environment**.
 3. Browse and select the **Jython standalone** JAR.
-4. Go to **Extender → Extensions → Add**.
+4. Go to **Extensions → Installed → Add**.
 5. Choose:
 
    * **Extension type:** Python
-   * **File:** `BoberProxy_final_v1.py`
-6. The new **BoberProxy** tab should appear.
+   * **File:** `BoberProxy.py` from the repository root
+6. The new **BoberProxy** tab should appear. Check the extension's Output/Errors
+   panes for the load result. On reload, remove the previous instance first so
+   that only one main BoberProxy is installed. Older Burp layouts use an
+   **Extender** section for these settings.
 
 ---
 
@@ -161,7 +173,7 @@ The extension implements several Burp interfaces:
 | `IHttpListener`            | Logs all Burp tool traffic            |
 | `IProxyListener`           | Intercepts & transforms Proxy traffic |
 | `ITab`                     | Creates the UI tab                    |
-| `IContextMenuFactory`      | (Optional future expandability)       |
+| `IExtensionStateListener`  | Closes owned work and UI on unload    |
 | `IMessageEditorController` | Controls embedded message viewers     |
 
 During initialization, BoberProxy:
@@ -179,40 +191,45 @@ During initialization, BoberProxy:
 ### Left Panel
 
 * Request and Response viewers (Burp-provided)
-* Request Template Editor
+* Request Template and CheckPageTemplate editors, each with Load from Viewer/Clear
 * Template tooltip and helper controls
 
 ### Right Panel
 
 * Full log table
 * Filters button
-* Search field
+* Status/length/response-regex capture controls
 * Status bar
 * Custom codeblock editor
 * Cookie & CSRF settings
 * Proxy mode toggle
 
+The extension has no separate log search box, next-match navigator or row
+highlighting function. Use **Filter → ResponseContent** to search stored
+responses with regexes; Burp's own message editor search is a separate feature.
+
+**Add selected to Site map** exports the selected original messages and also
+includes their URLs in **Burp target scope**. Sorting and display filtering do
+not change which selected messages are exported. The button tooltip states
+the scope side effect.
+
 ---
 
 ## **Proxy Workflow**
 
-When a proxied Request comes in:
-
-1. **If it's a response:**
-
-   * Update cookies
-   * Update CSRF (regex-based)
-   * Return
-
-2. **If Proxy Mode is OFF:**
-   → Forward request unchanged
-
-3. **If Proxy Mode is ON:**
-   The following steps occur:
+The switch is named **Injecting proxy from templates**. Disabled or unmatched
+requests retain their existing Burp interception action. Matching requests use
+a settings snapshot captured at workflow start, including template bytes,
+custom code, switches and regex. Editing controls affects subsequent workflows.
 
 #### 1. Extract original request data
 
-Host, port, protocol, body, parameters.
+The two payload-name fields default to `q` and `w`. Values are extracted from
+the query first, then an `application/x-www-form-urlencoded` body. Percent
+escapes and `+` remain raw: `%252F+%2B` is not URL-decoded. The first nonempty
+value for each slot wins; if both names are the same, the first slot is filled
+before the second. A request with no nonempty selected payload is unmatched.
+JSON/multipart values are not additional payload sources.
 
 #### 2. Load request template
 
@@ -236,19 +253,32 @@ If auto-cookie is enabled.
 
 #### 5. Rewrite request
 
-A new HTTP request is built using Burp helpers.
+A complete request is built from the Request Template using Burp helpers.
+Markers are replaced once in the original template; inserted payload/token
+text is not interpreted as another marker. Payloads are not automatically
+URL-encoded. Request Template and CheckPage use the original Proxy service:
+changing only the template Host header does not select a new network target.
 
 #### 6. Send & optionally follow redirects
 
-Redirect chain logic handles:
+With **Use CheckPageTemplate OFF**, the generated Request Template is returned
+to Burp for its single normal Proxy send. There is no additional internal RT
+send and AutoFollow is disabled.
 
-* `Location:` headers
-* Relative/absolute URLs
-* Cookies at each hop
+With **Use CheckPageTemplate ON**, the extension sends the Request Template
+internally once, updates enabled cookie/token state and optionally follows
+redirects. It then builds CheckPage using the original payloads and the updated
+token. When custom code is enabled it runs again for CheckPage, including its
+top-level code and side effects. Redirect policy is described below.
 
 #### 7. Return final request to Burp
 
-Burp forwards it to the server.
+Burp forwards either the generated Request Template or the final CheckPage,
+according to the mode above. A failure before any internal send falls back to
+the original request with a diagnostic. A failure after an attempted internal
+send drops the original instead of retrying a possibly accepted operation.
+Burp's extension-drop error page can itself have HTTP status 200; read the
+diagnostic/body rather than treating that status as workflow success.
 
 ---
 
@@ -309,7 +339,7 @@ This allows:
 
 ### CookieManager
 
-* Locks individual store operations; concurrent workflows are not yet isolated
+* Uses locked operations and coordinated workflow-local cookie/token state
 * Reads all `Set-Cookie:` headers
 * Tracks additions/updates/deletions
 * Injects cookies into outbound requests
@@ -319,6 +349,15 @@ Secure do not restrict injection: values collected from one target can reach
 another target's generated request. Enabled automatics collect Proxy responses
 and internal Request Template/redirect responses. An automation switch controls
 both response updates and injection for that data.
+
+Managed workflows are serialized through the final Proxy response. Each keeps
+its own state for Request Template → redirects → CheckPage; unrelated passive
+responses cannot replace that workflow's local token between steps. Clear
+Cookies or Clear CSRF starts a new shared generation, invalidating old workflow
+publication while clearing only the selected kind of data. This cannot undo a
+request already handed to Burp, or coordinate server-side token changes caused
+by clients outside the extension. A missing final response can retain ownership
+until response/Clear/unload; this is not a guaranteed network cancellation.
 
 `Max-Age` takes precedence over `Expires`; nonpositive Max-Age and past expiry
 delete a cookie. Invalid expiry attributes are ignored. Empty values and the
@@ -331,7 +370,7 @@ own values again. Unmanaged template cookies are preserved.
 
 * Extracts a CSRF token using user regex
 * Stores a single token
-* Allows manual override
+* Offers Show CSRF and Clear CSRF; there is no manual token-entry control
 * Integrates with templates
 
 The regex is validated and compiled when edited. Its first capturing group is
@@ -351,7 +390,7 @@ Default regex:
 
 ## **Redirect Following**
 
-The `follow_redirects_chain()` method:
+The `_follow_redirects_chain()` path:
 
 1. Detects redirect via `Location:` header
 2. Resolves relative or absolute URLs
@@ -359,7 +398,7 @@ The `follow_redirects_chain()` method:
 4. Maintains User-Agent where possible
 5. Injects cookies (if enabled)
 6. Updates CSRF token (if enabled)
-7. Repeats up to *N* redirects
+7. Repeats up to ten redirects
 
 Uses Burp helpers:
 
@@ -387,11 +426,45 @@ after an internal send drop the original request instead of resending it.
 
 ### Logger features:
 
-* Inserts new entries at the top
-* Stores separate "displayed" vs "all" logs
-* Rebuilds tables when filter changes
-* Highlighting and search support
-* Row renumbering
+* Appends stored metadata and displays newest rows first
+* Keeps a stored set and a separately filtered display
+* Rebuilds display matches in the background when filters change
+* Keeps stable row IDs; deletion does not renumber remaining rows
+* Supports multiple selection, sorting, Clear selected, Clear log and Pause logging
+
+The main-panel **1xx–5xx**, **Len filter** and **Response regex** controls decide
+which new responses are admitted. Length can mean total response bytes or body
+bytes; minimum, maximum and exclusion-list comparisons are available. A
+Response regex uses Java `Pattern.find()` with default flags.
+
+The **Filter** dialog affects already accepted rows without deleting their
+stored messages. Host/Method/Status use exact text, Path uses a substring,
+BodyLen uses integer equality/exclusion and ResponseContent searches complete
+raw response headers and body using case-insensitive, DOTALL Java regexes.
+Active fields combine with AND; an `eq` field accepts any listed value and
+`not eq` rejects listed matches. An active empty field rejects rows. BodyLen
+zero is a real value; unknown length remains blank.
+
+Enter **one regex per line** in ResponseContent. Commas inside `a{1,3}` or `a,b`
+belong to the pattern. Other dialog fields use comma-separated lists. Invalid
+regexes/numbers show a validation error and retain the last valid filter.
+Responses are not implicitly decompressed or charset-decoded for searching.
+
+Complete accepted content is stored in a per-instance temporary archive;
+in-memory records primarily contain metadata. Viewer/template/Site map reads
+and regex searches run in bounded background work. Rapid selection changes
+discard outdated viewer results. Clear/unload retire owned content and release
+references; filesystem cleanup is asynchronous and can wait on an active read.
+This archive is for the live extension session, not crash recovery or a saved
+Burp project. Extension log clearing does not erase Burp's own HTTP history.
+
+There is a shared **32 MiB budget for owned pending/active raw log snapshots**
+and finite work queues. Queue/byte saturation or an archive write error visibly
+pauses new admission, retaining accepted entries. Pending accepted work can
+finish after Pause; resuming uses the Pause logging control. Read/export errors
+are shown separately. The budget is not a bound on total JVM/process memory:
+metadata grows with row count, and viewer/native-editor buffers and conversion
+temporaries need additional memory. Full long-run load validation is K11 work.
 
 ### Filters include:
 
@@ -410,6 +483,11 @@ after an internal send drop the original request instead of resending it.
 * Some UI components depend on Burp versions
 * Custom code is not sandboxed and has no guaranteed forced termination
 * Not compatible with Python3 syntax in Jython
+* Cookie/token storage is global, without Domain/Path/Secure isolation
+* Java regexes have bounded execution capacity, but no guaranteed forced stop;
+  an expensive pattern can occupy the worker until it finishes or Burp restarts
+* Full HTTP/2 behavior and additional runtime versions are not verified by the
+  recorded HTTP/1.x fixture checks; existing framing normalization is retained
 
 ---
 

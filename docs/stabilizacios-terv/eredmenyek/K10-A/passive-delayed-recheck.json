@@ -1,0 +1,95 @@
+{
+  "checks": {
+    "burp-passive.json": true,
+    "burp-bytes-empty.json": true
+  },
+  "observed": {
+    "burp-passive.json": {
+      "run": "k00-3ecd125be94a",
+      "action_count": 0,
+      "event_count": 1,
+      "recent_events": [
+        {
+          "sequence": 1,
+          "time_ns": 1793499715033707300,
+          "run": "k00-3ecd125be94a",
+          "method": "GET",
+          "target": "/entry?q=%252F+%2B&w=TWO",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k00-3ecd125be94a"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbnRyeT9xPSUyNTJGKyUyQiZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDAtM2VjZDEyNWJlOTRhDQoNCg==",
+          "body_base64": ""
+        }
+      ],
+      "session": null
+    },
+    "burp-bytes-empty.json": {
+      "run": "k10a-passive-3d2d632dc121",
+      "action_count": 0,
+      "event_count": 2,
+      "recent_events": [
+        {
+          "sequence": 2,
+          "time_ns": 1793499715859586900,
+          "run": "k10a-passive-3d2d632dc121",
+          "method": "GET",
+          "target": "/bytes?size=256",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k10a-passive-3d2d632dc121"
+            ]
+          ],
+          "raw_base64": "R0VUIC9ieXRlcz9zaXplPTI1NiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTBhLXBhc3NpdmUtM2QyZDYzMmRjMTIxDQoNCg==",
+          "body_base64": ""
+        },
+        {
+          "sequence": 3,
+          "time_ns": 1793499715891011900,
+          "run": "k10a-passive-3d2d632dc121",
+          "method": "GET",
+          "target": "/empty",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "k10a-passive-3d2d632dc121"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTBhLXBhc3NpdmUtM2QyZDYzMmRjMTIxDQoNCg==",
+          "body_base64": ""
+        }
+      ],
+      "session": null
+    }
+  },
+  "passed": true,
+  "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d"
+}

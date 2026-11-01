@@ -1,5 +1,19 @@
 # CHANGELOG.md
 
+## 2026-11-01 — K10/B (closed; no commit/push)
+
+- After closure, the user authorized a combined K10/A+B commit/push checkpoint, superseding the earlier implementation-time restriction. Included source, helpers, updated documentation and synthetic evidence; runtime captures remain ignored. Revision in Git history; closure JSON preserves its pre-checkpoint state.
+- Continued from closed, uncommitted A under an explicit no-commit/push instruction. Removed only the uncalled permissive converter; kept strict wire conversion, native filter/container semantics and existing Content-Length normalization.
+- Empty native bytes replace null-first template Clear; visible fixed-code UI errors, safe startup withdrawal/reporting, cleanup of failed filter drafts and robust parser diagnostics. Updated result docstrings and Site map scope tooltip. Core sessions/custom/filter/archive/redirect/proxy behavior preserved by source comparison.
+- README/AGENTS now describe actual installation/UI, serialized global-compatible workflow state, raw payloads, scope, GET redirects, filtering/archive/budgets and measured/version/hard-stop limits. All46 findings have individual status entries. Local211/210/1, native runtime15/23 and actual Burp6/10/24/23 pass. User confirmed passive UI and English scope tooltip; final normal action/CheckPage succeeds with exact payloads/cookies/token and exactly two custom calls, delayed counts unchanged. K10 closed, K11 not started; explicit no commit/push honored.
+
+## 2026-11-01 — K10/A
+
+- Two user-authorized K10 sessions share one current-code inventory; conversion compatibility, user documentation and aggregate closure remain B.
+- Removed unused fifth editor/constructor references/imports/helpers/fields, undefined sync call and redundant selection-mode/proxy-toggle setup. Native callbacks and tested internal APIs retained.
+- Code/type-only callback diagnostics contain output failures. CheckPage fallback and partial logging admission preserved; HTTP analysis errors visible. CPython/Jython205 cases/204 pass/one accepted K05 limit; private native cleanup/storage/UI and prior helper checks pass. Old editor doubles updated for non-null setMessage; failed fixture attempt retained.
+- Closed K10/A: actual Burp6 diagnostic cases/10 cleanup-UI checks/24 logging checks PASS, user confirmed no Errors and passive viewer/BodyLen0. Three passive requests and final normal action/CheckPage pass with exact bytes, cookies/token and exactly two custom calls; delayed counts unchanged. Recorded source scope, environment and B handoff. K10/B, K11 and commit/push not started.
+
 ## 2026-11-01 — K08–K09
 
 - Prepared the user-requested combined K08–K09 commit/push checkpoint, including source, test helpers, documentation and synthetic evidence. Revision in Git history; generated runtime captures remain ignored.

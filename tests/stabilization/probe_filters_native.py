@@ -64,10 +64,14 @@ def run_checks(actual_callbacks=None):
         def getResponse(self):
             return None
     class Editor(object):
+        def __init__(self): self.value = None
         def getComponent(self):
             return JPanel()
         def getMessage(self):
-            return None
+            return self.value
+        def setMessage(self, value, is_request):
+            if value is None: raise ValueError('Message cannot be null')
+            self.value = value
     class Callbacks(object):
         def getHelpers(self):
             return helpers
@@ -76,7 +80,7 @@ def run_checks(actual_callbacks=None):
     try:
         def create():
             cb=Callbacks()
-            current.append(ns['LoggerUI'](cb,ns['SimpleMessageController'](),None,cb))
+            current.append(ns['LoggerUI'](cb,ns['SimpleMessageController']()))
         edt(create)
         ui=current[0]
         checks['filter_timer_on_edt_ui']=ui._creation_on_edt and ui._filter_timer.isRunning()

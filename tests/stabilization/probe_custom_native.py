@@ -84,8 +84,12 @@ def run_checks(helpers=None):
                 errors.append(traceback.format_exc())
 
     class Editor(object):
+        def __init__(self): self.value = None
         def getMessage(self):
-            return None
+            return self.value
+        def setMessage(self, value, is_request):
+            if value is None: raise ValueError('Message cannot be null')
+            self.value = value
         def getComponent(self):
             return JPanel()
     class Callbacks(object):
@@ -97,7 +101,7 @@ def run_checks(helpers=None):
     current = []
     def configure():
         cb = Callbacks()
-        ui = ns['LoggerUI'](cb, ns['SimpleMessageController'](), None, cb)
+        ui = ns['LoggerUI'](cb, ns['SimpleMessageController']())
         current.append(ui)
         ui.useCustomChk.doClick(0)
         ui.customCodeArea.setText('import time\ntime.sleep(0.40)\n' + PASS)

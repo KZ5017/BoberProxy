@@ -1,0 +1,618 @@
+{
+  "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4",
+  "imports": [
+    {
+      "name": "IBurpExtender",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "ITab",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "IHttpListener",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "IContextMenuFactory",
+      "line": 3,
+      "python_loads": 0
+    },
+    {
+      "name": "IMessageEditorController",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "IProxyListener",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "IExtensionStateListener",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "IHttpRequestResponse",
+      "line": 3,
+      "python_loads": 1
+    },
+    {
+      "name": "swing",
+      "line": 5,
+      "python_loads": 116
+    },
+    {
+      "name": "SortOrder",
+      "line": 6,
+      "python_loads": 1
+    },
+    {
+      "name": "RowSorter",
+      "line": 6,
+      "python_loads": 1
+    },
+    {
+      "name": "JTable",
+      "line": 6,
+      "python_loads": 1
+    },
+    {
+      "name": "ListSelectionModel",
+      "line": 6,
+      "python_loads": 1
+    },
+    {
+      "name": "TableRowSorter",
+      "line": 7,
+      "python_loads": 1
+    },
+    {
+      "name": "AbstractTableModel",
+      "line": 7,
+      "python_loads": 2
+    },
+    {
+      "name": "GridBagLayout",
+      "line": 9,
+      "python_loads": 7
+    },
+    {
+      "name": "GridBagConstraints",
+      "line": 9,
+      "python_loads": 25
+    },
+    {
+      "name": "Insets",
+      "line": 9,
+      "python_loads": 7
+    },
+    {
+      "name": "Font",
+      "line": 9,
+      "python_loads": 4
+    },
+    {
+      "name": "FlowLayout",
+      "line": 9,
+      "python_loads": 16
+    },
+    {
+      "name": "Color",
+      "line": 9,
+      "python_loads": 2
+    },
+    {
+      "name": "Dimension",
+      "line": 9,
+      "python_loads": 3
+    },
+    {
+      "name": "BorderLayout",
+      "line": 9,
+      "python_loads": 2
+    },
+    {
+      "name": "MouseAdapter",
+      "line": 13,
+      "python_loads": 0
+    },
+    {
+      "name": "Pattern",
+      "line": 14,
+      "python_loads": 3
+    },
+    {
+      "name": "Integer",
+      "line": 15,
+      "python_loads": 3
+    },
+    {
+      "name": "JavaException",
+      "line": 15,
+      "python_loads": 29
+    },
+    {
+      "name": "JavaThrowable",
+      "line": 15,
+      "python_loads": 12
+    },
+    {
+      "name": "threading",
+      "line": 17,
+      "python_loads": 16
+    },
+    {
+      "name": "time",
+      "line": 17,
+      "python_loads": 5
+    },
+    {
+      "name": "traceback",
+      "line": 17,
+      "python_loads": 2
+    },
+    {
+      "name": "re",
+      "line": 17,
+      "python_loads": 18
+    },
+    {
+      "name": "urljoin",
+      "line": 24,
+      "python_loads": 1
+    },
+    {
+      "name": "urlparse",
+      "line": 24,
+      "python_loads": 4
+    },
+    {
+      "name": "timer",
+      "line": 120,
+      "python_loads": 4
+    },
+    {
+      "name": "System",
+      "line": 123,
+      "python_loads": 1
+    },
+    {
+      "name": "Arrays",
+      "line": 395,
+      "python_loads": 1
+    },
+    {
+      "name": "deque",
+      "line": 448,
+      "python_loads": 5
+    },
+    {
+      "name": "os",
+      "line": 463,
+      "python_loads": 9
+    },
+    {
+      "name": "tempfile",
+      "line": 463,
+      "python_loads": 1
+    },
+    {
+      "name": "struct",
+      "line": 463,
+      "python_loads": 2
+    },
+    {
+      "name": "struct",
+      "line": 495,
+      "python_loads": 2
+    },
+    {
+      "name": "os",
+      "line": 526,
+      "python_loads": 9
+    },
+    {
+      "name": "OrderedDict",
+      "line": 557,
+      "python_loads": 3
+    },
+    {
+      "name": "deque",
+      "line": 557,
+      "python_loads": 5
+    },
+    {
+      "name": "calendar",
+      "line": 744,
+      "python_loads": 1
+    },
+    {
+      "name": "datetime",
+      "line": 745,
+      "python_loads": 1
+    },
+    {
+      "name": "OrderedDict",
+      "line": 958,
+      "python_loads": 3
+    },
+    {
+      "name": "Thread",
+      "line": 1235,
+      "python_loads": 2
+    },
+    {
+      "name": "ThreadGroup",
+      "line": 1235,
+      "python_loads": 1
+    },
+    {
+      "name": "Runnable",
+      "line": 1235,
+      "python_loads": 1
+    },
+    {
+      "name": "Class",
+      "line": 1235,
+      "python_loads": 1
+    },
+    {
+      "name": "apply_synchronized",
+      "line": 1236,
+      "python_loads": 1
+    },
+    {
+      "name": "deque",
+      "line": 1591,
+      "python_loads": 5
+    },
+    {
+      "name": "OrderedDict",
+      "line": 1591,
+      "python_loads": 3
+    },
+    {
+      "name": "DocumentListener",
+      "line": 1722,
+      "python_loads": 3
+    },
+    {
+      "name": "ItemListener",
+      "line": 1723,
+      "python_loads": 1
+    },
+    {
+      "name": "JTextComponent",
+      "line": 1755,
+      "python_loads": 1
+    },
+    {
+      "name": "WindowAdapter",
+      "line": 1813,
+      "python_loads": 1
+    },
+    {
+      "name": "DocumentListener",
+      "line": 2356,
+      "python_loads": 3
+    },
+    {
+      "name": "copy",
+      "line": 2835,
+      "python_loads": 3
+    },
+    {
+      "name": "copy",
+      "line": 3813,
+      "python_loads": 3
+    },
+    {
+      "name": "native_threads",
+      "line": 1239,
+      "python_loads": 1
+    },
+    {
+      "name": "copy",
+      "line": 3062,
+      "python_loads": 3
+    }
+  ],
+  "single_mention_methods": [
+    {
+      "owner": "NewestRows",
+      "name": "__len__",
+      "line": 309,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "NewestRows",
+      "name": "__getitem__",
+      "line": 311,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "NewestRows",
+      "name": "__eq__",
+      "line": 316,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LogTableModel",
+      "name": "getRowCount",
+      "line": 349,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/measure_store.py",
+        "tests/stabilization/probe_jython_import.py",
+        "tests/stabilization/probe_log_memory.py",
+        "tests/stabilization/test_log_review.py"
+      ]
+    },
+    {
+      "owner": "LogTableModel",
+      "name": "getColumnCount",
+      "line": 350,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LogTableModel",
+      "name": "getColumnName",
+      "line": 351,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LogTableModel",
+      "name": "getValueAt",
+      "line": 352,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/probe_jython_import.py",
+        "tests/stabilization/probe_template_native.py",
+        "tests/stabilization/test_templates.py"
+      ]
+    },
+    {
+      "owner": "LogTableModel",
+      "name": "getColumnClass",
+      "line": 364,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LogTableModel",
+      "name": "isCellEditable",
+      "line": 365,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setHttpService",
+      "line": 410,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py",
+        "tests/stabilization/probe_k089_message_native.py"
+      ]
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setResponse",
+      "line": 414,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py",
+        "tests/stabilization/probe_k089_message_native.py"
+      ]
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setComment",
+      "line": 416,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py",
+        "tests/stabilization/probe_k089_message_native.py"
+      ]
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setHighlight",
+      "line": 418,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py",
+        "tests/stabilization/probe_k089_message_native.py"
+      ]
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setHost",
+      "line": 422,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py"
+      ]
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setPort",
+      "line": 423,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py"
+      ]
+    },
+    {
+      "owner": "FrozenLogMessage",
+      "name": "setProtocol",
+      "line": 424,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k089_storage_probe.py"
+      ]
+    },
+    {
+      "owner": "CsrfManager",
+      "name": "set_token",
+      "line": 703,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/test_session_state.py",
+        "tests/stabilization/test_templates.py",
+        "tests/stabilization/test_transport.py"
+      ]
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "_to_text",
+      "line": 2541,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "_get_request_text_from_selected",
+      "line": 2682,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "_set_right_controls_enabled",
+      "line": 2731,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "getTabCaption",
+      "line": 2746,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k06_inspect.py"
+      ]
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "getUiComponent",
+      "line": 2747,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k06_inspect.py",
+        "tests/stabilization/probe_k03_wrapper.py"
+      ]
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "_row_matches_filters",
+      "line": 3052,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/probe_filter_characterization.py",
+        "tests/stabilization/test_source_logic.py",
+        "tests/stabilization/test_templates.py"
+      ]
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "should_log",
+      "line": 3286,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/probe_filter_characterization.py",
+        "tests/stabilization/probe_runtime_native.py",
+        "tests/stabilization/test_runtime_session.py"
+      ]
+    },
+    {
+      "owner": "LoggerUI",
+      "name": "extract_param_from_request",
+      "line": 3502,
+      "source_mentions": 1,
+      "test_references": []
+    },
+    {
+      "owner": "BurpExtender",
+      "name": "registerExtenderCallbacks",
+      "line": 4088,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k02_probe.py",
+        "tests/stabilization/burp_k03_after.py",
+        "tests/stabilization/burp_k03_before.py",
+        "tests/stabilization/burp_k03_instrumented.py",
+        "tests/stabilization/burp_k04_probe.py",
+        "tests/stabilization/burp_k05_probe.py",
+        "tests/stabilization/burp_k06_inspect.py",
+        "tests/stabilization/burp_k06_instrumented.py",
+        "tests/stabilization/burp_k06_probe.py",
+        "tests/stabilization/burp_k07_instrumented.py",
+        "tests/stabilization/burp_k07_probe.py",
+        "tests/stabilization/burp_k089_instrumented.py",
+        "tests/stabilization/burp_k089_probe.py",
+        "tests/stabilization/burp_k089_storage_probe.py",
+        "tests/stabilization/probe_k03_wrapper.py",
+        "tests/stabilization/probe_k06_lifecycle.py",
+        "tests/stabilization/probe_k06_wrapper.py",
+        "tests/stabilization/probe_k07_wrapper.py",
+        "tests/stabilization/probe_k089_wrapper.py",
+        "tests/stabilization/probe_logging_native.py",
+        "tests/stabilization/probe_runtime_native.py"
+      ]
+    },
+    {
+      "owner": "BurpExtender",
+      "name": "extensionUnloaded",
+      "line": 4151,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k06_inspect.py",
+        "tests/stabilization/burp_k06_instrumented.py",
+        "tests/stabilization/burp_k07_instrumented.py",
+        "tests/stabilization/burp_k07_probe.py",
+        "tests/stabilization/burp_k089_instrumented.py",
+        "tests/stabilization/burp_k089_probe.py",
+        "tests/stabilization/burp_k089_storage_probe.py",
+        "tests/stabilization/probe_custom_native.py",
+        "tests/stabilization/probe_k06_lifecycle.py",
+        "tests/stabilization/probe_k06_wrapper.py",
+        "tests/stabilization/probe_k07_wrapper.py",
+        "tests/stabilization/probe_k089_wrapper.py",
+        "tests/stabilization/probe_logging_native.py",
+        "tests/stabilization/probe_runtime_native.py"
+      ]
+    },
+    {
+      "owner": "BurpExtender",
+      "name": "processProxyMessage",
+      "line": 4205,
+      "source_mentions": 1,
+      "test_references": [
+        "tests/stabilization/burp_k03_instrumented.py",
+        "tests/stabilization/burp_k06_inspect.py",
+        "tests/stabilization/burp_k06_instrumented.py",
+        "tests/stabilization/burp_k07_instrumented.py",
+        "tests/stabilization/burp_k089_instrumented.py",
+        "tests/stabilization/k03_action_listener.py",
+        "tests/stabilization/probe_k03_native.py",
+        "tests/stabilization/probe_k03_wrapper.py",
+        "tests/stabilization/test_redirects.py",
+        "tests/stabilization/test_runtime_session.py",
+        "tests/stabilization/test_templates.py",
+        "tests/stabilization/test_transport.py"
+      ]
+    }
+  ],
+  "note": "Mentions are candidates only. Native callbacks, explicit test APIs and conversion compatibility are retained unless separately proven unused."
+}

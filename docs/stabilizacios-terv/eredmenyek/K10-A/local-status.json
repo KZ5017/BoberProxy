@@ -1,0 +1,18 @@
+{
+  "kind": "K10-A-local-gate-only",
+  "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d",
+  "checks": {
+    "current_source_matches_candidate": true,
+    "logic_both_205_204_1": true,
+    "native_6_10_plus_logging_15_24": true,
+    "native_compat_all_four": true,
+    "no_edt_exceptions_in_final_compat_log": true
+  },
+  "local_passed": true,
+  "actual_burp_gate": "PASS6/10/24; user confirmed no Errors, OFF",
+  "actual_passive_and_normal_regression": "passive PASS3 once; normal config/manual UI confirmation pending",
+  "K10_A_closed": false,
+  "K10_B_started": false,
+  "commit_made": false,
+  "push_made": false
+}

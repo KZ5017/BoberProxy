@@ -1,0 +1,16 @@
+{
+  "kind": "K10-B-pre-normal-status",
+  "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+  "local_logic": "211 total/210 passed/1 accepted K05 limit; both runtimes",
+  "actual_native": "PASS6 final/10 cleanup/24 logging/23 conversion; matching hash",
+  "passive": "PASS3 once; delayed counts unchanged",
+  "manual_pending": [
+    "passive table/viewer/204 BodyLen0 and Site map scope tooltip",
+    "normal unprefixed templates and custom-k10b-pass-through setup, Clear cookies/CSRF"
+  ],
+  "normal_request_sent": false,
+  "commit_made": false,
+  "push_made": false,
+  "user_explicitly_forbids_commit_push": true,
+  "K11_started": false
+}

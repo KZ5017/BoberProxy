@@ -1,0 +1,81 @@
+{
+  "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+  "removed_converter": {
+    "name": "LoggerUI._to_text",
+    "baseline_source_occurrences": 1,
+    "baseline_test_callers": [],
+    "reason": "Uncalled; no runtime replacement needed. Removed repr parsing, invalid-byte substitution and implicit str fallbacks."
+  },
+  "kept_conversions": {
+    "_wire_text": "Shared strict Latin-1/byte-valued text mapping for supported Jython/Java containers; unchanged.",
+    "CookieManager._decode/CsrfManager._decode": "Delegate to _wire_text; wrappers retained as tested internal API.",
+    "_log_bytes/_log_copy": "Archive/callback snapshot conversion and ownership; unchanged.",
+    "Java filter helpers.bytesToString": "Explicit native byte mapping with original flags/find; unchanged.",
+    "_custom_error_detail UTF-8 replace": "Diagnostic traceback display only, not an HTTP byte conversion; retained.",
+    "normalize_func": "Optional internal hook, strict result validation retained; no public UI added.",
+    "Content-Length normalization": "Retained framing compatibility; actual real-helper parity cases, not HTTP/2/network certification."
+  },
+  "retained_bare_excepts": [
+    {
+      "function": "getHttpService",
+      "lines": [
+        1153
+      ],
+      "reason": "Optional controller value; missing/invalid selection returns None to native editor."
+    },
+    {
+      "function": "getRequest",
+      "lines": [
+        1158
+      ],
+      "reason": "Optional controller value; missing/invalid selection returns None."
+    },
+    {
+      "function": "getResponse",
+      "lines": [
+        1163
+      ],
+      "reason": "Optional controller value; missing/invalid selection returns None."
+    },
+    {
+      "function": "__init__",
+      "lines": [
+        2058,
+        2114,
+        2193
+      ],
+      "reason": "Optional cosmetic colors/status panel compatibility; no wire conversion or send is swallowed."
+    },
+    {
+      "function": "_init_display_filters",
+      "lines": [
+        2921
+      ],
+      "reason": "Legacy literal default-config fallback; active validation is in compiled plan paths."
+    },
+    {
+      "function": "append_log_row",
+      "lines": [
+        3119,
+        3144
+      ],
+      "reason": "Legacy direct-call metadata/status fallback; production provides analyzed body length and reports callback analysis failure."
+    },
+    {
+      "function": "_on_toggle_custom",
+      "lines": [
+        3228,
+        3236
+      ],
+      "reason": "Best-effort control enabled/status updates; custom configuration/runtime errors are separately validated and visible."
+    },
+    {
+      "function": "build_checkpage_request",
+      "lines": [
+        3873
+      ],
+      "reason": "Absent captured template becomes explicit TEMPLATE_EMPTY build error; no internal send on failed build."
+    }
+  ],
+  "framing_baseline_sha256": "3bf88a21442683c6135895125aac49ac09bd52a31be13b9ff75daaf8fcdfb111"
+}

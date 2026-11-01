@@ -1,0 +1,40 @@
+{
+  "kind": "K10-A-closure-recorded-environment",
+  "base_commit": "972124c",
+  "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d",
+  "checks": {
+    "source_matches_validated_candidate": true,
+    "source_encoding_and_scope": true,
+    "unused_import_candidates_resolved": true,
+    "cpython_logic_205_204_1": true,
+    "jython_logic_205_204_1": true,
+    "standalone_native_cleanup_and_logging": true,
+    "constructor_compatibility_probes": true,
+    "actual_burp_private_verification": true,
+    "actual_passive": true,
+    "actual_binary_empty": true,
+    "passive_delayed_no_extra_requests": true,
+    "user_confirmed_passive_table_viewer_and_bodylen_zero": true,
+    "normal_workflow": true,
+    "custom_two_calls_and_correct_tokens": true,
+    "delayed_no_extra_requests_or_custom_calls": true
+  },
+  "passed": true,
+  "K10_A_closed": true,
+  "K10_B_started": false,
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false,
+  "user_confirmations": [
+    "Root K10-A and helper PASS6/10/24; main OFF/Intercept OFF, no Errors",
+    "Passive rows/viewer/204 BodyLen0 correct",
+    "Normal unprefixed templates + generated custom-k10a-pass-through,2000ms,q/w/default regex; template/CheckPage/custom/both automatics ON,AutoFollow/Intercept OFF,Clear cookies/CSRF,no Test"
+  ],
+  "limits": [
+    "Existing accepted custom/Java-regex hard-stop limitations remain",
+    "Global session/cross-target compatibility mode unchanged",
+    "K10/B conversion/diagnostic/docstring/user-documentation and aggregate issue closure pending",
+    "K11 full load/memory/version matrix not claimed"
+  ],
+  "rollback": "Reverse only BoberProxy.patch and align internal constructor call sites in modified test probes; retain prior K00-K09 fixes. No automatic rollback performed."
+}

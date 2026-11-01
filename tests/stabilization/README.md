@@ -1,5 +1,22 @@
 # Stabilizálási tesztkörnyezet
 
+## K10/B — összesített takarítás/dokumentáció, lezárva
+
+- [B forráshatár, bizonyíték és következő kapu](../../docs/stabilizacios-terv/eredmenyek/K10-B/README.md). A forrás továbbra is Latin-1/CRLF; A bizonyítékok nem kapnak új hash-t.
+- `run_logic.py --suite cleanup`: A6+B6 hibainjektálási eset; teljes suite211 eset/210 siker/1 korábban elfogadott K05 hard-stop korlát.
+- `probe_cleanup_final_native.py`: hat B-eset, újrahasznált A startup/logging és natív konverziós próbák. `burp_k10b_probe.py` ugyanez saját példányokon, valódi editor/helper és nyolc framingparitás, forgalom/fő UI módosítása nélkül. Várt actual sor: `K10B_FINAL PASS (6 final cases; 10 cleanup/UI checks; 24 logging checks; 23 conversion checks)`. Standalone14 konverziós eset, tényleges Burpban23.
+- A framingpróba az ignorált runtime/k02-baseline-source.py változatlan `3bf88...` K01 checkpointját használja. Hiányzó/eltérő baseline esetén nem szabad paritást állítani. A K10/B nem távolítja el a kézi framing-normalizálást és nem igazol HTTP/2 hálózati viselkedést.
+- `prepare_k10b.py` generálja a runtime/custom-k10b-pass-through.py fájlt; trace k10b-custom-trace.jsonl. Normál kérés csak a pontos, visszaigazolt fő UI állapotban. K10/B alatt nincs commit/push a felhasználó kifejezett utasítása szerint.
+- A tényleges root/helper, kézi UI/angol scope-tooltip és normál kétlépéses/custom kapu sikeres, késleltetett számlálók változatlanok. Nincs további szükséges K10 kérés. Aktuális UI ON állapotát az eredményjegyzék őrzi; K11 előtt egyeztetni kell. Runtime-életciklus15/23 is sikeres; a régi, exception-textre építő tesztelvárás külön megőrzött és kód/típus szerződésre javított.
+
+## K10/A — takarítás/diagnosztika, lezárva
+
+- [Leltár, A/B munkamegosztás, bizonyítékok](../../docs/stabilizacios-terv/eredmenyek/K10-A/README.md).
+- `run_logic.py --suite cleanup`: hat célzott hibainjektálási és kiírásvédelmi eset, a teljes suite része is.
+- `probe_cleanup_native.py --report ...`: külön JVM-es startup/editor-darabszám, kijelölés, kapcsolók, Java-kivételek és meglévő tárolás/UI regresszió. `burp_k10a_probe.py`: ugyanez saját példányokon valódi Burp-editorokkal/helperekkel; hálózat és a fő UI módosítása nélkül. Várt sor: `K10A_CLEANUP PASS (6 diagnostic cases; 10 cleanup/UI checks; 24 logging checks)`.
+- A LoggerUI belső konstruktora `(callbacks, controller)`; régi natív próbák hívásai/editorhelyettesítői ehhez és a K08–K09-es nem-null setMessage szerződéshez igazítva. Burp belépő API változatlan.
+- `prepare_k10a.py` generálja a `runtime/custom-k10a-pass-through.py` fájlt, saját k10a-custom-trace.jsonl nyomvonallal; nem a .py.in másolandó. Tényleges Burp helper/passzív és normál kétlépéses/custom zárópróba sikeres, további újraküldés nem szükséges. A pontos aktuális UI az eredményjegyzékben; ne feltételezz OFF alapállapotot.
+
 ## K08–K09 közös kör, lezárva a rögzített környezetben
 
 - [Állapot és bizonyítékok](../../docs/stabilizacios-terv/eredmenyek/K08-K09/README.md). Végső forrás7b91fd...;199 logikai esetből198 siker és egy korábbi K05 korlát CPython/Jython alatt. Önálló és tényleges Burp-helper15 tárolási +24 natív/UI ellenőrzése, nyolc izolált UI/archive ciklus, hét wire-eset385 kéréssel és közvetlen normál két-call regresszió sikeres. A jelenlegi főpéldány normál tesztkapcsolói ON állapotban maradtak, nem alap/OFF.

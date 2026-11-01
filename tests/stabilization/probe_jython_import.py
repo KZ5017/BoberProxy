@@ -90,8 +90,12 @@ def main():
         from source_harness import Helpers
 
         class Editor(object):
+            def __init__(self): self.value = None
             def getMessage(self):
-                return None
+                return self.value
+            def setMessage(self, value, is_request):
+                if value is None: raise ValueError('Message cannot be null')
+                self.value = value
             def getComponent(self):
                 return JPanel()
 
@@ -107,7 +111,7 @@ def main():
             try:
                 callbacks = UICallbacks()
                 controller = namespace['SimpleMessageController']()
-                ui = namespace['LoggerUI'](callbacks, controller, None, callbacks)
+                ui = namespace['LoggerUI'](callbacks, controller)
                 checks['initial_checkpage_off'] = not ui.useCheckPageTemplate
                 ui.useCheckPageChk.doClick()
                 ui.proxyModeBtn.doClick()

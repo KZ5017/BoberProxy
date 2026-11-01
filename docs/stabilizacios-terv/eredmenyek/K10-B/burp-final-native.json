@@ -1,0 +1,156 @@
+{
+  "conversions": {
+    "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+    "framing": [
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==",
+        "case": "shorter"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMwMA0KDQpMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVI=",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMwMA0KDQpMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVJMT05HRVI=",
+        "case": "longer"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDANCg0K",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDANCg0K",
+        "case": "empty_explicit_length"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KDQo=",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KDQo=",
+        "case": "empty_without_length"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDENCg0KWA==",
+        "case": "bad_length"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMNCkNvbnRlbnQtTGVuZ3RoOiAzDQoNClhZWg==",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KQ29udGVudC1MZW5ndGg6IDMNCkNvbnRlbnQtTGVuZ3RoOiAzDQoNClhZWg==",
+        "case": "duplicate_lengths"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K",
+        "case": "chunked"
+      },
+      {
+        "baseline_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K",
+        "candidate_base64": "UE9TVCAvZWNobyBIVFRQLzEuMQ0KSG9zdDogZGVtbw0KVHJhbnNmZXItRW5jb2Rpbmc6IGNodW5rZWQNCkNvbnRlbnQtTGVuZ3RoOiAxMw0KDQozDQpBQkMNCjANCg0K",
+        "case": "te_and_cl"
+      }
+    ],
+    "kind": "in-burp-real-helpers-no-traffic",
+    "transport_callbacks_are_doubles": true,
+    "checks": {
+      "java_byte_array_all_256_bytes": true,
+      "java_byte_array_template_body": true,
+      "framing_parity_shorter": true,
+      "framing_parity_bad_length": true,
+      "array_repr_remains_literal_text": true,
+      "native_binary_with_cookie_injection": true,
+      "swing_unknown_bodylen_is_blank": true,
+      "jython_str_all_256_bytes": true,
+      "framing_parity_empty_without_length": true,
+      "java_string_non_byte_unicode_rejected": true,
+      "native_custom_return_types": true,
+      "swing_bodylen_sort_unknown_zero_one": true,
+      "jython_unicode_all_256_bytes": true,
+      "java_array_uses_helper_conversion": true,
+      "framing_parity_te_and_cl": true,
+      "swing_zero_bodylen_is_zero": true,
+      "framing_parity_chunked": true,
+      "bytearray_all_256_bytes": true,
+      "framing_parity_longer": true,
+      "framing_parity_empty_explicit_length": true,
+      "java_string_all_256_bytes": true,
+      "baseline_source_is_checkpoint": true,
+      "framing_parity_duplicate_lengths": true
+    },
+    "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+    "java_version": "26.0.2",
+    "passed": true,
+    "actual_burp_helpers": true,
+    "http2_network_tested": false,
+    "errors": []
+  },
+  "kind": "K10-B-aggregate-native-private-no-network",
+  "final_log": "test_failed_filter_load_is_closed_without_showing_default_draft (probe_cleanup_final_native.NativeFinal) ... ok\ntest_failed_template_clear_is_visible_and_does_not_claim_success (probe_cleanup_final_native.NativeFinal) ... ok\ntest_hostile_parser_exception_keeps_template_fallback (probe_cleanup_final_native.NativeFinal) ... ok\ntest_startup_withdraw_continues_after_close_and_error_output_failures (probe_cleanup_final_native.NativeFinal) ... ok\ntest_template_clear_never_sends_null_to_either_editor (probe_cleanup_final_native.NativeFinal) ... ok\ntest_ui_error_reporting_failure_does_not_escape (probe_cleanup_final_native.NativeFinal) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.021s\n\nOK\n",
+  "final_cases": 6,
+  "checks": {
+    "six_native_final_cases": true,
+    "actual_native_template_clear": true
+  },
+  "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+  "cleanup": {
+    "kind": "K10-A-private-native-no-network",
+    "diagnostic_cases": 6,
+    "checks": {
+      "startup_only_expected_line": true,
+      "no_unused_editor_or_search_state": true,
+      "private_unload_closes_timers_and_session": true,
+      "native_callbacks_registered": true,
+      "multiple_selection_preserved": true,
+      "java_status_error_has_safe_diagnostic": true,
+      "java_checkpage_exception_safe_none_fallback": true,
+      "exactly_four_editors_all_on_edt": true,
+      "native_diagnostic_cases": true,
+      "mode_buttons_preserve_enable_and_selection_rules": true
+    },
+    "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+    "java_version": "26.0.2",
+    "actual_burp_helpers": true,
+    "passed": true,
+    "errors": [],
+    "logging_regression": {
+      "kind": "K08-K09-native-Jython-Swing-private-no-network",
+      "logic_log": "test_archive_exact_binary_and_null_versus_empty (probe_logging_native.NativeLogs) ... ok\ntest_archive_refuses_edt_io (probe_logging_native.NativeLogs) ... ok\ntest_byte_limit_rejects_before_snapshot_and_pauses_visibly (probe_logging_native.NativeLogs) ... ok\ntest_clear_and_selected_release_only_owned_files (probe_logging_native.NativeLogs) ... ok\ntest_clear_while_write_in_progress_cannot_restore_row_or_file (probe_logging_native.NativeLogs) ... ok\ntest_concurrent_rejection_accounting_has_no_lost_increment (probe_logging_native.NativeLogs) ... ok\ntest_model_index_lookup_and_multiple_removal_are_stable (probe_logging_native.NativeLogs) ... ok\ntest_one_batch_notification_covers_a_burst (probe_logging_native.NativeLogs) ... ok\ntest_pending_accepted_rows_finish_after_pause (probe_logging_native.NativeLogs) ... ok\ntest_preparation_order_cannot_overtake_first_snapshot (probe_logging_native.NativeLogs) ... ok\ntest_shared_raw_budget_and_close_release_reservations (probe_logging_native.NativeLogs) ... ok\ntest_snapshot_freezes_mutable_source_before_return (probe_logging_native.NativeLogs) ... ok\ntest_storage_write_failure_pauses_new_admission_without_erasing_old (probe_logging_native.NativeLogs) ... ok\ntest_truncated_file_is_visible_read_failure (probe_logging_native.NativeLogs) ... ok\ntest_unload_after_persist_before_publish_cleans_owned_files (probe_logging_native.NativeLogs) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.270s\n\nOK\n",
+      "checks": {
+        "edt_disk_read_rejected": true,
+        "frozen_snapshot_native_interface": true,
+        "sorted_selection_uses_same_message": true,
+        "no_initial_files_or_workers": true,
+        "paused_events_skip_analysis": true,
+        "one_selection_listener": true,
+        "viewer_read_is_background": true,
+        "unload_stops_owned_workers_and_releases_content": true,
+        "metadata_analyzed_once_per_response": true,
+        "late_viewer_cannot_replace_new_selection": true,
+        "one_explicit_sorter": true,
+        "source_startup_on_edt": true,
+        "unload_deletes_owned_directory": true,
+        "stored_rows_hold_no_bodies": true,
+        "sitemap_and_scope_preserve_sorted_selection": true,
+        "native_storage_contracts": true,
+        "raw_budget_released_after_persist": true,
+        "template_load_from_disk_is_exact": true,
+        "all_rows_newest_first": true,
+        "single_burst_notification": true,
+        "selected_clear_preserves_other_rows": true,
+        "disk_roundtrip_exact": true,
+        "unload_stops_timer": true,
+        "request_events_skip_analysis": true
+      },
+      "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+      "java_version": "26.0.2",
+      "passed": true,
+      "actual_burp_helpers": true,
+      "errors": [],
+      "logic_cases": 15,
+      "network_requests": 0
+    },
+    "network_requests": 0
+  },
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "actual_burp_helpers": true,
+  "passed": true,
+  "errors": [],
+  "network_requests": 0
+}

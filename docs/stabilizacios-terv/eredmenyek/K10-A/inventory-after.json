@@ -1,0 +1,6 @@
+{
+  "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d",
+  "unused_import_candidates": [],
+  "all_removed_helpers_absent": true,
+  "protected_apis_retained": true
+}

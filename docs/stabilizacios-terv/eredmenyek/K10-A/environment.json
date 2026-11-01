@@ -1,0 +1,55 @@
+{
+  "kind": "K10-A-actual-tested-environment",
+  "source_sha256": "75a5d4fd776a2b8ce6c10ae611c5c326e37b1d6ea5400b6320c9ba82da1e8f6d",
+  "burp_version": [
+    "Burp Suite Community Edition",
+    "2026",
+    "10.1"
+  ],
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]",
+  "java_version": "26.0.2",
+  "java_vendor": "Oracle Corporation",
+  "max_heap_bytes": 17112760320,
+  "heap_arguments": [
+    "-XX:MaxRAMPercentage=50"
+  ],
+  "jython_jar": "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar",
+  "jython_jar_sha256": "1fba1769effcc8b19f5e10436bc8274a158ce988559f257927c24c73bb137f3c",
+  "proxy": "127.0.0.1:8080",
+  "normal_target": "127.0.0.1:18765",
+  "entry": "Direct root BoberProxy.py, user-confirmed K10-A",
+  "helper": "burp_k10a_probe.py; private resources closed, may remain installed",
+  "final_UI": {
+    "request_template": "fixtures/request-template.http",
+    "checkpage_template": "fixtures/checkpage-template.http",
+    "custom_code": "runtime/custom-k10a-pass-through.py",
+    "trace": "runtime/k10a-custom-trace.jsonl",
+    "timeout_ms": 2000,
+    "payload_names": [
+      "q",
+      "w"
+    ],
+    "csrf_regex": "default",
+    "ON": [
+      "Injecting proxy from templates",
+      "Use CheckPageTemplate",
+      "Use custom codeblock",
+      "Auto-update cookies from responses",
+      "Auto-update CSRF from responses"
+    ],
+    "OFF": [
+      "AutoFollow redirect on RT",
+      "Burp Intercept"
+    ],
+    "log_filters": "default/unpaused",
+    "cached_fixture_cookie": "sid.k00-workflow.1",
+    "cached_fixture_token": "csrf.k00-workflow.1"
+  },
+  "fixture": {
+    "owned_exec_session": 81563,
+    "port": 18765,
+    "capture": "tests/stabilization/runtime/k10a-requests18765.jsonl",
+    "initial_health": "connection refused; no application request had been proxied yet",
+    "action": "started own server after absent-listener check"
+  }
+}

@@ -81,8 +81,12 @@ def run_checks(helpers=None):
     check('native_clear_is_missing_token', lambda: csrf.get_token() is None and csrf.dump() == '<no csrf token>')
 
     class Editor(object):
+        def __init__(self): self.value = None
         def getMessage(self):
-            return None
+            return self.value
+        def setMessage(self, value, is_request):
+            if value is None: raise ValueError('Message cannot be null')
+            self.value = value
         def getComponent(self):
             return JPanel()
 
@@ -96,7 +100,7 @@ def run_checks(helpers=None):
         ui = None
         try:
             callbacks = UICallbacks()
-            ui = ns['LoggerUI'](callbacks, ns['SimpleMessageController'](), None, callbacks)
+            ui = ns['LoggerUI'](callbacks, ns['SimpleMessageController']())
             check('swing_default_regex_compiled_with_options_off', lambda:
                   ui.csrfManager.get_status()[0] == 'REGEX_READY' and not ui.autoUpdateCsrf and not ui.autoUpdateCookies)
             ui.csrfRegexArea.setText('[')

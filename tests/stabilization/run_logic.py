@@ -57,7 +57,7 @@ class ReportResult(unittest.TextTestResult):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--report', help='Optional JSON report path (parent must exist)')
-    parser.add_argument('--suite', choices=['source', 'transport', 'templates', 'redirects', 'session', 'custom', 'runtime', 'filters', 'logging', 'all'], default='source')
+    parser.add_argument('--suite', choices=['source', 'transport', 'templates', 'redirects', 'session', 'custom', 'runtime', 'filters', 'logging', 'cleanup', 'all'], default='source')
     args = parser.parse_args()
     suite = unittest.TestSuite()
     if args.suite in ('source', 'all'):
@@ -88,6 +88,11 @@ def main():
         suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_log_storage))
         import test_log_review
         suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_log_review))
+    if args.suite in ('cleanup', 'all'):
+        import test_cleanup
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_cleanup))
+        import test_cleanup_final
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_cleanup_final))
     result = unittest.TextTestRunner(verbosity=2, resultclass=ReportResult).run(suite)
     with open(SOURCE, 'rb') as handle:
         digest = hashlib.sha256(handle.read()).hexdigest()

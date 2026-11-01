@@ -254,8 +254,8 @@ def load_namespace():
         source = handle.read()
     wanted = set(['LogEntry', 'LogStore', 'LogTableModel', 'CsrfManager',
                   'CookieManager', 'LoggerUI', '_exec_in_namespace',
-                  'HttpSendResult', 'HttpRequestSender', 'ProxyWorkflowResult', 'BurpExtender'])
-    wanted.update(['TemplateBuildError', '_wire_text', '_custom_value', '_extract_raw_payloads'])
+                  'HttpSendResult', 'HttpRequestSender', 'ProxyWorkflowResult', 'BurpExtender', 'SimpleMessageController'])
+    wanted.update(['TemplateBuildError', '_wire_text', '_custom_value', '_extract_raw_payloads', '_print_diagnostic'])
     wanted.update(['RedirectResult', '_monotonic_ms', '_redirect_host_header',
                    '_redirect_base', '_redirect_destination'])
     wanted.update(['_custom_timeout', '_custom_failure', '_custom_error_detail', 'CustomWorkerHandle',
@@ -280,6 +280,7 @@ def load_namespace():
                      IProxyListener=type('IProxyListener', (object,), {}),
                      IExtensionStateListener=type('IExtensionStateListener', (object,), {}),
                      IHttpRequestResponse=type('IHttpRequestResponse', (object,), {}),
+                     IMessageEditorController=type('IMessageEditorController', (object,), {}),
                      AbstractTableModel=ModelBase, Integer=int, JavaException=Exception,
                      swing=SwingDouble, JavaThrowable=Exception, Pattern=PatternDouble,
                      DISPLAY_FILTER_FIELDS=('Host','Method','Path','Status','BodyLen','ResponseContent'))

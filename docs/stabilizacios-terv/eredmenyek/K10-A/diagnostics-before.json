@@ -1,0 +1,49 @@
+{
+  "cases": [
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 30, in test_broken_output_does_not_raise_from_diagnostic\n    self.ns['_print_diagnostic']('[BoberProxy] CONTROLLED', ValueError(SECRET))\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nKeyError: '_print_diagnostic'\n",
+      "outcome": "error",
+      "seconds": 0.001044,
+      "test": "test_cleanup.CleanupTests.test_broken_output_does_not_raise_from_diagnostic"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 73, in test_checkpage_exception_retains_none_fallback_with_safe_diagnostic\n    self.assertIn('CHECKPAGE_BUILD_FAILED', output.text())\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'CHECKPAGE_BUILD_FAILED' not found in 'build_checkpage_request: build_request_from_template error: K10_SYNTHETIC_PAYLOAD_AND_TOKEN\\n'\n",
+      "outcome": "failed",
+      "seconds": 0.000913,
+      "test": "test_cleanup.CleanupTests.test_checkpage_exception_retains_none_fallback_with_safe_diagnostic"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 20, in test_diagnostic_omits_exception_text_and_does_not_stringify_it\n    self.ns['_print_diagnostic']('[BoberProxy] CONTROLLED', Hostile())\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nKeyError: '_print_diagnostic'\n",
+      "outcome": "error",
+      "seconds": 0.000187,
+      "test": "test_cleanup.CleanupTests.test_diagnostic_omits_exception_text_and_does_not_stringify_it"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 41, in test_http_callback_failure_is_visible_without_exception_contents\n    self.assertIn('HTTP_LOG_FAILED', output.text())\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'HTTP_LOG_FAILED' not found in 'processHttpMessage error: K10_SYNTHETIC_PAYLOAD_AND_TOKEN\\n'\n",
+      "outcome": "failed",
+      "seconds": 0.000227,
+      "test": "test_cleanup.CleanupTests.test_http_callback_failure_is_visible_without_exception_contents"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 62, in test_partial_analysis_failures_remain_visible_and_preserve_admission\n    self.assertIn('HTTP_RESPONSE_ANALYSIS_FAILED', output.text())\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'HTTP_RESPONSE_ANALYSIS_FAILED' not found in ''\n",
+      "outcome": "failed",
+      "seconds": 0.000233,
+      "test": "test_cleanup.CleanupTests.test_partial_analysis_failures_remain_visible_and_preserve_admission"
+    },
+    {
+      "detail": "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 88, in test_workflow_output_failure_cannot_prevent_error_status\n    extension._report_workflow_error(result)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py:selected-blocks\", line 3992, in _report_workflow_error\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\test_cleanup.py\", line 81, in write\n    def write(self, value): raise ValueError(SECRET)\n                            ^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: K10_SYNTHETIC_PAYLOAD_AND_TOKEN\n",
+      "outcome": "error",
+      "seconds": 0.000448,
+      "test": "test_cleanup.CleanupTests.test_workflow_output_failure_cannot_prevent_error_status"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 0,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "7b91fd504604a07eb7146051f14bcddf5068f8bb48f9058a98592e3319fe7bf4",
+  "successful_baseline_run": false,
+  "suite": "cleanup",
+  "total": 6
+}

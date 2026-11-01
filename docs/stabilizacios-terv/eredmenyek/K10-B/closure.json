@@ -1,0 +1,52 @@
+{
+  "kind": "K10-B-and-aggregate-K10-closure-recorded-environment",
+  "source_sha256": "d24ecb023c92c3662aefee5dbe9da04b14d5f638883bf17f739ca4699eb6f1bc",
+  "git_base": "972124c",
+  "checks": {
+    "final_source_matches_confirmed_candidate": true,
+    "preserves_closed_A_base": true,
+    "exact_scoped_changes": true,
+    "both_logic_211_210_1": true,
+    "standalone_native": true,
+    "runtime_session_lifecycle": true,
+    "actual_Burp_native": true,
+    "actual_native_template_clear": true,
+    "actual_conversion_and_framing": true,
+    "passive_entry": true,
+    "passive_binary_empty": true,
+    "passive_delayed_stable": true,
+    "normal_workflow_once": true,
+    "normal_custom_exact_two": true,
+    "normal_delayed_stable": true,
+    "documentation_mapping": true,
+    "all46_individual_statuses": true,
+    "user_confirmed_english_scope_tooltip_and_normal_setup": true,
+    "A_closed_evidence_preserved": true
+  },
+  "passed": true,
+  "K10_A_closed": true,
+  "K10_B_closed": true,
+  "K10_closed": true,
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false,
+  "user_explicit_no_commit_push": true,
+  "manual_gate_pending": false,
+  "extra_K10_traffic_needed": false,
+  "source_patches": [
+    "BoberProxy-from-K10-A.patch",
+    "BoberProxy-from-972124c.patch"
+  ],
+  "limits": [
+    "Global cookie/single-token cross-target compatibility remains accepted; workflow ownership does not add Domain/Path/Secure isolation.",
+    "Arbitrary custom/Java regex code has no guaranteed hard cancellation.",
+    "Recorded version only; no full HTTP/2 or further-runtime support claim.",
+    "Raw budget is not a total heap/RSS/metadata bound; complete K11 load/memory/version matrix remains separate."
+  ],
+  "user_confirmations": [
+    "Direct root K10-B and helper PASS6/10/24/23, Errors empty",
+    "Passive rows/viewer/204 BodyLen0, English scope tooltip correct and accepted",
+    "Normal unprefixed RT/CP and runtime/custom-k10b-pass-through.py,2000ms,q/w/defaultCSRF; template/CP/custom/both automatics ON,AutoFollow/Intercept OFF,Clear cookies/CSRF,no Test"
+  ],
+  "rollback": "Only scoped K10 changes, not K00-K09 fixes. B-only patch returns source to accepted A; combined patch returns source to972124c. Internal test constructor call sites must stay aligned. No automatic rollback or Git write occurred."
+}
