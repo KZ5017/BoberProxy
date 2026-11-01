@@ -1,0 +1,20 @@
+{
+  "kind": "UI01.6-output-and-neutral-focus-awaiting-user-live-preview",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "previous_source_sha256": "bd4825929ef191ebf5757bda8d846ab8b3b0474c50da50e2b25d16242e07756e",
+  "startup": "BoberProxy loaded (UI01.6)",
+  "changes": [
+    "Read-only Output retains keyboard focus, text selection and copy; caret visibility forced off and input-style borders removed.",
+    "Left clicks on sidebar backgrounds, labels and empty viewport areas move focus to sidebar content; traversal stops at interactive widgets.",
+    "Listeners are local to the owned sidebar, with no global hook or timer."
+  ],
+  "tests_executed": false,
+  "render_executed": false,
+  "traffic_sent": false,
+  "manual_preview_pending": true,
+  "normal_regression_deferred": true,
+  "prior_UI01_reports_apply_to_this_source": false,
+  "commit_made": false,
+  "push_made": false,
+  "K11_started": false
+}

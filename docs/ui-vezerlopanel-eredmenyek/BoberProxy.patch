@@ -1,0 +1,594 @@
+diff --git a/BoberProxy.py b/BoberProxy.py
+index a552a19..25097df 100644
+--- a/BoberProxy.py
++++ b/BoberProxy.py
+@@ -7,7 +7,7 @@ from javax.swing import SortOrder, RowSorter, JTable, ListSelectionModel
+ from javax.swing.table import TableRowSorter, AbstractTableModel
+ 
+ from java.awt import (
+-    GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout,
++    GridBagLayout, GridBagConstraints, Insets, Font, FlowLayout, GridLayout,
+     Color, Dimension, BorderLayout
+ )
+ from java.util.regex import Pattern
+@@ -1905,6 +1905,41 @@ class FilterDialog(object):
+         self.parent._apply_display_filters(self.candidate())
+ 
+ 
++class SidebarPanel(swing.JPanel, swing.Scrollable):
++    """Track the viewport width; scroll vertically until natural height fits."""
++    def __init__(self):
++        swing.JPanel.__init__(self, GridBagLayout())
++        self._fixed_width = None
++
++    def freeze_width(self):
++        self._fixed_width = swing.JPanel.getPreferredSize(self).width
++        return self._fixed_width
++
++    def getPreferredSize(self):
++        size = swing.JPanel.getPreferredSize(self)
++        if self._fixed_width is not None:
++            size.width = self._fixed_width
++        return size
++
++    def getPreferredScrollableViewportSize(self):
++        return self.getPreferredSize()
++
++    def getScrollableTracksViewportWidth(self):
++        return True
++
++    def getScrollableTracksViewportHeight(self):
++        parent = self.getParent()
++        return parent is not None and parent.getHeight() >= self.getPreferredSize().height
++
++    def getScrollableUnitIncrement(self, visible, orientation, direction):
++        return max(1, self.getFontMetrics(self.getFont()).getHeight())
++
++    def getScrollableBlockIncrement(self, visible, orientation, direction):
++        extent = visible.height if orientation == swing.SwingConstants.VERTICAL else visible.width
++        return max(1, extent - self.getScrollableUnitIncrement(visible, orientation, direction))
++
++
++
+ class LoggerUI(ITab):
+     """Burp tab implementation that owns the UI state and the proxy workflow."""
+ 
+@@ -1984,8 +2019,7 @@ class LoggerUI(ITab):
+         self.csrf_default_pattern = r'<input[^>]+name=["\\\']csrfmiddlewaretoken["\\\'][^>]*value=["\\\']([^"\\\']*)["\\\']'
+ 
+         # -------- main split panes ----------
+-        self.mainSplit = swing.JSplitPane(swing.JSplitPane.HORIZONTAL_SPLIT)
+-        self.mainSplit.setDividerLocation(1280)
++        self.mainPanel = swing.JPanel(BorderLayout(6, 0))
+ 
+         # left split: detail (top) / table (bottom)
+         self.leftSplit = swing.JSplitPane(swing.JSplitPane.VERTICAL_SPLIT)
+@@ -2149,366 +2183,218 @@ class LoggerUI(ITab):
+ 
+         self.leftSplit.setRightComponent(swing.JScrollPane(self.table))
+ 
+-        # attach left split to main split
+-        self.mainSplit.setLeftComponent(self.leftSplit)
++        self.mainPanel.add(self.leftSplit, BorderLayout.CENTER)
++        self.mainPanel.add(self._build_controls_panel(), BorderLayout.EAST)
++        self._component = self.mainPanel
+ 
+-        # ---------- RIGHT: controls (mode + filters + utility) ----------
+-        # We'll use a GridBagLayout for overall placement, but make groups use horizontal Box/Flow where needed
+-        rightWrapper = swing.JPanel()
+-        rightWrapper.setLayout(swing.BoxLayout(rightWrapper, swing.BoxLayout.Y_AXIS))        
++        self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
++        self._runtime_publisher = RuntimePublisher(self)
++        self._filter_timer = swing.Timer(50, lambda event: self._filter_tick())
++        self._filter_timer.start()
+ 
+-        # Inner grid content (kept same as before)        
+-        rightContent = swing.JPanel(GridBagLayout())
+-        # FIX minimum width – NO dynamic resizing
+-        rightContent.setMinimumSize(Dimension(610, 0))
+-        c = GridBagConstraints()
+-        c.insets = Insets(4,4,4,4)
+-        c.fill = GridBagConstraints.HORIZONTAL
+-        c.weightx = 0.5
+-        row = 0
+-
+-        # Mode selector (proxy / local)
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
+-        modePanel = swing.JPanel()
+-        self.proxyModeBtn = swing.JToggleButton("Injecting proxy from templates", False, actionPerformed=lambda e: self._on_proxy_toggle())
+-        modePanel.add(self.proxyModeBtn)
+-        rightContent.add(modePanel, c)
+-        row += 1
+-
+-        # Logging header
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
+-        rightContent.add(swing.JLabel("Logging options"), c)
+-        row += 1
+-        c.gridwidth = 1
+-
+-        # Status checks label + checkboxes on same row (compact)
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 1
+-        c.weightx = 1.0
+-        c.anchor = GridBagConstraints.WEST
+-        rightContent.add(swing.JLabel("Status groups:"), c)
+-
+-        # Use FlowLayout for the checkbox row (keeps them in one line and allows wrapping when needed)
+-        try:
+-            statusPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 5, 0))
+-        except:
+-            statusPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 5, 0))
++    @staticmethod
++    def _controls_row(components, stretch=None, right=False):
++        panel = swing.JPanel(GridBagLayout())
++        items = list(components)
++        # One flexible spacer keeps natural-size rows against the requested edge.
++        if stretch is None:
++            spacer = swing.JPanel()
++            spacer.setPreferredSize(Dimension(0, 0))
++            spacer.setMinimumSize(Dimension(0, 0))
++            if right:
++                items.insert(0, spacer)
++                stretch = 0
++            else:
++                stretch = len(items)
++                items.append(spacer)
++        for column, component in enumerate(items):
++            c = GridBagConstraints()
++            c.gridx, c.gridy = column, 0
++            c.insets = Insets(3, 4, 3, 4)
++            c.anchor = GridBagConstraints.WEST
++            c.weightx = 1.0 if column == stretch else 0.0
++            c.fill = GridBagConstraints.HORIZONTAL if column == stretch else GridBagConstraints.NONE
++            panel.add(component, c)
++        return panel
++
++    @staticmethod
++    def _controls_form(pairs):
++        panel = swing.JPanel(GridBagLayout())
++        for row, (caption, field) in enumerate(pairs):
++            for column, component in enumerate([swing.JLabel(caption), field]):
++                c = GridBagConstraints()
++                c.gridx, c.gridy = column, row
++                c.insets = Insets(3, 4, 3, 4)
++                c.anchor = GridBagConstraints.WEST
++                c.weightx = float(column)
++                c.fill = GridBagConstraints.HORIZONTAL if column else GridBagConstraints.NONE
++                panel.add(component, c)
++        return panel
+ 
++    @staticmethod
++    def _controls_section(title, rows):
++        panel = swing.JPanel(GridBagLayout())
++        panel.setBorder(swing.BorderFactory.createTitledBorder(title))
++        for row, component in enumerate(rows):
++            c = GridBagConstraints()
++            c.gridx, c.gridy, c.weightx = 0, row, 1.0
++            c.fill = GridBagConstraints.HORIZONTAL
++            panel.add(component, c)
++        return panel
++
++    def _build_logging_panel(self):
+         self.statusChecks = {}
++        status = [swing.JLabel("Status groups:")]
+         for label in ["1xx", "2xx", "3xx", "4xx", "5xx"]:
+-            cb = swing.JCheckBox(label, False)
+-            self.statusChecks[label] = cb
+-            statusPanel.add(cb)
+-
+-        c.gridx = 1; c.gridwidth = 1
+-        c.weightx = 0.0
+-        c.anchor = GridBagConstraints.EAST
+-        rightContent.add(statusPanel, c)
+-
+-        # restore defaults
+-        c.anchor = GridBagConstraints.CENTER
+-        c.weightx = 0.0
+-        row += 1
+-
+-        # Len filter controls
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(swing.JLabel("Len filter:"), c)
++            checkbox = swing.JCheckBox(label, False)
++            self.statusChecks[label] = checkbox
++            status.append(checkbox)
+         self.lenTypeCombo = swing.JComboBox(["Total len", "Response body len"])
+-        c.gridx = 1
+-        rightContent.add(self.lenTypeCombo, c)
+-        row += 1
+-
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(swing.JLabel("Comparator:"), c)
+         self.compCombo = swing.JComboBox(["Min Len", "Max Len", "Not eq Len"])
+-        c.gridx = 1
+-        rightContent.add(self.compCombo, c)
+-        row += 1
+-
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(swing.JLabel("Value (bytes):"), c)
+         self.sizeField = swing.JTextField("", 10)
+         self.sizeField.setToolTipText("Enter one or more byte values, separated by commas (e.g. 100,200,512)")
+-        c.gridx = 1
+-        rightContent.add(self.sizeField, c)
+-        row += 1
+-
+-        # Regex field
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
+-        rightContent.add(swing.JLabel("Response regex (Java Pattern, .find() must match):"), c)
+-        row += 1
+-        c.gridy = row
+         self.regexField = swing.JTextField("", 20)
+         self.regexField.setToolTipText("Uses Java regex (java.util.regex.Pattern); escape backslashes (\\w, \\d, etc.); evaluated with .find(), not .matches().")
+-
+-        rightContent.add(self.regexField, c)
+-        row += 1
+-
+-        # Sitemap / Clear / Pause - horizontal button row (FlowLayout)
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
+-        c.weightx = 1.0
+-        c.anchor = GridBagConstraints.CENTER
+-
+-        buttonPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
+-        # Add same set of buttons and keep names/actions
+         self.addSitemapBtn = swing.JButton("Add selected to Site map", actionPerformed=self.add_selected_to_sitemap)
+         self.addSitemapBtn.setToolTipText("Adds selected messages to Site map and includes their URLs in Burp scope.")
+-        buttonPanel.add(self.addSitemapBtn)
+-
+         self.clearBtn = swing.JButton("Clear log", actionPerformed=self.clear_log)
+-        buttonPanel.add(self.clearBtn)
+-
+         self.clearSelBtn = swing.JButton("Clear selected", actionPerformed=self.clear_selected)
+-        buttonPanel.add(self.clearSelBtn)
+-
+         self.pauseBtn = swing.JToggleButton("Pause logging", False, actionPerformed=self.toggle_pause)
+-        buttonPanel.add(self.pauseBtn)
+-
+-        # Filter button: next to the Pause button (located on the right side)
+         self.filterBtn = swing.JButton("Filter", actionPerformed=lambda e: self._open_filter_dialog())
+-        buttonPanel.add(self.filterBtn)
+-
+-        # limit maximum expansion of the button row to avoid forcing horizontal scroll early
+-        buttonPanel.setMaximumSize(buttonPanel.getPreferredSize())
+-        rightContent.add(buttonPanel, c)
+-
+-        # restore defaults
+-        c.gridwidth = 1
+-        c.weightx = 0.0
+-        row += 1
+-
+-
+-        # instantiate:
++        return self._controls_section("Logging options", [
++            self._controls_row(status),
++            self._controls_form([("Len filter:", self.lenTypeCombo),
++                                 ("Comparator:", self.compCombo), ("Value (bytes):", self.sizeField)]),
++            self._controls_row([swing.JLabel("Response regex (Java Pattern, .find() must match):")]),
++            self._controls_row([self.regexField], stretch=0),
++            self._controls_row([self.addSitemapBtn, self.clearBtn, self.clearSelBtn, self.pauseBtn, self.filterBtn]),
++        ])
++
++    def _build_session_panel(self):
++        from javax.swing.event import DocumentListener
+         self.useCheckPageChk = swing.JCheckBox("Use CheckPageTemplate", False, actionPerformed=self._on_use_checkpage_toggle)
+         self.useCheckPageTemplate = False
+-
+         self.autoFollowRTChk = swing.JCheckBox("AutoFollow redirect on RT", False)
+         self.autoFollowRTChk.setEnabled(False)
+-
+-        # add to UI in one row:
+-        c.gridy = row
+-        c.gridx = 0
+-        rightContent.add(self.useCheckPageChk, c)
+-        c.gridx = 1
+-        rightContent.add(self.autoFollowRTChk, c)
+-        row += 1
+-
+-
+-        # --- Cookies checkbox ---
+-        self.autoUpdateChk = swing.JCheckBox(
+-            "Auto-update cookies from responses", False,
+-            actionPerformed=lambda e: setattr(self, "autoUpdateCookies", bool(self.autoUpdateChk.isSelected()))
+-        )
+-
+-        # --- CSRF checkbox ---
+-        self.autoUpdateCsrfChk = swing.JCheckBox(
+-            "Auto-update CSRF from responses", False,
+-            actionPerformed=lambda e: setattr(self, "autoUpdateCsrf", bool(self.autoUpdateCsrfChk.isSelected()))
+-        )
+-
+-        # --- Cookies buttons ---
+-        cookiePanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
++        self.autoUpdateChk = swing.JCheckBox("Auto-update cookies from responses", False,
++            actionPerformed=lambda e: setattr(self, "autoUpdateCookies", bool(self.autoUpdateChk.isSelected())))
++        self.autoUpdateCsrfChk = swing.JCheckBox("Auto-update CSRF from responses", False,
++            actionPerformed=lambda e: setattr(self, "autoUpdateCsrf", bool(self.autoUpdateCsrfChk.isSelected())))
+         self.clearCookiesBtn = swing.JButton("Clear Cookies", actionPerformed=lambda e: self._on_clear_cookies())
+-        cookiePanel.add(self.clearCookiesBtn)
+         self.showCookiesBtn = swing.JButton("Show Cookies", actionPerformed=lambda e: self._on_show_cookies())
+-        cookiePanel.add(self.showCookiesBtn)
+-        cookiePanel.setMaximumSize(cookiePanel.getPreferredSize())
+-
+-        # --- CSRF buttons ---
+-        csrfPanel = swing.JPanel(FlowLayout(FlowLayout.LEFT, 8, 0))
+         self.clearCsrfBtn = swing.JButton("Clear CSRF", actionPerformed=lambda e: self._on_clear_csrf())
+-        csrfPanel.add(self.clearCsrfBtn)
+         self.showCsrfBtn = swing.JButton("Show CSRF", actionPerformed=lambda e: self._on_show_csrf())
+-        csrfPanel.add(self.showCsrfBtn)
+-        csrfPanel.setMaximumSize(csrfPanel.getPreferredSize())
+-
+-
+-        # --- Elrendezés: két sor, két oszlop ---
+-        # sor 1: checkboxok
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(self.autoUpdateChk, c)
+-        c.gridx = 1
+-        rightContent.add(self.autoUpdateCsrfChk, c)
+-        row += 1
+-
+-        # sor 2: gombpárok
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(cookiePanel, c)
+-        c.gridx = 1
+-        rightContent.add(csrfPanel, c)
+-        row += 1
+-
+-
+-        # CSRF regex label + reset button (kept in the same style as other rows)
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 1
+-        rightContent.add(swing.JLabel("Regex pattern (Python-style, first capturing group = token):"), c)
+         self.resetCsrfRegexBtn = swing.JButton("Reset to default", actionPerformed=lambda e: self._on_reset_csrf_regex())
+-        c.gridx = 1
+-        rightContent.add(self.resetCsrfRegexBtn, c)
+-        row += 1
+-
+-        # two-line text area for custom regex pattern
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
+         self.csrfRegexArea = swing.JTextArea(self.csrf_default_pattern, 2, 40)
+         self.csrfRegexArea.setLineWrap(False)
+-        from javax.swing.event import DocumentListener
+         ui = self
+         class CsrfRegexListener(DocumentListener):
+-            def insertUpdate(self, event):
+-                ui._on_csrf_regex_changed()
+-            def removeUpdate(self, event):
+-                ui._on_csrf_regex_changed()
+-            def changedUpdate(self, event):
+-                ui._on_csrf_regex_changed()
++            def insertUpdate(self, event): ui._on_csrf_regex_changed()
++            def removeUpdate(self, event): ui._on_csrf_regex_changed()
++            def changedUpdate(self, event): ui._on_csrf_regex_changed()
+         self.csrfRegexArea.getDocument().addDocumentListener(CsrfRegexListener())
+         self._on_csrf_regex_changed()
+-        self.csrfRegexArea.setToolTipText("Custom regex to extract the CSRF token. The first capturing group is used.")
++        self.csrfRegexArea.setToolTipText("Python-style regex to extract the CSRF token. The first capturing group is used.")
+         self.csrfRegexScroll = swing.JScrollPane(self.csrfRegexArea)
+-        rightContent.add(self.csrfRegexScroll, c)
+-        row += 1
+-
+-        # ---------- Custom codeblock UI ----------
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
+-        rightContent.add(swing.JLabel("Custom payload transform"), c)
+-        row += 1
+-        c.gridwidth = 1
+-
++        self.csrfRegexScroll.setPreferredSize(self.csrfRegexScroll.getPreferredSize())
++        return self._controls_section("Workflow / Cookies & CSRF", [
++            self._controls_row([self.useCheckPageChk, self.autoFollowRTChk]),
++            self._controls_row([self.autoUpdateChk, self.clearCookiesBtn, self.showCookiesBtn], stretch=0),
++            self._controls_row([self.autoUpdateCsrfChk, self.clearCsrfBtn, self.showCsrfBtn], stretch=0),
++            self._controls_row([swing.JLabel("CSRF regex"), self.resetCsrfRegexBtn], stretch=0),
++            self._controls_row([self.csrfRegexScroll], stretch=0),
++        ])
++
++    def _build_custom_panel(self):
++        from javax.swing.event import DocumentListener
+         self.useCustomChk = swing.JCheckBox("Use custom codeblock", False, actionPerformed=self._on_toggle_custom)
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(self.useCustomChk, c)
+         self.timeoutField = swing.JTextField(str(self.custom_timeout_ms), 6)
+         self.timeoutField.setToolTipText("Timeout (ms)")
+         self.custom_codeblock_status = False
+-        c.gridx = 1
+-        rightContent.add(self.timeoutField, c)
+-        row += 1
+-
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(swing.JLabel("Payload1 param name (%s):" % TEMPLATE_PAYLOAD_MARKER_1), c)
+         self.payloadParamField = swing.JTextField(self.payload_param_name, 10)
+-        c.gridx = 1
+-        rightContent.add(self.payloadParamField, c)
+-        row += 1
+-
+-        # new attribute default
++        self.payloadParamField.setToolTipText("Payload 1 parameter; template marker: " + TEMPLATE_PAYLOAD_MARKER_1)
+         self.payload_param2_name = "w"
+-
+-        # UI: second payload param name field (next to payloadParamField)
+-        c.gridy = row; c.gridx = 0
+-        rightContent.add(swing.JLabel("Payload2 param name (%s):" % TEMPLATE_PAYLOAD_MARKER_2), c)
+         self.payloadParam2Field = swing.JTextField(self.payload_param2_name, 10)
+-        c.gridx = 1
+-        rightContent.add(self.payloadParam2Field, c)
+-        row += 1
+-
+-
+-        # custom code text area (multi-line)
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
++        self.payloadParam2Field.setToolTipText("Payload 2 parameter; template marker: " + TEMPLATE_PAYLOAD_MARKER_2)
+         self.customCodeArea = swing.JTextArea(self.default_code_text, 10, 40)
+         self.customCodeArea.setLineWrap(False)
+         self.customCodeScroll = swing.JScrollPane(self.customCodeArea)
+-        rightContent.add(self.customCodeScroll, c)
+-        row += 1
+-
+-        # Buttons: Test | Reset (keep separated and with small gap)
+-        c.gridy = row
+-        c.gridwidth = 1
+-        c.gridx = 0
++        self.customCodeScroll.setPreferredSize(self.customCodeScroll.getPreferredSize())
+         self.testCodeBtn = swing.JButton("Test", actionPerformed=self._on_test_code)
+-        rightContent.add(self.testCodeBtn, c)
+-
+-        c.gridx = 1
+         self.resetBtn = swing.JButton("Reset", actionPerformed=self._reset_custom_code)
+-        rightContent.add(self.resetBtn, c)
+-        row += 1
+-
+-        # Error/output area (fills remaining vertical space)
+-        # Create a sub-panel with BorderLayout so the scroll pane fills it completely
+-        outputPanel = swing.JPanel(BorderLayout())
+-
+-        # Create the output text area
++        buttons = swing.JPanel(GridLayout(1, 2, 8, 0))
++        buttons.add(self.testCodeBtn)
++        buttons.add(self.resetBtn)
++        ui = self
++        class CustomSettingsListener(DocumentListener):
++            def insertUpdate(self, event): ui._on_custom_settings_changed()
++            def removeUpdate(self, event): ui._on_custom_settings_changed()
++            def changedUpdate(self, event): ui._on_custom_settings_changed()
++        self.customCodeArea.getDocument().addDocumentListener(CustomSettingsListener())
++        self.timeoutField.getDocument().addDocumentListener(CustomSettingsListener())
++        return self._controls_section("Custom payload transform", [
++            self._controls_row([self.useCustomChk, swing.JLabel("Timeout (ms)"), self.timeoutField], stretch=0),
++            self._controls_form([("Payload 1 parameter:", self.payloadParamField),
++                                 ("Payload 2 parameter:", self.payloadParam2Field)]),
++            self._controls_row([self.customCodeScroll], stretch=0),
++            self._controls_row([buttons], right=True),
++        ])
++
++    def _build_output_panel(self):
+         self.customStatusArea = swing.JTextArea()
+         self.customStatusArea.setEditable(False)
+         self.customStatusArea.setLineWrap(True)
+         self.customStatusArea.setWrapStyleWord(True)
+         self.customStatusArea.setFocusable(True)
+-
+-        # Wrap text area in a scroll pane
+         scroll = swing.JScrollPane(self.customStatusArea)
+         scroll.setVerticalScrollBarPolicy(swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED)
+         scroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
+-        scroll.setPreferredSize(Dimension(0, 120))  # default visible area (~5 lines)
+-
+-        ui = self
+-        class CustomSettingsListener(DocumentListener):
+-            def insertUpdate(self, event):
+-                ui._on_custom_settings_changed()
+-            def removeUpdate(self, event):
+-                ui._on_custom_settings_changed()
+-            def changedUpdate(self, event):
+-                ui._on_custom_settings_changed()
+-        self.customCodeArea.getDocument().addDocumentListener(CustomSettingsListener())
+-        self.timeoutField.getDocument().addDocumentListener(CustomSettingsListener())
+-
+-        # initially disable custom controls (preserve original behavior)
+-        self._on_toggle_custom()
+-
+-        # Add scroll pane to the output panel (fills the panel)
+-        outputPanel.add(scroll, BorderLayout.CENTER)
+-
+-        # Layout constraints for the output panel itself
+-        c.gridy = row
+-        c.gridx = 0
+-        c.gridwidth = 2
+-        c.fill = GridBagConstraints.BOTH
+-        c.weightx = 1.0
+-        c.weighty = 1.0
+-
+-        # Add the output panel instead of the scroll directly
+-        rightContent.add(outputPanel, c)
+-        row += 1
+-
+-        # reset fill/grid hints
+-        c.fill = GridBagConstraints.HORIZONTAL
+-        c.gridwidth = 1
+-        c.weighty = 0.0
+-        row += 1  
+-
+-        c.gridy = row; c.gridx = 0; c.gridwidth = 2
++        scroll.setPreferredSize(Dimension(0, 120))
++        panel = swing.JPanel(GridBagLayout())
++        panel.setBorder(swing.BorderFactory.createTitledBorder("Output"))
++        c = GridBagConstraints()
++        c.gridx, c.gridy, c.weightx, c.weighty = 0, 0, 1.0, 1.0
++        c.fill, c.insets = GridBagConstraints.BOTH, Insets(3, 4, 3, 4)
++        panel.add(scroll, c)
+         self.filterStatusLabel = swing.JLabel("Filters ready")
+-        rightContent.add(self.filterStatusLabel, c)
+-        row += 1
+-        c.gridy = row
+         self.statusLabel = swing.JLabel("Running")
+-        rightContent.add(self.statusLabel, c)
+-        row += 1
+-        c.gridwidth = 1
+-
+-        # spacer at the end to push items to top
+-        c.gridy = row; c.weighty = 1.0
+-        rightContent.add(swing.JPanel(), c)
+-        row += 1
+-
+-        # wrap rightContent into wrapper so layout can flexibly shrink
+-        rightWrapper.add(rightContent)
+-        # small rigid spacer below to prevent jitter when resizing
+-        rightWrapper.add(swing.Box.createRigidArea(Dimension(0, 5)))
+-        # scroll pane around the wrapper (not directly rightContent!)
+-        self.rightScroll = swing.JScrollPane(rightWrapper)
+-        
+-        self.rightScroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)
++        for row, label in enumerate([self.filterStatusLabel, self.statusLabel]):
++            height = label.getPreferredSize().height
++            label.setPreferredSize(Dimension(0, height))
++            label.setMinimumSize(Dimension(0, height))
++            c = GridBagConstraints()
++            c.gridx, c.gridy, c.weightx = 0, row + 1, 1.0
++            c.fill, c.insets = GridBagConstraints.HORIZONTAL, Insets(3, 4, 3, 4)
++            panel.add(label, c)
++        return panel
++
++    def _build_controls_panel(self):
++        content = SidebarPanel()
++        self.proxyModeBtn = swing.JToggleButton("Injecting proxy from templates", False,
++            actionPerformed=lambda e: self._on_proxy_toggle())
++        sections = [self._controls_row([self.proxyModeBtn]), self._build_logging_panel(),
++                    self._build_session_panel(), self._build_custom_panel(), self._build_output_panel()]
++        for row, section in enumerate(sections):
++            c = GridBagConstraints()
++            c.gridx, c.gridy, c.weightx = 0, row, 1.0
++            c.insets = Insets(3, 6, 3, 6)
++            c.weighty = 1.0 if row == len(sections) - 1 else 0.0
++            c.fill = GridBagConstraints.BOTH if c.weighty else GridBagConstraints.HORIZONTAL
++            content.add(section, c)
++        self._on_toggle_custom()
++        self._controls_content = content
++        content_width = content.freeze_width()
++        self.rightScroll = swing.JScrollPane(content)
++        self.rightScroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
+         self.rightScroll.setVerticalScrollBarPolicy(swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED)
+         self.rightScroll.getViewport().setScrollMode(swing.JViewport.SIMPLE_SCROLL_MODE)
++        border = self.rightScroll.getInsets()
++        self._sidebar_width = (content_width + border.left + border.right
++                               + self.rightScroll.getVerticalScrollBar().getPreferredSize().width)
++        self.rightScroll.setPreferredSize(Dimension(self._sidebar_width, content.getPreferredSize().height))
++        return self.rightScroll
+ 
+-        # attach to main split
+-        self.mainSplit.setRightComponent(self.rightScroll)
+-
+-        # expose final component
+-        self._component = self.mainSplit
+ 
+-        self._creation_on_edt = bool(swing.SwingUtilities.isEventDispatchThread())
+-        self._runtime_publisher = RuntimePublisher(self)
+-        self._filter_timer = swing.Timer(50, lambda event: self._filter_tick())
+-        self._filter_timer.start()
+ 
+     # --- Error/output area (isolated in its own container, expands only within itself) ---
+     def _log(self, msg):
+@@ -3960,7 +3846,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
+                 installed.append("proxy")
+                 if not still_open():
+                     return
+-                _print_diagnostic("BoberProxy loaded (stabilization K10-B)")
++                _print_diagnostic("BoberProxy loaded (UI01)")
+             except (Exception, JavaException) as error:
+                 withdraw()
+                 _print_diagnostic("[BoberProxy] UI_INITIALIZATION_FAILED", error)

@@ -1,5 +1,56 @@
 # CHANGELOG.md
 
+## 2026-11-01 — UI01.6 final validation closed
+
+- User requested a commit/push checkpoint of the complete closed UI01 state, including its plan, helpers and synthetic evidence. Generated runtime captures stay ignored; closure reports retain their validation-time Git state.
+
+- Actual root/helper PASS with matching source, user confirmed no Errors and exact setup. Final passive unmatched GET/binary256/empty204 and normal RT→CheckPage/custom pass: one action, two target requests, two custom calls; cookie/token/raw payload correct, delayed counters unchanged. User confirmed final rows/viewer/204 Body size0 and no Errors after traffic; all UI01 gates closed. Evidence archived separately under final-ui016; no source change, commit/push or K11.
+
+- User accepted the final layout and authorized the postponed regression. Updated native layout expectations for full-width pairs, local regex viewports, Output behavior, split initialization and renamed capture controls. Updated the old numeric-error caption assertion; production source unchanged.
+- CPython/Jython211/210/one accepted K05 limit, native3 profiles x23 geometry/behavior checks and existing cleanup/logging pass. Preserve failed test-expectation attempts with their original source hash. Actual Burp/helper and directed normal traffic gates also passed; no commit/push or K11.
+
+## 2026-11-01 — UI01.6 Output appearance and neutral clicks
+
+- Hide Output's insertion cursor and remove input-style borders while retaining read-only text selection and keyboard copy.
+- Move focus out of active sidebar fields when left-clicking owned neutral backgrounds or labels. Use local listeners, stopping at interactive widgets; no global hook or timer.
+- Startup UI01.6; no tests/rendering/traffic, awaiting user live preview.
+
+## 2026-11-01 — UI01.5 consistent size terminology
+
+- Use Total size / Body size for log columns and capture choices, Size filter for the field label, and Minimum / Maximum / Not equal for comparators. Align numeric-validation caption and Body size display-filter label. Map UI captions to existing internal filter values so comparison behavior is preserved.
+- Startup UI01.5; no tests/rendering/traffic, awaiting manual preview.
+
+## 2026-11-01 — UI01.4 workflow checkbox row
+
+- Put Use CheckPageTemplate and AutoFollow redirect on RT in one equal-width row through the existing layout helper. Startup UI01.4; no tests/rendering/traffic, awaiting manual preview.
+
+## 2026-11-01 — UI01.3 Response regex scrollbar space
+
+- Reserve the horizontal scrollbar's native height in the initially empty Response regex viewport, keeping characters visible when overflow reveals the scrollbar. Visibility remains AS_NEEDED; other controls unchanged. Startup UI01.3. No tests/rendering/traffic; awaiting user live preview.
+
+## 2026-11-01 — UI01.2 button rows and initial viewer balance (awaiting manual preview)
+
+- Initialize request/response editors at equal widths once laid out; share resize space equally while preserving manual divider movement.
+- Make Injecting/Site map buttons fill their rows; use one shared equal-width layout for logging, cookie, CSRF and Test/Reset button pairs. Keep CSRF Reset to default in place.
+- Give Response regex the same single-visible-row horizontal-scroll presentation as CSRF. Existing actions and regex evaluation remain. Startup UI01.2; no tests, rendering or traffic, as requested. Final regression remains deferred; no commit/push.
+
+## 2026-11-01 — UI01.1 compact layout (awaiting manual preview)
+
+- Target approximately two-thirds of the previous measured sidebar reference; split logging actions, workflow toggles and session controls across shorter rows. Reduce editor viewport columns and show a single CSRF regex row with a local horizontal scrollbar.
+- Existing actions/defaults remain; startup UI01.1 identifies this candidate. No tests or rendering/traffic run, as explicitly requested by the user. Earlier UI01 PASS evidence remains tied to its original source. Final regression deferred until layout acceptance; no commit/push.
+
+## 2026-11-01 — UI01 first layout delivered; final test deferred
+
+- Replaced the outer split with a measured fixed-width control sidebar and preserved inner viewer/table splits. Added independent control groups/local forms, compact equal Test/Reset, visible timeout units and viewport-aware vertical scrolling with editor-local horizontal scrolling.
+- Preserved widget constructors/defaults/actions and122 exact core definitions. Final source logic211/210/one accepted K05 limit, three font profiles with12 layout checks, existing native logging/runtime/custom regressions pass. First local AWT/Swing import error and visual alignment correction retained in evidence. Actual Burp/user visual gate and final normal workflow pending; no commit/push or K11 work.
+- Actual root/helper PASS1/10/24 with matching source hash and user-reported functional correctness. Actual13pt sidebar706px, Test/Reset75px; passive GET/raw-query/binary256/empty204 checks pass. Final table/viewer confirmation and configured normal workflow remain pending.
+- User subsequently confirmed passive rows/viewer/204 BodyLen0 and explicitly deferred the normal workflow/custom test until further small layout changes, to be described separately. No normal test request sent; no further code changes at this handoff. Full UI01 regression closure remains incomplete; retain existing evidence. No commit/push or K11 work.
+
+## 2026-11-01 — UI01 plan
+
+- Added a single-round implementation plan for the right control sidebar: measured fixed width, independent layout groups, compact equal Test/Reset buttons and viewport-aware scrolling. Documented code causes, preserved behavior, concrete steps, U01-U10 acceptance, current Burp state and scoped rollback.
+- Planning only; no production/test code changed, no traffic or Burp reload, and no commit/push. K11 remains separate.
+
 ## 2026-11-01 — K10/B (closed; no commit/push)
 
 - After closure, the user authorized a combined K10/A+B commit/push checkpoint, superseding the earlier implementation-time restriction. Included source, helpers, updated documentation and synthetic evidence; runtime captures remain ignored. Revision in Git history; closure JSON preserves its pre-checkpoint state.

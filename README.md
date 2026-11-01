@@ -193,16 +193,33 @@ During initialization, BoberProxy:
 * Request and Response viewers (Burp-provided)
 * Request Template and CheckPageTemplate editors, each with Load from Viewer/Clear
 * Template tooltip and helper controls
+* Full log table below the viewers/templates, with the existing vertical divider
 
 ### Right Panel
 
-* Full log table
 * Filters button
 * Status/length/response-regex capture controls
 * Status bar
 * Custom codeblock editor
 * Cookie & CSRF settings
 * Proxy mode toggle
+
+The control sidebar has a fixed width measured from its controls and font when
+loaded. Resizing the Burp window changes the left workspace width. Logging,
+workflow/session, custom code and output have independent layout groups; Test
+and Reset share an equal-width row filling the available space. Short windows scroll the
+sidebar vertically. Long code/regex lines scroll inside their own editors;
+they do not widen the whole sidebar. Reload after changing the startup font/DPI
+to measure a new width. Existing switches, defaults and processing behavior
+are preserved.
+
+The compact layout splits logging actions and session controls into shorter
+rows, targeting about two-thirds of the former sidebar width while keeping
+controls readable. CSRF and Response regex each have one visible text row and
+their own horizontal scrollbar when the pattern exceeds the available width.
+Injecting and Site map actions fill their rows. Logging, cookie/CSRF and
+Test/Reset button pairs share each row equally. Request/response viewers start
+at equal widths and share resizing space equally; their divider remains draggable.
 
 The extension has no separate log search box, next-match navigator or row
 highlighting function. Use **Filter → ResponseContent** to search stored
@@ -432,17 +449,18 @@ after an internal send drop the original request instead of resending it.
 * Keeps stable row IDs; deletion does not renumber remaining rows
 * Supports multiple selection, sorting, Clear selected, Clear log and Pause logging
 
-The main-panel **1xx–5xx**, **Len filter** and **Response regex** controls decide
-which new responses are admitted. Length can mean total response bytes or body
-bytes; minimum, maximum and exclusion-list comparisons are available. A
+The main-panel **1xx–5xx**, **Size filter** and **Response regex** controls decide
+which new responses are admitted. **Total size** measures the complete response
+in bytes; **Body size** measures its body. The log columns use the same names.
+**Minimum**, **Maximum** and **Not equal** provide the threshold and exclusion-list comparisons. A
 Response regex uses Java `Pattern.find()` with default flags.
 
 The **Filter** dialog affects already accepted rows without deleting their
 stored messages. Host/Method/Status use exact text, Path uses a substring,
-BodyLen uses integer equality/exclusion and ResponseContent searches complete
+Body size uses integer equality/exclusion and ResponseContent searches complete
 raw response headers and body using case-insensitive, DOTALL Java regexes.
 Active fields combine with AND; an `eq` field accepts any listed value and
-`not eq` rejects listed matches. An active empty field rejects rows. BodyLen
+`not eq` rejects listed matches. An active empty field rejects rows. Body size
 zero is a real value; unknown length remains blank.
 
 Enter **one regex per line** in ResponseContent. Commas inside `a{1,3}` or `a,b`

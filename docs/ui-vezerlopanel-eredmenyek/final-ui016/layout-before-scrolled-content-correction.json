@@ -1,0 +1,494 @@
+{
+  "kind": "UI01-private-native-layout-no-network", 
+  "trials": [
+    {
+      "test_width": 192, 
+      "reset_width": 192, 
+      "scale": 1.0, 
+      "clipped": [], 
+      "font_points": 12.0, 
+      "checks": {
+        "viewer_equal_initial_and_resize_weight": true, 
+        "long_lines_scroll_inside_editors": true, 
+        "response_overflow_leaves_text_visible": true, 
+        "equal_full_width_pairs": true, 
+        "button_labels_fit": true, 
+        "fixed_width_on_resize": true, 
+        "empty_response_reserves_scroll_height": true, 
+        "output_selectable_without_insertion_cursor": true, 
+        "controls_not_horizontally_clipped": true, 
+        "full_width_primary_buttons": true, 
+        "outer_horizontal_never_visible": true, 
+        "controls_present_once": true, 
+        "neutral_click_handlers_scoped": true, 
+        "regex_one_visible_row": true, 
+        "size_captions": true, 
+        "logging_fields_locally_aligned": true, 
+        "output_selection_preserved": true, 
+        "long_content_does_not_resize_sidebar": true, 
+        "output_fills_spare_height": true, 
+        "vertical_scroll_when_short_only": true, 
+        "viewport_width_tracking": true, 
+        "viewer_manual_divider_preserved": true, 
+        "renamed_size_filters_preserve_comparisons": true
+      }, 
+      "width": 426, 
+      "passed": true, 
+      "natural_height": 1124, 
+      "viewer_sizes": {
+        "request": 237, 
+        "total": 1287, 
+        "divider": 238, 
+        "response": 1038
+      }, 
+      "pair_sizes": [
+        {
+          "right_width": 192, 
+          "right": "Clear selected", 
+          "left_width": 192, 
+          "parent_width": 393, 
+          "left": "Clear log"
+        }, 
+        {
+          "right_width": 192, 
+          "right": "Pause logging", 
+          "left_width": 192, 
+          "parent_width": 393, 
+          "left": "Filter"
+        }, 
+        {
+          "right_width": 192, 
+          "right": "Show Cookies", 
+          "left_width": 192, 
+          "parent_width": 393, 
+          "left": "Clear Cookies"
+        }, 
+        {
+          "right_width": 192, 
+          "right": "Show CSRF", 
+          "left_width": 192, 
+          "parent_width": 393, 
+          "left": "Clear CSRF"
+        }, 
+        {
+          "right_width": 192, 
+          "right": "Reset", 
+          "left_width": 192, 
+          "parent_width": 393, 
+          "left": "Test"
+        }, 
+        {
+          "right_width": 192, 
+          "right": "AutoFollow redirect on RT", 
+          "left_width": 192, 
+          "parent_width": 393, 
+          "left": "Use CheckPageTemplate"
+        }
+      ], 
+      "dimensions": [
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 408, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 426, 
+          "viewport_width": 408, 
+          "root_width": 926
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1324, 
+          "content_width": 423, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 426, 
+          "viewport_width": 423, 
+          "root_width": 926
+        }, 
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 408, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 426, 
+          "viewport_width": 408, 
+          "root_width": 1326
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1324, 
+          "content_width": 423, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 426, 
+          "viewport_width": 423, 
+          "root_width": 1326
+        }, 
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 408, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 426, 
+          "viewport_width": 408, 
+          "root_width": 1726
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1324, 
+          "content_width": 423, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 426, 
+          "viewport_width": 423, 
+          "root_width": 1726
+        }
+      ]
+    }, 
+    {
+      "test_width": 224, 
+      "reset_width": 224, 
+      "scale": 1.15, 
+      "clipped": [], 
+      "font_points": 13.800000190734863, 
+      "checks": {
+        "viewer_equal_initial_and_resize_weight": true, 
+        "long_lines_scroll_inside_editors": true, 
+        "response_overflow_leaves_text_visible": true, 
+        "equal_full_width_pairs": true, 
+        "button_labels_fit": true, 
+        "fixed_width_on_resize": true, 
+        "empty_response_reserves_scroll_height": true, 
+        "output_selectable_without_insertion_cursor": true, 
+        "controls_not_horizontally_clipped": true, 
+        "full_width_primary_buttons": true, 
+        "outer_horizontal_never_visible": true, 
+        "controls_present_once": true, 
+        "neutral_click_handlers_scoped": true, 
+        "regex_one_visible_row": true, 
+        "size_captions": true, 
+        "logging_fields_locally_aligned": true, 
+        "output_selection_preserved": true, 
+        "long_content_does_not_resize_sidebar": true, 
+        "output_fills_spare_height": true, 
+        "vertical_scroll_when_short_only": true, 
+        "viewport_width_tracking": true, 
+        "viewer_manual_divider_preserved": true, 
+        "renamed_size_filters_preserve_comparisons": true
+      }, 
+      "width": 489, 
+      "passed": true, 
+      "natural_height": 1198, 
+      "viewer_sizes": {
+        "request": 237, 
+        "total": 1287, 
+        "divider": 238, 
+        "response": 1038
+      }, 
+      "pair_sizes": [
+        {
+          "right_width": 224, 
+          "right": "Clear selected", 
+          "left_width": 224, 
+          "parent_width": 456, 
+          "left": "Clear log"
+        }, 
+        {
+          "right_width": 224, 
+          "right": "Pause logging", 
+          "left_width": 224, 
+          "parent_width": 456, 
+          "left": "Filter"
+        }, 
+        {
+          "right_width": 224, 
+          "right": "Show Cookies", 
+          "left_width": 224, 
+          "parent_width": 456, 
+          "left": "Clear Cookies"
+        }, 
+        {
+          "right_width": 224, 
+          "right": "Show CSRF", 
+          "left_width": 224, 
+          "parent_width": 456, 
+          "left": "Clear CSRF"
+        }, 
+        {
+          "right_width": 224, 
+          "right": "Reset", 
+          "left_width": 224, 
+          "parent_width": 456, 
+          "left": "Test"
+        }, 
+        {
+          "right_width": 224, 
+          "right": "AutoFollow redirect on RT", 
+          "left_width": 224, 
+          "parent_width": 456, 
+          "left": "Use CheckPageTemplate"
+        }
+      ], 
+      "dimensions": [
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 471, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 489, 
+          "viewport_width": 471, 
+          "root_width": 989
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1398, 
+          "content_width": 486, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 489, 
+          "viewport_width": 486, 
+          "root_width": 989
+        }, 
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 471, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 489, 
+          "viewport_width": 471, 
+          "root_width": 1389
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1398, 
+          "content_width": 486, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 489, 
+          "viewport_width": 486, 
+          "root_width": 1389
+        }, 
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 471, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 489, 
+          "viewport_width": 471, 
+          "root_width": 1789
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1398, 
+          "content_width": 486, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 489, 
+          "viewport_width": 486, 
+          "root_width": 1789
+        }
+      ]
+    }, 
+    {
+      "test_width": 236, 
+      "reset_width": 236, 
+      "scale": 1.3, 
+      "clipped": [
+        "csrfRegexArea"
+      ], 
+      "font_points": 15.600000381469727, 
+      "checks": {
+        "viewer_equal_initial_and_resize_weight": true, 
+        "long_lines_scroll_inside_editors": true, 
+        "response_overflow_leaves_text_visible": true, 
+        "equal_full_width_pairs": true, 
+        "button_labels_fit": true, 
+        "fixed_width_on_resize": true, 
+        "empty_response_reserves_scroll_height": true, 
+        "output_selectable_without_insertion_cursor": true, 
+        "controls_not_horizontally_clipped": false, 
+        "full_width_primary_buttons": true, 
+        "outer_horizontal_never_visible": true, 
+        "controls_present_once": true, 
+        "neutral_click_handlers_scoped": true, 
+        "regex_one_visible_row": true, 
+        "size_captions": true, 
+        "logging_fields_locally_aligned": true, 
+        "output_selection_preserved": true, 
+        "long_content_does_not_resize_sidebar": true, 
+        "output_fills_spare_height": true, 
+        "vertical_scroll_when_short_only": true, 
+        "viewport_width_tracking": true, 
+        "viewer_manual_divider_preserved": true, 
+        "renamed_size_filters_preserve_comparisons": true
+      }, 
+      "width": 513, 
+      "passed": false, 
+      "natural_height": 1272, 
+      "viewer_sizes": {
+        "request": 237, 
+        "total": 1287, 
+        "divider": 238, 
+        "response": 1038
+      }, 
+      "pair_sizes": [
+        {
+          "right_width": 236, 
+          "right": "Clear selected", 
+          "left_width": 236, 
+          "parent_width": 480, 
+          "left": "Clear log"
+        }, 
+        {
+          "right_width": 236, 
+          "right": "Pause logging", 
+          "left_width": 236, 
+          "parent_width": 480, 
+          "left": "Filter"
+        }, 
+        {
+          "right_width": 236, 
+          "right": "Show Cookies", 
+          "left_width": 236, 
+          "parent_width": 480, 
+          "left": "Clear Cookies"
+        }, 
+        {
+          "right_width": 236, 
+          "right": "Show CSRF", 
+          "left_width": 236, 
+          "parent_width": 480, 
+          "left": "Clear CSRF"
+        }, 
+        {
+          "right_width": 236, 
+          "right": "Reset", 
+          "left_width": 236, 
+          "parent_width": 480, 
+          "left": "Test"
+        }, 
+        {
+          "right_width": 236, 
+          "right": "AutoFollow redirect on RT", 
+          "left_width": 236, 
+          "parent_width": 480, 
+          "left": "Use CheckPageTemplate"
+        }
+      ], 
+      "dimensions": [
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 495, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 513, 
+          "viewport_width": 495, 
+          "root_width": 1013
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1472, 
+          "content_width": 510, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 513, 
+          "viewport_width": 510, 
+          "root_width": 1013
+        }, 
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 495, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 513, 
+          "viewport_width": 495, 
+          "root_width": 1413
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1472, 
+          "content_width": 510, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 513, 
+          "viewport_width": 510, 
+          "root_width": 1413
+        }, 
+        {
+          "vertical_scrollbar": true, 
+          "root_height": 500, 
+          "content_width": 495, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 513, 
+          "viewport_width": 495, 
+          "root_width": 1813
+        }, 
+        {
+          "vertical_scrollbar": false, 
+          "root_height": 1472, 
+          "content_width": 510, 
+          "horizontal_scrollbar": false, 
+          "sidebar_width": 513, 
+          "viewport_width": 510, 
+          "root_width": 1813
+        }
+      ]
+    }
+  ], 
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209", 
+  "regression": {
+    "kind": "K10-A-private-native-no-network", 
+    "diagnostic_cases": 6, 
+    "checks": {
+      "startup_only_expected_line": true, 
+      "no_unused_editor_or_search_state": true, 
+      "private_unload_closes_timers_and_session": true, 
+      "native_callbacks_registered": true, 
+      "multiple_selection_preserved": true, 
+      "java_status_error_has_safe_diagnostic": true, 
+      "java_checkpage_exception_safe_none_fallback": true, 
+      "exactly_four_editors_all_on_edt": true, 
+      "native_diagnostic_cases": true, 
+      "mode_buttons_preserve_enable_and_selection_rules": true
+    }, 
+    "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209", 
+    "java_version": "26.0.2", 
+    "actual_burp_helpers": false, 
+    "passed": true, 
+    "errors": [], 
+    "logging_regression": {
+      "kind": "K08-K09-native-Jython-Swing-private-no-network", 
+      "logic_log": "test_archive_exact_binary_and_null_versus_empty (probe_logging_native.NativeLogs) ... ok\ntest_archive_refuses_edt_io (probe_logging_native.NativeLogs) ... ok\ntest_byte_limit_rejects_before_snapshot_and_pauses_visibly (probe_logging_native.NativeLogs) ... ok\ntest_clear_and_selected_release_only_owned_files (probe_logging_native.NativeLogs) ... ok\ntest_clear_while_write_in_progress_cannot_restore_row_or_file (probe_logging_native.NativeLogs) ... ok\ntest_concurrent_rejection_accounting_has_no_lost_increment (probe_logging_native.NativeLogs) ... ok\ntest_model_index_lookup_and_multiple_removal_are_stable (probe_logging_native.NativeLogs) ... ok\ntest_one_batch_notification_covers_a_burst (probe_logging_native.NativeLogs) ... ok\ntest_pending_accepted_rows_finish_after_pause (probe_logging_native.NativeLogs) ... ok\ntest_preparation_order_cannot_overtake_first_snapshot (probe_logging_native.NativeLogs) ... ok\ntest_shared_raw_budget_and_close_release_reservations (probe_logging_native.NativeLogs) ... ok\ntest_snapshot_freezes_mutable_source_before_return (probe_logging_native.NativeLogs) ... ok\ntest_storage_write_failure_pauses_new_admission_without_erasing_old (probe_logging_native.NativeLogs) ... ok\ntest_truncated_file_is_visible_read_failure (probe_logging_native.NativeLogs) ... ok\ntest_unload_after_persist_before_publish_cleans_owned_files (probe_logging_native.NativeLogs) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.321s\n\nOK\n", 
+      "checks": {
+        "edt_disk_read_rejected": true, 
+        "frozen_snapshot_native_interface": true, 
+        "sorted_selection_uses_same_message": true, 
+        "no_initial_files_or_workers": true, 
+        "paused_events_skip_analysis": true, 
+        "one_selection_listener": true, 
+        "viewer_read_is_background": true, 
+        "unload_stops_owned_workers_and_releases_content": true, 
+        "metadata_analyzed_once_per_response": true, 
+        "late_viewer_cannot_replace_new_selection": true, 
+        "one_explicit_sorter": true, 
+        "source_startup_on_edt": true, 
+        "unload_deletes_owned_directory": true, 
+        "stored_rows_hold_no_bodies": true, 
+        "sitemap_and_scope_preserve_sorted_selection": true, 
+        "native_storage_contracts": true, 
+        "raw_budget_released_after_persist": true, 
+        "template_load_from_disk_is_exact": true, 
+        "all_rows_newest_first": true, 
+        "single_burst_notification": true, 
+        "selected_clear_preserves_other_rows": true, 
+        "disk_roundtrip_exact": true, 
+        "unload_stops_timer": true, 
+        "request_events_skip_analysis": true
+      }, 
+      "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209", 
+      "java_version": "26.0.2", 
+      "passed": true, 
+      "actual_burp_helpers": false, 
+      "errors": [], 
+      "logic_cases": 15, 
+      "network_requests": 0
+    }, 
+    "network_requests": 0
+  }, 
+  "actual_burp_helpers": false, 
+  "passed": false, 
+  "errors": [], 
+  "network_requests": 0
+}

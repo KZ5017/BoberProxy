@@ -1,6 +1,6 @@
 # BoberProxy stabilizációs terv
 
-Készült: 2026-10-29. Frissítve: 2026-11-01. Állapot: K00–[K08–K09](eredmenyek/K08-K09/README.md) lezárva a dokumentált korlátokkal; K10–K11 nem indult.
+Készült: 2026-10-29. Frissítve: 2026-11-01. Állapot: K00–[K10](eredmenyek/K10-B/README.md) lezárva a dokumentált korlátokkal; K11 nem indult. A külön [UI01](../ui-vezerlopanel-terv.md) végleges UI01.6 változata is [lezárva](../ui-vezerlopanel-eredmenyek/final-ui016/README.md): helyi/natív, valódi Burp/helper, passzív és normál kétlépéses/custom ellenőrzés, késleltetett számlálók és végső kézi nézet/Errors visszaigazolás sikeres.
 
 Ez a dokumentumcsomag a teljes forrásáttekintés alapján meghatározza a stabilitási, teljesítménybeli és működési hibák javításának sorrendjét. A K00 az alapfolyamatokat rögzítette; a K01 az egyszeri küldést biztosító hibakezelést, a K02 a sablon-/payload-helyességet és a custom hibadiagnosztikát javította és ellenőrizte. Bizonyítékok: [K00](eredmenyek/K00/README.md), [K01](eredmenyek/K01/README.md), [K02](eredmenyek/K02/README.md).
 
@@ -13,6 +13,7 @@ Ez a dokumentumcsomag a teljes forrásáttekintés alapján meghatározza a stab
 | [Működési döntések](03-mukodesi-dontesek.md) | A kompatibilitást érintő kérdések, javasolt válaszok és még nyitott döntések. |
 | [Ellenőrzési terv](04-ellenorzesi-terv.md) | Hálózati, állapotkezelési, felületi és terhelési ellenőrzések, mérési feltételek. |
 | [Végrehajtási napló](05-vegrehajtasi-naplo.md) | Körönként kitöltendő átadási lap és aktuális státuszok. |
+| [UI01 vezérlőpanel-terv](../ui-vezerlopanel-terv.md) | Külön, egy későbbi körben megvalósítandó UI-rendezés; nem a K11 tesztmátrix átírása. |
 
 ## Elnevezések a dokumentumokban
 

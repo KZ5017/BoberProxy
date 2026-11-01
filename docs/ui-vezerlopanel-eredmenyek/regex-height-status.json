@@ -1,0 +1,16 @@
+{
+  "kind": "UI01.3-response-regex-scrollbar-height-awaiting-user-live-preview",
+  "source_sha256": "6535ba425031dde6355d84a5d6165a69387ecfb0314c5847a9a7ee1d0b3693f6",
+  "previous_source_sha256": "67d6403af0e5e55a6e7c0b122319777af8f6405439a2f9e4d460eaf0db095d8a",
+  "startup": "BoberProxy loaded (UI01.3)",
+  "change": "Response regex preferred size reserves one text row plus horizontal scrollbar height even when initially empty; scrollbar remains AS_NEEDED.",
+  "tests_executed": false,
+  "render_executed": false,
+  "traffic_sent": false,
+  "manual_preview_pending": true,
+  "normal_regression_deferred": true,
+  "prior_UI01_reports_apply_to_this_source": false,
+  "commit_made": false,
+  "push_made": false,
+  "K11_started": false
+}

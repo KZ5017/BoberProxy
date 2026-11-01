@@ -1,0 +1,26 @@
+{
+  "kind": "UI01.6-closure",
+  "date": "2026-11-01",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "closed_in_recorded_environment": true,
+  "source_changed_during_validation": false,
+  "manual_confirmation": "manual-confirmation.json",
+  "validation_status": "validation-status.json",
+  "acceptance": {
+    "U01": "Three native font profiles and actual Burp fixed sidebar width verified.",
+    "U02": "Viewport tracking, scrolling and visible-control bounds pass.",
+    "U03": "User-approved full-width equal button pairs pass (supersedes original compact-row requirement).",
+    "U04": "Long code/regex/status retain sidebar width; Response scrollbar height preserves text.",
+    "U05": "Three isolated font profiles plus actual Burp 13pt/471px sidebar.",
+    "U06": "Cleanup switch/default checks and UI-to-filter size mapping pass.",
+    "U07": "Editor count/lifecycle, native selection and Output caret behavior pass; live UI accepted.",
+    "U08": "CPython/Jython 211 cases each: 210 pass, one previously accepted K05 limitation; native regressions pass.",
+    "U09": "Actual root/helper, passive unmatched traffic, normal two-step/custom, delayed counters and manual viewer/Errors confirmed.",
+    "U10": "Scoped diff archived, reverse-check passed, source Latin-1/CRLF retained; docs current."
+  },
+  "accepted_limits_unchanged": true,
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false,
+  "no_additional_traffic_required": true
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "UI01.1-compact-layout-awaiting-user-live-preview",
+  "source_sha256": "73477ec3ad77e141ab09d8a9cbdcd49be018eee28c4f96d1eaa4d7cc3ef1cc58",
+  "startup": "BoberProxy loaded (UI01.1)",
+  "target": "About two-thirds of prior font-derived sidebar reference, minimum static control fit retained.",
+  "csrf": "One visible row; local horizontal scrollbar AS_NEEDED, vertical NEVER.",
+  "tests_executed": false,
+  "render_executed": false,
+  "traffic_sent": false,
+  "user_explicitly_requested_no_tests": true,
+  "manual_preview_pending": true,
+  "normal_regression_deferred": true,
+  "prior_UI01_reports_apply_to_this_source": false,
+  "commit_made": false,
+  "push_made": false,
+  "K11_started": false
+}

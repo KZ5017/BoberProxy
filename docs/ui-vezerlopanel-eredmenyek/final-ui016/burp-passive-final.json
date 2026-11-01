@@ -1,0 +1,177 @@
+{
+  "kind": "UI01.6-unmatched-passive-traffic-with-templates-enabled",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "run": "ui016-passive-f24b0c0c05d8",
+  "checks": {
+    "no_transport_error": true,
+    "exactly_three_requests": true,
+    "original_targets_and_methods": true,
+    "no_actions": true,
+    "bytes_exact": true,
+    "empty_204": true,
+    "entry_200": true,
+    "no_custom_calls": true
+  },
+  "passed": true,
+  "observed": {
+    "run": "ui016-passive-f24b0c0c05d8",
+    "action_count": 0,
+    "event_count": 3,
+    "recent_events": [
+      {
+        "sequence": 1,
+        "time_ns": 1793548031737143100,
+        "run": "ui016-passive-f24b0c0c05d8",
+        "method": "GET",
+        "target": "/entry?a=%252F+%2B&b=TWO",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "ui016-passive-f24b0c0c05d8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbnRyeT9hPSUyNTJGKyUyQiZiPVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiB1aTAxNi1wYXNzaXZlLWYyNGIwYzBjMDVkOA0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 2,
+        "time_ns": 1793548031942973800,
+        "run": "ui016-passive-f24b0c0c05d8",
+        "method": "GET",
+        "target": "/bytes?size=256",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "ui016-passive-f24b0c0c05d8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9ieXRlcz9zaXplPTI1NiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiB1aTAxNi1wYXNzaXZlLWYyNGIwYzBjMDVkOA0KDQo=",
+        "body_base64": ""
+      },
+      {
+        "sequence": 3,
+        "time_ns": 1793548031977960600,
+        "run": "ui016-passive-f24b0c0c05d8",
+        "method": "GET",
+        "target": "/empty",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18765"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "ui016-passive-f24b0c0c05d8"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiB1aTAxNi1wYXNzaXZlLWYyNGIwYzBjMDVkOA0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "responses": [
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "493"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "application/json"
+        ]
+      ],
+      "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDEsICJ0aW1lX25zIjogMTc5MzU0ODAzMTczNzE0MzEwMCwgInJ1biI6ICJ1aTAxNi1wYXNzaXZlLWYyNGIwYzBjMDVkOCIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZW50cnk/YT0lMjUyRislMkImYj1UV08iLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzY1Il0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJ1aTAxNi1wYXNzaXZlLWYyNGIwYzBjMDVkOCJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxiblJ5ZVQ5aFBTVXlOVEpHS3lVeVFpWmlQVlJYVHlCSVZGUlFMekV1TVEwS1NHOXpkRG9nTVRJM0xqQXVNQzR4T2pFNE56WTFEUXBEYjI1dVpXTjBhVzl1T2lCclpXVndMV0ZzYVhabERRcFlMVUp2WW1WeUxWUmxjM1F0VW5WdU9pQjFhVEF4Tmkxd1lYTnphWFpsTFdZeU5HSXdZekJqTURWa09BMEtEUW89IiwgImJvZHlfYmFzZTY0IjogIiJ9fQ==",
+      "seconds": 0.232756,
+      "json": {
+        "request": {
+          "sequence": 1,
+          "time_ns": 1793548031737143100,
+          "run": "ui016-passive-f24b0c0c05d8",
+          "method": "GET",
+          "target": "/entry?a=%252F+%2B&b=TWO",
+          "headers": [
+            [
+              "Host",
+              "127.0.0.1:18765"
+            ],
+            [
+              "Connection",
+              "keep-alive"
+            ],
+            [
+              "X-Bober-Test-Run",
+              "ui016-passive-f24b0c0c05d8"
+            ]
+          ],
+          "raw_base64": "R0VUIC9lbnRyeT9hPSUyNTJGKyUyQiZiPVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzY1DQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiB1aTAxNi1wYXNzaXZlLWYyNGIwYzBjMDVkOA0KDQo=",
+          "body_base64": ""
+        }
+      }
+    },
+    {
+      "status": 200,
+      "headers": [
+        [
+          "Content-Length",
+          "256"
+        ],
+        [
+          "Connection",
+          "close"
+        ],
+        [
+          "Content-Type",
+          "application/octet-stream"
+        ]
+      ],
+      "body_base64": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "seconds": 0.034094
+    },
+    {
+      "status": 204,
+      "headers": [
+        [
+          "Content-Length",
+          "0"
+        ],
+        [
+          "Connection",
+          "close"
+        ]
+      ],
+      "body_base64": "",
+      "seconds": 0.020626
+    }
+  ],
+  "transport_error": null,
+  "trace_count_before": 0,
+  "trace_count_after": 0,
+  "note": "User-confirmed template/custom/cookie/CSRF ON, Intercept/AutoFollow OFF. Payload names q/w deliberately absent; no disabled-mode claim."
+}

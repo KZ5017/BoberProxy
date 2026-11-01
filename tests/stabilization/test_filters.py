@@ -150,7 +150,7 @@ class FilterTests(SourceCase):
         self.ui._publish_runtime()
         self.wait(lambda:self.ui._capture_error is not None)
         self.assertIs(self.ui._capture_filter_plan,valid)
-        self.assertIn('Len value',self.ui._capture_error)
+        self.assertIn('Size value',self.ui._capture_error)
 
     def test_invalid_capture_regex_retains_last_valid_plan(self):
         self.ui.regexField=Field('ABC')

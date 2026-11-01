@@ -1,0 +1,12 @@
+{
+  "kind": "UI01.6-user-final-confirmation",
+  "date": "2026-11-01",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "user_reply": "minden olyan ahogy leirtad, errorok nincsenek.",
+  "confirmed": {
+    "entry_bytes_empty_rows_visible": true,
+    "empty_status_204_body_size_zero": true,
+    "bytes_selection_request_response_viewer_works": true,
+    "main_errors_empty_after_traffic": true
+  }
+}

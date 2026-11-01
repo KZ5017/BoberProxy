@@ -1,0 +1,20 @@
+{
+  "kind": "UI01-first-layout-handoff-user-directed-test-deferral",
+  "source_sha256": "4ae9aa7f86123aac10519c3a9bc8ab87646ee4000210e6e2d8b757aa56fb048f",
+  "first_layout_delivered": true,
+  "local_checks_passed": true,
+  "actual_Burp_checks_passed": true,
+  "passive_traffic_passed": true,
+  "user_confirmed_passive_rows_viewer_bodylen_zero": true,
+  "user_feedback": "Functionally correct, further small layout changes requested; details forthcoming.",
+  "normal_workflow_test_executed": false,
+  "normal_test_deferred_by_user": true,
+  "normal_test_resume_condition": "After user specifies additional layout changes, those changes are completed, final source loaded and exact test setup reconfirmed.",
+  "normal_ON_settings_confirmed": false,
+  "current_main": "Root UI01 source confirmed; current fields/switches not reconfirmed after normal setup was declined.",
+  "full_UI01_regression_closed": false,
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false,
+  "next_action": "Wait for the separately promised layout requirements; no additional code/traffic now."
+}

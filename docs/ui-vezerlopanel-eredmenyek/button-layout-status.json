@@ -1,0 +1,22 @@
+{
+  "kind": "UI01.2-button-layout-awaiting-user-live-preview",
+  "source_sha256": "67d6403af0e5e55a6e7c0b122319777af8f6405439a2f9e4d460eaf0db095d8a",
+  "previous_source_sha256": "73477ec3ad77e141ab09d8a9cbdcd49be018eee28c4f96d1eaa4d7cc3ef1cc58",
+  "startup": "BoberProxy loaded (UI01.2)",
+  "changes": [
+    "Request/response split initialized equally at first layout, resize weight 0.5, manual divider preserved.",
+    "Full-width Injecting and Site map rows; equal-width filling pairs for logging, cookie/CSRF and Test/Reset buttons.",
+    "Response regex uses one visible no-wrap text row with local horizontal scrolling, matching CSRF presentation.",
+    "CSRF Reset to default placement preserved."
+  ],
+  "tests_executed": false,
+  "render_executed": false,
+  "traffic_sent": false,
+  "user_explicitly_requested_no_tests": true,
+  "manual_preview_pending": true,
+  "normal_regression_deferred": true,
+  "prior_UI01_reports_apply_to_this_source": false,
+  "commit_made": false,
+  "push_made": false,
+  "K11_started": false
+}

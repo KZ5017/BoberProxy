@@ -1,0 +1,16 @@
+{
+  "kind": "UI01.5-size-labels-awaiting-user-live-preview",
+  "source_sha256": "bd4825929ef191ebf5757bda8d846ab8b3b0474c50da50e2b25d16242e07756e",
+  "previous_source_sha256": "32e208cc4e6892fa9f1be10c75024d060b8e8f17317b0aa0a0ce28c39be63d28",
+  "startup": "BoberProxy loaded (UI01.5)",
+  "change": "Consistent size captions in log columns, capture controls and BodyLen display-filter label; UI selections map to unchanged internal filter values.",
+  "tests_executed": false,
+  "render_executed": false,
+  "traffic_sent": false,
+  "manual_preview_pending": true,
+  "normal_regression_deferred": true,
+  "prior_UI01_reports_apply_to_this_source": false,
+  "commit_made": false,
+  "push_made": false,
+  "K11_started": false
+}

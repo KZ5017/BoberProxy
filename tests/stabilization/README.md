@@ -1,5 +1,16 @@
 # Stabilizálási tesztkörnyezet
 
+## UI01 — vezérlőpanel, lezárva
+
+- A végső helyi/natív/valódi Burp és forgalmi kapuk, késleltetett számlálók, naplósor/viewer/Errors kézi visszaigazolás sikeres. [Lezárás és pontos aktuális konfiguráció](../../docs/ui-vezerlopanel-eredmenyek/final-ui016/README.md). Nincs további szükséges UI01-kérés; K11 külön kör.
+
+- A végleges UI01.6 elrendezést a felhasználó elfogadta, a záróellenőrzést engedélyezte. A helper már ezt várja; új report runtime/ui016-burp-layout.json. A végső geometriai próba23 ellenőrzést végez: teljes szélességű egyenlő gombpárok, egysoros regex/scrollmagasság, kezdeti viewer-arány/kézi osztó, Output-kijelölés/kurzor és az átnevezett méretszűrők működése is része. A headless fókuszpróba nem helyettesíti az élő fókuszkezelés megtekintését.
+
+- [Terv és U01–U10](../../docs/ui-vezerlopanel-terv.md), [eredmények/aktuális kézi kapu](../../docs/ui-vezerlopanel-eredmenyek/README.md).
+- `probe_sidebar_native.py --report ... --preview ...`: külön JVM-es3 fontprofil, tényleges geometria/vezérlőhatárok/scroll/egyenlő gombok/mezőigazítás és újrahasznált natív cleanup/logging regresszió. Globális fontot csak saját standalone JVM-ben módosít; forgalmat nem küld.
+- `burp_ui01_probe.py`: saját, nem megjelenített példányon aktuális Burp-fonttal, valódi editor/helperrel dolgozik; nem állítja a fő UI-t, nem vált globális fontot. Várt sor: `UI01_LAYOUT PASS (1 layout profiles; 10 cleanup/UI checks; 24 logging checks)`.
+- `prepare_ui01.py`: ignorált runtime/custom-ui01-pass-through.py, saját ui01-custom-trace.jsonl nyomvonallal. .py.in nem másolandó; normál forgalom csak a pontos setup visszaigazolása után.
+
 ## K10/B — összesített takarítás/dokumentáció, lezárva
 
 - [B forráshatár, bizonyíték és következő kapu](../../docs/stabilizacios-terv/eredmenyek/K10-B/README.md). A forrás továbbra is Latin-1/CRLF; A bizonyítékok nem kapnak új hash-t.

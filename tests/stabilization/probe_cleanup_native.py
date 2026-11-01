@@ -18,7 +18,7 @@ from probe_logging_native import NativeHelpers, run_checks as logging_checks
 from test_cleanup import CleanupTests, SECRET
 
 
-def run_checks(actual_callbacks=None, expected_marker='K10-A'):
+def run_checks(actual_callbacks=None, expected_marker='K10-A', expected_line=None):
     ns, raw = load_source(os.path.join(ROOT, 'BoberProxy.py'))
     ns['_probe_threads'] = []
     checks, errors, editors, registrations = {}, [], [], []
@@ -60,7 +60,7 @@ def run_checks(actual_callbacks=None, expected_marker='K10-A'):
             edt(lambda: None)
         ui = extension.ui
         if ui is None: raise AssertionError('Private UI startup failed')
-        checks['startup_only_expected_line'] = output.text().strip() == 'BoberProxy loaded (stabilization %s)' % expected_marker
+        checks['startup_only_expected_line'] = output.text().strip() == (expected_line or 'BoberProxy loaded (stabilization %s)' % expected_marker)
         checks['exactly_four_editors_all_on_edt'] = len(editors) == 4 and all(editors)
         checks['native_callbacks_registered'] = registrations == ['state', 'tab', 'http', 'proxy']
         checks['no_unused_editor_or_search_state'] = not any(hasattr(owner, name) for owner, name in (

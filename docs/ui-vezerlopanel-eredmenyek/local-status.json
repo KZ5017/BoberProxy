@@ -1,0 +1,18 @@
+{
+  "kind": "UI01-local-verification-before-actual-Burp-gate",
+  "source_sha256": "4ae9aa7f86123aac10519c3a9bc8ab87646ee4000210e6e2d8b757aa56fb048f",
+  "checks": {
+    "cpython-logic-final.json": true,
+    "jython-logic-final.json": true,
+    "jython-layout-final.json": true,
+    "jython-functional.json": true,
+    "source_scope": true
+  },
+  "local_passed": true,
+  "actual_Burp_gate": "pending reload/helper and user visual feedback",
+  "traffic_requests_sent": 0,
+  "UI01_closed": false,
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false
+}

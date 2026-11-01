@@ -1,0 +1,45 @@
+{
+  "kind": "UI01.6-final-regression-closed",
+  "source_sha256": "451aca38dc489ed0e5f1b84c82bb8eb4978df4010354b6c1ae98b69bed866209",
+  "startup": "BoberProxy loaded (UI01.6)",
+  "user_accepted_layout": true,
+  "user_authorized_resuming_tests": true,
+  "production_source_changed_this_validation": false,
+  "cpython": {
+    "total": 211,
+    "passed": 210,
+    "known_limitations": 1
+  },
+  "jython": {
+    "total": 211,
+    "passed": 210,
+    "known_limitations": 1
+  },
+  "native_layout": {
+    "passed": true,
+    "profiles": 3,
+    "checks_per_profile": 23
+  },
+  "native_cleanup_checks": 10,
+  "native_logging_checks": 24,
+  "native_storage_cases": 15,
+  "actual_burp_gate_pending": false,
+  "normal_traffic_pending": false,
+  "K11_started": false,
+  "commit_made": false,
+  "push_made": false,
+  "actual_burp_helper_passed": true,
+  "actual_burp_sidebar_width": 471,
+  "actual_burp_font_points": 13.0,
+  "normal_traffic_passed": true,
+  "passive_unmatched_traffic_passed": true,
+  "delayed_counter_check_passed": true,
+  "main_ui_settings_user_confirmed": true,
+  "user_reported_no_errors_before_traffic": true,
+  "manual_rows_viewer_final_confirmation_pending": false,
+  "full_UI01_regression_closed": true,
+  "user_confirmed_final_rows_viewer_body_size_zero": true,
+  "user_reported_no_errors_after_traffic": true,
+  "remaining_required_gates": [],
+  "next_round": "K11, only when requested"
+}
