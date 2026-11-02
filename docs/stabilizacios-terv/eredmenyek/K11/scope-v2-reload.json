@@ -1,0 +1,71 @@
+{
+  "old_owned_archive_path": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+  "old_owned_archive_absent": true,
+  "state": {
+    "paused": false,
+    "rejected": 0,
+    "counts": {
+      "edt_io": false,
+      "custom": 0,
+      "reads": 0,
+      "proxy": 0,
+      "lag_evicted": 0,
+      "http": 0,
+      "writes": 0,
+      "inserts": 0
+    },
+    "display_error": null,
+    "log_error": null,
+    "rebuilding": false,
+    "cookies": {},
+    "use_cp": false,
+    "workflow_budget_ms": 30000,
+    "audit": [],
+    "raw_bytes": 0,
+    "displayed": 0,
+    "dirty": false,
+    "failures": [],
+    "last": null,
+    "profile": "passive",
+    "archive": {
+      "records": 0,
+      "writers": 0,
+      "deleted": 0,
+      "cleanup_error": null,
+      "root": null,
+      "retired": 0
+    },
+    "own_closed": false,
+    "config_version": 1,
+    "token": null,
+    "filter": {
+      "controls": 0,
+      "active": false,
+      "rows": 0,
+      "running_ms": 0,
+      "closed": false,
+      "results": 0,
+      "raw_bytes": 0
+    },
+    "proxy": false,
+    "heap_used_bytes": 805155328,
+    "scope_version": 2,
+    "raw_limit": 33554432,
+    "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+    "stored": 0,
+    "custom_text": "",
+    "thread_count": 94,
+    "writer": {
+      "controls": 0,
+      "active": false,
+      "rows": 0,
+      "running_ms": 0,
+      "closed": false,
+      "results": 0,
+      "raw_bytes": 0
+    },
+    "first": null,
+    "status": "Logging enabled"
+  },
+  "user_confirmed_errors_empty": true
+}

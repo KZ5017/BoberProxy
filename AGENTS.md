@@ -59,6 +59,7 @@ The environment above has live integration evidence under `docs/stabilizacios-te
 - Never replay a possibly accepted workflow as a transport fallback. Record target-side request/action counters as well as client results.
 - Finite custom/regex capacity is not a sandbox or hard cancellation. Infinite/expensive probes run only in disposable, externally bounded JVMs, never in the user's main Burp process.
 - Own archive files must be reclaimed only through their ownership/read-pin lifecycle. Do not delete an arbitrary temporary directory or do disk I/O on the EDT.
+- Separate legacy listeners can receive different compatibility wrappers for the same message reference. Verify interception-action preservation with before/main/after observations on the SAME actual `IInterceptedProxyMessage`, plus manual request/response Forward confirmation.
 - For actual Burp tests use the root source plus the requested private helper. Instrumented wrappers have scoped loopback/file channels; never run their standalone controller concurrently with a loaded live wrapper sharing channel files.
 - Generated `tests/stabilization/runtime/*.py` custom fixtures are copied into the custom editor. Their `.py.in` templates are not directly usable. Runtime captures stay ignored; archive only synthetic evidence.
 
@@ -68,7 +69,7 @@ The environment above has live integration evidence under `docs/stabilizacios-te
 - Disabled/unmatched Proxy traffic preserves its received interception action. Active rewrites forward automatically; pre/post-send failures have different fallback/drop behavior.
 - Global cookies/single CSRF token intentionally have no Domain/Path/Secure isolation. Workflow-local coordination does not remove this accepted cross-target limit.
 - Arbitrary custom code and pathological Java regexes cannot be forcibly stopped reliably. Bounded workers prevent replacement-worker accumulation, but restart can be necessary.
-- The raw log snapshot budget is not a total heap/RSS or metadata limit. Full K11 load/memory acceptance is separate from prior finite probes.
+- The raw log snapshot budget is not a total heap/RSS or metadata limit. K11 includes dedicated load/memory and actual long-run evidence; its E61 missing historical callback baseline and E62 own-storage/whole-Burp attribution boundary remain explicit.
 
 ## Recommended Handoff Workflow
 
@@ -82,4 +83,4 @@ The environment above has live integration evidence under `docs/stabilizacios-te
 
 - Root loading and directed redirect/cookie/CSRF/custom/logging behavior have actual Burp evidence in the recorded environment. Preserve actual source hashes and failed attempts; never relabel old reports as a newer candidate.
 - Other Burp/Jython/Java versions and full HTTP/2 behavior have not been established by the HTTP/1.x loopback fixtures.
-- Full final long-run/load/memory matrix is tracked in K11. Existing results are scoped measurements, not a general throughput or deterministic GC guarantee.
+- K11 is closed in the recorded scope: see `docs/stabilizacios-terv/eredmenyek/K11/README.md` and its E01–E63 matrix. The original relative callback gate is not evaluable without a historical baseline; dedicated body-retention tests do not attribute whole-Burp heap ownership. Results are not a general throughput or deterministic GC guarantee.

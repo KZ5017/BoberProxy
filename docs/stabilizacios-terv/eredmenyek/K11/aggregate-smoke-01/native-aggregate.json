@@ -1,0 +1,561 @@
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "os": "Windows 11", 
+  "suites": [
+    {
+      "result": {
+        "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+        "framing": [], 
+        "kind": "standalone-native-jython-fake-helpers", 
+        "transport_callbacks_are_doubles": true, 
+        "checks": {
+          "java_byte_array_all_256_bytes": true, 
+          "java_byte_array_template_body": true, 
+          "array_repr_remains_literal_text": true, 
+          "native_binary_with_cookie_injection": true, 
+          "swing_unknown_bodylen_is_blank": true, 
+          "jython_str_all_256_bytes": true, 
+          "java_string_non_byte_unicode_rejected": true, 
+          "native_custom_return_types": true, 
+          "swing_bodylen_sort_unknown_zero_one": true, 
+          "jython_unicode_all_256_bytes": true, 
+          "java_array_uses_helper_conversion": true, 
+          "swing_zero_bodylen_is_zero": true, 
+          "bytearray_all_256_bytes": true, 
+          "java_string_all_256_bytes": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "java_version": "26.0.2", 
+        "passed": true, 
+        "actual_burp_helpers": false, 
+        "http2_network_tested": false, 
+        "errors": []
+      }, 
+      "seconds": 0.629000186920166, 
+      "name": "template"
+    }, 
+    {
+      "result": {
+        "note": "The 100 ms budget belongs only to an isolated probe namespace; blocking calls are observed, never claimed interrupted.", 
+        "kind": "standalone-native-interfaces-helper-doubles", 
+        "deadline_cases": [], 
+        "production_budget_ms": 30000, 
+        "checks": {
+          "ipv6_native_header": true, 
+          "java_exception_cannot_change_passive_action": true, 
+          "real_helper_redirect_result": true, 
+          "jython_invalid_explicit_port_rejected": true, 
+          "service_directory_port_and_raw_query": true, 
+          "minimal_get_headers_and_cookie": true, 
+          "each_response_updates_once_including_last": true, 
+          "real_interface_prior_action_matrix": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "passed": true, 
+        "actual_burp_helpers": false, 
+        "action_constants": {
+          "drop": 3, 
+          "follow_rules": 0, 
+          "dont_intercept": 2, 
+          "do_intercept": 1
+        }, 
+        "errors": [], 
+        "synthetic_proxy_messages": true
+      }, 
+      "seconds": 0.17199993133544922, 
+      "name": "redirect"
+    }, 
+    {
+      "result": {
+        "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+        "kind": "K04-native-manager-and-swing-checks-no-network", 
+        "message_editors_are_doubles": true, 
+        "checks": {
+          "native_max_age_precedes_expires": true, 
+          "empty_cookie_is_readdition": true, 
+          "native_utc_expiry_tombstone": true, 
+          "swing_edit_shows_missing_capture": true, 
+          "clear_restores_template": true, 
+          "swing_edit_shows_invalid_regex_immediately": true, 
+          "swing_clear_show_missing": true, 
+          "java_array_deleted_prefix_is_value": true, 
+          "unmanaged_cookie_and_high_byte_body_survive": true, 
+          "actual_header_name_only": true, 
+          "tombstone_suppresses_unicode_template_cookie": true, 
+          "signed_java_bytes_csrf_preserved": true, 
+          "native_unchanged_pattern_reuses_compilation": true, 
+          "native_clear_is_missing_token": true, 
+          "native_oversized_repeat_is_configuration_error": true, 
+          "native_invalid_regex_diagnostic": true, 
+          "native_capture_required": true, 
+          "swing_edited_pattern_extracts": true, 
+          "native_no_match_retains_token": true, 
+          "swing_default_regex_compiled_with_options_off": true, 
+          "swing_reset_recompiles_default": true, 
+          "native_empty_token_is_present": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "java_version": "26.0.2", 
+        "actual_burp_helpers": false, 
+        "passed": true, 
+        "errors": []
+      }, 
+      "seconds": 0.8139998912811279, 
+      "name": "session"
+    }, 
+    {
+      "result": {
+        "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+        "kind": "K05-finite-native-Jython-Swing-no-network", 
+        "executor_log": "test_close_resolves_waiters_and_prevents_reload_worker_accumulation (probe_custom_native.NativeCustom) ... ok\ntest_compile_cache_does_not_cache_namespace_or_skip_top_level (probe_custom_native.NativeCustom) ... ok\ntest_default_and_timeout_validation (probe_custom_native.NativeCustom) ... ok\ntest_exception_text_cannot_kill_worker (probe_custom_native.NativeCustom) ... ok\ntest_idle_close_terminates_worker_and_rejects_new_jobs (probe_custom_native.NativeCustom) ... ok\ntest_invalid_ui_timeout_is_visible_pre_send_error (probe_custom_native.NativeCustom) ... ok\ntest_late_function_result_is_discarded (probe_custom_native.NativeCustom) ... ok\ntest_late_top_level_cannot_proceed_to_function_or_replace_worker (probe_custom_native.NativeCustom) ... ok\ntest_one_active_one_waiting_then_busy (probe_custom_native.NativeCustom) ... ok\ntest_python_base_exception_cannot_kill_worker (probe_custom_native.NativeCustom) ... ok\ntest_queue_time_counts_and_expired_job_never_executes (probe_custom_native.NativeCustom) ... ok\ntest_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8 (probe_custom_native.NativeCustom) ... ok\ntest_workflow_freezes_source_timeout_and_enabled_state_for_both_calls (probe_custom_native.NativeCustom) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.996s\n\nOK\n", 
+        "message_editors_are_doubles": true, 
+        "checks": {
+          "test_uses_existing_executor": true, 
+          "test_success_published_on_edt": true, 
+          "unload_cannot_publish_test_output": true, 
+          "native_executor_regressions": true, 
+          "extension_state_listener_interface": true, 
+          "cross_interpreter_recovery_after_natural_finish": true, 
+          "test_top_level_timeout_visible": true, 
+          "cross_interpreter_reload_keeps_old_worker_capacity": true, 
+          "edt_responds_while_custom_runs": true, 
+          "late_test_result_not_published": true, 
+          "test_action_returns_before_custom_finishes": true, 
+          "unload_stops_timer": true, 
+          "edited_settings_discard_old_test_output": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "java_version": "26.0.2", 
+        "actual_burp_helpers": false, 
+        "passed": true, 
+        "executor_cases": 13, 
+        "errors": [], 
+        "guaranteed_hard_stop": false
+      }, 
+      "seconds": 4.0950000286102295, 
+      "name": "custom"
+    }, 
+    {
+      "result": {
+        "registration_cancellation": [
+          {
+            "remaining": [], 
+            "stage": "tab", 
+            "passed": true
+          }, 
+          {
+            "remaining": [], 
+            "stage": "http", 
+            "passed": true
+          }, 
+          {
+            "remaining": [], 
+            "stage": "proxy", 
+            "passed": true
+          }
+        ], 
+        "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+        "kind": "K06-native-session-configuration-EDT-no-network", 
+        "session_cases": 15, 
+        "checks": {
+          "initial_custom_off": true, 
+          "unload_cannot_publish_status": true, 
+          "unload_closes_coordinator": true, 
+          "editor_programmatic_change_published": true, 
+          "old_template_all_256_bytes_immutable": true, 
+          "partial_registration_failure_cleans_ui": true, 
+          "source_ui_constructed_on_edt": true, 
+          "native_editor_bytes_published": true, 
+          "document_edit_publishes_version": true, 
+          "unload_preserves_snapshot": true, 
+          "unchanged_snapshot_keeps_version": true, 
+          "old_snapshot_unchanged": true, 
+          "initial_options_off": true, 
+          "unload_during_registration_cannot_leave_resources": true, 
+          "unload_stops_publisher": true, 
+          "unload_before_initialize_creates_no_orphan": true, 
+          "editors_created_on_edt": true, 
+          "unload_detaches_listeners": true, 
+          "callback_snapshot_has_no_widget_reads": true, 
+          "native_session_ordering_regressions": true, 
+          "snapshot_ready_before_listeners": true, 
+          "item_event_publishes_switch": true, 
+          "real_status_label_updated": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "session_log": "test_callbacks_with_published_config_do_not_read_widgets (probe_runtime_native.NativeSessions) ... ok\ntest_clear_after_internal_send_stops_before_checkpage (probe_runtime_native.NativeSessions) ... ok\ntest_clear_csrf_invalidates_both_publication_channels (probe_runtime_native.NativeSessions) ... ok\ntest_clear_releases_owner_and_waiter_seeds_new_epoch (probe_runtime_native.NativeSessions) ... ok\ntest_clear_while_parser_waits_does_not_block_or_publish (probe_runtime_native.NativeSessions) ... ok\ntest_close_wakes_waiters_and_rejects_late_response (probe_runtime_native.NativeSessions) ... ok\ntest_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie (probe_runtime_native.NativeSessions) ... ok\ntest_metadata_capacity_expiry_and_unknown_response_are_explicit (probe_runtime_native.NativeSessions) ... ok\ntest_missing_final_response_keeps_lease_until_explicit_recovery (probe_runtime_native.NativeSessions) ... ok\ntest_next_owner_waits_until_final_proxy_response (probe_runtime_native.NativeSessions) ... ok\ntest_passive_response_does_not_replace_owner_local_state (probe_runtime_native.NativeSessions) ... ok\ntest_queue_capacity_and_deadline_do_not_release_owner (probe_runtime_native.NativeSessions) ... ok\ntest_reference_rehook_does_not_repeat_workflow_and_null_response_releases (probe_runtime_native.NativeSessions) ... ok\ntest_response_uses_request_time_flags_and_regex (probe_runtime_native.NativeSessions) ... ok\ntest_workflow_freezes_templates_flags_payload_names_and_regex (probe_runtime_native.NativeSessions) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.063s\n\nOK\n", 
+        "java_version": "26.0.2", 
+        "actual_burp_helpers": false, 
+        "passed": true, 
+        "native_message_editors": false, 
+        "errors": []
+      }, 
+      "seconds": 0.40799999237060547, 
+      "name": "runtime"
+    }, 
+    {
+      "result": {
+        "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+        "kind": "K07-native-Java-regex-and-finite-Swing-no-network", 
+        "logic_log": "test_busy_capture_is_visible_and_does_not_accept_unknown_match (probe_filters_native.NativeFilters) ... ok\ntest_busy_display_retains_already_admitted_entry (probe_filters_native.NativeFilters) ... ok\ntest_capture_characterized_matches (probe_filters_native.NativeFilters) ... ok\ntest_clear_during_rebuild_never_restores_old_rows (probe_filters_native.NativeFilters) ... ok\ntest_clear_selected_invalidates_search_but_not_new_admission (probe_filters_native.NativeFilters) ... ok\ntest_clear_while_callback_analyzes_does_not_resurrect_event (probe_filters_native.NativeFilters) ... ok\ntest_clearing_regex_with_valid_size_does_not_wait_for_busy_worker (probe_filters_native.NativeFilters) ... ok\ntest_close_ignores_pending_search_result (probe_filters_native.NativeFilters) ... ok\ntest_compilation_is_not_repeated_per_row (probe_filters_native.NativeFilters) ... ok\ntest_display_characterized_matches (probe_filters_native.NativeFilters) ... ok\ntest_invalid_capture_regex_retains_last_valid_plan (probe_filters_native.NativeFilters) ... ok\ntest_invalid_display_is_atomic_and_keeps_previous_filter (probe_filters_native.NativeFilters) ... ok\ntest_invalid_numeric_retains_last_valid_capture (probe_filters_native.NativeFilters) ... ok\ntest_legacy_empty_regex_item_has_no_response_decode (probe_filters_native.NativeFilters) ... ok\ntest_metadata_rejection_does_not_queue_regex_work (probe_filters_native.NativeFilters) ... ok\ntest_new_filter_wins_over_late_old_search (probe_filters_native.NativeFilters) ... ok\ntest_new_rows_merge_into_stable_rebuild_snapshot (probe_filters_native.NativeFilters) ... ok\ntest_no_display_filter_erases_stored_entries (probe_filters_native.NativeFilters) ... ok\ntest_other_settings_reuse_unchanged_compiled_patterns (probe_filters_native.NativeFilters) ... ok\ntest_reset_to_current_filter_cancels_pending_new_validation (probe_filters_native.NativeFilters) ... ok\ntest_reset_to_current_filter_clears_invalid_draft_error (probe_filters_native.NativeFilters) ... ok\ntest_unknown_new_row_is_rechecked_instead_of_lost (probe_filters_native.NativeFilters) ... ok\ntest_worker_capacity_and_coalesced_controls_are_bounded (probe_filters_native.NativeFilters) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 0.221s\n\nOK\n", 
+        "checks": {
+          "store_still_empty_after_old_result": true, 
+          "invalid_dialog_visible_and_previous_plan_retained": true, 
+          "capture_correction_clears_error": true, 
+          "search_executes_off_edt": true, 
+          "unload_stops_filter_timer": true, 
+          "filter_timer_on_edt_ui": true, 
+          "display_filter_keeps_store": true, 
+          "unload_closes_filter_worker": true, 
+          "two_lines_preserve_embedded_commas": true, 
+          "progress_visible_during_search": true, 
+          "late_result_does_not_restore_clear": true, 
+          "invalid_capture_plan_not_published": true, 
+          "display_java_flags_unchanged": true, 
+          "capture_java_flags_unchanged": true, 
+          "no_implicit_unicode_case_flag": true, 
+          "unload_disposes_filter_dialog": true, 
+          "ten_thousand_matches_applied": true, 
+          "native_filter_regressions": true, 
+          "reset_same_defaults_clears_invalid_draft": true, 
+          "legacy_list_roundtrip_lossless": true, 
+          "invalid_capture_numeric_visible": true, 
+          "edt_responds_during_search": true, 
+          "clear_immediate_during_search": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "java_version": "26.0.2", 
+        "passed": true, 
+        "actual_burp_helpers": false, 
+        "errors": [], 
+        "native_message_editors": false, 
+        "logic_cases": 23
+      }, 
+      "seconds": 0.937999963760376, 
+      "name": "filters"
+    }, 
+    {
+      "result": {
+        "kind": "UI03-private-code-editor-no-network", 
+        "key_observations": [
+          {
+            "editor_editable": true, 
+            "text_after": "    ", 
+            "action_class": "<type 'org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit$InsertTabAction'>", 
+            "binding": "insert-tab", 
+            "stroke": "TAB", 
+            "text_before": "", 
+            "editor_enabled": true, 
+            "editor_showing": false, 
+            "action_enabled": true
+          }, 
+          {
+            "editor_editable": true, 
+            "text_after": "    value = 1\n    ", 
+            "action_class": "<type 'org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit$InsertBreakAction'>", 
+            "binding": "insert-break", 
+            "stroke": "ENTER", 
+            "text_before": "    value = 1", 
+            "editor_enabled": true, 
+            "editor_showing": false, 
+            "action_enabled": true
+          }
+        ], 
+        "jar_version": "3.6.3", 
+        "checks": {
+          "no_folding_or_extra_parser": true, 
+          "undo_exact": true, 
+          "disable_editing_preserves_code": true, 
+          "typed_character_input": true, 
+          "four_space_tabs_and_autoindent": true, 
+          "tab_inserts_four_spaces": true, 
+          "relative_jar_loaded": true, 
+          "enhanced_editor_and_gutter": true, 
+          "python_style": true, 
+          "fallback_visible_and_usable": true, 
+          "paste_and_snapshot_exact": true, 
+          "reset_exact": true, 
+          "independent_interpreter_2": true, 
+          "unchanged_text_does_not_invalidate_snapshot": true, 
+          "missing_jar_detected_even_after_class_import": true, 
+          "enter_preserves_indentation": true, 
+          "independent_interpreter_1": true, 
+          "test_uses_existing_custom_executor": true, 
+          "corrupt_jar_detected": true, 
+          "same_outer_size_as_plain_editor": true, 
+          "redo_exact": true, 
+          "standard_textarea_keys_unchanged": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "regression": {
+          "kind": "UI02-private-status-and-shortcut-no-network", 
+          "checks": {
+            "bar_visible_when_sidebar_scrolls": true, 
+            "missing_button_visible_status": true, 
+            "logging_resume_clear": true, 
+            "long_status_does_not_grow_bar": true, 
+            "logging_pause_clear": true, 
+            "finder_excludes_own_and_menu": true, 
+            "disabled_host_button_not_invoked": true, 
+            "one_click_original_event_source": true, 
+            "full_messages_in_tooltips": true, 
+            "shortcut_not_a_fourth_tab": true, 
+            "checkpage_tab_spacing": true, 
+            "one_row_at_each_size": true, 
+            "clear_logging_caption": true, 
+            "labels_single_row": true, 
+            "bar_fixed_height_full_log_width": true, 
+            "toolbar_visible_in_flatlaf": true, 
+            "status_outside_sidebar": true, 
+            "shortcut_trailing_property": true
+          }, 
+          "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+          "regression": {
+            "kind": "K10-A-private-native-no-network", 
+            "diagnostic_cases": 6, 
+            "checks": {
+              "startup_only_expected_line": true, 
+              "no_unused_editor_or_search_state": true, 
+              "private_unload_closes_timers_and_session": true, 
+              "native_callbacks_registered": true, 
+              "multiple_selection_preserved": true, 
+              "java_status_error_has_safe_diagnostic": true, 
+              "java_checkpage_exception_safe_none_fallback": true, 
+              "exactly_four_editors_all_on_edt": true, 
+              "native_diagnostic_cases": true, 
+              "mode_buttons_preserve_enable_and_selection_rules": true
+            }, 
+            "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+            "java_version": "26.0.2", 
+            "actual_burp_helpers": false, 
+            "passed": true, 
+            "errors": [], 
+            "logging_regression": {
+              "kind": "K08-K09-native-Jython-Swing-private-no-network", 
+              "logic_log": "test_archive_exact_binary_and_null_versus_empty (probe_logging_native.NativeLogs) ... ok\ntest_archive_refuses_edt_io (probe_logging_native.NativeLogs) ... ok\ntest_byte_limit_rejects_before_snapshot_and_pauses_visibly (probe_logging_native.NativeLogs) ... ok\ntest_clear_and_selected_release_only_owned_files (probe_logging_native.NativeLogs) ... ok\ntest_clear_while_write_in_progress_cannot_restore_row_or_file (probe_logging_native.NativeLogs) ... ok\ntest_concurrent_rejection_accounting_has_no_lost_increment (probe_logging_native.NativeLogs) ... ok\ntest_model_index_lookup_and_multiple_removal_are_stable (probe_logging_native.NativeLogs) ... ok\ntest_one_batch_notification_covers_a_burst (probe_logging_native.NativeLogs) ... ok\ntest_pending_accepted_rows_finish_after_pause (probe_logging_native.NativeLogs) ... ok\ntest_preparation_order_cannot_overtake_first_snapshot (probe_logging_native.NativeLogs) ... ok\ntest_shared_raw_budget_and_close_release_reservations (probe_logging_native.NativeLogs) ... ok\ntest_snapshot_freezes_mutable_source_before_return (probe_logging_native.NativeLogs) ... ok\ntest_storage_write_failure_pauses_new_admission_without_erasing_old (probe_logging_native.NativeLogs) ... ok\ntest_truncated_file_is_visible_read_failure (probe_logging_native.NativeLogs) ... ok\ntest_unload_after_persist_before_publish_cleans_owned_files (probe_logging_native.NativeLogs) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.137s\n\nOK\n", 
+              "checks": {
+                "edt_disk_read_rejected": true, 
+                "frozen_snapshot_native_interface": true, 
+                "sorted_selection_uses_same_message": true, 
+                "no_initial_files_or_workers": true, 
+                "paused_events_skip_analysis": true, 
+                "one_selection_listener": true, 
+                "viewer_read_is_background": true, 
+                "unload_stops_owned_workers_and_releases_content": true, 
+                "metadata_analyzed_once_per_response": true, 
+                "late_viewer_cannot_replace_new_selection": true, 
+                "one_explicit_sorter": true, 
+                "source_startup_on_edt": true, 
+                "unload_deletes_owned_directory": true, 
+                "stored_rows_hold_no_bodies": true, 
+                "sitemap_and_scope_preserve_sorted_selection": true, 
+                "native_storage_contracts": true, 
+                "raw_budget_released_after_persist": true, 
+                "template_load_from_disk_is_exact": true, 
+                "all_rows_newest_first": true, 
+                "single_burst_notification": true, 
+                "selected_clear_preserves_other_rows": true, 
+                "disk_roundtrip_exact": true, 
+                "unload_stops_timer": true, 
+                "request_events_skip_analysis": true
+              }, 
+              "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+              "java_version": "26.0.2", 
+              "passed": true, 
+              "actual_burp_helpers": false, 
+              "errors": [], 
+              "logic_cases": 15, 
+              "network_requests": 0
+            }, 
+            "network_requests": 0
+          }, 
+          "actual_burp_helpers": false, 
+          "passed": true, 
+          "errors": [], 
+          "dimensions": [
+            {
+              "toolbar_height": 32, 
+              "bar_height": 29, 
+              "label_y": [
+                7, 
+                7
+              ], 
+              "log_width": 474, 
+              "width": 1000, 
+              "height": 550, 
+              "bar_width": 474
+            }, 
+            {
+              "toolbar_height": 32, 
+              "bar_height": 29, 
+              "label_y": [
+                7, 
+                7
+              ], 
+              "log_width": 874, 
+              "width": 1400, 
+              "height": 900, 
+              "bar_width": 874
+            }, 
+            {
+              "toolbar_height": 32, 
+              "bar_height": 29, 
+              "label_y": [
+                7, 
+                7
+              ], 
+              "log_width": 1324, 
+              "width": 1850, 
+              "height": 700, 
+              "bar_width": 1324
+            }
+          ], 
+          "network_requests": 0
+        }, 
+        "jar_sha256": "5d81946b70a97fa5ea6884295a7fdd2a703cc3b0ef944796c7c696b4395413f6", 
+        "actual_burp_helpers": false, 
+        "passed": true, 
+        "errors": [], 
+        "test_observation": {
+          "version_after_submit": 18, 
+          "current_version": 18, 
+          "executor_state": {
+            "worker_alive": true, 
+            "pending": false, 
+            "active": false, 
+            "closed": false
+          }, 
+          "result_text": "Test OK!\nOutput:\npayload1=TestPayload1\npayload2=TestPayload2\ncsrf_token=TestCSRF_Token"
+        }, 
+        "dimensions": {
+          "editor_width": 326, 
+          "enhanced_width": 554, 
+          "editor_height": 178
+        }, 
+        "network_requests": 0
+      }, 
+      "seconds": 1.754000186920166, 
+      "name": "editor-layout"
+    }, 
+    {
+      "result": {
+        "conversions": {
+          "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+          "framing": [], 
+          "kind": "standalone-native-jython-fake-helpers", 
+          "transport_callbacks_are_doubles": true, 
+          "checks": {
+            "java_byte_array_all_256_bytes": true, 
+            "java_byte_array_template_body": true, 
+            "array_repr_remains_literal_text": true, 
+            "native_binary_with_cookie_injection": true, 
+            "swing_unknown_bodylen_is_blank": true, 
+            "jython_str_all_256_bytes": true, 
+            "java_string_non_byte_unicode_rejected": true, 
+            "native_custom_return_types": true, 
+            "swing_bodylen_sort_unknown_zero_one": true, 
+            "jython_unicode_all_256_bytes": true, 
+            "java_array_uses_helper_conversion": true, 
+            "swing_zero_bodylen_is_zero": true, 
+            "bytearray_all_256_bytes": true, 
+            "java_string_all_256_bytes": true
+          }, 
+          "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+          "java_version": "26.0.2", 
+          "passed": true, 
+          "actual_burp_helpers": false, 
+          "http2_network_tested": false, 
+          "errors": []
+        }, 
+        "kind": "K10-B-aggregate-native-private-no-network", 
+        "final_log": "test_failed_filter_load_is_closed_without_showing_default_draft (probe_cleanup_final_native.NativeFinal) ... ok\ntest_failed_template_clear_is_visible_and_does_not_claim_success (probe_cleanup_final_native.NativeFinal) ... ok\ntest_hostile_parser_exception_keeps_template_fallback (probe_cleanup_final_native.NativeFinal) ... ok\ntest_startup_withdraw_continues_after_close_and_error_output_failures (probe_cleanup_final_native.NativeFinal) ... ok\ntest_template_clear_never_sends_null_to_either_editor (probe_cleanup_final_native.NativeFinal) ... ok\ntest_ui_error_reporting_failure_does_not_escape (probe_cleanup_final_native.NativeFinal) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.007s\n\nOK\n", 
+        "final_cases": 6, 
+        "checks": {
+          "six_native_final_cases": true
+        }, 
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+        "cleanup": {
+          "kind": "K10-A-private-native-no-network", 
+          "diagnostic_cases": 6, 
+          "checks": {
+            "startup_only_expected_line": true, 
+            "no_unused_editor_or_search_state": true, 
+            "private_unload_closes_timers_and_session": true, 
+            "native_callbacks_registered": true, 
+            "multiple_selection_preserved": true, 
+            "java_status_error_has_safe_diagnostic": true, 
+            "java_checkpage_exception_safe_none_fallback": true, 
+            "exactly_four_editors_all_on_edt": true, 
+            "native_diagnostic_cases": true, 
+            "mode_buttons_preserve_enable_and_selection_rules": true
+          }, 
+          "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+          "java_version": "26.0.2", 
+          "actual_burp_helpers": false, 
+          "passed": true, 
+          "errors": [], 
+          "logging_regression": {
+            "kind": "K08-K09-native-Jython-Swing-private-no-network", 
+            "logic_log": "test_archive_exact_binary_and_null_versus_empty (probe_logging_native.NativeLogs) ... ok\ntest_archive_refuses_edt_io (probe_logging_native.NativeLogs) ... ok\ntest_byte_limit_rejects_before_snapshot_and_pauses_visibly (probe_logging_native.NativeLogs) ... ok\ntest_clear_and_selected_release_only_owned_files (probe_logging_native.NativeLogs) ... ok\ntest_clear_while_write_in_progress_cannot_restore_row_or_file (probe_logging_native.NativeLogs) ... ok\ntest_concurrent_rejection_accounting_has_no_lost_increment (probe_logging_native.NativeLogs) ... ok\ntest_model_index_lookup_and_multiple_removal_are_stable (probe_logging_native.NativeLogs) ... ok\ntest_one_batch_notification_covers_a_burst (probe_logging_native.NativeLogs) ... ok\ntest_pending_accepted_rows_finish_after_pause (probe_logging_native.NativeLogs) ... ok\ntest_preparation_order_cannot_overtake_first_snapshot (probe_logging_native.NativeLogs) ... ok\ntest_shared_raw_budget_and_close_release_reservations (probe_logging_native.NativeLogs) ... ok\ntest_snapshot_freezes_mutable_source_before_return (probe_logging_native.NativeLogs) ... ok\ntest_storage_write_failure_pauses_new_admission_without_erasing_old (probe_logging_native.NativeLogs) ... ok\ntest_truncated_file_is_visible_read_failure (probe_logging_native.NativeLogs) ... ok\ntest_unload_after_persist_before_publish_cleans_owned_files (probe_logging_native.NativeLogs) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.128s\n\nOK\n", 
+            "checks": {
+              "edt_disk_read_rejected": true, 
+              "frozen_snapshot_native_interface": true, 
+              "sorted_selection_uses_same_message": true, 
+              "no_initial_files_or_workers": true, 
+              "paused_events_skip_analysis": true, 
+              "one_selection_listener": true, 
+              "viewer_read_is_background": true, 
+              "unload_stops_owned_workers_and_releases_content": true, 
+              "metadata_analyzed_once_per_response": true, 
+              "late_viewer_cannot_replace_new_selection": true, 
+              "one_explicit_sorter": true, 
+              "source_startup_on_edt": true, 
+              "unload_deletes_owned_directory": true, 
+              "stored_rows_hold_no_bodies": true, 
+              "sitemap_and_scope_preserve_sorted_selection": true, 
+              "native_storage_contracts": true, 
+              "raw_budget_released_after_persist": true, 
+              "template_load_from_disk_is_exact": true, 
+              "all_rows_newest_first": true, 
+              "single_burst_notification": true, 
+              "selected_clear_preserves_other_rows": true, 
+              "disk_roundtrip_exact": true, 
+              "unload_stops_timer": true, 
+              "request_events_skip_analysis": true
+            }, 
+            "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+            "java_version": "26.0.2", 
+            "passed": true, 
+            "actual_burp_helpers": false, 
+            "errors": [], 
+            "logic_cases": 15, 
+            "network_requests": 0
+          }, 
+          "network_requests": 0
+        }, 
+        "actual_burp_helpers": false, 
+        "passed": true, 
+        "errors": [], 
+        "network_requests": 0
+      }, 
+      "seconds": 0.9399998188018799, 
+      "name": "final-cleanup"
+    }
+  ], 
+  "kind": "K11-private-functional-regression-no-network", 
+  "jvm_arguments": [
+    "--enable-native-access=ALL-UNNAMED", 
+    "-Xmx768m", 
+    "-Dpython.cachedir.skip=true"
+  ], 
+  "k11_closed": false, 
+  "java_vendor": "Oracle Corporation", 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "source_unchanged": true, 
+  "java_version": "26.0.2", 
+  "heap_max_bytes": 805306368, 
+  "burp_version": null, 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "network_requests": 0
+}

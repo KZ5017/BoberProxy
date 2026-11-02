@@ -1,0 +1,27 @@
+{
+  "note": "The 100 ms budget belongs only to an isolated probe namespace; blocking calls are observed, never claimed interrupted.", 
+  "kind": "standalone-native-interfaces-helper-doubles", 
+  "deadline_cases": [], 
+  "production_budget_ms": 30000, 
+  "checks": {
+    "ipv6_native_header": true, 
+    "java_exception_cannot_change_passive_action": true, 
+    "real_helper_redirect_result": true, 
+    "jython_invalid_explicit_port_rejected": true, 
+    "service_directory_port_and_raw_query": true, 
+    "minimal_get_headers_and_cookie": true, 
+    "each_response_updates_once_including_last": true, 
+    "real_interface_prior_action_matrix": true
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "passed": true, 
+  "actual_burp_helpers": false, 
+  "action_constants": {
+    "drop": 3, 
+    "follow_rules": 0, 
+    "dont_intercept": 2, 
+    "do_intercept": 1
+  }, 
+  "errors": [], 
+  "synthetic_proxy_messages": true
+}

@@ -1,0 +1,177 @@
+{
+  "status": "complete-in-recorded-scope",
+  "date": "2026-11-02",
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "baseline_commit": "7b13b57",
+  "production_modified": false,
+  "checks": {
+    "required_scoped_reports_pass": true,
+    "source_unchanged": true,
+    "latin1_crlf_preserved": true,
+    "actual_burp_source_matches": true,
+    "three_full_load_memory_repeats": true,
+    "thirty_minute_mixed_and_five_minute_faults": true,
+    "actual_100k_selection_and_export": true,
+    "port_https_and_blocking_deadline": true,
+    "same_real_message_manual_pair": true,
+    "final_direct_root_normal_two_calls": true,
+    "final_viewer_and_errors_user_confirmed": true,
+    "no_late_target_or_custom_replay": true
+  },
+  "required_scoped_checks_pass": true,
+  "strict_all_original_gates_measured": false,
+  "measurement_exceptions": [
+    {
+      "id": "E61-relative-callback",
+      "status": "not-evaluable",
+      "reason": "K00 recorded external latency, not isolated callback-p95; do not claim the original +10% comparison passed."
+    },
+    {
+      "id": "E62-whole-Burp-owner-attribution",
+      "status": "not-claimed",
+      "reason": "Body retention measured in dedicated768MiB JVM; actual Burp includes independent history/native buffers and was not heap-dominator-profiled."
+    }
+  ],
+  "open_high_priority_product_findings": [],
+  "accepted_limits": [
+    "D06 global cookie/single token without host/path/Secure isolation",
+    "D08/custom and Java regex capacity are not sandboxing or forced termination",
+    "Raw snapshot budget is not total metadata/heap/RSS limit",
+    "HTTP1.x recorded version only; full HTTP2/additional versions not established",
+    "No implicit charset decoding or decompression for byte-text searching"
+  ],
+  "environment": {
+    "burp": "Community2026.10.1",
+    "jython": "2.7.4",
+    "java": "26.0.2",
+    "os": "Windows11"
+  },
+  "current_ui": {
+    "entry": "direct root BoberProxy.py",
+    "startup": "BoberProxy loaded (UI03)",
+    "helpers_loaded": false,
+    "request_template": "tests/stabilization/fixtures/k11-final-request-template.http",
+    "checkpage_template": "tests/stabilization/fixtures/k11-final-checkpage-template.http",
+    "custom": "tests/stabilization/runtime/custom-k11-final-pass-through.py",
+    "custom_trace": "tests/stabilization/runtime/k11-final-custom-trace.jsonl",
+    "timeout_ms": 2000,
+    "payload_parameters": [
+      "q",
+      "w"
+    ],
+    "csrf_regex": "default",
+    "on": [
+      "Injecting proxy from templates",
+      "Use CheckPageTemplate",
+      "Use custom codeblock",
+      "Auto-update Cookies",
+      "Auto-update CSRF"
+    ],
+    "off": [
+      "AutoFollow redirect on RT",
+      "Burp Intercept"
+    ],
+    "filters": "default",
+    "logging_paused": false
+  },
+  "no_pending_manual_gate": true,
+  "git_commit_push_requested": false,
+  "required_evidence": [
+    {
+      "path": "burp-regression-01.json",
+      "sha256": "3c601f3b36a3979c9db1fce9c333100100f0b432147ac7e4114246be0c15679a"
+    },
+    {
+      "path": "burp-final-selection-01.json",
+      "sha256": "4c37b2266504a4fce361a969206224bc967b1f12cc6352007cc2c22a61d2842f"
+    },
+    {
+      "path": "burp-final-redirect-api-01.json",
+      "sha256": "a63a5073969243f7f5fc44746b36e9d639c881935b9fbf31d37f454c5adccf33"
+    },
+    {
+      "path": "load-full-03/summary.json",
+      "sha256": "73a8d07c6a45e09e61ef4b9e991c52172d02ad670c4df4639841de54f6436987"
+    },
+    {
+      "path": "wire-functional-02.json",
+      "sha256": "4d69f78f87016152d9a330b402d4e1c029ac3c65f7f9082a1bd05a564e06b4fa"
+    },
+    {
+      "path": "live-reference-02.json",
+      "sha256": "43a0560c1e58ebc51c6d05a6df2862e2653d8d1826765945236f304adb25afaa"
+    },
+    {
+      "path": "live-burst-02.json",
+      "sha256": "bd12525c0d55dc1ff493fb3546c70b97c66a49c9ba5a055b29ee3504fa378753"
+    },
+    {
+      "path": "large-wire-01.json",
+      "sha256": "83a33f62ab8a259c56515e667f7ab504446a3a6c02ce04a1a5feb7d0a7c47160"
+    },
+    {
+      "path": "live-soak-02.json",
+      "sha256": "12e236d2642878b8290f6f5be0358b5e2b8878ddf0bdd0741fe57db55fcd1c56"
+    },
+    {
+      "path": "live-faults-01.json",
+      "sha256": "b1a7d8ff24dc3d97eadfb5d8a8903dcc7bf4d0905aeeef95d46205426682bc15"
+    },
+    {
+      "path": "scope-control-01/summary.json",
+      "sha256": "39719953457c8a0c6881cf3e6b7bcbdc2bd495387c8988dea6808a23f5913dba"
+    },
+    {
+      "path": "selection-lifecycle-01/native-k11-lifecycle.json",
+      "sha256": "8f86333c40afe56db1a443e8228e2ef874f0610cdf29e7660b75d634768b6b26"
+    },
+    {
+      "path": "terminal-unload.json",
+      "sha256": "cd1888e3844a6d9519bed503cde447950d062fc8408ef7a7871d62c68c9ede07"
+    },
+    {
+      "path": "manual-wire-02.json",
+      "sha256": "9a24deccd7930a309c53ed9875fa0628998ae50b9f8f15e01beefe522cb35cd9"
+    },
+    {
+      "path": "manual-composition-native-01/native-k11-manual.json",
+      "sha256": "c9649c65ce8d51ac9e886e154c0727a58c87a24779248c159de6a365cc51758e"
+    },
+    {
+      "path": "final-root-passive-01.json",
+      "sha256": "77d607f4f201555295e177828a1c0647e1278c9e01275b6367cdd3fdc9261226"
+    },
+    {
+      "path": "final-root-bytes-empty-01.json",
+      "sha256": "d9a8c08152ddecda8e8916f34ebfc39451e15883088cd1ae9d25809bc864b3d1"
+    },
+    {
+      "path": "final-root-normal-01/burp-checkpage-custom.json",
+      "sha256": "495cd924d2a49eba19106a78d5acc6b0afc5193de316436ef4c10ba75e6a71f6"
+    },
+    {
+      "path": "final-root-normal-01/burp-custom-trace.json",
+      "sha256": "4a3901a6317ff8634f9540c40bdce185dbb2508702cc01129a57095ee916a92f"
+    },
+    {
+      "path": "final-root-viewer-01.json",
+      "sha256": "12b7d5262d1cc48693954f4020040f4e13ec2b3c8407c6e596d556d367a9db79"
+    },
+    {
+      "path": "final-root-delayed-check.json",
+      "sha256": "b4791f235d0493c4a28e8c5ec5ba0e3cadce4c11d9ebd99b80177283dc4f7a21"
+    }
+  ],
+  "human_confirmation_evidence": [
+    {
+      "path": "manual-user-confirmation.json",
+      "sha256": "4c8c0f67801060f93b8bef2d4c8dde215fd4caee85001466579bb29ffae44758"
+    },
+    {
+      "path": "final-user-confirmation.json",
+      "sha256": "d985db75ee5aeca38bca9dac1563746c454d954e113c26965239fde43287a4f0"
+    }
+  ],
+  "final_environment": "final-environment.json",
+  "final_harness_manifest": "final-harness-manifest.json"
+}

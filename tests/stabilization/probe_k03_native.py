@@ -21,7 +21,7 @@ from source_harness import (ROOT, Callbacks, Check, Editor, Field, Helpers,
 from probe_template_native import load_source
 
 
-def run_checks(callbacks=None):
+def run_checks(callbacks=None, include_http=True, target_port=18766):
     helpers = callbacks.getHelpers() if callbacks is not None else Helpers()
     namespace, raw = load_source(os.path.join(ROOT, 'BoberProxy.py'))
     checks, errors, details = {}, [], []
@@ -94,9 +94,14 @@ def run_checks(callbacks=None):
                 self._raw_request = value
 
         class NativeIntercepted(IInterceptedProxyMessage):
+            serial = 0
             def __init__(self, action):
+                NativeIntercepted.serial += 1
+                self._reference = NativeIntercepted.serial
                 self._action = action
                 self._message = NativeMessage()
+            def getMessageReference(self):
+                return self._reference
             def getMessageInfo(self):
                 return self._message
             def getInterceptAction(self):
@@ -110,25 +115,27 @@ def run_checks(callbacks=None):
         ui._update_cookies_and_csrf = lambda value: None
         for proxy_on in (False, True):
             ui._proxy_mode_active = proxy_on
-            for is_request in (False, True):
-                for action in (IInterceptedProxyMessage.ACTION_DO_INTERCEPT,
+            for action in (IInterceptedProxyMessage.ACTION_DO_INTERCEPT,
                                IInterceptedProxyMessage.ACTION_DONT_INTERCEPT,
                                IInterceptedProxyMessage.ACTION_DROP,
                                IInterceptedProxyMessage.ACTION_FOLLOW_RULES):
-                    message = NativeIntercepted(action)
+                message = NativeIntercepted(action)
+                for is_request in (True, False):
                     extender.processProxyMessage(is_request, message)
                     action_matrix.append(message.getInterceptAction() == action)
+        # Since K06 unmatched traffic is paired in SessionCoordinator and never
+        # enters proxy_flow_process_request. The old K03 counter==4 is obsolete.
         check('real_interface_prior_action_matrix', lambda: len(action_matrix) == 16 and all(action_matrix)
-              and ui._workflow_counter == 4)
+              and ui._workflow_counter == 0 and not ui.sessions.records)
         from java.io import IOException
-        def java_failure(value):
+        def java_failure(reference, value):
             raise IOException('Synthetic native state update failure')
-        ui._update_cookies_and_csrf = java_failure
+        ui.sessions.response = java_failure
         message = NativeIntercepted(IInterceptedProxyMessage.ACTION_DO_INTERCEPT)
         extender.processProxyMessage(False, message)
         check('java_exception_cannot_change_passive_action', lambda: message.getInterceptAction() == IInterceptedProxyMessage.ACTION_DO_INTERCEPT)
 
-        if callbacks is not None:
+        if callbacks is not None and include_http:
             budget = namespace['WORKFLOW_TIMEOUT_MS']
             try:
                 namespace['WORKFLOW_TIMEOUT_MS'] = 100
@@ -144,15 +151,15 @@ def run_checks(callbacks=None):
                     # Field doubles have no K04 Swing document notifications.
                     if hasattr(live, '_on_csrf_regex_changed'):
                         live._on_csrf_regex_changed()
-                    live.reqTemplateEditor = Editor(wire('POST /k03/a/start?case=p4yl04dm4rk3r HTTP/1.1\r\n'
-                        'Host: 127.0.0.1:18766\r\nX-Bober-Test-Run: ' + run + '\r\nContent-Length: 0\r\n\r\n'))
-                    live.checkPageEditor = Editor(wire('POST /k03/check HTTP/1.1\r\nHost: 127.0.0.1:18766\r\n\r\n'))
+                    live.reqTemplateEditor = Editor(wire(('POST /k03/a/start?case=p4yl04dm4rk3r HTTP/1.1\r\n'
+                        'Host: 127.0.0.1:%d\r\nX-Bober-Test-Run: ' % target_port) + run + '\r\nContent-Length: 0\r\n\r\n'))
+                    live.checkPageEditor = Editor(wire('POST /k03/check HTTP/1.1\r\nHost: 127.0.0.1:%d\r\n\r\n' % target_port))
                     began = namespace['_monotonic_ms']()
                     result = live.proxy_flow_process_request(wire('GET /entry?q=' + case + ' HTTP/1.1\r\n\r\n'),
-                                                              '127.0.0.1', 18766, False)
+                                                              '127.0.0.1', target_port, False)
                     elapsed = namespace['_monotonic_ms']() - began
-                    control = callbacks.makeHttpRequest(helpers.buildHttpService('127.0.0.1', 18766, 'http'),
-                        wire('GET /__control/events?run=' + run + ' HTTP/1.1\r\nHost: 127.0.0.1:18766\r\nConnection: close\r\n\r\n'))
+                    control = callbacks.makeHttpRequest(helpers.buildHttpService('127.0.0.1', target_port, 'http'),
+                        wire('GET /__control/events?run=' + run + (' HTTP/1.1\r\nHost: 127.0.0.1:%d\r\nConnection: close\r\n\r\n' % target_port)))
                     observed = json.loads(as_text(control.getResponse()).split('\r\n\r\n', 1)[1])
                     check('blocking_api_' + case, lambda: result.status == namespace['ProxyWorkflowResult'].ERROR_AFTER_SEND
                           and result.error_code == 'WORKFLOW_TIMEOUT' and elapsed >= 100

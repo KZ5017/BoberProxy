@@ -1,0 +1,2 @@
+Error: Could not find or load main class .cachedir.skip=true
+Caused by: java.lang.ClassNotFoundException: /cachedir/skip=true

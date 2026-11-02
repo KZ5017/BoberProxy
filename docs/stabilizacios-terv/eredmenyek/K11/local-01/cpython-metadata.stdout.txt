@@ -1,0 +1,9 @@
+1000 rows, iteration 1: 0.000443s
+1000 rows, iteration 2: 0.000455s
+1000 rows, iteration 3: 0.000377s
+10000 rows, iteration 1: 0.004171s
+10000 rows, iteration 2: 0.004057s
+10000 rows, iteration 3: 0.003986s
+100000 rows, iteration 1: 0.054949s
+100000 rows, iteration 2: 0.051802s
+100000 rows, iteration 3: 0.051628s

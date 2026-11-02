@@ -1,0 +1,23 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.netty.util.internal.PlatformDependent0$3 (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)
+WARNING: Please consider reporting this to the maintainers of class org.python.netty.util.internal.PlatformDependent0$3
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+warmup: {"heap_after_requested_gc_bytes": 58007768, "rows": 100, "seconds": 0.35899996757507324}
+rows-1000: {"heap_after_requested_gc_bytes": 59364232, "rows": 1000, "seconds": 1.0420000553131104}
+rows-10000: {"heap_after_requested_gc_bytes": 78271888, "rows": 10000, "seconds": 8.388000011444092}
+rows-100000: {"heap_after_requested_gc_bytes": 270193512, "rows": 100000, "seconds": 83.04900002479553}
+{
+  "checks": {
+    "memory_gate": false, 
+    "no_errors": false, 
+    "owned_archive_reclaimed": false, 
+    "all_expected_stages": false
+  }, 
+  "passed": false, 
+  "errors": [
+    "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py\", line 204, in run\n    populate(count, 1024, 'rows-%d' % count)\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py\", line 200, in populate\n    clear(ui)\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py\", line 110, in clear\n    assert not ui._log_archive.retired and not ui._log_archive.deleted and not ui._log_archive.records\nAssertionError\n"
+  ]
+}

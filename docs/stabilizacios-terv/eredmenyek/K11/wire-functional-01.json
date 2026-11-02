@@ -1,0 +1,4696 @@
+{
+  "kind": "K11-live-directed-wire",
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "passed": true,
+  "cases": [
+    {
+      "name": "passive-binary-empty",
+      "passed": true,
+      "target": {
+        "run": "k11-passive-2c567049ddea",
+        "action_count": 0,
+        "event_count": 3,
+        "recent_events": [
+          {
+            "sequence": 1,
+            "time_ns": 1793593092719950500,
+            "run": "k11-passive-2c567049ddea",
+            "method": "GET",
+            "target": "/entry?q=%252F+%2B&w=TWO",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-passive-2c567049ddea"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPSUyNTJGKyUyQiZ3PVRXTyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFzc2l2ZS0yYzU2NzA0OWRkZWENCg0K",
+            "body_base64": ""
+          },
+          {
+            "sequence": 2,
+            "time_ns": 1793593092854789000,
+            "run": "k11-passive-2c567049ddea",
+            "method": "GET",
+            "target": "/bytes?size=256",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-passive-2c567049ddea"
+              ]
+            ],
+            "raw_base64": "R0VUIC9ieXRlcz9zaXplPTI1NiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFzc2l2ZS0yYzU2NzA0OWRkZWENCg0K",
+            "body_base64": ""
+          },
+          {
+            "sequence": 3,
+            "time_ns": 1793593092884560200,
+            "run": "k11-passive-2c567049ddea",
+            "method": "GET",
+            "target": "/empty",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-passive-2c567049ddea"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbXB0eSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFzc2l2ZS0yYzU2NzA0OWRkZWENCg0K",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 0,
+          "reads": 0,
+          "proxy": 6,
+          "lag_evicted": 0,
+          "http": 3,
+          "writes": 3,
+          "inserts": 3
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": false,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=%252F+%2B&w=TWO",
+            "after": 0
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=%252F+%2B&w=TWO",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/bytes?size=256",
+            "after": 0
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/bytes?size=256",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/empty",
+            "after": 0
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/empty",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 3,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "passive",
+        "archive": {
+          "records": 3,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 2,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": false,
+        "heap_used_bytes": 470002952,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 3,
+        "custom_text": "Log cleared OK!",
+        "thread_count": 103,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 3,
+        "status": "Logged: /empty"
+      }
+    },
+    {
+      "name": "normal",
+      "run": "k11-normal-2f9c4d7282f9",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "success_state": true,
+        "custom_twice": true,
+        "raw_second_payload": true,
+        "first_token_empty": true,
+        "second_token_updated": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-normal-2f9c4d7282f9",
+        "action_count": 1,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 4,
+            "time_ns": 1793593093054761000,
+            "run": "k11-normal-2f9c4d7282f9",
+            "method": "POST",
+            "target": "/workflow/action?run=k11-normal-2f9c4d7282f9",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-normal-2f9c4d7282f9"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "57"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtbm9ybWFsLTJmOWM0ZDcyODJmOSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbm9ybWFsLTJmOWM0ZDcyODJmOQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA1Nw0KDQpjc3JmPWM1cmZtNHJrM3Imb25lPWsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5JnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtbm9ybWFsLTJmOWM0ZDcyODJmOSZ0d289JTI1MkYrJTJC"
+          },
+          {
+            "sequence": 5,
+            "time_ns": 1793593093073447100,
+            "run": "k11-normal-2f9c4d7282f9",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-normal-2f9c4d7282f9",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-normal-2f9c4d7282f9.1"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-normal-2f9c4d7282f9"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "77"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbm9ybWFsLTJmOWM0ZDcyODJmOS4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbm9ybWFsLTJmOWM0ZDcyODJmOQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA3Nw0KDQpjc3JmPWNzcmYuazExLW5vcm1hbC0yZjljNGQ3MjgyZjkuMSZvbmU9azExLW5vcm1hbC0yZjljNGQ3MjgyZjkmdHdvPSUyNTJGKyUyQg==",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5LjEmb25lPWsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5JnR3bz0lMjUyRislMkI="
+          }
+        ],
+        "session": [
+          "sid.k11-normal-2f9c4d7282f9.1",
+          "csrf.k11-normal-2f9c4d7282f9.1"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "1011"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDUsICJ0aW1lX25zIjogMTc5MzU5MzA5MzA3MzQ0NzEwMCwgInJ1biI6ICJrMTEtbm9ybWFsLTJmOWM0ZDcyODJmOSIsICJtZXRob2QiOiAiUE9TVCIsICJ0YXJnZXQiOiAiL3dvcmtmbG93L2NoZWNrP3J1bj1rMTEtbm9ybWFsLTJmOWM0ZDcyODJmOSIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3OTAiXSwgWyJDb29raWUiLCAic2lkPXNpZC5rMTEtbm9ybWFsLTJmOWM0ZDcyODJmOS4xIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMTEtbm9ybWFsLTJmOWM0ZDcyODJmOSJdLCBbIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQiXSwgWyJDb250ZW50LUxlbmd0aCIsICI3NyJdXSwgInJhd19iYXNlNjQiOiAiVUU5VFZDQXZkMjl5YTJac2IzY3ZZMmhsWTJzL2NuVnVQV3N4TVMxdWIzSnRZV3d0TW1ZNVl6UmtOekk0TW1ZNUlFaFVWRkF2TVM0eERRcEliM04wT2lBeE1qY3VNQzR3TGpFNk1UZzNPVEFOQ2tOdmIydHBaVG9nYzJsa1BYTnBaQzVyTVRFdGJtOXliV0ZzTFRKbU9XTTBaRGN5T0RKbU9TNHhEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTVRFdGJtOXliV0ZzTFRKbU9XTTBaRGN5T0RKbU9RMEtRMjl1ZEdWdWRDMVVlWEJsT2lCaGNIQnNhV05oZEdsdmJpOTRMWGQzZHkxbWIzSnRMWFZ5YkdWdVkyOWtaV1FOQ2tOdmJuUmxiblF0VEdWdVozUm9PaUEzTncwS0RRcGpjM0ptUFdOemNtWXVhekV4TFc1dmNtMWhiQzB5Wmpsak5HUTNNamd5WmprdU1TWnZibVU5YXpFeExXNXZjbTFoYkMweVpqbGpOR1EzTWpneVpqa21kSGR2UFNVeU5USkdLeVV5UWc9PSIsICJib2R5X2Jhc2U2NCI6ICJZM055WmoxamMzSm1MbXN4TVMxdWIzSnRZV3d0TW1ZNVl6UmtOekk0TW1ZNUxqRW1iMjVsUFdzeE1TMXViM0p0WVd3dE1tWTVZelJrTnpJNE1tWTVKblIzYnowbE1qVXlSaXNsTWtJPSJ9LCAiYWN0aW9uX2NvdW50IjogMSwgImNvb2tpZV9vayI6IHRydWUsICJ0b2tlbl9vayI6IHRydWV9",
+        "seconds": 0.050557,
+        "json": {
+          "request": {
+            "sequence": 5,
+            "time_ns": 1793593093073447100,
+            "run": "k11-normal-2f9c4d7282f9",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-normal-2f9c4d7282f9",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-normal-2f9c4d7282f9.1"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-normal-2f9c4d7282f9"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "77"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbm9ybWFsLTJmOWM0ZDcyODJmOS4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbm9ybWFsLTJmOWM0ZDcyODJmOQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA3Nw0KDQpjc3JmPWNzcmYuazExLW5vcm1hbC0yZjljNGQ3MjgyZjkuMSZvbmU9azExLW5vcm1hbC0yZjljNGQ3MjgyZjkmdHdvPSUyNTJGKyUyQg==",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5LjEmb25lPWsxMS1ub3JtYWwtMmY5YzRkNzI4MmY5JnR3bz0lMjUyRislMkI="
+          },
+          "action_count": 1,
+          "cookie_ok": true,
+          "token_ok": true
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 2,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 2,
+          "writes": 2,
+          "inserts": 2
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-normal-2f9c4d7282f9.1"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-normal-2f9c4d7282f9&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-normal-2f9c4d7282f9",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 5,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "normal",
+        "archive": {
+          "records": 5,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 3,
+        "token": "csrf.k11-normal-2f9c4d7282f9.1",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 479746976,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 5,
+        "custom_text": "CSRF_token cleared",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 5,
+        "status": "Logged: /workflow/check?run=k11-normal-2f9c4d7282f9"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-normal-2f9c4d7282f9",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        },
+        {
+          "payload1": "k11-normal-2f9c4d7282f9",
+          "payload2": "%252F+%2B",
+          "csrf": "csrf.k11-normal-2f9c4d7282f9.1"
+        }
+      ]
+    },
+    {
+      "name": "rt-only",
+      "run": "k11-rt-397cfb83f362",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "one_custom_disabled": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-rt-397cfb83f362",
+        "action_count": 1,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 6,
+            "time_ns": 1793593093263590600,
+            "run": "k11-rt-397cfb83f362",
+            "method": "POST",
+            "target": "/workflow/action?run=k11-rt-397cfb83f362",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-rt-397cfb83f362"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "53"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcnQtMzk3Y2ZiODNmMzYyIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANClgtQm9iZXItVGVzdC1SdW46IGsxMS1ydC0zOTdjZmI4M2YzNjINCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNTMNCg0KY3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtcnQtMzk3Y2ZiODNmMzYyJnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtcnQtMzk3Y2ZiODNmMzYyJnR3bz0lMjUyRislMkI="
+          }
+        ],
+        "session": [
+          "sid.k11-rt-397cfb83f362.1",
+          "csrf.k11-rt-397cfb83f362.1"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "69"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "text/html"
+          ],
+          [
+            "Set-Cookie",
+            "sid=sid.k11-rt-397cfb83f362.1; Path=/"
+          ]
+        ],
+        "body_base64": "PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJjc3JmLmsxMS1ydC0zOTdjZmI4M2YzNjIuMSI+",
+        "seconds": 0.019947
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 0,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-rt-397cfb83f362.1"
+        },
+        "use_cp": false,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-rt-397cfb83f362&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/action?run=k11-rt-397cfb83f362",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 6,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "rt-only",
+        "archive": {
+          "records": 6,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 4,
+        "token": "csrf.k11-rt-397cfb83f362.1",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 483293336,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 6,
+        "custom_text": "CSRF_token cleared",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 6,
+        "status": "Logged: /workflow/action?run=k11-rt-397cfb83f362"
+      },
+      "custom_calls": []
+    },
+    {
+      "name": "empty-cp",
+      "run": "k11-empty-1c45144821c5",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "original_once": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-empty-1c45144821c5",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 7,
+            "time_ns": 1793593093525861500,
+            "run": "k11-empty-1c45144821c5",
+            "method": "GET",
+            "target": "/entry?q=k11-empty-1c45144821c5&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-empty-1c45144821c5"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1lbXB0eS0xYzQ1MTQ0ODIxYzUmdz0lMjUyRislMkIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWVtcHR5LTFjNDUxNDQ4MjFjNQ0KDQo=",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "524"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDcsICJ0aW1lX25zIjogMTc5MzU5MzA5MzUyNTg2MTUwMCwgInJ1biI6ICJrMTEtZW1wdHktMWM0NTE0NDgyMWM1IiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPWsxMS1lbXB0eS0xYzQ1MTQ0ODIxYzUmdz0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzkwIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMTEtZW1wdHktMWM0NTE0NDgyMWM1Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bGJuUnllVDl4UFdzeE1TMWxiWEIwZVMweFl6UTFNVFEwT0RJeFl6VW1kejBsTWpVeVJpc2xNa0lnU0ZSVVVDOHhMakVOQ2todmMzUTZJREV5Tnk0d0xqQXVNVG94T0RjNU1BMEtRMjl1Ym1WamRHbHZiam9nYTJWbGNDMWhiR2wyWlEwS1dDMUNiMkpsY2kxVVpYTjBMVkoxYmpvZ2F6RXhMV1Z0Y0hSNUxURmpORFV4TkRRNE1qRmpOUTBLRFFvPSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.022927,
+        "json": {
+          "request": {
+            "sequence": 7,
+            "time_ns": 1793593093525861500,
+            "run": "k11-empty-1c45144821c5",
+            "method": "GET",
+            "target": "/entry?q=k11-empty-1c45144821c5&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-empty-1c45144821c5"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1lbXB0eS0xYzQ1MTQ0ODIxYzUmdz0lMjUyRislMkIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWVtcHR5LTFjNDUxNDQ4MjFjNQ0KDQo=",
+            "body_base64": ""
+          }
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 0,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-empty-1c45144821c5&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=k11-empty-1c45144821c5&w=%252F+%2B",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 7,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "CP_TEMPLATE_EMPTY",
+            "status": "error_before_send"
+          }
+        ],
+        "last": 1,
+        "profile": "empty-cp",
+        "archive": {
+          "records": 7,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 5,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 489747536,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 7,
+        "custom_text": "[BoberProxy workflow 3] CP_TEMPLATE_EMPTY",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 7,
+        "status": "Logged: /entry?q=k11-empty-1c45144821c5&w=%252F+%2B"
+      },
+      "custom_calls": []
+    },
+    {
+      "name": "custom-error",
+      "run": "k11-error-b6f9c74b1cdd",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "original_once": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-error-b6f9c74b1cdd",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 8,
+            "time_ns": 1793593093800198900,
+            "run": "k11-error-b6f9c74b1cdd",
+            "method": "GET",
+            "target": "/entry?q=k11-error-b6f9c74b1cdd&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-error-b6f9c74b1cdd"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1lcnJvci1iNmY5Yzc0YjFjZGQmdz0lMjUyRislMkIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWVycm9yLWI2ZjljNzRiMWNkZA0KDQo=",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "524"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDgsICJ0aW1lX25zIjogMTc5MzU5MzA5MzgwMDE5ODkwMCwgInJ1biI6ICJrMTEtZXJyb3ItYjZmOWM3NGIxY2RkIiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPWsxMS1lcnJvci1iNmY5Yzc0YjFjZGQmdz0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzkwIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMTEtZXJyb3ItYjZmOWM3NGIxY2RkIl1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bGJuUnllVDl4UFdzeE1TMWxjbkp2Y2kxaU5tWTVZemMwWWpGalpHUW1kejBsTWpVeVJpc2xNa0lnU0ZSVVVDOHhMakVOQ2todmMzUTZJREV5Tnk0d0xqQXVNVG94T0RjNU1BMEtRMjl1Ym1WamRHbHZiam9nYTJWbGNDMWhiR2wyWlEwS1dDMUNiMkpsY2kxVVpYTjBMVkoxYmpvZ2F6RXhMV1Z5Y205eUxXSTJaamxqTnpSaU1XTmtaQTBLRFFvPSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.022303,
+        "json": {
+          "request": {
+            "sequence": 8,
+            "time_ns": 1793593093800198900,
+            "run": "k11-error-b6f9c74b1cdd",
+            "method": "GET",
+            "target": "/entry?q=k11-error-b6f9c74b1cdd&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-error-b6f9c74b1cdd"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1lcnJvci1iNmY5Yzc0YjFjZGQmdz0lMjUyRislMkIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWVycm9yLWI2ZjljNzRiMWNkZA0KDQo=",
+            "body_base64": ""
+          }
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-error-b6f9c74b1cdd&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=k11-error-b6f9c74b1cdd&w=%252F+%2B",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 8,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "RT_BUILD_FAILED",
+            "status": "error_before_send"
+          }
+        ],
+        "last": 1,
+        "profile": "custom-error",
+        "archive": {
+          "records": 8,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 6,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 491549344,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 8,
+        "custom_text": "[BoberProxy workflow 4] RT_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_ERROR: K11 controlled transform failure\nTraceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 1445, in _execute\n    out = fn(*job.args)\n  File \"<BoberProxy custom>\", line 3, in custom_codeblock\nValueError: K11 controlled transform failure\n",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 8,
+        "status": "Logged: /entry?q=k11-error-b6f9c74b1cdd&w=%252F+%2B"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-error-b6f9c74b1cdd",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "bad-return",
+      "run": "k11-bad-fc52faa80d54",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "original_once": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-bad-fc52faa80d54",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 9,
+            "time_ns": 1793593094060240500,
+            "run": "k11-bad-fc52faa80d54",
+            "method": "GET",
+            "target": "/entry?q=k11-bad-fc52faa80d54&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-bad-fc52faa80d54"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1iYWQtZmM1MmZhYTgwZDU0Jnc9JTI1MkYrJTJCIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGsxMS1iYWQtZmM1MmZhYTgwZDU0DQoNCg==",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "514"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDksICJ0aW1lX25zIjogMTc5MzU5MzA5NDA2MDI0MDUwMCwgInJ1biI6ICJrMTEtYmFkLWZjNTJmYWE4MGQ1NCIsICJtZXRob2QiOiAiR0VUIiwgInRhcmdldCI6ICIvZW50cnk/cT1rMTEtYmFkLWZjNTJmYWE4MGQ1NCZ3PSUyNTJGKyUyQiIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3OTAiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImsxMS1iYWQtZmM1MmZhYTgwZDU0Il1dLCAicmF3X2Jhc2U2NCI6ICJSMFZVSUM5bGJuUnllVDl4UFdzeE1TMWlZV1F0Wm1NMU1tWmhZVGd3WkRVMEpuYzlKVEkxTWtZckpUSkNJRWhVVkZBdk1TNHhEUXBJYjNOME9pQXhNamN1TUM0d0xqRTZNVGczT1RBTkNrTnZibTVsWTNScGIyNDZJR3RsWlhBdFlXeHBkbVVOQ2xndFFtOWlaWEl0VkdWemRDMVNkVzQ2SUdzeE1TMWlZV1F0Wm1NMU1tWmhZVGd3WkRVMERRb05DZz09IiwgImJvZHlfYmFzZTY0IjogIiJ9fQ==",
+        "seconds": 0.020821,
+        "json": {
+          "request": {
+            "sequence": 9,
+            "time_ns": 1793593094060240500,
+            "run": "k11-bad-fc52faa80d54",
+            "method": "GET",
+            "target": "/entry?q=k11-bad-fc52faa80d54&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-bad-fc52faa80d54"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1iYWQtZmM1MmZhYTgwZDU0Jnc9JTI1MkYrJTJCIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGsxMS1iYWQtZmM1MmZhYTgwZDU0DQoNCg==",
+            "body_base64": ""
+          }
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-bad-fc52faa80d54&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=k11-bad-fc52faa80d54&w=%252F+%2B",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 9,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "RT_BUILD_FAILED",
+            "status": "error_before_send"
+          }
+        ],
+        "last": 1,
+        "profile": "bad-return",
+        "archive": {
+          "records": 9,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 7,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 497789432,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 9,
+        "custom_text": "[BoberProxy workflow 5] RT_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_ERROR: custom_codeblock must return exactly 3 elements in order: payload1, payload2, csrf_token",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 9,
+        "status": "Logged: /entry?q=k11-bad-fc52faa80d54&w=%252F+%2B"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-bad-fc52faa80d54",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "cp-error",
+      "run": "k11-cp-error-05aead3924b0",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "explicit_extension_drop_page": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-cp-error-05aead3924b0",
+        "action_count": 1,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 10,
+            "time_ns": 1793593094244600900,
+            "run": "k11-cp-error-05aead3924b0",
+            "method": "POST",
+            "target": "/workflow/action?run=k11-cp-error-05aead3924b0",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-cp-error-05aead3924b0"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "59"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtY3AtZXJyb3ItMDVhZWFkMzkyNGIwIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANClgtQm9iZXItVGVzdC1SdW46IGsxMS1jcC1lcnJvci0wNWFlYWQzOTI0YjANCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNTkNCg0KY3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtY3AtZXJyb3ItMDVhZWFkMzkyNGIwJnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtY3AtZXJyb3ItMDVhZWFkMzkyNGIwJnR3bz0lMjUyRislMkI="
+          }
+        ],
+        "session": [
+          "sid.k11-cp-error-05aead3924b0.1",
+          "csrf.k11-cp-error-05aead3924b0.1"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.021931
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 2,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-cp-error-05aead3924b0.1"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-cp-error-05aead3924b0&w=%252F+%2B",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 10,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "CP_BUILD_FAILED",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "cp-error",
+        "archive": {
+          "records": 10,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 8,
+        "token": "csrf.k11-cp-error-05aead3924b0.1",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 500635664,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 10,
+        "custom_text": "[BoberProxy workflow 6] CP_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_ERROR: K11 controlled CheckPage failure\nTraceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\BoberProxy.py\", line 1445, in _execute\n    out = fn(*job.args)\n  File \"<BoberProxy custom>\", line 5, in custom_codeblock\nValueError: K11 controlled CheckPage failure\n",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 10,
+        "status": "Logged: /workflow/action?run=k11-cp-error-05aead3924b0"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-cp-error-05aead3924b0",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        },
+        {
+          "payload1": "k11-cp-error-05aead3924b0",
+          "payload2": "%252F+%2B",
+          "csrf": "csrf.k11-cp-error-05aead3924b0.1"
+        }
+      ]
+    },
+    {
+      "name": "top-timeout",
+      "run": "k11-top-5ff0412f33f3",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "original_once": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-top-5ff0412f33f3",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 11,
+            "time_ns": 1793593094604165900,
+            "run": "k11-top-5ff0412f33f3",
+            "method": "GET",
+            "target": "/entry?q=k11-top-5ff0412f33f3&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-top-5ff0412f33f3"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS10b3AtNWZmMDQxMmYzM2YzJnc9JTI1MkYrJTJCIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGsxMS10b3AtNWZmMDQxMmYzM2YzDQoNCg==",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "515"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDExLCAidGltZV9ucyI6IDE3OTM1OTMwOTQ2MDQxNjU5MDAsICJydW4iOiAiazExLXRvcC01ZmYwNDEyZjMzZjMiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VudHJ5P3E9azExLXRvcC01ZmYwNDEyZjMzZjMmdz0lMjUyRislMkIiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzkwIl0sIFsiQ29ubmVjdGlvbiIsICJrZWVwLWFsaXZlIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMTEtdG9wLTVmZjA0MTJmMzNmMyJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxiblJ5ZVQ5eFBXc3hNUzEwYjNBdE5XWm1NRFF4TW1Zek0yWXpKbmM5SlRJMU1rWXJKVEpDSUVoVVZGQXZNUzR4RFFwSWIzTjBPaUF4TWpjdU1DNHdMakU2TVRnM09UQU5Da052Ym01bFkzUnBiMjQ2SUd0bFpYQXRZV3hwZG1VTkNsZ3RRbTlpWlhJdFZHVnpkQzFTZFc0NklHc3hNUzEwYjNBdE5XWm1NRFF4TW1Zek0yWXpEUW9OQ2c9PSIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.088142,
+        "json": {
+          "request": {
+            "sequence": 11,
+            "time_ns": 1793593094604165900,
+            "run": "k11-top-5ff0412f33f3",
+            "method": "GET",
+            "target": "/entry?q=k11-top-5ff0412f33f3&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-top-5ff0412f33f3"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS10b3AtNWZmMDQxMmYzM2YzJnc9JTI1MkYrJTJCIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNClgtQm9iZXItVGVzdC1SdW46IGsxMS10b3AtNWZmMDQxMmYzM2YzDQoNCg==",
+            "body_base64": ""
+          }
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-top-5ff0412f33f3&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=k11-top-5ff0412f33f3&w=%252F+%2B",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 11,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "RT_BUILD_FAILED",
+            "status": "error_before_send"
+          }
+        ],
+        "last": 1,
+        "profile": "top-timeout",
+        "archive": {
+          "records": 11,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 9,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 507609568,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 11,
+        "custom_text": "[BoberProxy workflow 7] RT_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_TIMEOUT: timeout",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 11,
+        "status": "Logged: /entry?q=k11-top-5ff0412f33f3&w=%252F+%2B"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-top-5ff0412f33f3",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "function-timeout",
+      "run": "k11-slow-657bbf2941e2",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "original_once": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-slow-657bbf2941e2",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 12,
+            "time_ns": 1793593095275298500,
+            "run": "k11-slow-657bbf2941e2",
+            "method": "GET",
+            "target": "/entry?q=k11-slow-657bbf2941e2&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-slow-657bbf2941e2"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1zbG93LTY1N2JiZjI5NDFlMiZ3PSUyNTJGKyUyQiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtc2xvdy02NTdiYmYyOTQxZTINCg0K",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "518"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDEyLCAidGltZV9ucyI6IDE3OTM1OTMwOTUyNzUyOTg1MDAsICJydW4iOiAiazExLXNsb3ctNjU3YmJmMjk0MWUyIiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPWsxMS1zbG93LTY1N2JiZjI5NDFlMiZ3PSUyNTJGKyUyQiIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3OTAiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImsxMS1zbG93LTY1N2JiZjI5NDFlMiJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxiblJ5ZVQ5eFBXc3hNUzF6Ykc5M0xUWTFOMkppWmpJNU5ERmxNaVozUFNVeU5USkdLeVV5UWlCSVZGUlFMekV1TVEwS1NHOXpkRG9nTVRJM0xqQXVNQzR4T2pFNE56a3dEUXBEYjI1dVpXTjBhVzl1T2lCclpXVndMV0ZzYVhabERRcFlMVUp2WW1WeUxWUmxjM1F0VW5WdU9pQnJNVEV0YzJ4dmR5MDJOVGRpWW1ZeU9UUXhaVElOQ2cwSyIsICJib2R5X2Jhc2U2NCI6ICIifX0=",
+        "seconds": 0.080649,
+        "json": {
+          "request": {
+            "sequence": 12,
+            "time_ns": 1793593095275298500,
+            "run": "k11-slow-657bbf2941e2",
+            "method": "GET",
+            "target": "/entry?q=k11-slow-657bbf2941e2&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-slow-657bbf2941e2"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1zbG93LTY1N2JiZjI5NDFlMiZ3PSUyNTJGKyUyQiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtc2xvdy02NTdiYmYyOTQxZTINCg0K",
+            "body_base64": ""
+          }
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-slow-657bbf2941e2&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=k11-slow-657bbf2941e2&w=%252F+%2B",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 12,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "RT_BUILD_FAILED",
+            "status": "error_before_send"
+          }
+        ],
+        "last": 1,
+        "profile": "function-timeout",
+        "archive": {
+          "records": 12,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 10,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 512535240,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 12,
+        "custom_text": "[BoberProxy workflow 8] RT_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_TIMEOUT: timeout",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 12,
+        "status": "Logged: /entry?q=k11-slow-657bbf2941e2&w=%252F+%2B"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-slow-657bbf2941e2",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "cp-timeout",
+      "run": "k11-cp-slow-b8910f76e623",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "explicit_extension_drop_page": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-cp-slow-b8910f76e623",
+        "action_count": 1,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 13,
+            "time_ns": 1793593095900979300,
+            "run": "k11-cp-slow-b8910f76e623",
+            "method": "POST",
+            "target": "/workflow/action?run=k11-cp-slow-b8910f76e623",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-cp-slow-b8910f76e623"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "58"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtY3Atc2xvdy1iODkxMGY3NmU2MjMgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWNwLXNsb3ctYjg5MTBmNzZlNjIzDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDU4DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLWNwLXNsb3ctYjg5MTBmNzZlNjIzJnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtY3Atc2xvdy1iODkxMGY3NmU2MjMmdHdvPSUyNTJGKyUyQg=="
+          }
+        ],
+        "session": [
+          "sid.k11-cp-slow-b8910f76e623.1",
+          "csrf.k11-cp-slow-b8910f76e623.1"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.077097
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 2,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-cp-slow-b8910f76e623.1"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-cp-slow-b8910f76e623&w=%252F+%2B",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 13,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "CP_BUILD_FAILED",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "cp-timeout",
+        "archive": {
+          "records": 13,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 11,
+        "token": "csrf.k11-cp-slow-b8910f76e623.1",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 518717208,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 13,
+        "custom_text": "[BoberProxy workflow 9] CP_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_TIMEOUT: timeout",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 13,
+        "status": "Logged: /workflow/action?run=k11-cp-slow-b8910f76e623"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-cp-slow-b8910f76e623",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        },
+        {
+          "payload1": "k11-cp-slow-b8910f76e623",
+          "payload2": "%252F+%2B",
+          "csrf": "csrf.k11-cp-slow-b8910f76e623.1"
+        }
+      ]
+    },
+    {
+      "name": "invalid-timeout",
+      "run": "k11-invalid-3cc0b4b7bae8",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "original_once": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-invalid-3cc0b4b7bae8",
+        "action_count": 0,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 14,
+            "time_ns": 1793593096572865100,
+            "run": "k11-invalid-3cc0b4b7bae8",
+            "method": "GET",
+            "target": "/entry?q=k11-invalid-3cc0b4b7bae8&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-invalid-3cc0b4b7bae8"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1pbnZhbGlkLTNjYzBiNGI3YmFlOCZ3PSUyNTJGKyUyQiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtaW52YWxpZC0zY2MwYjRiN2JhZTgNCg0K",
+            "body_base64": ""
+          }
+        ],
+        "session": null
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "535"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE0LCAidGltZV9ucyI6IDE3OTM1OTMwOTY1NzI4NjUxMDAsICJydW4iOiAiazExLWludmFsaWQtM2NjMGI0YjdiYWU4IiwgIm1ldGhvZCI6ICJHRVQiLCAidGFyZ2V0IjogIi9lbnRyeT9xPWsxMS1pbnZhbGlkLTNjYzBiNGI3YmFlOCZ3PSUyNTJGKyUyQiIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3OTAiXSwgWyJDb25uZWN0aW9uIiwgImtlZXAtYWxpdmUiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImsxMS1pbnZhbGlkLTNjYzBiNGI3YmFlOCJdXSwgInJhd19iYXNlNjQiOiAiUjBWVUlDOWxiblJ5ZVQ5eFBXc3hNUzFwYm5aaGJHbGtMVE5qWXpCaU5HSTNZbUZsT0NaM1BTVXlOVEpHS3lVeVFpQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROemt3RFFwRGIyNXVaV04wYVc5dU9pQnJaV1Z3TFdGc2FYWmxEUXBZTFVKdlltVnlMVlJsYzNRdFVuVnVPaUJyTVRFdGFXNTJZV3hwWkMwelkyTXdZalJpTjJKaFpUZ05DZzBLIiwgImJvZHlfYmFzZTY0IjogIiJ9fQ==",
+        "seconds": 0.018306,
+        "json": {
+          "request": {
+            "sequence": 14,
+            "time_ns": 1793593096572865100,
+            "run": "k11-invalid-3cc0b4b7bae8",
+            "method": "GET",
+            "target": "/entry?q=k11-invalid-3cc0b4b7bae8&w=%252F+%2B",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Connection",
+                "keep-alive"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-invalid-3cc0b4b7bae8"
+              ]
+            ],
+            "raw_base64": "R0VUIC9lbnRyeT9xPWsxMS1pbnZhbGlkLTNjYzBiNGI3YmFlOCZ3PSUyNTJGKyUyQiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtaW52YWxpZC0zY2MwYjRiN2JhZTgNCg0K",
+            "body_base64": ""
+          }
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-invalid-3cc0b4b7bae8&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/entry?q=k11-invalid-3cc0b4b7bae8&w=%252F+%2B",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 14,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "RT_BUILD_FAILED",
+            "status": "error_before_send"
+          }
+        ],
+        "last": 1,
+        "profile": "invalid-timeout",
+        "archive": {
+          "records": 14,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 12,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 518752360,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 14,
+        "custom_text": "[BoberProxy workflow 10] RT_BUILD_FAILED\nTRANSFORM_ERROR [CUSTOM_FAILED]\nCUSTOM_CONFIG_ERROR: timeout must be an integer from 1 to 30000 ms",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 14,
+        "status": "Logged: /entry?q=k11-invalid-3cc0b4b7bae8&w=%252F+%2B"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-invalid-3cc0b4b7bae8",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "run": "k11-close-10960515a561",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "explicit_extension_drop_page": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-close-10960515a561",
+        "action_count": 1,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 15,
+            "time_ns": 1793593096853341200,
+            "run": "k11-close-10960515a561",
+            "method": "POST",
+            "target": "/accept-then-close?run=k11-close-10960515a561",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-close-10960515a561"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "56"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvYWNjZXB0LXRoZW4tY2xvc2U/cnVuPWsxMS1jbG9zZS0xMDk2MDUxNWE1NjEgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWNsb3NlLTEwOTYwNTE1YTU2MQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA1Ng0KDQpjc3JmPWM1cmZtNHJrM3Imb25lPWsxMS1jbG9zZS0xMDk2MDUxNWE1NjEmdHdvPSUyNTJGKyUyQg==",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtY2xvc2UtMTA5NjA1MTVhNTYxJnR3bz0lMjUyRislMkI="
+          }
+        ],
+        "session": [
+          "sid.k11-close-10960515a561.1",
+          "csrf.k11-close-10960515a561.1"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.016562
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 0,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 0,
+          "writes": 0,
+          "inserts": 0
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-close-10960515a561&w=%252F+%2B",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 14,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "HTTP_NO_RESPONSE",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "close",
+        "archive": {
+          "records": 14,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 13,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 520782016,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 14,
+        "custom_text": "[BoberProxy workflow 11] HTTP_NO_RESPONSE",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 14,
+        "status": "Logged: /entry?q=k11-invalid-3cc0b4b7bae8&w=%252F+%2B"
+      },
+      "custom_calls": []
+    },
+    {
+      "name": "redirect-off",
+      "run": "k11-redir-off-1ac13d7d08d4",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "success_state": true,
+        "custom_twice": true,
+        "raw_second_payload": true,
+        "last_state_matches_cp": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-redir-off-1ac13d7d08d4",
+        "action_count": 1,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 16,
+            "time_ns": 1793593097072823800,
+            "run": "k11-redir-off-1ac13d7d08d4",
+            "method": "POST",
+            "target": "/k11/redirect/start?run=k11-redir-off-1ac13d7d08d4",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-redir-off-1ac13d7d08d4"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "60"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL3JlZGlyZWN0L3N0YXJ0P3J1bj1rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2MA0KDQpjc3JmPWM1cmZtNHJrM3Imb25lPWsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0JnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNCZ0d289JTI1MkYrJTJC"
+          },
+          {
+            "sequence": 17,
+            "time_ns": 1793593097076911400,
+            "run": "k11-redir-off-1ac13d7d08d4",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-redir-off-1ac13d7d08d4",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-redir-off-1ac13d7d08d4.start"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-redir-off-1ac13d7d08d4"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "87"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNC5zdGFydA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLXJlZGlyLW9mZi0xYWMxM2Q3ZDA4ZDQNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogODcNCg0KY3NyZj1jc3JmLmsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0LnN0YXJ0Jm9uZT1rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNCZ0d289JTI1MkYrJTJC",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0LnN0YXJ0Jm9uZT1rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNCZ0d289JTI1MkYrJTJC"
+          }
+        ],
+        "session": [
+          "sid.k11-redir-off-1ac13d7d08d4.start",
+          "csrf.k11-redir-off-1ac13d7d08d4.start"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "1068"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDE3LCAidGltZV9ucyI6IDE3OTM1OTMwOTcwNzY5MTE0MDAsICJydW4iOiAiazExLXJlZGlyLW9mZi0xYWMxM2Q3ZDA4ZDQiLCAibWV0aG9kIjogIlBPU1QiLCAidGFyZ2V0IjogIi93b3JrZmxvdy9jaGVjaz9ydW49azExLXJlZGlyLW9mZi0xYWMxM2Q3ZDA4ZDQiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4NzkwIl0sIFsiQ29va2llIiwgInNpZD1zaWQuazExLXJlZGlyLW9mZi0xYWMxM2Q3ZDA4ZDQuc3RhcnQiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0Il0sIFsiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCJdLCBbIkNvbnRlbnQtTGVuZ3RoIiwgIjg3Il1dLCAicmF3X2Jhc2U2NCI6ICJVRTlUVkNBdmQyOXlhMlpzYjNjdlkyaGxZMnMvY25WdVBXc3hNUzF5WldScGNpMXZabVl0TVdGak1UTmtOMlF3T0dRMElFaFVWRkF2TVM0eERRcEliM04wT2lBeE1qY3VNQzR3TGpFNk1UZzNPVEFOQ2tOdmIydHBaVG9nYzJsa1BYTnBaQzVyTVRFdGNtVmthWEl0YjJabUxURmhZekV6WkRka01EaGtOQzV6ZEdGeWRBMEtXQzFDYjJKbGNpMVVaWE4wTFZKMWJqb2dhekV4TFhKbFpHbHlMVzltWmkweFlXTXhNMlEzWkRBNFpEUU5Da052Ym5SbGJuUXRWSGx3WlRvZ1lYQndiR2xqWVhScGIyNHZlQzEzZDNjdFptOXliUzExY214bGJtTnZaR1ZrRFFwRGIyNTBaVzUwTFV4bGJtZDBhRG9nT0RjTkNnMEtZM055WmoxamMzSm1MbXN4TVMxeVpXUnBjaTF2Wm1ZdE1XRmpNVE5rTjJRd09HUTBMbk4wWVhKMEptOXVaVDFyTVRFdGNtVmthWEl0YjJabUxURmhZekV6WkRka01EaGtOQ1owZDI4OUpUSTFNa1lySlRKQyIsICJib2R5X2Jhc2U2NCI6ICJZM055WmoxamMzSm1MbXN4TVMxeVpXUnBjaTF2Wm1ZdE1XRmpNVE5rTjJRd09HUTBMbk4wWVhKMEptOXVaVDFyTVRFdGNtVmthWEl0YjJabUxURmhZekV6WkRka01EaGtOQ1owZDI4OUpUSTFNa1lySlRKQyJ9LCAiYWN0aW9uX2NvdW50IjogMSwgImNvb2tpZV9vayI6IHRydWUsICJ0b2tlbl9vayI6IHRydWV9",
+        "seconds": 0.027677,
+        "json": {
+          "request": {
+            "sequence": 17,
+            "time_ns": 1793593097076911400,
+            "run": "k11-redir-off-1ac13d7d08d4",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-redir-off-1ac13d7d08d4",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-redir-off-1ac13d7d08d4.start"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-redir-off-1ac13d7d08d4"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "87"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNC5zdGFydA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLXJlZGlyLW9mZi0xYWMxM2Q3ZDA4ZDQNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogODcNCg0KY3NyZj1jc3JmLmsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0LnN0YXJ0Jm9uZT1rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNCZ0d289JTI1MkYrJTJC",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1yZWRpci1vZmYtMWFjMTNkN2QwOGQ0LnN0YXJ0Jm9uZT1rMTEtcmVkaXItb2ZmLTFhYzEzZDdkMDhkNCZ0d289JTI1MkYrJTJC"
+          },
+          "action_count": 1,
+          "cookie_ok": true,
+          "token_ok": true
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 2,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 2,
+          "writes": 2,
+          "inserts": 2
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-redir-off-1ac13d7d08d4.start"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-redir-off-1ac13d7d08d4&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-redir-off-1ac13d7d08d4",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 16,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "redirect-off",
+        "archive": {
+          "records": 16,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 14,
+        "token": "csrf.k11-redir-off-1ac13d7d08d4.start",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 530045296,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 16,
+        "custom_text": "CSRF_token cleared",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 16,
+        "status": "Logged: /workflow/check?run=k11-redir-off-1ac13d7d08d4"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-redir-off-1ac13d7d08d4",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        },
+        {
+          "payload1": "k11-redir-off-1ac13d7d08d4",
+          "payload2": "%252F+%2B",
+          "csrf": "csrf.k11-redir-off-1ac13d7d08d4.start"
+        }
+      ]
+    },
+    {
+      "name": "redirect-on",
+      "run": "k11-redir-on-0cf61c76f4a8",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "success_state": true,
+        "custom_twice": true,
+        "raw_second_payload": true,
+        "last_state_matches_cp": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-redir-on-0cf61c76f4a8",
+        "action_count": 1,
+        "event_count": 3,
+        "recent_events": [
+          {
+            "sequence": 18,
+            "time_ns": 1793593097307903700,
+            "run": "k11-redir-on-0cf61c76f4a8",
+            "method": "POST",
+            "target": "/k11/redirect/start?run=k11-redir-on-0cf61c76f4a8",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-redir-on-0cf61c76f4a8"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "59"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL3JlZGlyZWN0L3N0YXJ0P3J1bj1rMTEtcmVkaXItb24tMGNmNjFjNzZmNGE4IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANClgtQm9iZXItVGVzdC1SdW46IGsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNTkNCg0KY3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtcmVkaXItb24tMGNmNjFjNzZmNGE4JnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtcmVkaXItb24tMGNmNjFjNzZmNGE4JnR3bz0lMjUyRislMkI="
+          },
+          {
+            "sequence": 19,
+            "time_ns": 1793593097312107100,
+            "run": "k11-redir-on-0cf61c76f4a8",
+            "method": "GET",
+            "target": "/k11/redirect/next?run=k11-redir-on-0cf61c76f4a8",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-redir-on-0cf61c76f4a8.start"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvcmVkaXJlY3QvbmV4dD9ydW49azExLXJlZGlyLW9uLTBjZjYxYzc2ZjRhOCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXJlZGlyLW9uLTBjZjYxYzc2ZjRhOC5zdGFydA0KQ29ubmVjdGlvbjogY2xvc2UNCg0K",
+            "body_base64": ""
+          },
+          {
+            "sequence": 20,
+            "time_ns": 1793593097315392400,
+            "run": "k11-redir-on-0cf61c76f4a8",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-redir-on-0cf61c76f4a8",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-redir-on-0cf61c76f4a8.final"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-redir-on-0cf61c76f4a8"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "85"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwNClgtQm9iZXItVGVzdC1SdW46IGsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogODUNCg0KY3NyZj1jc3JmLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwmb25lPWsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgmdHdvPSUyNTJGKyUyQg==",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwmb25lPWsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgmdHdvPSUyNTJGKyUyQg=="
+          }
+        ],
+        "session": [
+          "sid.k11-redir-on-0cf61c76f4a8.final",
+          "csrf.k11-redir-on-0cf61c76f4a8.final"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "1060"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDIwLCAidGltZV9ucyI6IDE3OTM1OTMwOTczMTUzOTI0MDAsICJydW4iOiAiazExLXJlZGlyLW9uLTBjZjYxYzc2ZjRhOCIsICJtZXRob2QiOiAiUE9TVCIsICJ0YXJnZXQiOiAiL3dvcmtmbG93L2NoZWNrP3J1bj1rMTEtcmVkaXItb24tMGNmNjFjNzZmNGE4IiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc5MCJdLCBbIkNvb2tpZSIsICJzaWQ9c2lkLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwiXSwgWyJYLUJvYmVyLVRlc3QtUnVuIiwgImsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgiXSwgWyJDb250ZW50LVR5cGUiLCAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkIl0sIFsiQ29udGVudC1MZW5ndGgiLCAiODUiXV0sICJyYXdfYmFzZTY0IjogIlVFOVRWQ0F2ZDI5eWEyWnNiM2N2WTJobFkycy9jblZ1UFdzeE1TMXlaV1JwY2kxdmJpMHdZMlkyTVdNM05tWTBZVGdnU0ZSVVVDOHhMakVOQ2todmMzUTZJREV5Tnk0d0xqQXVNVG94T0RjNU1BMEtRMjl2YTJsbE9pQnphV1E5YzJsa0xtc3hNUzF5WldScGNpMXZiaTB3WTJZMk1XTTNObVkwWVRndVptbHVZV3dOQ2xndFFtOWlaWEl0VkdWemRDMVNkVzQ2SUdzeE1TMXlaV1JwY2kxdmJpMHdZMlkyTVdNM05tWTBZVGdOQ2tOdmJuUmxiblF0Vkhsd1pUb2dZWEJ3YkdsallYUnBiMjR2ZUMxM2QzY3RabTl5YlMxMWNteGxibU52WkdWa0RRcERiMjUwWlc1MExVeGxibWQwYURvZ09EVU5DZzBLWTNOeVpqMWpjM0ptTG1zeE1TMXlaV1JwY2kxdmJpMHdZMlkyTVdNM05tWTBZVGd1Wm1sdVlXd21iMjVsUFdzeE1TMXlaV1JwY2kxdmJpMHdZMlkyTVdNM05tWTBZVGdtZEhkdlBTVXlOVEpHS3lVeVFnPT0iLCAiYm9keV9iYXNlNjQiOiAiWTNOeVpqMWpjM0ptTG1zeE1TMXlaV1JwY2kxdmJpMHdZMlkyTVdNM05tWTBZVGd1Wm1sdVlXd21iMjVsUFdzeE1TMXlaV1JwY2kxdmJpMHdZMlkyTVdNM05tWTBZVGdtZEhkdlBTVXlOVEpHS3lVeVFnPT0ifSwgImFjdGlvbl9jb3VudCI6IDEsICJjb29raWVfb2siOiB0cnVlLCAidG9rZW5fb2siOiB0cnVlfQ==",
+        "seconds": 0.039378,
+        "json": {
+          "request": {
+            "sequence": 20,
+            "time_ns": 1793593097315392400,
+            "run": "k11-redir-on-0cf61c76f4a8",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-redir-on-0cf61c76f4a8",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-redir-on-0cf61c76f4a8.final"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-redir-on-0cf61c76f4a8"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "85"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwNClgtQm9iZXItVGVzdC1SdW46IGsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogODUNCg0KY3NyZj1jc3JmLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwmb25lPWsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgmdHdvPSUyNTJGKyUyQg==",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTguZmluYWwmb25lPWsxMS1yZWRpci1vbi0wY2Y2MWM3NmY0YTgmdHdvPSUyNTJGKyUyQg=="
+          },
+          "action_count": 1,
+          "cookie_ok": true,
+          "token_ok": true
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 2,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 2,
+          "writes": 2,
+          "inserts": 2
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-redir-on-0cf61c76f4a8.final"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-redir-on-0cf61c76f4a8&w=%252F+%2B",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-redir-on-0cf61c76f4a8",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 18,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "redirect-on",
+        "archive": {
+          "records": 18,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 15,
+        "token": "csrf.k11-redir-on-0cf61c76f4a8.final",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 532864592,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 18,
+        "custom_text": "CSRF_token cleared",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 18,
+        "status": "Logged: /workflow/check?run=k11-redir-on-0cf61c76f4a8"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-redir-on-0cf61c76f4a8",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        },
+        {
+          "payload1": "k11-redir-on-0cf61c76f4a8",
+          "payload2": "%252F+%2B",
+          "csrf": "csrf.k11-redir-on-0cf61c76f4a8.final"
+        }
+      ]
+    },
+    {
+      "name": "loop",
+      "run": "k11-loop-9fdc0a454509",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "explicit_extension_drop_page": true,
+        "loop_reported": true,
+        "last_received_state_retained": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-loop-9fdc0a454509",
+        "action_count": 1,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 21,
+            "time_ns": 1793593097558011300,
+            "run": "k11-loop-9fdc0a454509",
+            "method": "POST",
+            "target": "/k11/loop?run=k11-loop-9fdc0a454509",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-loop-9fdc0a454509"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "55"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL2xvb3A/cnVuPWsxMS1sb29wLTlmZGMwYTQ1NDUwOSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbG9vcC05ZmRjMGE0NTQ1MDkNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNTUNCg0KY3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtbG9vcC05ZmRjMGE0NTQ1MDkmdHdvPSUyNTJGKyUyQg==",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtbG9vcC05ZmRjMGE0NTQ1MDkmdHdvPSUyNTJGKyUyQg=="
+          },
+          {
+            "sequence": 22,
+            "time_ns": 1793593097562553300,
+            "run": "k11-loop-9fdc0a454509",
+            "method": "GET",
+            "target": "/k11/loop?run=k11-loop-9fdc0a454509",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-loop-9fdc0a454509.loop"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvbG9vcD9ydW49azExLWxvb3AtOWZkYzBhNDU0NTA5IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbG9vcC05ZmRjMGE0NTQ1MDkubG9vcA0KQ29ubmVjdGlvbjogY2xvc2UNCg0K",
+            "body_base64": ""
+          }
+        ],
+        "session": [
+          "sid.k11-loop-9fdc0a454509.loop",
+          "csrf.k11-loop-9fdc0a454509.loop"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.036749
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-loop-9fdc0a454509.loop"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-loop-9fdc0a454509&w=%252F+%2B",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 19,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "REDIRECT_LOOP",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "loop",
+        "archive": {
+          "records": 19,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 16,
+        "token": "csrf.k11-loop-9fdc0a454509.loop",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 533464600,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 19,
+        "custom_text": "[BoberProxy workflow 14] REDIRECT_LOOP",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 19,
+        "status": "Logged: /k11/loop?run=k11-loop-9fdc0a454509"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-loop-9fdc0a454509",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "limit",
+      "run": "k11-limit-d597146bbb15",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "explicit_extension_drop_page": true,
+        "limit_reported": true,
+        "last_received_state_retained": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-limit-d597146bbb15",
+        "action_count": 1,
+        "event_count": 11,
+        "recent_events": [
+          {
+            "sequence": 23,
+            "time_ns": 1793593097884731900,
+            "run": "k11-limit-d597146bbb15",
+            "method": "POST",
+            "target": "/k11/hops/0?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-limit-d597146bbb15"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "56"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL2hvcHMvMD9ydW49azExLWxpbWl0LWQ1OTcxNDZiYmIxNSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbGltaXQtZDU5NzE0NmJiYjE1DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDU2DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLWxpbWl0LWQ1OTcxNDZiYmIxNSZ0d289JTI1MkYrJTJC",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtbGltaXQtZDU5NzE0NmJiYjE1JnR3bz0lMjUyRislMkI="
+          },
+          {
+            "sequence": 24,
+            "time_ns": 1793593097887801700,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/1?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.0"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy8xP3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjANCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 25,
+            "time_ns": 1793593097890304100,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/2?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.1"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy8yP3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjENCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 26,
+            "time_ns": 1793593097892719000,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/3?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.2"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy8zP3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjINCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 27,
+            "time_ns": 1793593097895117700,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/4?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.3"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy80P3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjMNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 28,
+            "time_ns": 1793593097897540500,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/5?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.4"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy81P3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjQNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 29,
+            "time_ns": 1793593097901278500,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/6?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.5"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy82P3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjUNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 30,
+            "time_ns": 1793593097903974300,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/7?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.6"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy83P3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjYNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 31,
+            "time_ns": 1793593097906264300,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/8?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.7"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy84P3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjcNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 32,
+            "time_ns": 1793593097909043700,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/9?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.8"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy85P3J1bj1rMTEtbGltaXQtZDU5NzE0NmJiYjE1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg3OTANCkNvb2tpZTogc2lkPXNpZC5rMTEtbGltaXQtZDU5NzE0NmJiYjE1LjgNCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==",
+            "body_base64": ""
+          },
+          {
+            "sequence": 33,
+            "time_ns": 1793593097911383100,
+            "run": "k11-limit-d597146bbb15",
+            "method": "GET",
+            "target": "/k11/hops/10?run=k11-limit-d597146bbb15",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-limit-d597146bbb15.9"
+              ],
+              [
+                "Connection",
+                "close"
+              ]
+            ],
+            "raw_base64": "R0VUIC9rMTEvaG9wcy8xMD9ydW49azExLWxpbWl0LWQ1OTcxNDZiYmIxNSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLWxpbWl0LWQ1OTcxNDZiYmIxNS45DQpDb25uZWN0aW9uOiBjbG9zZQ0KDQo=",
+            "body_base64": ""
+          }
+        ],
+        "session": [
+          "sid.k11-limit-d597146bbb15.10",
+          "csrf.k11-limit-d597146bbb15.10"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.043979
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-limit-d597146bbb15.10"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-limit-d597146bbb15&w=%252F+%2B",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 20,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "REDIRECT_LIMIT",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "limit",
+        "archive": {
+          "records": 20,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 17,
+        "token": "csrf.k11-limit-d597146bbb15.10",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 546047512,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 20,
+        "custom_text": "[BoberProxy workflow 15] REDIRECT_LIMIT",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 20,
+        "status": "Logged: /k11/hops/0?run=k11-limit-d597146bbb15"
+      },
+      "custom_calls": [
+        {
+          "payload1": "k11-limit-d597146bbb15",
+          "payload2": "%252F+%2B",
+          "csrf": null
+        }
+      ]
+    },
+    {
+      "name": "workflow-timeout",
+      "run": "k11-workflow-timeout-f0b43d1a5fb5",
+      "checks": {
+        "action_count": true,
+        "request_count": true,
+        "explicit_extension_drop_page": true,
+        "no_edt_disk_io": true
+      },
+      "passed": true,
+      "target": {
+        "run": "k11-workflow-timeout-f0b43d1a5fb5",
+        "action_count": 1,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 34,
+            "time_ns": 1793593098167687500,
+            "run": "k11-workflow-timeout-f0b43d1a5fb5",
+            "method": "POST",
+            "target": "/k11/slow-action?run=k11-workflow-timeout-f0b43d1a5fb5",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-workflow-timeout-f0b43d1a5fb5"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "67"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL3Nsb3ctYWN0aW9uP3J1bj1rMTEtd29ya2Zsb3ctdGltZW91dC1mMGI0M2QxYTVmYjUgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLXdvcmtmbG93LXRpbWVvdXQtZjBiNDNkMWE1ZmI1DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDY3DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLXdvcmtmbG93LXRpbWVvdXQtZjBiNDNkMWE1ZmI1JnR3bz0lMjUyRislMkI=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtd29ya2Zsb3ctdGltZW91dC1mMGI0M2QxYTVmYjUmdHdvPSUyNTJGKyUyQg=="
+          }
+        ],
+        "session": [
+          "sid.k11-workflow-timeout-f0b43d1a5fb5.action",
+          "csrf.k11-workflow-timeout-f0b43d1a5fb5.action"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.221217
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 0,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-workflow-timeout-f0b43d1a5fb5.action"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 100,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-workflow-timeout-f0b43d1a5fb5&w=%252F+%2B",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 21,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "WORKFLOW_TIMEOUT",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "workflow-timeout",
+        "archive": {
+          "records": 21,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 18,
+        "token": "csrf.k11-workflow-timeout-f0b43d1a5fb5.action",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 548821808,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 21,
+        "custom_text": "[BoberProxy workflow 16] WORKFLOW_TIMEOUT",
+        "thread_count": 104,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 21,
+        "status": "Logged: /k11/slow-action?run=k11-workflow-timeout-f0b43d1a5fb5"
+      },
+      "custom_calls": []
+    },
+    {
+      "name": "concurrent-pair",
+      "passed": true,
+      "targets": [
+        {
+          "run": "k11-pair-3c5403a31228",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 37,
+              "time_ns": 1793593098659861100,
+              "run": "k11-pair-3c5403a31228",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-3c5403a31228",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-497035dc7e04.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-3c5403a31228"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci0zYzU0MDNhMzEyMjggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLTQ5NzAzNWRjN2UwNC4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci0zYzU0MDNhMzEyMjgNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLTQ5NzAzNWRjN2UwNC4xJm9uZT1rMTEtcGFpci0zYzU0MDNhMzEyMjgmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTQ5NzAzNWRjN2UwNC4xJm9uZT1rMTEtcGFpci0zYzU0MDNhMzEyMjgmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 38,
+              "time_ns": 1793593098663372400,
+              "run": "k11-pair-3c5403a31228",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-3c5403a31228",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-3c5403a31228.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-3c5403a31228"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTNjNTQwM2EzMTIyOCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItM2M1NDAzYTMxMjI4LjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTNjNTQwM2EzMTIyOA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItM2M1NDAzYTMxMjI4LjEmb25lPWsxMS1wYWlyLTNjNTQwM2EzMTIyOCZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTNjNTQwM2EzMTIyOC4xJm9uZT1rMTEtcGFpci0zYzU0MDNhMzEyMjgmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-3c5403a31228.1",
+            "csrf.k11-pair-3c5403a31228.1"
+          ]
+        },
+        {
+          "run": "k11-pair-64f2e07c9ed9",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 49,
+              "time_ns": 1793593098708271500,
+              "run": "k11-pair-64f2e07c9ed9",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-64f2e07c9ed9",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-259726fee467.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-64f2e07c9ed9"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci02NGYyZTA3YzllZDkgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLTI1OTcyNmZlZTQ2Ny4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci02NGYyZTA3YzllZDkNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLTI1OTcyNmZlZTQ2Ny4xJm9uZT1rMTEtcGFpci02NGYyZTA3YzllZDkmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTI1OTcyNmZlZTQ2Ny4xJm9uZT1rMTEtcGFpci02NGYyZTA3YzllZDkmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 50,
+              "time_ns": 1793593098712562400,
+              "run": "k11-pair-64f2e07c9ed9",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-64f2e07c9ed9",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-64f2e07c9ed9.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-64f2e07c9ed9"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTY0ZjJlMDdjOWVkOSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItNjRmMmUwN2M5ZWQ5LjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTY0ZjJlMDdjOWVkOQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItNjRmMmUwN2M5ZWQ5LjEmb25lPWsxMS1wYWlyLTY0ZjJlMDdjOWVkOSZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTY0ZjJlMDdjOWVkOS4xJm9uZT1rMTEtcGFpci02NGYyZTA3YzllZDkmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-64f2e07c9ed9.1",
+            "csrf.k11-pair-64f2e07c9ed9.1"
+          ]
+        },
+        {
+          "run": "k11-pair-259726fee467",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 47,
+              "time_ns": 1793593098700833100,
+              "run": "k11-pair-259726fee467",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-259726fee467",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-a75825857971.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-259726fee467"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci0yNTk3MjZmZWU0NjcgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLWE3NTgyNTg1Nzk3MS4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci0yNTk3MjZmZWU0NjcNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLWE3NTgyNTg1Nzk3MS4xJm9uZT1rMTEtcGFpci0yNTk3MjZmZWU0NjcmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLWE3NTgyNTg1Nzk3MS4xJm9uZT1rMTEtcGFpci0yNTk3MjZmZWU0NjcmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 48,
+              "time_ns": 1793593098704364600,
+              "run": "k11-pair-259726fee467",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-259726fee467",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-259726fee467.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-259726fee467"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTI1OTcyNmZlZTQ2NyBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItMjU5NzI2ZmVlNDY3LjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTI1OTcyNmZlZTQ2Nw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItMjU5NzI2ZmVlNDY3LjEmb25lPWsxMS1wYWlyLTI1OTcyNmZlZTQ2NyZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTI1OTcyNmZlZTQ2Ny4xJm9uZT1rMTEtcGFpci0yNTk3MjZmZWU0NjcmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-259726fee467.1",
+            "csrf.k11-pair-259726fee467.1"
+          ]
+        },
+        {
+          "run": "k11-pair-5aaae8ca8a41",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 43,
+              "time_ns": 1793593098684641100,
+              "run": "k11-pair-5aaae8ca8a41",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-5aaae8ca8a41",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-7b068820ad3f.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-5aaae8ca8a41"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci01YWFhZThjYThhNDEgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLTdiMDY4ODIwYWQzZi4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci01YWFhZThjYThhNDENCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLTdiMDY4ODIwYWQzZi4xJm9uZT1rMTEtcGFpci01YWFhZThjYThhNDEmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTdiMDY4ODIwYWQzZi4xJm9uZT1rMTEtcGFpci01YWFhZThjYThhNDEmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 44,
+              "time_ns": 1793593098688767700,
+              "run": "k11-pair-5aaae8ca8a41",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-5aaae8ca8a41",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-5aaae8ca8a41.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-5aaae8ca8a41"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTVhYWFlOGNhOGE0MSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItNWFhYWU4Y2E4YTQxLjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTVhYWFlOGNhOGE0MQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItNWFhYWU4Y2E4YTQxLjEmb25lPWsxMS1wYWlyLTVhYWFlOGNhOGE0MSZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTVhYWFlOGNhOGE0MS4xJm9uZT1rMTEtcGFpci01YWFhZThjYThhNDEmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-5aaae8ca8a41.1",
+            "csrf.k11-pair-5aaae8ca8a41.1"
+          ]
+        },
+        {
+          "run": "k11-pair-2fb417791ff9",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 39,
+              "time_ns": 1793593098668226100,
+              "run": "k11-pair-2fb417791ff9",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-2fb417791ff9",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-3c5403a31228.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-2fb417791ff9"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci0yZmI0MTc3OTFmZjkgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLTNjNTQwM2EzMTIyOC4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci0yZmI0MTc3OTFmZjkNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLTNjNTQwM2EzMTIyOC4xJm9uZT1rMTEtcGFpci0yZmI0MTc3OTFmZjkmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTNjNTQwM2EzMTIyOC4xJm9uZT1rMTEtcGFpci0yZmI0MTc3OTFmZjkmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 40,
+              "time_ns": 1793593098672239800,
+              "run": "k11-pair-2fb417791ff9",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-2fb417791ff9",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-2fb417791ff9.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-2fb417791ff9"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTJmYjQxNzc5MWZmOSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItMmZiNDE3NzkxZmY5LjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTJmYjQxNzc5MWZmOQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItMmZiNDE3NzkxZmY5LjEmb25lPWsxMS1wYWlyLTJmYjQxNzc5MWZmOSZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTJmYjQxNzc5MWZmOS4xJm9uZT1rMTEtcGFpci0yZmI0MTc3OTFmZjkmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-2fb417791ff9.1",
+            "csrf.k11-pair-2fb417791ff9.1"
+          ]
+        },
+        {
+          "run": "k11-pair-a75825857971",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 45,
+              "time_ns": 1793593098692772600,
+              "run": "k11-pair-a75825857971",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-a75825857971",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-5aaae8ca8a41.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-a75825857971"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci1hNzU4MjU4NTc5NzEgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLTVhYWFlOGNhOGE0MS4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci1hNzU4MjU4NTc5NzENCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLTVhYWFlOGNhOGE0MS4xJm9uZT1rMTEtcGFpci1hNzU4MjU4NTc5NzEmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTVhYWFlOGNhOGE0MS4xJm9uZT1rMTEtcGFpci1hNzU4MjU4NTc5NzEmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 46,
+              "time_ns": 1793593098696229400,
+              "run": "k11-pair-a75825857971",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-a75825857971",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-a75825857971.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-a75825857971"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLWE3NTgyNTg1Nzk3MSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItYTc1ODI1ODU3OTcxLjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLWE3NTgyNTg1Nzk3MQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItYTc1ODI1ODU3OTcxLjEmb25lPWsxMS1wYWlyLWE3NTgyNTg1Nzk3MSZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLWE3NTgyNTg1Nzk3MS4xJm9uZT1rMTEtcGFpci1hNzU4MjU4NTc5NzEmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-a75825857971.1",
+            "csrf.k11-pair-a75825857971.1"
+          ]
+        },
+        {
+          "run": "k11-pair-497035dc7e04",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 35,
+              "time_ns": 1793593098651628800,
+              "run": "k11-pair-497035dc7e04",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-497035dc7e04",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-497035dc7e04"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "49"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci00OTcwMzVkYzdlMDQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLXBhaXItNDk3MDM1ZGM3ZTA0DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDQ5DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLXBhaXItNDk3MDM1ZGM3ZTA0JnR3bz1UV08=",
+              "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtcGFpci00OTcwMzVkYzdlMDQmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 36,
+              "time_ns": 1793593098655748800,
+              "run": "k11-pair-497035dc7e04",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-497035dc7e04",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-497035dc7e04.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-497035dc7e04"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTQ5NzAzNWRjN2UwNCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItNDk3MDM1ZGM3ZTA0LjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTQ5NzAzNWRjN2UwNA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItNDk3MDM1ZGM3ZTA0LjEmb25lPWsxMS1wYWlyLTQ5NzAzNWRjN2UwNCZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTQ5NzAzNWRjN2UwNC4xJm9uZT1rMTEtcGFpci00OTcwMzVkYzdlMDQmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-497035dc7e04.1",
+            "csrf.k11-pair-497035dc7e04.1"
+          ]
+        },
+        {
+          "run": "k11-pair-7b068820ad3f",
+          "action_count": 1,
+          "event_count": 2,
+          "recent_events": [
+            {
+              "sequence": 41,
+              "time_ns": 1793593098676272800,
+              "run": "k11-pair-7b068820ad3f",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-pair-7b068820ad3f",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-2fb417791ff9.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-7b068820ad3f"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtcGFpci03YjA2ODgyMGFkM2YgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1wYWlyLTJmYjQxNzc5MWZmOS4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtcGFpci03YjA2ODgyMGFkM2YNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1wYWlyLTJmYjQxNzc5MWZmOS4xJm9uZT1rMTEtcGFpci03YjA2ODgyMGFkM2YmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTJmYjQxNzc5MWZmOS4xJm9uZT1rMTEtcGFpci03YjA2ODgyMGFkM2YmdHdvPVRXTw=="
+            },
+            {
+              "sequence": 42,
+              "time_ns": 1793593098679966800,
+              "run": "k11-pair-7b068820ad3f",
+              "method": "POST",
+              "target": "/workflow/check?run=k11-pair-7b068820ad3f",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-pair-7b068820ad3f.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-pair-7b068820ad3f"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1wYWlyLTdiMDY4ODIwYWQzZiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLXBhaXItN2IwNjg4MjBhZDNmLjENClgtQm9iZXItVGVzdC1SdW46IGsxMS1wYWlyLTdiMDY4ODIwYWQzZg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNCkNvbnRlbnQtTGVuZ3RoOiA2Nw0KDQpjc3JmPWNzcmYuazExLXBhaXItN2IwNjg4MjBhZDNmLjEmb25lPWsxMS1wYWlyLTdiMDY4ODIwYWQzZiZ0d289VFdP",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1wYWlyLTdiMDY4ODIwYWQzZi4xJm9uZT1rMTEtcGFpci03YjA2ODgyMGFkM2YmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-pair-7b068820ad3f.1",
+            "csrf.k11-pair-7b068820ad3f.1"
+          ]
+        }
+      ],
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 16,
+          "reads": 0,
+          "proxy": 16,
+          "lag_evicted": 0,
+          "http": 16,
+          "writes": 16,
+          "inserts": 16
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-pair-64f2e07c9ed9.1"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-497035dc7e04&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-497035dc7e04",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-3c5403a31228&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-3c5403a31228",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-2fb417791ff9&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-2fb417791ff9",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-7b068820ad3f&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-7b068820ad3f",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-5aaae8ca8a41&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-5aaae8ca8a41",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-a75825857971&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-a75825857971",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-259726fee467&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-259726fee467",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-pair-64f2e07c9ed9&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-pair-64f2e07c9ed9",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 37,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "normal",
+        "archive": {
+          "records": 37,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 19,
+        "token": "csrf.k11-pair-64f2e07c9ed9.1",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 567064952,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 37,
+        "custom_text": "CSRF_token cleared",
+        "thread_count": 110,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 37,
+        "status": "Logged: /workflow/check?run=k11-pair-64f2e07c9ed9"
+      }
+    },
+    {
+      "name": "concurrent-busy",
+      "passed": true,
+      "targets": [
+        {
+          "run": "k11-busy-39b78e89ec9b",
+          "action_count": 1,
+          "event_count": 1,
+          "recent_events": [
+            {
+              "sequence": 51,
+              "time_ns": 1793593099593731500,
+              "run": "k11-busy-39b78e89ec9b",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-busy-39b78e89ec9b",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-busy-39b78e89ec9b"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "49"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtYnVzeS0zOWI3OGU4OWVjOWIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWJ1c3ktMzliNzhlODllYzliDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDQ5DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLWJ1c3ktMzliNzhlODllYzliJnR3bz1UV08=",
+              "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtYnVzeS0zOWI3OGU4OWVjOWImdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-busy-39b78e89ec9b.1",
+            "csrf.k11-busy-39b78e89ec9b.1"
+          ]
+        },
+        {
+          "run": "k11-busy-2f4534b666d8",
+          "action_count": 1,
+          "event_count": 1,
+          "recent_events": [
+            {
+              "sequence": 52,
+              "time_ns": 1793593100212808400,
+              "run": "k11-busy-2f4534b666d8",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-busy-2f4534b666d8",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-busy-39b78e89ec9b.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-busy-2f4534b666d8"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtYnVzeS0yZjQ1MzRiNjY2ZDggSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1idXN5LTM5Yjc4ZTg5ZWM5Yi4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYnVzeS0yZjQ1MzRiNjY2ZDgNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1idXN5LTM5Yjc4ZTg5ZWM5Yi4xJm9uZT1rMTEtYnVzeS0yZjQ1MzRiNjY2ZDgmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1idXN5LTM5Yjc4ZTg5ZWM5Yi4xJm9uZT1rMTEtYnVzeS0yZjQ1MzRiNjY2ZDgmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-busy-2f4534b666d8.1",
+            "csrf.k11-busy-2f4534b666d8.1"
+          ]
+        },
+        {
+          "run": "k11-busy-f4d1c25d333e",
+          "action_count": 1,
+          "event_count": 1,
+          "recent_events": [
+            {
+              "sequence": 53,
+              "time_ns": 1793593100822849400,
+              "run": "k11-busy-f4d1c25d333e",
+              "method": "POST",
+              "target": "/workflow/action?run=k11-busy-f4d1c25d333e",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18790"
+                ],
+                [
+                  "Cookie",
+                  "sid=sid.k11-busy-2f4534b666d8.1"
+                ],
+                [
+                  "X-Bober-Test-Run",
+                  "k11-busy-f4d1c25d333e"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "67"
+                ]
+              ],
+              "raw_base64": "UE9TVCAvd29ya2Zsb3cvYWN0aW9uP3J1bj1rMTEtYnVzeS1mNGQxYzI1ZDMzM2UgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KQ29va2llOiBzaWQ9c2lkLmsxMS1idXN5LTJmNDUzNGI2NjZkOC4xDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYnVzeS1mNGQxYzI1ZDMzM2UNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNjcNCg0KY3NyZj1jc3JmLmsxMS1idXN5LTJmNDUzNGI2NjZkOC4xJm9uZT1rMTEtYnVzeS1mNGQxYzI1ZDMzM2UmdHdvPVRXTw==",
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1idXN5LTJmNDUzNGI2NjZkOC4xJm9uZT1rMTEtYnVzeS1mNGQxYzI1ZDMzM2UmdHdvPVRXTw=="
+            }
+          ],
+          "session": [
+            "sid.k11-busy-f4d1c25d333e.1",
+            "csrf.k11-busy-f4d1c25d333e.1"
+          ]
+        }
+      ],
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 3,
+          "reads": 0,
+          "proxy": 6,
+          "lag_evicted": 0,
+          "http": 3,
+          "writes": 3,
+          "inserts": 3
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-busy-f4d1c25d333e.1"
+        },
+        "use_cp": false,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-busy-39b78e89ec9b&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/action?run=k11-busy-39b78e89ec9b",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-busy-2f4534b666d8&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/action?run=k11-busy-2f4534b666d8",
+            "after": 0
+          },
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-busy-f4d1c25d333e&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/action?run=k11-busy-f4d1c25d333e",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 40,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "busy",
+        "archive": {
+          "records": 40,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 20,
+        "token": "csrf.k11-busy-f4d1c25d333e.1",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 577583840,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 40,
+        "custom_text": "CSRF_token cleared",
+        "thread_count": 110,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 40,
+        "status": "Logged: /workflow/action?run=k11-busy-f4d1c25d333e"
+      }
+    },
+    {
+      "name": "during-rt-clear-state",
+      "passed": true,
+      "target": {
+        "run": "k11-held-4608126aed6d",
+        "action_count": 1,
+        "event_count": 1,
+        "recent_events": [
+          {
+            "sequence": 56,
+            "time_ns": 1793593101041068400,
+            "run": "k11-held-4608126aed6d",
+            "method": "POST",
+            "target": "/k11/held-action?run=k11-held-4608126aed6d",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-held-4608126aed6d"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "49"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL2hlbGQtYWN0aW9uP3J1bj1rMTEtaGVsZC00NjA4MTI2YWVkNmQgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWhlbGQtNDYwODEyNmFlZDZkDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDQ5DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLWhlbGQtNDYwODEyNmFlZDZkJnR3bz1UV08=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtaGVsZC00NjA4MTI2YWVkNmQmdHdvPVRXTw=="
+          }
+        ],
+        "session": [
+          "sid.k11-held-4608126aed6d.action",
+          "csrf.k11-held-4608126aed6d.action"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Cache-control",
+            "no-cache, no-store"
+          ],
+          [
+            "Pragma",
+            "no-cache"
+          ],
+          [
+            "X-Frame-Options",
+            "DENY"
+          ],
+          [
+            "Content-Type",
+            "text/html; charset=utf-8"
+          ],
+          [
+            "X-Content-Type-Options",
+            "nosniff"
+          ]
+        ],
+        "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+        "seconds": 0.062331
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 1,
+          "reads": 0,
+          "proxy": 1,
+          "lag_evicted": 0,
+          "http": 1,
+          "writes": 1,
+          "inserts": 1
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {},
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-held-4608126aed6d&w=TWO",
+            "after": 3
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 41,
+        "dirty": false,
+        "failures": [
+          {
+            "code": "SESSION_CLEARED",
+            "status": "error_after_send"
+          }
+        ],
+        "last": 1,
+        "profile": "held",
+        "archive": {
+          "records": 41,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 21,
+        "token": null,
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": true,
+        "heap_used_bytes": 578320680,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 41,
+        "custom_text": "[BoberProxy workflow 28] SESSION_CLEARED",
+        "thread_count": 110,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 41,
+        "status": "Logged: /k11/held-action?run=k11-held-4608126aed6d"
+      }
+    },
+    {
+      "name": "during-rt-proxy-off",
+      "passed": true,
+      "target": {
+        "run": "k11-held-0a89202963e0",
+        "action_count": 1,
+        "event_count": 2,
+        "recent_events": [
+          {
+            "sequence": 61,
+            "time_ns": 1793593101322411000,
+            "run": "k11-held-0a89202963e0",
+            "method": "POST",
+            "target": "/k11/held-action?run=k11-held-0a89202963e0",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-held-0a89202963e0"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "49"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvazExL2hlbGQtYWN0aW9uP3J1bj1rMTEtaGVsZC0wYTg5MjAyOTYzZTAgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODc5MA0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWhlbGQtMGE4OTIwMjk2M2UwDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDQ5DQoNCmNzcmY9YzVyZm00cmszciZvbmU9azExLWhlbGQtMGE4OTIwMjk2M2UwJnR3bz1UV08=",
+            "body_base64": "Y3NyZj1jNXJmbTRyazNyJm9uZT1rMTEtaGVsZC0wYTg5MjAyOTYzZTAmdHdvPVRXTw=="
+          },
+          {
+            "sequence": 64,
+            "time_ns": 1793593101410055900,
+            "run": "k11-held-0a89202963e0",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-held-0a89202963e0",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-held-0a89202963e0.action"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-held-0a89202963e0"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "72"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1oZWxkLTBhODkyMDI5NjNlMCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLWhlbGQtMGE4OTIwMjk2M2UwLmFjdGlvbg0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWhlbGQtMGE4OTIwMjk2M2UwDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDcyDQoNCmNzcmY9Y3NyZi5rMTEtaGVsZC0wYTg5MjAyOTYzZTAuYWN0aW9uJm9uZT1rMTEtaGVsZC0wYTg5MjAyOTYzZTAmdHdvPVRXTw==",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1oZWxkLTBhODkyMDI5NjNlMC5hY3Rpb24mb25lPWsxMS1oZWxkLTBhODkyMDI5NjNlMCZ0d289VFdP"
+          }
+        ],
+        "session": [
+          "sid.k11-held-0a89202963e0.action",
+          "csrf.k11-held-0a89202963e0.action"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": [
+          [
+            "Content-Length",
+            "993"
+          ],
+          [
+            "Connection",
+            "close"
+          ],
+          [
+            "Content-Type",
+            "application/json"
+          ]
+        ],
+        "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDY0LCAidGltZV9ucyI6IDE3OTM1OTMxMDE0MTAwNTU5MDAsICJydW4iOiAiazExLWhlbGQtMGE4OTIwMjk2M2UwIiwgIm1ldGhvZCI6ICJQT1NUIiwgInRhcmdldCI6ICIvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1oZWxkLTBhODkyMDI5NjNlMCIsICJoZWFkZXJzIjogW1siSG9zdCIsICIxMjcuMC4wLjE6MTg3OTAiXSwgWyJDb29raWUiLCAic2lkPXNpZC5rMTEtaGVsZC0wYTg5MjAyOTYzZTAuYWN0aW9uIl0sIFsiWC1Cb2Jlci1UZXN0LVJ1biIsICJrMTEtaGVsZC0wYTg5MjAyOTYzZTAiXSwgWyJDb250ZW50LVR5cGUiLCAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkIl0sIFsiQ29udGVudC1MZW5ndGgiLCAiNzIiXV0sICJyYXdfYmFzZTY0IjogIlVFOVRWQ0F2ZDI5eWEyWnNiM2N2WTJobFkycy9jblZ1UFdzeE1TMW9aV3hrTFRCaE9Ea3lNREk1TmpObE1DQklWRlJRTHpFdU1RMEtTRzl6ZERvZ01USTNMakF1TUM0eE9qRTROemt3RFFwRGIyOXJhV1U2SUhOcFpEMXphV1F1YXpFeExXaGxiR1F0TUdFNE9USXdNamsyTTJVd0xtRmpkR2x2YmcwS1dDMUNiMkpsY2kxVVpYTjBMVkoxYmpvZ2F6RXhMV2hsYkdRdE1HRTRPVEl3TWprMk0yVXdEUXBEYjI1MFpXNTBMVlI1Y0dVNklHRndjR3hwWTJGMGFXOXVMM2d0ZDNkM0xXWnZjbTB0ZFhKc1pXNWpiMlJsWkEwS1EyOXVkR1Z1ZEMxTVpXNW5kR2c2SURjeURRb05DbU56Y21ZOVkzTnlaaTVyTVRFdGFHVnNaQzB3WVRnNU1qQXlPVFl6WlRBdVlXTjBhVzl1Sm05dVpUMXJNVEV0YUdWc1pDMHdZVGc1TWpBeU9UWXpaVEFtZEhkdlBWUlhUdz09IiwgImJvZHlfYmFzZTY0IjogIlkzTnlaajFqYzNKbUxtc3hNUzFvWld4a0xUQmhPRGt5TURJNU5qTmxNQzVoWTNScGIyNG1iMjVsUFdzeE1TMW9aV3hrTFRCaE9Ea3lNREk1TmpObE1DWjBkMjg5VkZkUCJ9LCAiYWN0aW9uX2NvdW50IjogMSwgImNvb2tpZV9vayI6IHRydWUsICJ0b2tlbl9vayI6IHRydWV9",
+        "seconds": 0.118411,
+        "json": {
+          "request": {
+            "sequence": 64,
+            "time_ns": 1793593101410055900,
+            "run": "k11-held-0a89202963e0",
+            "method": "POST",
+            "target": "/workflow/check?run=k11-held-0a89202963e0",
+            "headers": [
+              [
+                "Host",
+                "127.0.0.1:18790"
+              ],
+              [
+                "Cookie",
+                "sid=sid.k11-held-0a89202963e0.action"
+              ],
+              [
+                "X-Bober-Test-Run",
+                "k11-held-0a89202963e0"
+              ],
+              [
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+              ],
+              [
+                "Content-Length",
+                "72"
+              ]
+            ],
+            "raw_base64": "UE9TVCAvd29ya2Zsb3cvY2hlY2s/cnVuPWsxMS1oZWxkLTBhODkyMDI5NjNlMCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb29raWU6IHNpZD1zaWQuazExLWhlbGQtMGE4OTIwMjk2M2UwLmFjdGlvbg0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWhlbGQtMGE4OTIwMjk2M2UwDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDcyDQoNCmNzcmY9Y3NyZi5rMTEtaGVsZC0wYTg5MjAyOTYzZTAuYWN0aW9uJm9uZT1rMTEtaGVsZC0wYTg5MjAyOTYzZTAmdHdvPVRXTw==",
+            "body_base64": "Y3NyZj1jc3JmLmsxMS1oZWxkLTBhODkyMDI5NjNlMC5hY3Rpb24mb25lPWsxMS1oZWxkLTBhODkyMDI5NjNlMCZ0d289VFdP"
+          },
+          "action_count": 1,
+          "cookie_ok": true,
+          "token_ok": true
+        }
+      },
+      "state": {
+        "paused": false,
+        "rejected": 0,
+        "counts": {
+          "edt_io": false,
+          "custom": 2,
+          "reads": 0,
+          "proxy": 2,
+          "lag_evicted": 0,
+          "http": 2,
+          "writes": 2,
+          "inserts": 2
+        },
+        "display_error": null,
+        "log_error": null,
+        "rebuilding": false,
+        "cookies": {
+          "sid": "sid.k11-held-0a89202963e0.action"
+        },
+        "use_cp": true,
+        "workflow_budget_ms": 30000,
+        "audit": [
+          {
+            "request": true,
+            "before": 0,
+            "path": "/entry?q=k11-held-0a89202963e0&w=TWO",
+            "after": 2
+          },
+          {
+            "request": false,
+            "before": 0,
+            "path": "/workflow/check?run=k11-held-0a89202963e0",
+            "after": 0
+          }
+        ],
+        "raw_bytes": 0,
+        "displayed": 43,
+        "dirty": false,
+        "failures": [],
+        "last": 1,
+        "profile": "held",
+        "archive": {
+          "records": 43,
+          "writers": 0,
+          "deleted": 0,
+          "cleanup_error": null,
+          "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-h6bymt",
+          "retired": 0
+        },
+        "own_closed": false,
+        "config_version": 23,
+        "token": "csrf.k11-held-0a89202963e0.action",
+        "filter": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "proxy": false,
+        "heap_used_bytes": 586007968,
+        "raw_limit": 33554432,
+        "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+        "stored": 43,
+        "custom_text": "Proxy processing toggled: OFF",
+        "thread_count": 110,
+        "writer": {
+          "controls": 0,
+          "active": false,
+          "rows": 0,
+          "running_ms": 0,
+          "closed": false,
+          "results": 0,
+          "raw_bytes": 0
+        },
+        "first": 43,
+        "status": "Logged: /workflow/check?run=k11-held-0a89202963e0"
+      }
+    }
+  ]
+}

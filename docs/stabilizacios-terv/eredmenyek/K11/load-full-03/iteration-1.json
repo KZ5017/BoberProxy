@@ -1,0 +1,349 @@
+{
+  "max_heap_bytes": 805306368, 
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "memory": {
+    "body_difference_bytes": 614400000, 
+    "large_retained_heap_bytes": 79369176, 
+    "retained_fraction": 3.77734375e-05, 
+    "pre_population_heap_bytes": 62285688, 
+    "rows": 10000, 
+    "heap_after_clear_requested_gc_bytes": 58395864, 
+    "small_retained_heap_bytes": 79345968, 
+    "heap_difference_bytes": 23208, 
+    "ninety_percent_extra_body_not_retained": true
+  }, 
+  "kind": "K11-full-native-callback-archive-table-dedicated-JVM", 
+  "smoke": false, 
+  "k11_closed": false, 
+  "helper_service_interned": true, 
+  "checks": {
+    "memory_gate": true, 
+    "no_errors": true, 
+    "owned_archive_reclaimed": true, 
+    "all_expected_stages": true, 
+    "ten_to_hundred_thousand_time_ratio_at_most_25": true
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "producer_outstanding_limit": 64, 
+  "java_version": "26.0.2", 
+  "stages": [
+    {
+      "displayed": 100, 
+      "producer_seconds": 0.27900004386901855, 
+      "current_threads": 18, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 6, 
+        "p95": 2.0005999952554703, 
+        "p99": 2.0005999952554703, 
+        "median": 0, 
+        "maximum": 67.99280001223087
+      }, 
+      "heap_after_requested_gc_bytes": 58115864, 
+      "clear": {
+        "content_records": 100, 
+        "seconds": 0.14300012588500977, 
+        "harness_allowance_seconds": 60
+      }, 
+      "accepted": 100, 
+      "label": "warmup", 
+      "rows": 100, 
+      "drain_seconds": 0.08500003814697266, 
+      "peak_outstanding": 44, 
+      "seconds": 0.3599998950958252, 
+      "disk_bytes": 113490, 
+      "loaded_class_count": 9567, 
+      "stored": 100, 
+      "peak_raw_bytes": 32451, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 2.703125, 
+      "callback_last_ms": {
+        "count": 100, 
+        "p95": 2.511599987745285, 
+        "p99": 3.13960000872612, 
+        "median": 1.1000999957323074, 
+        "maximum": 16.554900005459785
+      }, 
+      "appearance_lag_ms": {
+        "count": 100, 
+        "p95": 78.20409999787807, 
+        "p99": 81.36159999668598, 
+        "median": 48.61949999630451, 
+        "maximum": 152.96930000185966
+      }, 
+      "callback_first_ms": {
+        "count": 100, 
+        "p95": 2.511599987745285, 
+        "p99": 3.13960000872612, 
+        "median": 1.1000999957323074, 
+        "maximum": 16.554900005459785
+      }
+    }, 
+    {
+      "displayed": 1000, 
+      "producer_seconds": 0.9429998397827148, 
+      "current_threads": 17, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 19, 
+        "p95": 1.7549999952316284, 
+        "p99": 1.7549999952316284, 
+        "median": 0.9800000041723251, 
+        "maximum": 2.042600005865097
+      }, 
+      "heap_after_requested_gc_bytes": 59327544, 
+      "clear": {
+        "content_records": 1000, 
+        "seconds": 1.0530002117156982, 
+        "harness_allowance_seconds": 60
+      }, 
+      "accepted": 1000, 
+      "label": "rows-1000", 
+      "rows": 1000, 
+      "drain_seconds": 0.040000200271606445, 
+      "peak_outstanding": 64, 
+      "seconds": 0.9789998531341553, 
+      "disk_bytes": 1138890, 
+      "loaded_class_count": 9587, 
+      "stored": 1000, 
+      "peak_raw_bytes": 56115, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 3.953125, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.5878999978303909, 
+        "p99": 1.0473999977111816, 
+        "median": 0.2685000002384186, 
+        "maximum": 3.29449999332428
+      }, 
+      "appearance_lag_ms": {
+        "count": 1000, 
+        "p95": 85.76010000705719, 
+        "p99": 88.72150000929832, 
+        "median": 44.95379999279976, 
+        "maximum": 90.87689998745918
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.5878999978303909, 
+        "p99": 1.0473999977111816, 
+        "median": 0.2685000002384186, 
+        "maximum": 3.29449999332428
+      }
+    }, 
+    {
+      "displayed": 10000, 
+      "producer_seconds": 8.224999904632568, 
+      "current_threads": 17, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 162, 
+        "p95": 2.031700000166893, 
+        "p99": 2.1353999972343445, 
+        "median": 0.9974000006914139, 
+        "maximum": 2.9375
+      }, 
+      "heap_after_requested_gc_bytes": 78304552, 
+      "clear": {
+        "content_records": 10000, 
+        "seconds": 10.80400013923645, 
+        "harness_allowance_seconds": 60
+      }, 
+      "accepted": 10000, 
+      "label": "rows-10000", 
+      "rows": 10000, 
+      "drain_seconds": 0.05099987983703613, 
+      "peak_outstanding": 64, 
+      "seconds": 8.269999980926514, 
+      "disk_bytes": 11408890, 
+      "loaded_class_count": 9600, 
+      "stored": 10000, 
+      "peak_raw_bytes": 65250, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 15.734375, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.210099995136261, 
+        "p99": 0.2897000014781952, 
+        "median": 0.1632000058889389, 
+        "maximum": 4.531900003552437
+      }, 
+      "appearance_lag_ms": {
+        "count": 10000, 
+        "p95": 51.11609999835491, 
+        "p99": 87.82750000059605, 
+        "median": 42.98880000412464, 
+        "maximum": 93.30489999055862
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.3319000005722046, 
+        "p99": 0.4860000014305115, 
+        "median": 0.23080000281333923, 
+        "maximum": 3.5305000096559525
+      }
+    }, 
+    {
+      "displayed": 100000, 
+      "producer_seconds": 81.83699989318848, 
+      "current_threads": 17, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 1609, 
+        "p95": 2.0156999975442886, 
+        "p99": 2.0819000005722046, 
+        "median": 0.5900000035762787, 
+        "maximum": 4.229000002145767
+      }, 
+      "heap_after_requested_gc_bytes": 270040640, 
+      "clear": {
+        "content_records": 100000, 
+        "seconds": 114.05200004577637, 
+        "harness_allowance_seconds": 264.375
+      }, 
+      "accepted": 100000, 
+      "label": "rows-100000", 
+      "rows": 100000, 
+      "drain_seconds": 0.0839998722076416, 
+      "peak_outstanding": 64, 
+      "seconds": 81.89299988746643, 
+      "disk_bytes": 114288890, 
+      "loaded_class_count": 9603, 
+      "stored": 100000, 
+      "peak_raw_bytes": 72128, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 124.0625, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.23730000853538513, 
+        "p99": 0.4091999977827072, 
+        "median": 0.1623999923467636, 
+        "maximum": 0.6488000005483627
+      }, 
+      "appearance_lag_ms": {
+        "count": 100000, 
+        "p95": 49.97349999845028, 
+        "p99": 90.08799999952316, 
+        "median": 43.23160000145435, 
+        "maximum": 186.96060000360012
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.20260000228881836, 
+        "p99": 0.2548000067472458, 
+        "median": 0.1624000072479248, 
+        "maximum": 3.93019999563694
+      }
+    }, 
+    {
+      "displayed": 10000, 
+      "producer_seconds": 10.812000036239624, 
+      "current_threads": 17, 
+      "body_bytes": 4096, 
+      "heartbeat_lag_ms": {
+        "count": 214, 
+        "p95": 1.5368000119924545, 
+        "p99": 2.0005999952554703, 
+        "median": 0.5263999998569489, 
+        "maximum": 2.9488999992609024
+      }, 
+      "heap_after_requested_gc_bytes": 79345968, 
+      "clear": {
+        "content_records": 10000, 
+        "seconds": 11.23799991607666, 
+        "harness_allowance_seconds": 60
+      }, 
+      "accepted": 10000, 
+      "label": "memory-small", 
+      "rows": 10000, 
+      "drain_seconds": 0.07299995422363281, 
+      "peak_outstanding": 64, 
+      "seconds": 10.868000030517578, 
+      "disk_bytes": 42148890, 
+      "loaded_class_count": 9603, 
+      "stored": 10000, 
+      "peak_raw_bytes": 239343, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 16.703125, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.5034999996423721, 
+        "p99": 0.5391000062227249, 
+        "median": 0.4699999988079071, 
+        "maximum": 2.9803999960422516
+      }, 
+      "appearance_lag_ms": {
+        "count": 10000, 
+        "p95": 83.44660000503063, 
+        "p99": 89.84510000050068, 
+        "median": 45.5705000013113, 
+        "maximum": 98.40060000121593
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.5629000067710876, 
+        "p99": 1.8113999962806702, 
+        "median": 0.4684000015258789, 
+        "maximum": 2.240899994969368
+      }
+    }, 
+    {
+      "displayed": 10000, 
+      "producer_seconds": 89.22200012207031, 
+      "current_threads": 17, 
+      "body_bytes": 65536, 
+      "heartbeat_lag_ms": {
+        "count": 1767, 
+        "p95": 2.002900004386902, 
+        "p99": 2.0383999943733215, 
+        "median": 0.5468000024557114, 
+        "maximum": 3.1371999979019165
+      }, 
+      "heap_after_requested_gc_bytes": 79369176, 
+      "clear": {
+        "content_records": 10000, 
+        "seconds": 10.963000059127808, 
+        "harness_allowance_seconds": 60
+      }, 
+      "accepted": 10000, 
+      "label": "memory-large", 
+      "rows": 10000, 
+      "drain_seconds": 0.6289999485015869, 
+      "peak_outstanding": 64, 
+      "seconds": 89.80100011825562, 
+      "disk_bytes": 656558890, 
+      "loaded_class_count": 9607, 
+      "stored": 10000, 
+      "peak_raw_bytes": 4004040, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 166.15625, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 7.856100007891655, 
+        "p99": 8.690400004386902, 
+        "median": 6.638400003314018, 
+        "maximum": 10.203699991106987
+      }, 
+      "appearance_lag_ms": {
+        "count": 10000, 
+        "p95": 584.5599000006914, 
+        "p99": 591.0484999865294, 
+        "median": 552.1397999972105, 
+        "maximum": 608.3901000022888
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 7.662599995732307, 
+        "p99": 7.801699995994568, 
+        "median": 6.600099995732307, 
+        "maximum": 10.95440000295639
+      }
+    }
+  ], 
+  "table_visible": false, 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "errors": [], 
+  "network_requests": 0, 
+  "requested_gc_only_in_disposable_jvm": true
+}

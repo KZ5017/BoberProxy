@@ -1,0 +1,25 @@
+{
+  "recorded_utc": "2026-11-02T04:41:57Z",
+  "files": [
+    {
+      "path": "burp_k11_instrumented.py",
+      "sha256": "8b1a85279c1f3a5fb79335bbf579098725a6cbe6e8bbec5b87e713981ad54377"
+    },
+    {
+      "path": "run_k11_live.py",
+      "sha256": "aee5d09d750ae5e794bb3f7361b0481ae461df1b6651d83fc40b65d78b4dee43"
+    },
+    {
+      "path": "probe_k11_wire.py",
+      "sha256": "9bbe49c704f89c7a9847f8e8a075b428d62e8e5d6c9510aacbb3dc573a0ae084"
+    },
+    {
+      "path": "k11_control.py",
+      "sha256": "51fe153deb2c9c0bbd0ef800ff1cc9806b9a8d30157162b3f56bf09e2a4dbec0"
+    },
+    {
+      "path": "target_server_k11.py",
+      "sha256": "07f4fffbd8dcc202779c40dc5df531f026fee8454e6663a455021bd8b2f8dd1e"
+    }
+  ]
+}

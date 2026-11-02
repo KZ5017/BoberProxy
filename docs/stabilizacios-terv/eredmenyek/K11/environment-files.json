@@ -1,0 +1,28 @@
+{
+  "recorded_utc": "2026-11-02T02:31:09Z",
+  "os": "Windows-11-10.0.26300-SP0",
+  "cpu_count": 16,
+  "files": [
+    {
+      "path": "BoberProxy.py",
+      "bytes": 204423,
+      "sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956"
+    },
+    {
+      "path": "lib\\rsyntaxtextarea-3.6.3.jar",
+      "bytes": 1340341,
+      "sha256": "5d81946b70a97fa5ea6884295a7fdd2a703cc3b0ef944796c7c696b4395413f6"
+    },
+    {
+      "path": "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+      "bytes": 163230314,
+      "sha256": "0d8aa48a904a72ad6ce4c2276f37e6cc0cfdb12d735578c9913a066f489a4818"
+    },
+    {
+      "path": "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar",
+      "bytes": 50453449,
+      "sha256": "1fba1769effcc8b19f5e10436bc8274a158ce988559f257927c24c73bb137f3c"
+    }
+  ],
+  "live_burp_version_pending": true
+}

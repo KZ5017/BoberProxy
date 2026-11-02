@@ -17,7 +17,7 @@ from probe_cleanup_native import run_checks as cleanup_checks
 from test_cleanup_final import FinalCleanupTests
 
 
-def run_checks(actual_callbacks=None):
+def run_checks(actual_callbacks=None, expected_line=None):
     ns, raw = load_source(os.path.join(ROOT, 'BoberProxy.py'))
     ns['_probe_threads'] = []
     class NativeFinal(FinalCleanupTests):
@@ -26,7 +26,7 @@ def run_checks(actual_callbacks=None):
     stream = StringIO()
     result = unittest.TextTestRunner(stream=stream, verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(NativeFinal))
     errors = [] if result.wasSuccessful() else [stream.getvalue()]
-    cleanup = cleanup_checks(actual_callbacks, expected_marker='K10-B')
+    cleanup = cleanup_checks(actual_callbacks, expected_marker='K10-B', expected_line=expected_line)
     conversions = conversion_checks(actual_callbacks.getHelpers() if actual_callbacks else None)
     checks = {'six_native_final_cases': result.wasSuccessful()}
     if actual_callbacks:

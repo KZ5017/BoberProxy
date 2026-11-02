@@ -1,0 +1,9 @@
+test_before_after_pair_and_duplicate_hook (__main__.ManualTests.test_before_after_pair_and_duplicate_hook) ... ok
+test_embedded_observers_mark_same_real_message (__main__.ManualTests.test_embedded_observers_mark_same_real_message) ... ok
+test_other_target_path_or_tag_never_forces_intercept (__main__.ManualTests.test_other_target_path_or_tag_never_forces_intercept) ... ok
+test_unload_prevents_late_interception (__main__.ManualTests.test_unload_prevents_late_interception) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.040s
+
+OK

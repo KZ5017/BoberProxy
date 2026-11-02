@@ -1,0 +1,2 @@
+# Preserve archived K11 evidence bytes for recorded SHA-256 hashes.
+K11/** -text

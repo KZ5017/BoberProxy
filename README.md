@@ -515,7 +515,11 @@ pauses new admission, retaining accepted entries. Pending accepted work can
 finish after Pause; resuming uses the Pause logging control. Read/export errors
 are shown separately. The budget is not a bound on total JVM/process memory:
 metadata grows with row count, and viewer/native-editor buffers and conversion
-temporaries need additional memory. Full long-run load validation is K11 work.
+temporaries need additional memory. [K11 validation](docs/stabilizacios-terv/eredmenyek/K11/README.md)
+records three dedicated load/memory repeats, a30-minute mixed run and a separate
+5-minute fault run in the recorded environment. The old isolated callback
+baseline is unavailable; dedicated body-retention measurements do not attribute
+the whole Burp heap to this extension.
 
 ### Filters include:
 

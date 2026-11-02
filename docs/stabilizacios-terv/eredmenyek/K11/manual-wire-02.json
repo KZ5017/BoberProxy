@@ -1,0 +1,124 @@
+{
+  "kind": "K11-real-manual-Proxy-interception-pair",
+  "run": "k11-manual-073e2869f03e",
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "480"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body_base64": "eyJyZXF1ZXN0IjogeyJzZXF1ZW5jZSI6IDc1NDA4LCAidGltZV9ucyI6IDE3OTM1OTk2MzEwNDI0NjI3MDAsICJydW4iOiAiazExLW1hbnVhbC0wNzNlMjg2OWYwM2UiLCAibWV0aG9kIjogIkdFVCIsICJ0YXJnZXQiOiAiL2VjaG8/Y2FzZT1rMTEtbWFudWFsIiwgImhlYWRlcnMiOiBbWyJIb3N0IiwgIjEyNy4wLjAuMToxODc5MCJdLCBbIkNvbm5lY3Rpb24iLCAia2VlcC1hbGl2ZSJdLCBbIlgtQm9iZXItVGVzdC1SdW4iLCAiazExLW1hbnVhbC0wNzNlMjg2OWYwM2UiXV0sICJyYXdfYmFzZTY0IjogIlIwVlVJQzlsWTJodlAyTmhjMlU5YXpFeExXMWhiblZoYkNCSVZGUlFMekV1TVEwS1NHOXpkRG9nTVRJM0xqQXVNQzR4T2pFNE56a3dEUXBEYjI1dVpXTjBhVzl1T2lCclpXVndMV0ZzYVhabERRcFlMVUp2WW1WeUxWUmxjM1F0VW5WdU9pQnJNVEV0YldGdWRXRnNMVEEzTTJVeU9EWTVaakF6WlEwS0RRbz0iLCAiYm9keV9iYXNlNjQiOiAiIn19",
+    "seconds": 11.132276,
+    "json": {
+      "request": {
+        "sequence": 75408,
+        "time_ns": 1793599631042462700,
+        "run": "k11-manual-073e2869f03e",
+        "method": "GET",
+        "target": "/echo?case=k11-manual",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18790"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k11-manual-073e2869f03e"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9azExLW1hbnVhbCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbWFudWFsLTA3M2UyODY5ZjAzZQ0KDQo=",
+        "body_base64": ""
+      }
+    }
+  },
+  "target": {
+    "run": "k11-manual-073e2869f03e",
+    "action_count": 0,
+    "event_count": 1,
+    "recent_events": [
+      {
+        "sequence": 75408,
+        "time_ns": 1793599631042462700,
+        "run": "k11-manual-073e2869f03e",
+        "method": "GET",
+        "target": "/echo?case=k11-manual",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18790"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ],
+          [
+            "X-Bober-Test-Run",
+            "k11-manual-073e2869f03e"
+          ]
+        ],
+        "raw_base64": "R0VUIC9lY2hvP2Nhc2U9azExLW1hbnVhbCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4NzkwDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtbWFudWFsLTA3M2UyODY5ZjAzZQ0KDQo=",
+        "body_base64": ""
+      }
+    ],
+    "session": null
+  },
+  "observations": {
+    "before": [
+      {
+        "request": true,
+        "before": 0,
+        "run": "k11-manual-073e2869f03e",
+        "reference": 62593,
+        "after": 1
+      },
+      {
+        "request": false,
+        "before": 0,
+        "run": "k11-manual-073e2869f03e",
+        "reference": 62593,
+        "after": 1
+      }
+    ],
+    "after": [
+      {
+        "request": true,
+        "before": 1,
+        "run": "k11-manual-073e2869f03e",
+        "reference": 62593,
+        "after": 1
+      },
+      {
+        "request": false,
+        "before": 1,
+        "run": "k11-manual-073e2869f03e",
+        "reference": 62593,
+        "after": 1
+      }
+    ]
+  },
+  "checks": {
+    "response_ok": true,
+    "exactly_one_target_request": true,
+    "before_request_response_pair": true,
+    "before_DO_INTERCEPT_preserved": true,
+    "after_request_response_pair": true,
+    "after_DO_INTERCEPT_preserved": true,
+    "same_native_message_reference": true
+  }
+}

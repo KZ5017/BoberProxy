@@ -1,0 +1,41 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.netty.util.internal.PlatformDependent0$3 (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)
+WARNING: Please consider reporting this to the maintainers of class org.python.netty.util.internal.PlatformDependent0$3
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+{
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "kind": "K04-native-manager-and-swing-checks-no-network", 
+  "message_editors_are_doubles": true, 
+  "checks": {
+    "native_max_age_precedes_expires": true, 
+    "empty_cookie_is_readdition": true, 
+    "native_utc_expiry_tombstone": true, 
+    "swing_edit_shows_missing_capture": true, 
+    "clear_restores_template": true, 
+    "swing_edit_shows_invalid_regex_immediately": true, 
+    "swing_clear_show_missing": true, 
+    "java_array_deleted_prefix_is_value": true, 
+    "unmanaged_cookie_and_high_byte_body_survive": true, 
+    "actual_header_name_only": true, 
+    "tombstone_suppresses_unicode_template_cookie": true, 
+    "signed_java_bytes_csrf_preserved": true, 
+    "native_unchanged_pattern_reuses_compilation": true, 
+    "native_clear_is_missing_token": true, 
+    "native_oversized_repeat_is_configuration_error": true, 
+    "native_invalid_regex_diagnostic": true, 
+    "native_capture_required": true, 
+    "swing_edited_pattern_extracts": true, 
+    "native_no_match_retains_token": true, 
+    "swing_default_regex_compiled_with_options_off": true, 
+    "swing_reset_recompiles_default": true, 
+    "native_empty_token_is_present": true
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "java_version": "26.0.2", 
+  "actual_burp_helpers": false, 
+  "passed": true, 
+  "errors": []
+}

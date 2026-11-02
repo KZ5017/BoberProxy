@@ -1,8 +1,8 @@
 # Végrehajtási napló
 
-Utoljára frissítve: 2026-11-01.
+Utoljára frissítve: 2026-11-02.
 
-**K00–K10 lezárva a rögzített környezetben; K11 nem indult.** A teljes terhelési/instrumentálási mátrix még részben nem futott; ennek határai a körök eredményjegyzékeiben szerepelnek.
+**K00–K11 lezárva a rögzített környezetben, dokumentált mérési határokkal.** K11-ben nincs függő kézi kapu vagy új magas prioritású termékhiba; a fő kód változatlan. Az E61 régi callback-baseline hiánya és az E62 saját tároló/egész Burp-heap megkülönböztetése a [végső jegyzőkönyvben](eredmenyek/K11/README.md) és [mátrixban](eredmenyek/K11/matrix.md) szerepel. A korábbi körök szövegei történeti állapotokat őriznek.
 
 ## Aktuális állapot
 
@@ -20,7 +20,7 @@ Utoljára frissítve: 2026-11-01.
 | K09 | Lezárt a rögzített környezetben | Saját archive;768MiB body384MiB heap mellett,100k külön modell-metaadat, nyolc teljes natív UI/archive ciklus, tényleges write/read hibapróbák és saját fájlok cleanupja. Teljes K11 mátrix nincs késznek állítva. |
 | K10/A | Lezárt a rögzített környezetben | [Leltár és eredmények](eredmenyek/K10-A/README.md); 205/204/1 CPython/Jython, actual6/10/24, három passzív kérés, normál action/CheckPage és pontosan két custom hívás; késői számlálók változatlanok. |
 | K10/B | Lezárt az összesített K10-zel együtt | [B eredmények](eredmenyek/K10-B/README.md);211/210/1, actual6/10/24/23, runtime15/23, passzív és normál két-call regresszió;46 külön F-státusz. Commit/push kifejezetten nem készült. |
-| K11 | Nem indult | Minden szükséges döntés, kör és F-státusz lezárható. |
+| K11 | Lezárt a rögzített mérési körben | [Eredmények](eredmenyek/K11/README.md): actual8/8, wire21, három teljes load/memória,30perc vegyes +5perc hibafutás, actual100k selection/export, same-message kézi Forward-pár és végső normál/viewer kapu sikeres. E61 relatív kapu nem minősíthető; E62 nem teljes Burp-heap attribúció. Főforrás változatlan. |
 
 ## Státuszok jelentése
 
@@ -318,3 +318,20 @@ A végrehajtás során itt minden F01–F46 azonosító kapjon saját sort. Töb
 ### K10/A+B Git-ellenőrzőpont — 2026-11-01
 
 - A lezárás után a felhasználó commit/push mentést kért, felülírva a végrehajtás alatti korábbi tiltást. A teljes A+B forrás, segédek, dokumentáció és szintetikus bizonyítékok a mentés részei. A revízió a Git-naplóban található; closure.json a mentés előtti validációs állapotot őrzi. Generált runtime fájlok ignoráltak. Forrás változatlan d24ecb..., nincs új Burp-forgalom vagy K11-munka.
+
+## K11 indítás — 2026-11-02
+
+Felhasználói megbízás alapján K11 elindult a 7b13b57 kiindulásról; főforráshash 1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956, a fő kód változatlan. CPython/Jython211/210/1 elfogadott korlát, összesített natív8/8PASS; a régi K03/K07 segédek elavult feltételei javítva és külön újramérve. A nagy terhelés segédjének import-, kis mintás kapu- és dinamikus osztályproblémái külön sikertelen kísérletek, nem termékhibaként minősítve. [K11 protokoll és bizonyítékok](eredmenyek/K11/README.md). Valódi Burp-helper kapu és E60–E63/forgalmi elfogadás folyamatban; lezárás és új commit/push nem történt.
+
+### K11 első élő eredmények
+
+Valódi Burp-helper8/8PASS és üres Errors visszaigazolt. A három teljes külön JVM-es E60/E62 sorozat sikeres, saját archívumok normál takarításával. A21 irányított wire-eset, három25/s referencia és128-as burst sikeres. Az első30percesre indított futás kb.300s-nál megállt: a tesztbelépő header-only scope-ja kihagyta a minimális redirect GET naplóját. A fő forrás változatlan; v2 helper scope-javítása34 önálló ellenőrzésen átment. V2 újratöltést kértünk, ezután teljes időtartamú ismétlés szükséges. K11 továbbra sincs lezárva; az eredeti sikertelen kísérlet külön megőrzött.
+
+## K11 végső lezárás — 2026-11-02
+
+- Végleges [E01–E63 eredményjegyzék](eredmenyek/K11/matrix.md) és [closure.json](eredmenyek/K11/closure.json) készült. A forrás végig `1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956` /UI03 maradt. CPython/Jython211 eset:210 siker +1 elfogadott D08 korlát; actual Burp8/8 és wire21 sikeres.
+- Három teljes1k/10k/100k és10k×4/64KiB külön JVM-es sorozat; három kis/nagyválaszos referencia,128/64-thread burst sikeres.30percben45000 kliens,56250 célkérés,53460 elfogadott napló; külön5percben10 hibaciklus és pontosan20 szándékos, látható naplóelutasítás. Saját állapotpárok/darabszámok helyesek, nincs automatikus dupla küldés vagy csendes elfogadott naplóvesztés a rögzített terhelésen. Unload után a saját archívum felszabadult.
+- Valódi Burp100k táblán9 selection/editor/export állítás, port/HTTPS/eltérő Host/deadline API-k és nyolc külön teljes natív lifecycle sikeres. A külön legacy listenerek első kézi mérése hibás összehasonlítás volt, FAIL-ként megőrizve. Az ugyanazon tényleges Proxy-objektumon mért új próba és mindkét kézi Forward sikeres; a főforrás nem változott.
+- Végső közvetlen főforrás: pontosan1 action +1 CheckPage,2 új custom hívás, helyes nyers payload/süti/token. Késői számlálók nem nőttek. Felhasználó visszaigazolta a viewer/204/Body size0 sorokat, az üres Errors lapot és az egyetlen közvetlen főpéldányt, helper nélkül.
+- A régi külön callback-p95 baseline hiánya miatt az E61 relatív+10% kapu nem minősíthető; az abszolút kapuk teljesültek. E62 saját tároló-kohorsz igazolt, teljes Burp-heap attribúció nem állított. A globális session és hard custom/regex megszakítás korlátjai megmaradnak. A megőrzött sikertelen segédpróbák részletei a jegyzőkönyvben vannak; elfogadási küszöböt nem lazítottunk.
+- Aktuális UI: direct rootUI03, k11-final RT/CP +runtime/custom-k11-final-pass-through.py;2000ms,q/w,alapCSRF. Sablonos/CheckPage/custom/két automatikaON; AutoFollow/InterceptOFF; alap, nem szünetelő szűrők. Saját18790 és18800–18802 fixture-k visszanézéshez futnak; régi instrumentált csatorna lezárt. Nincs függő feladat/kézi kapu. Új commit/push nem készült és nem volt kérve.

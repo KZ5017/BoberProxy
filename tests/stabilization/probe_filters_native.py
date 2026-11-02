@@ -116,7 +116,7 @@ def run_checks(actual_callbacks=None):
         checks['invalid_dialog_visible_and_previous_plan_retained']=wait_for(lambda:
             'Filter error' in dialogs[-1].errorLabel.getText() and ui._display_filter_plan is valid and not dialogs[-1].closed)
         edt(lambda:ui.sizeField.setText('bad'))
-        checks['invalid_capture_numeric_visible']=wait_for(lambda:ui._capture_error is not None and 'Len value' in ui.filterStatusLabel.getText())
+        checks['invalid_capture_numeric_visible']=wait_for(lambda:ui._capture_error is not None and 'Size value' in ui.filterStatusLabel.getText())
         checks['invalid_capture_plan_not_published']=ui._capture_filter_plan.numbers==()
         edt(lambda:ui.sizeField.setText(''))
         checks['capture_correction_clears_error']=wait_for(lambda:ui._capture_error is None)

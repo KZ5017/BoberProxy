@@ -1,0 +1,12 @@
+{
+  "kind": "K11-manual-observer-native-private-no-network", 
+  "checks": {
+    "both_native_phases_forced_and_observed": true, 
+    "own_report_exact": true, 
+    "own_fixture_removed": true, 
+    "both_closed": true
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "passed": true, 
+  "errors": []
+}

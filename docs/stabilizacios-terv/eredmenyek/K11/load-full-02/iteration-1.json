@@ -1,0 +1,216 @@
+{
+  "max_heap_bytes": 805306368, 
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "memory": null, 
+  "kind": "K11-full-native-callback-archive-table-dedicated-JVM", 
+  "smoke": false, 
+  "k11_closed": false, 
+  "helper_service_interned": true, 
+  "checks": {
+    "memory_gate": false, 
+    "no_errors": false, 
+    "owned_archive_reclaimed": false, 
+    "all_expected_stages": false
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "producer_outstanding_limit": 64, 
+  "java_version": "26.0.2", 
+  "stages": [
+    {
+      "displayed": 100, 
+      "producer_seconds": 0.2709999084472656, 
+      "current_threads": 18, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 6, 
+        "p95": 1.7783000022172928, 
+        "p99": 1.7783000022172928, 
+        "median": 0.7645999938249588, 
+        "maximum": 69.60489998757839
+      }, 
+      "heap_after_requested_gc_bytes": 58007768, 
+      "accepted": 100, 
+      "label": "warmup", 
+      "rows": 100, 
+      "drain_seconds": 0.09100008010864258, 
+      "peak_outstanding": 49, 
+      "seconds": 0.35899996757507324, 
+      "disk_bytes": 113490, 
+      "loaded_class_count": 9567, 
+      "stored": 100, 
+      "peak_raw_bytes": 36927, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 2.65625, 
+      "callback_last_ms": {
+        "count": 100, 
+        "p95": 2.31870000064373, 
+        "p99": 2.8108000010252, 
+        "median": 1.0349999964237213, 
+        "maximum": 18.060000002384186
+      }, 
+      "appearance_lag_ms": {
+        "count": 100, 
+        "p95": 84.94439999759197, 
+        "p99": 89.29919999837875, 
+        "median": 52.22990000247955, 
+        "maximum": 151.62530000507832
+      }, 
+      "callback_first_ms": {
+        "count": 100, 
+        "p95": 2.31870000064373, 
+        "p99": 2.8108000010252, 
+        "median": 1.0349999964237213, 
+        "maximum": 18.060000002384186
+      }
+    }, 
+    {
+      "displayed": 1000, 
+      "producer_seconds": 0.9890000820159912, 
+      "current_threads": 17, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 20, 
+        "p95": 2.006400004029274, 
+        "p99": 2.006400004029274, 
+        "median": 0.9831999987363815, 
+        "maximum": 2.019899994134903
+      }, 
+      "heap_after_requested_gc_bytes": 59364232, 
+      "accepted": 1000, 
+      "label": "rows-1000", 
+      "rows": 1000, 
+      "drain_seconds": 0.056999921798706055, 
+      "peak_outstanding": 64, 
+      "seconds": 1.0420000553131104, 
+      "disk_bytes": 1138890, 
+      "loaded_class_count": 9587, 
+      "stored": 1000, 
+      "peak_raw_bytes": 54990, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 4.53125, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.583299994468689, 
+        "p99": 0.9139999896287918, 
+        "median": 0.29339998960494995, 
+        "maximum": 3.961899995803833
+      }, 
+      "appearance_lag_ms": {
+        "count": 1000, 
+        "p95": 88.33519999682903, 
+        "p99": 92.0852999985218, 
+        "median": 46.09970000386238, 
+        "maximum": 93.78050000965595
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.583299994468689, 
+        "p99": 0.9139999896287918, 
+        "median": 0.29339998960494995, 
+        "maximum": 3.961899995803833
+      }
+    }, 
+    {
+      "displayed": 10000, 
+      "producer_seconds": 8.343000173568726, 
+      "current_threads": 17, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 164, 
+        "p95": 2.0156999975442886, 
+        "p99": 2.048100009560585, 
+        "median": 1.0103999972343445, 
+        "maximum": 2.644999995827675
+      }, 
+      "heap_after_requested_gc_bytes": 78271888, 
+      "accepted": 10000, 
+      "label": "rows-10000", 
+      "rows": 10000, 
+      "drain_seconds": 0.04999995231628418, 
+      "peak_outstanding": 64, 
+      "seconds": 8.388000011444092, 
+      "disk_bytes": 11408890, 
+      "loaded_class_count": 9600, 
+      "stored": 10000, 
+      "peak_raw_bytes": 72000, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 17.75, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.21439999341964722, 
+        "p99": 0.2768000066280365, 
+        "median": 0.170400008559227, 
+        "maximum": 5.2043000012636185
+      }, 
+      "appearance_lag_ms": {
+        "count": 10000, 
+        "p95": 56.876999989151955, 
+        "p99": 89.7850999981165, 
+        "median": 43.22429999709129, 
+        "maximum": 98.83379998803139
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.4090000092983246, 
+        "p99": 0.5797999948263168, 
+        "median": 0.23420000076293945, 
+        "maximum": 3.899599999189377
+      }
+    }, 
+    {
+      "displayed": 100000, 
+      "producer_seconds": 83.00600004196167, 
+      "current_threads": 17, 
+      "body_bytes": 1024, 
+      "heartbeat_lag_ms": {
+        "count": 1631, 
+        "p95": 2.01910001039505, 
+        "p99": 2.5094999969005585, 
+        "median": 0.9276000112295151, 
+        "maximum": 5.702199995517731
+      }, 
+      "heap_after_requested_gc_bytes": 270193512, 
+      "accepted": 100000, 
+      "label": "rows-100000", 
+      "rows": 100000, 
+      "drain_seconds": 0.08500003814697266, 
+      "peak_outstanding": 64, 
+      "seconds": 83.04900002479553, 
+      "disk_bytes": 114288890, 
+      "loaded_class_count": 9603, 
+      "stored": 100000, 
+      "peak_raw_bytes": 72128, 
+      "roundtrip_samples": 3, 
+      "process_cpu_seconds": 135.40625, 
+      "callback_last_ms": {
+        "count": 1000, 
+        "p95": 0.23729999363422394, 
+        "p99": 0.39400000870227814, 
+        "median": 0.172200009226799, 
+        "maximum": 5.6923999935388565
+      }, 
+      "appearance_lag_ms": {
+        "count": 100000, 
+        "p95": 50.997500002384186, 
+        "p99": 91.27510000765324, 
+        "median": 43.318400010466576, 
+        "maximum": 101.08209998905659
+      }, 
+      "callback_first_ms": {
+        "count": 1000, 
+        "p95": 0.2232000082731247, 
+        "p99": 0.31980000436306, 
+        "median": 0.171999990940094, 
+        "maximum": 4.1261999905109406
+      }
+    }
+  ], 
+  "table_visible": false, 
+  "actual_burp_helpers": false, 
+  "passed": false, 
+  "errors": [
+    "Traceback (most recent call last):\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py\", line 204, in run\n    populate(count, 1024, 'rows-%d' % count)\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py\", line 200, in populate\n    clear(ui)\n  File \"C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py\", line 110, in clear\n    assert not ui._log_archive.retired and not ui._log_archive.deleted and not ui._log_archive.records\nAssertionError\n"
+  ], 
+  "network_requests": 0, 
+  "requested_gc_only_in_disposable_jvm": true
+}

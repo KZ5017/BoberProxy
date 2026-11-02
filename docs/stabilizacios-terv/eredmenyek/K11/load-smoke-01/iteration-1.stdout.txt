@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\probe_k11_load.py", line 17, in <module>
+    from javax import swing
+ImportError: cannot import name swing

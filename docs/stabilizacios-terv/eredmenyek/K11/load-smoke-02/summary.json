@@ -1,0 +1,41 @@
+{
+  "kind": "K11-external-full-load-driver",
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "smoke": true,
+  "iterations": [
+    {
+      "iteration": 1,
+      "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+      "child_report": "iteration-1.json",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k11_load.py",
+        "--root",
+        "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-K11-nzgwh0ev",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\load-smoke-02\\iteration-1.json",
+        "--smoke"
+      ],
+      "seconds": 20.62774189999618,
+      "exit_code": 1,
+      "timed_out": false,
+      "child_reaped": true,
+      "external_bound_seconds": 180,
+      "sampled_peak_working_set_bytes": 738439168,
+      "memory_sample_count": 103,
+      "archive_reclaimed_by_child": true,
+      "passed": false,
+      "owned_test_parent_removed": true
+    }
+  ],
+  "k11_closed": false,
+  "complete": true,
+  "passed": false
+}

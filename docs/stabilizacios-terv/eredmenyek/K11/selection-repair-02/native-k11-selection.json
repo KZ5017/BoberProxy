@@ -1,0 +1,18 @@
+{
+  "kind": "K11-100k-native-table-index-identity-not-archive-or-visible-rendering", 
+  "checks": {
+    "template_from_selected_exact": true, 
+    "selected_clear_preserves_remaining": true, 
+    "sorted_two_exports_exact": true, 
+    "hundred_thousand_rows": true, 
+    "natural_newest_first_viewer_exact": true, 
+    "owned_ui_and_workers_closed": true, 
+    "ascending_first_viewer_exact": true
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "timings": {
+    "sort_100k_ascending_ms": 334.0914
+  }, 
+  "passed": true, 
+  "errors": []
+}

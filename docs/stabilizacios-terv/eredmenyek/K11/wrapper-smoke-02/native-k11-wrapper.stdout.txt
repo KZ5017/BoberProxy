@@ -1,0 +1,14 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.netty.util.internal.PlatformDependent0$3 (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)
+WARNING: Please consider reporting this to the maintainers of class org.python.netty.util.internal.PlatformDependent0$3
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[BoberProxy] CODE_EDITOR_JAR_MISSING
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\probe_k11_wrapper.py", line 93, in <module>
+    result=run()
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\probe_k11_wrapper.py", line 83, in run
+    for worker in (wrapper.main.ui._custom_executor,wrapper.main.ui._filter_worker,wrapper.main.ui._log_writer,wrapper.main.ui._log_io):
+AttributeError: 'NoneType' object has no attribute '_custom_executor'

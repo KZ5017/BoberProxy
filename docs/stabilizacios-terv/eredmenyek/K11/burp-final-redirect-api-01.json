@@ -1,0 +1,575 @@
+{
+  "cases": [
+    {
+      "run": "k11-api-15532a74ce8b", 
+      "target": {
+        "18800": {
+          "event_count": 3, 
+          "session": [
+            "sid.k11-api-15532a74ce8b.1", 
+            "csrf.k11-api-15532a74ce8b.1"
+          ], 
+          "run": "k11-api-15532a74ce8b", 
+          "action_count": 1, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:9"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k11-api-15532a74ce8b"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1yZWxhdGl2ZSZydW49azExLWFwaS0xNTUzMmE3NGNlOGIgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMTo5DQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLTE1NTMyYTc0Y2U4Yg0KDQo=", 
+              "method": "POST", 
+              "body_base64": "", 
+              "run": "k11-api-15532a74ce8b", 
+              "tls_version": null, 
+              "target": "/k03/a/start?case=relative&run=k11-api-15532a74ce8b", 
+              "sequence": 1, 
+              "time_ns": 1793598551122959900
+            }, 
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:18800"
+                ], 
+                [
+                  "Cookie", 
+                  "sid=sid.k11-api-15532a74ce8b.h0"
+                ], 
+                [
+                  "Connection", 
+                  "close"
+                ]
+              ], 
+              "raw_base64": "R0VUIC9rMDMvYS9uZXh0P2Nhc2U9cmVsYXRpdmUmaG9wPTEmcnVuPWsxMS1hcGktMTU1MzJhNzRjZThiIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg4MDANCkNvb2tpZTogc2lkPXNpZC5rMTEtYXBpLTE1NTMyYTc0Y2U4Yi5oMA0KQ29ubmVjdGlvbjogY2xvc2UNCg0K", 
+              "method": "GET", 
+              "body_base64": "", 
+              "run": "k11-api-15532a74ce8b", 
+              "tls_version": null, 
+              "target": "/k03/a/next?case=relative&hop=1&run=k11-api-15532a74ce8b", 
+              "sequence": 2, 
+              "time_ns": 1793598551129283700
+            }, 
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:9"
+                ], 
+                [
+                  "Cookie", 
+                  "sid=sid.k11-api-15532a74ce8b.h1"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k11-api-15532a74ce8b"
+                ], 
+                [
+                  "Content-Length", 
+                  "46"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2NoZWNrIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktMTU1MzJhNzRjZThiLmgxDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLTE1NTMyYTc0Y2U4Yg0KQ29udGVudC1MZW5ndGg6IDQ2DQoNCmNzcmY9Y3NyZi5rMTEtYXBpLTE1NTMyYTc0Y2U4Yi5oMSZvbmU9cmVsYXRpdmU=", 
+              "method": "POST", 
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1hcGktMTU1MzJhNzRjZThiLmgxJm9uZT1yZWxhdGl2ZQ==", 
+              "run": "k11-api-15532a74ce8b", 
+              "tls_version": null, 
+              "target": "/k03/check", 
+              "sequence": 3, 
+              "time_ns": 1793598551137067100
+            }
+          ]
+        }, 
+        "18801": {
+          "event_count": 0, 
+          "session": null, 
+          "run": "k11-api-15532a74ce8b", 
+          "action_count": 0, 
+          "recent_events": []
+        }, 
+        "18802": {
+          "event_count": 0, 
+          "session": null, 
+          "run": "k11-api-15532a74ce8b", 
+          "action_count": 0, 
+          "recent_events": []
+        }
+      }, 
+      "response": {
+        "request": {
+          "headers": [
+            [
+              "Host", 
+              "127.0.0.1:9"
+            ], 
+            [
+              "Cookie", 
+              "sid=sid.k11-api-15532a74ce8b.h1"
+            ], 
+            [
+              "X-Bober-Test-Run", 
+              "k11-api-15532a74ce8b"
+            ], 
+            [
+              "Content-Length", 
+              "46"
+            ]
+          ], 
+          "raw_base64": "UE9TVCAvazAzL2NoZWNrIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktMTU1MzJhNzRjZThiLmgxDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLTE1NTMyYTc0Y2U4Yg0KQ29udGVudC1MZW5ndGg6IDQ2DQoNCmNzcmY9Y3NyZi5rMTEtYXBpLTE1NTMyYTc0Y2U4Yi5oMSZvbmU9cmVsYXRpdmU=", 
+          "method": "POST", 
+          "body_base64": "Y3NyZj1jc3JmLmsxMS1hcGktMTU1MzJhNzRjZThiLmgxJm9uZT1yZWxhdGl2ZQ==", 
+          "run": "k11-api-15532a74ce8b", 
+          "tls_version": null, 
+          "target": "/k03/check", 
+          "sequence": 3, 
+          "time_ns": 1793598551137067100
+        }, 
+        "cookie_ok": true, 
+        "expected_token": "csrf.k11-api-15532a74ce8b.h1", 
+        "token_ok": true, 
+        "expected_hop": 1
+      }, 
+      "case": "relative", 
+      "status": "ready"
+    }, 
+    {
+      "run": "k11-api-b899083525af", 
+      "target": {
+        "18800": {
+          "event_count": 2, 
+          "session": [
+            "sid.k11-api-b899083525af.1", 
+            "csrf.k11-api-b899083525af.1"
+          ], 
+          "run": "k11-api-b899083525af", 
+          "action_count": 1, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:9"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k11-api-b899083525af"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1jcm9zcy1wb3J0JnJ1bj1rMTEtYXBpLWI4OTkwODM1MjVhZiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjkNClgtQm9iZXItVGVzdC1SdW46IGsxMS1hcGktYjg5OTA4MzUyNWFmDQoNCg==", 
+              "method": "POST", 
+              "body_base64": "", 
+              "run": "k11-api-b899083525af", 
+              "tls_version": null, 
+              "target": "/k03/a/start?case=cross-port&run=k11-api-b899083525af", 
+              "sequence": 4, 
+              "time_ns": 1793598551163288700
+            }, 
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:9"
+                ], 
+                [
+                  "Cookie", 
+                  "sid=sid.k11-api-b899083525af.h1"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k11-api-b899083525af"
+                ], 
+                [
+                  "Content-Length", 
+                  "48"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2NoZWNrIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktYjg5OTA4MzUyNWFmLmgxDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLWI4OTkwODM1MjVhZg0KQ29udGVudC1MZW5ndGg6IDQ4DQoNCmNzcmY9Y3NyZi5rMTEtYXBpLWI4OTkwODM1MjVhZi5oMSZvbmU9Y3Jvc3MtcG9ydA==", 
+              "method": "POST", 
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1hcGktYjg5OTA4MzUyNWFmLmgxJm9uZT1jcm9zcy1wb3J0", 
+              "run": "k11-api-b899083525af", 
+              "tls_version": null, 
+              "target": "/k03/check", 
+              "sequence": 5, 
+              "time_ns": 1793598551170174600
+            }
+          ]
+        }, 
+        "18801": {
+          "event_count": 1, 
+          "session": null, 
+          "run": "k11-api-b899083525af", 
+          "action_count": 0, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:18801"
+                ], 
+                [
+                  "Cookie", 
+                  "sid=sid.k11-api-b899083525af.h0"
+                ], 
+                [
+                  "Connection", 
+                  "close"
+                ]
+              ], 
+              "raw_base64": "R0VUIC9rMDMvYS9uZXh0P2Nhc2U9Y3Jvc3MtcG9ydCZob3A9MSZydW49azExLWFwaS1iODk5MDgzNTI1YWYgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODgwMQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktYjg5OTA4MzUyNWFmLmgwDQpDb25uZWN0aW9uOiBjbG9zZQ0KDQo=", 
+              "method": "GET", 
+              "body_base64": "", 
+              "run": "k11-api-b899083525af", 
+              "tls_version": null, 
+              "target": "/k03/a/next?case=cross-port&hop=1&run=k11-api-b899083525af", 
+              "sequence": 1, 
+              "time_ns": 1793598551167103900
+            }
+          ]
+        }, 
+        "18802": {
+          "event_count": 0, 
+          "session": null, 
+          "run": "k11-api-b899083525af", 
+          "action_count": 0, 
+          "recent_events": []
+        }
+      }, 
+      "response": {
+        "request": {
+          "headers": [
+            [
+              "Host", 
+              "127.0.0.1:9"
+            ], 
+            [
+              "Cookie", 
+              "sid=sid.k11-api-b899083525af.h1"
+            ], 
+            [
+              "X-Bober-Test-Run", 
+              "k11-api-b899083525af"
+            ], 
+            [
+              "Content-Length", 
+              "48"
+            ]
+          ], 
+          "raw_base64": "UE9TVCAvazAzL2NoZWNrIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktYjg5OTA4MzUyNWFmLmgxDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLWI4OTkwODM1MjVhZg0KQ29udGVudC1MZW5ndGg6IDQ4DQoNCmNzcmY9Y3NyZi5rMTEtYXBpLWI4OTkwODM1MjVhZi5oMSZvbmU9Y3Jvc3MtcG9ydA==", 
+          "method": "POST", 
+          "body_base64": "Y3NyZj1jc3JmLmsxMS1hcGktYjg5OTA4MzUyNWFmLmgxJm9uZT1jcm9zcy1wb3J0", 
+          "run": "k11-api-b899083525af", 
+          "tls_version": null, 
+          "target": "/k03/check", 
+          "sequence": 5, 
+          "time_ns": 1793598551170174600
+        }, 
+        "cookie_ok": true, 
+        "expected_token": "csrf.k11-api-b899083525af.h1", 
+        "token_ok": true, 
+        "expected_hop": 1
+      }, 
+      "case": "cross-port", 
+      "status": "ready"
+    }, 
+    {
+      "run": "k11-api-2c9017e0de92", 
+      "target": {
+        "18800": {
+          "event_count": 2, 
+          "session": [
+            "sid.k11-api-2c9017e0de92.1", 
+            "csrf.k11-api-2c9017e0de92.1"
+          ], 
+          "run": "k11-api-2c9017e0de92", 
+          "action_count": 1, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:9"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k11-api-2c9017e0de92"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1jcm9zcy1zY2hlbWUmcnVuPWsxMS1hcGktMmM5MDE3ZTBkZTkyIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KWC1Cb2Jlci1UZXN0LVJ1bjogazExLWFwaS0yYzkwMTdlMGRlOTINCg0K", 
+              "method": "POST", 
+              "body_base64": "", 
+              "run": "k11-api-2c9017e0de92", 
+              "tls_version": null, 
+              "target": "/k03/a/start?case=cross-scheme&run=k11-api-2c9017e0de92", 
+              "sequence": 6, 
+              "time_ns": 1793598551186257900
+            }, 
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:9"
+                ], 
+                [
+                  "Cookie", 
+                  "sid=sid.k11-api-2c9017e0de92.h1"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k11-api-2c9017e0de92"
+                ], 
+                [
+                  "Content-Length", 
+                  "50"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2NoZWNrIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktMmM5MDE3ZTBkZTkyLmgxDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLTJjOTAxN2UwZGU5Mg0KQ29udGVudC1MZW5ndGg6IDUwDQoNCmNzcmY9Y3NyZi5rMTEtYXBpLTJjOTAxN2UwZGU5Mi5oMSZvbmU9Y3Jvc3Mtc2NoZW1l", 
+              "method": "POST", 
+              "body_base64": "Y3NyZj1jc3JmLmsxMS1hcGktMmM5MDE3ZTBkZTkyLmgxJm9uZT1jcm9zcy1zY2hlbWU=", 
+              "run": "k11-api-2c9017e0de92", 
+              "tls_version": null, 
+              "target": "/k03/check", 
+              "sequence": 7, 
+              "time_ns": 1793598551197646800
+            }
+          ]
+        }, 
+        "18801": {
+          "event_count": 0, 
+          "session": null, 
+          "run": "k11-api-2c9017e0de92", 
+          "action_count": 0, 
+          "recent_events": []
+        }, 
+        "18802": {
+          "event_count": 1, 
+          "session": null, 
+          "run": "k11-api-2c9017e0de92", 
+          "action_count": 0, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:18802"
+                ], 
+                [
+                  "Cookie", 
+                  "sid=sid.k11-api-2c9017e0de92.h0"
+                ], 
+                [
+                  "Connection", 
+                  "close"
+                ]
+              ], 
+              "raw_base64": "R0VUIC9rMDMvYS9uZXh0P2Nhc2U9Y3Jvc3Mtc2NoZW1lJmhvcD0xJnJ1bj1rMTEtYXBpLTJjOTAxN2UwZGU5MiBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4ODAyDQpDb29raWU6IHNpZD1zaWQuazExLWFwaS0yYzkwMTdlMGRlOTIuaDANCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==", 
+              "method": "GET", 
+              "body_base64": "", 
+              "run": "k11-api-2c9017e0de92", 
+              "tls_version": "TLSv1.3", 
+              "target": "/k03/a/next?case=cross-scheme&hop=1&run=k11-api-2c9017e0de92", 
+              "sequence": 1, 
+              "time_ns": 1793598551193982000
+            }
+          ]
+        }
+      }, 
+      "response": {
+        "request": {
+          "headers": [
+            [
+              "Host", 
+              "127.0.0.1:9"
+            ], 
+            [
+              "Cookie", 
+              "sid=sid.k11-api-2c9017e0de92.h1"
+            ], 
+            [
+              "X-Bober-Test-Run", 
+              "k11-api-2c9017e0de92"
+            ], 
+            [
+              "Content-Length", 
+              "50"
+            ]
+          ], 
+          "raw_base64": "UE9TVCAvazAzL2NoZWNrIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6OQ0KQ29va2llOiBzaWQ9c2lkLmsxMS1hcGktMmM5MDE3ZTBkZTkyLmgxDQpYLUJvYmVyLVRlc3QtUnVuOiBrMTEtYXBpLTJjOTAxN2UwZGU5Mg0KQ29udGVudC1MZW5ndGg6IDUwDQoNCmNzcmY9Y3NyZi5rMTEtYXBpLTJjOTAxN2UwZGU5Mi5oMSZvbmU9Y3Jvc3Mtc2NoZW1l", 
+          "method": "POST", 
+          "body_base64": "Y3NyZj1jc3JmLmsxMS1hcGktMmM5MDE3ZTBkZTkyLmgxJm9uZT1jcm9zcy1zY2hlbWU=", 
+          "run": "k11-api-2c9017e0de92", 
+          "tls_version": null, 
+          "target": "/k03/check", 
+          "sequence": 7, 
+          "time_ns": 1793598551197646800
+        }, 
+        "cookie_ok": true, 
+        "expected_token": "csrf.k11-api-2c9017e0de92.h1", 
+        "token_ok": true, 
+        "expected_hop": 1
+      }, 
+      "case": "cross-scheme", 
+      "status": "ready"
+    }
+  ], 
+  "kind": "K11-private-current-source-real-Burp-API-loopback-port-TLS-deadline", 
+  "checks": {
+    "cross-scheme_final_cookie_and_token": true, 
+    "cross-port_final_cookie_and_token": true, 
+    "relative_ready": true, 
+    "cross-scheme_exact_once_and_service": true, 
+    "cross-port_ready": true, 
+    "cross-scheme_ready": true, 
+    "relative_exact_once_and_service": true, 
+    "cross-scheme_changed_target": true, 
+    "cross-port_exact_once_and_service": true, 
+    "cross-port_changed_target": true, 
+    "relative_final_cookie_and_token": true
+  }, 
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+  "passed": true, 
+  "deadline": {
+    "note": "The 100 ms budget belongs only to an isolated probe namespace; blocking calls are observed, never claimed interrupted.", 
+    "kind": "in-burp-native-helpers-and-bounded-loopback-api", 
+    "deadline_cases": [
+      {
+        "test_budget_ms": 100, 
+        "observed": {
+          "event_count": 1, 
+          "session": [
+            "sid.k03-budget-e0cdf0a5b958.1", 
+            "csrf.k03-budget-e0cdf0a5b958.1"
+          ], 
+          "run": "k03-budget-e0cdf0a5b958", 
+          "action_count": 1, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:18800"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k03-budget-e0cdf0a5b958"
+                ], 
+                [
+                  "Content-Length", 
+                  "0"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1zbG93LXJ0IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg4MDANClgtQm9iZXItVGVzdC1SdW46IGswMy1idWRnZXQtZTBjZGYwYTViOTU4DQpDb250ZW50LUxlbmd0aDogMA0KDQo=", 
+              "method": "POST", 
+              "body_base64": "", 
+              "run": "k03-budget-e0cdf0a5b958", 
+              "tls_version": null, 
+              "target": "/k03/a/start?case=slow-rt", 
+              "sequence": 8, 
+              "time_ns": 1793598551377129800
+            }
+          ]
+        }, 
+        "production_budget_ms": 30000, 
+        "scenario": "slow-rt", 
+        "elapsed_ms": 208.01719999313354, 
+        "error_code": "WORKFLOW_TIMEOUT", 
+        "cached_token": "csrf.k03-budget-e0cdf0a5b958.h0", 
+        "status": "error_after_send"
+      }, 
+      {
+        "test_budget_ms": 100, 
+        "observed": {
+          "event_count": 2, 
+          "session": [
+            "sid.k03-budget-3bc050a19cda.1", 
+            "csrf.k03-budget-3bc050a19cda.1"
+          ], 
+          "run": "k03-budget-3bc050a19cda", 
+          "action_count": 1, 
+          "recent_events": [
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:18800"
+                ], 
+                [
+                  "X-Bober-Test-Run", 
+                  "k03-budget-3bc050a19cda"
+                ], 
+                [
+                  "Content-Length", 
+                  "0"
+                ]
+              ], 
+              "raw_base64": "UE9TVCAvazAzL2Evc3RhcnQ/Y2FzZT1zbG93LWhvcCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4ODAwDQpYLUJvYmVyLVRlc3QtUnVuOiBrMDMtYnVkZ2V0LTNiYzA1MGExOWNkYQ0KQ29udGVudC1MZW5ndGg6IDANCg0K", 
+              "method": "POST", 
+              "body_base64": "", 
+              "run": "k03-budget-3bc050a19cda", 
+              "tls_version": null, 
+              "target": "/k03/a/start?case=slow-hop", 
+              "sequence": 9, 
+              "time_ns": 1793598551589193500
+            }, 
+            {
+              "headers": [
+                [
+                  "Host", 
+                  "127.0.0.1:18800"
+                ], 
+                [
+                  "Connection", 
+                  "close"
+                ]
+              ], 
+              "raw_base64": "R0VUIC9rMDMvYS9uZXh0P2Nhc2U9c2xvdy1ob3AmaG9wPTEmcnVuPWswMy1idWRnZXQtM2JjMDUwYTE5Y2RhIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg4MDANCkNvbm5lY3Rpb246IGNsb3NlDQoNCg==", 
+              "method": "GET", 
+              "body_base64": "", 
+              "run": "k03-budget-3bc050a19cda", 
+              "tls_version": null, 
+              "target": "/k03/a/next?case=slow-hop&hop=1&run=k03-budget-3bc050a19cda", 
+              "sequence": 10, 
+              "time_ns": 1793598551592211000
+            }
+          ]
+        }, 
+        "production_budget_ms": 30000, 
+        "scenario": "slow-hop", 
+        "elapsed_ms": 207.70120000839233, 
+        "error_code": "WORKFLOW_TIMEOUT", 
+        "cached_token": "csrf.k03-budget-3bc050a19cda.h1", 
+        "status": "error_after_send"
+      }
+    ], 
+    "production_budget_ms": 30000, 
+    "checks": {
+      "ipv6_native_header": true, 
+      "blocking_api_slow-hop": true, 
+      "java_exception_cannot_change_passive_action": true, 
+      "real_helper_redirect_result": true, 
+      "jython_invalid_explicit_port_rejected": true, 
+      "service_directory_port_and_raw_query": true, 
+      "minimal_get_headers_and_cookie": true, 
+      "each_response_updates_once_including_last": true, 
+      "real_interface_prior_action_matrix": true, 
+      "blocking_api_slow-rt": true
+    }, 
+    "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956", 
+    "passed": true, 
+    "actual_burp_helpers": true, 
+    "action_constants": {
+      "drop": 3, 
+      "follow_rules": 0, 
+      "dont_intercept": 2, 
+      "do_intercept": 1
+    }, 
+    "errors": [], 
+    "synthetic_proxy_messages": true
+  }, 
+  "errors": []
+}

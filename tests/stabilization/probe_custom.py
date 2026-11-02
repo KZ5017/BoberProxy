@@ -11,12 +11,16 @@ def main():
     parser.add_argument('--directory', type=Path, required=True)
     parser.add_argument('--expect-empty-token', action='store_true')
     parser.add_argument('--trace', type=Path, help='Optional generated pass-through trace path')
+    parser.add_argument('--target-port', type=int, default=18765)
     args = parser.parse_args()
     args.directory.mkdir(parents=True, exist_ok=True)
+    if any((args.directory/name).exists() for name in ('burp-checkpage-custom.json','burp-custom-trace.json')):
+        parser.error('Refusing to overwrite or replay an earlier workflow')
     base = Path(__file__).resolve().parent
     trace = args.trace if args.trace is not None else base / 'runtime' / 'burp-custom-trace.jsonl'
     before = trace.read_text(encoding='utf-8').splitlines() if trace.exists() else []
     result = subprocess.run([sys.executable, '-B', str(base / 'probe_proxy.py'), '--scenario', 'checkpage',
+                             '--target-port', str(args.target_port),
                              '--report', str(args.directory / 'burp-checkpage-custom.json')],
                             capture_output=True, text=True, timeout=10)
     print(result.stdout)

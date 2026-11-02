@@ -1,0 +1,705 @@
+{
+  "kind": "K11-excluded-tag-same-environment-external-latency-control",
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "checks": {
+    "three_windows": true,
+    "root_not_called": true,
+    "root_log_empty": true
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "passed": true
+    },
+    {
+      "iteration": 2,
+      "passed": true
+    },
+    {
+      "iteration": 3,
+      "passed": true
+    }
+  ],
+  "before": {
+    "paused": false,
+    "rejected": 20,
+    "counts": {
+      "edt_io": false,
+      "custom": 10,
+      "reads": 10,
+      "proxy": 15228,
+      "lag_evicted": 0,
+      "http": 7609,
+      "writes": 7599,
+      "inserts": 7589
+    },
+    "display_error": null,
+    "log_error": null,
+    "rebuilding": false,
+    "cookies": {},
+    "use_cp": false,
+    "workflow_budget_ms": 30000,
+    "audit": [
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=673",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=673",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=674",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=674",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=675",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=675",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=676",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=676",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=677",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=677",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=678",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=678",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=679",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=679",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=680",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=680",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=681",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=681",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=682",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=682",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=683",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=683",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=684",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=684",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=685",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=685",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=686",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=686",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=687",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=687",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=688",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=688",
+        "after": 0
+      }
+    ],
+    "raw_bytes": 0,
+    "displayed": 0,
+    "dirty": false,
+    "failures": [
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      }
+    ],
+    "last": null,
+    "profile": "passive",
+    "archive": {
+      "records": 0,
+      "writers": 0,
+      "deleted": 0,
+      "cleanup_error": null,
+      "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-0kig6t",
+      "retired": 0
+    },
+    "own_closed": false,
+    "config_version": 331,
+    "token": null,
+    "filter": {
+      "controls": 0,
+      "active": false,
+      "rows": 0,
+      "running_ms": 0,
+      "closed": false,
+      "results": 0,
+      "raw_bytes": 0
+    },
+    "proxy": false,
+    "heap_used_bytes": 2692068352,
+    "scope_version": 2,
+    "raw_limit": 33554432,
+    "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+    "stored": 0,
+    "custom_text": "Log cleared OK!",
+    "thread_count": 98,
+    "writer": {
+      "controls": 0,
+      "active": false,
+      "rows": 0,
+      "running_ms": 0,
+      "closed": false,
+      "results": 0,
+      "raw_bytes": 0
+    },
+    "first": null,
+    "status": "Logged: /bytes?size=1024&sample=688"
+  },
+  "after": {
+    "paused": false,
+    "rejected": 20,
+    "counts": {
+      "edt_io": false,
+      "custom": 10,
+      "reads": 10,
+      "proxy": 15228,
+      "lag_evicted": 0,
+      "http": 7609,
+      "writes": 7599,
+      "inserts": 7589
+    },
+    "display_error": null,
+    "log_error": null,
+    "rebuilding": false,
+    "cookies": {},
+    "use_cp": false,
+    "workflow_budget_ms": 30000,
+    "audit": [
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=673",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=673",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=674",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=674",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=675",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=675",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=676",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=676",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=677",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=677",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=678",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=678",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=679",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=679",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=680",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=680",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=681",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=681",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=682",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=682",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=683",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=683",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=684",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=684",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=685",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=685",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=686",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=686",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=687",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=687",
+        "after": 0
+      },
+      {
+        "request": true,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=688",
+        "after": 0
+      },
+      {
+        "request": false,
+        "before": 0,
+        "path": "/bytes?size=1024&sample=688",
+        "after": 0
+      }
+    ],
+    "raw_bytes": 0,
+    "displayed": 0,
+    "dirty": false,
+    "failures": [
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      },
+      {
+        "code": "RT_BUILD_FAILED",
+        "status": "error_before_send"
+      },
+      {
+        "code": "HTTP_NO_RESPONSE",
+        "status": "error_after_send"
+      }
+    ],
+    "last": null,
+    "profile": "passive",
+    "archive": {
+      "records": 0,
+      "writers": 0,
+      "deleted": 0,
+      "cleanup_error": null,
+      "root": "C:\\Users\\KZsolt\\AppData\\Local\\Temp\\BoberProxy-log-0kig6t",
+      "retired": 0
+    },
+    "own_closed": false,
+    "config_version": 331,
+    "token": null,
+    "filter": {
+      "controls": 0,
+      "active": false,
+      "rows": 0,
+      "running_ms": 0,
+      "closed": false,
+      "results": 0,
+      "raw_bytes": 0
+    },
+    "proxy": false,
+    "heap_used_bytes": 2166925048,
+    "scope_version": 2,
+    "raw_limit": 33554432,
+    "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+    "stored": 0,
+    "custom_text": "Log cleared OK!",
+    "thread_count": 107,
+    "writer": {
+      "controls": 0,
+      "active": false,
+      "rows": 0,
+      "running_ms": 0,
+      "closed": false,
+      "results": 0,
+      "raw_bytes": 0
+    },
+    "first": null,
+    "status": "Logged: /bytes?size=1024&sample=688"
+  },
+  "passed": true,
+  "boundary": "The test observer still checks scope; the root HTTP/Proxy callbacks are excluded. This is not the missing K00 callback timing."
+}

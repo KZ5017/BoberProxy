@@ -1,0 +1,94 @@
+{
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "kind": "K11-dedicated-JVM-measurements-not-live-Burp",
+  "iterations": [
+    {
+      "iteration": 1,
+      "checks": {
+        "memory_gate": true,
+        "no_errors": true,
+        "owned_archive_reclaimed": true,
+        "all_expected_stages": true,
+        "ten_to_hundred_thousand_time_ratio_at_most_25": true
+      },
+      "seconds_10k": 8.269999980926514,
+      "seconds_100k": 81.89299988746643,
+      "ratio": 9.902418388916574,
+      "memory": {
+        "body_difference_bytes": 614400000,
+        "large_retained_heap_bytes": 79369176,
+        "retained_fraction": 3.77734375e-05,
+        "pre_population_heap_bytes": 62285688,
+        "rows": 10000,
+        "heap_after_clear_requested_gc_bytes": 58395864,
+        "small_retained_heap_bytes": 79345968,
+        "heap_difference_bytes": 23208,
+        "ninety_percent_extra_body_not_retained": true
+      },
+      "cleanup_100k": {
+        "content_records": 100000,
+        "seconds": 114.05200004577637,
+        "harness_allowance_seconds": 264.375
+      }
+    },
+    {
+      "iteration": 2,
+      "checks": {
+        "memory_gate": true,
+        "no_errors": true,
+        "owned_archive_reclaimed": true,
+        "all_expected_stages": true,
+        "ten_to_hundred_thousand_time_ratio_at_most_25": true
+      },
+      "seconds_10k": 8.341000080108643,
+      "seconds_100k": 81.69199991226196,
+      "ratio": 9.794029388283846,
+      "memory": {
+        "body_difference_bytes": 614400000,
+        "large_retained_heap_bytes": 79328992,
+        "retained_fraction": 0.0,
+        "pre_population_heap_bytes": 62059952,
+        "rows": 10000,
+        "heap_after_clear_requested_gc_bytes": 58595640,
+        "small_retained_heap_bytes": 79550376,
+        "heap_difference_bytes": -221384,
+        "ninety_percent_extra_body_not_retained": true
+      },
+      "cleanup_100k": {
+        "content_records": 100000,
+        "seconds": 113.38800001144409,
+        "harness_allowance_seconds": 264.375
+      }
+    },
+    {
+      "iteration": 3,
+      "checks": {
+        "memory_gate": true,
+        "no_errors": true,
+        "owned_archive_reclaimed": true,
+        "all_expected_stages": true,
+        "ten_to_hundred_thousand_time_ratio_at_most_25": true
+      },
+      "seconds_10k": 8.27400016784668,
+      "seconds_100k": 82.29800009727478,
+      "ratio": 9.946579457067251,
+      "memory": {
+        "body_difference_bytes": 614400000,
+        "large_retained_heap_bytes": 79284736,
+        "retained_fraction": 0.00015993489583333333,
+        "pre_population_heap_bytes": 61753560,
+        "rows": 10000,
+        "heap_after_clear_requested_gc_bytes": 58352752,
+        "small_retained_heap_bytes": 79186472,
+        "heap_difference_bytes": 98264,
+        "ninety_percent_extra_body_not_retained": true
+      },
+      "cleanup_100k": {
+        "content_records": 100000,
+        "seconds": 115.5680000782013,
+        "harness_allowance_seconds": 264.375
+      }
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,266 @@
+{
+  "kind": "K11-local-regression-not-live-Burp-acceptance",
+  "source_sha256": "1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956",
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "os": "Windows-11-10.0.26300-SP0",
+  "started_utc": "2026-11-02T02:12:54Z",
+  "runs": [
+    {
+      "name": "cpython-logic",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\run_logic.py",
+        "--suite",
+        "all",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\cpython-logic.json"
+      ],
+      "seconds": 2.6870816000009654,
+      "report": "cpython-logic.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": 210
+    },
+    {
+      "name": "jython-logic",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\run_logic.py",
+        "--suite",
+        "all",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\jython-logic.json"
+      ],
+      "seconds": 16.25908440000785,
+      "report": "jython-logic.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": 210
+    },
+    {
+      "name": "native-template",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_template_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-template.json"
+      ],
+      "seconds": 12.417894099999103,
+      "report": "native-template.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "native-redirect",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_k03_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-redirect.json"
+      ],
+      "seconds": 12.352413300002809,
+      "report": "native-redirect.json",
+      "exit_code": 1,
+      "timed_out": false,
+      "passed": false
+    },
+    {
+      "name": "native-session",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_session_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-session.json"
+      ],
+      "seconds": 13.223811399991973,
+      "report": "native-session.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "native-custom",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_custom_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-custom.json"
+      ],
+      "seconds": 17.036842000001343,
+      "report": "native-custom.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "native-runtime",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_runtime_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-runtime.json"
+      ],
+      "seconds": 13.271333800003049,
+      "report": "native-runtime.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "native-filters",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_filters_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-filters.json"
+      ],
+      "seconds": 18.73717179999221,
+      "report": "native-filters.json",
+      "exit_code": 1,
+      "timed_out": false,
+      "passed": false
+    },
+    {
+      "name": "native-editor-layout-logging",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_ui03_native.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\native-editor-layout-logging.json"
+      ],
+      "seconds": 14.807724400001462,
+      "report": "native-editor-layout-logging.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "cpython-metadata",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\measure_store.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\cpython-metadata.json"
+      ],
+      "seconds": 0.333037799995509,
+      "report": "cpython-metadata.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "jython-metadata",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\jre\\bin\\java.exe",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Xmx768m",
+        "-Dpython.cachedir.skip=true",
+        "-cp",
+        "C:\\Users\\KZsolt\\Downloads\\jython-standalone-2.7.4.jar;C:\\Users\\KZsolt\\AppData\\Local\\Programs\\BurpSuite\\burpsuite.jar",
+        "org.python.util.jython",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\measure_store.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\jython-metadata.json"
+      ],
+      "seconds": 12.654398500002571,
+      "report": "jython-metadata.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "isolated-regex",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_filter_isolated.py",
+        "--report",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\isolated-regex.json"
+      ],
+      "seconds": 12.214961999998195,
+      "report": "isolated-regex.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    },
+    {
+      "name": "isolated-custom",
+      "command": [
+        "C:\\Users\\KZsolt\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\tests\\stabilization\\probe_custom_isolated.py",
+        "--directory",
+        "C:\\Users\\KZsolt\\SELF_WORK_DIR\\CODEX\\Codex_BoberProxy\\BoberProxy\\docs\\stabilizacios-terv\\eredmenyek\\K11\\local-01\\isolated-custom"
+      ],
+      "seconds": 23.35817859999952,
+      "report": "isolated-custom\\summary.json",
+      "exit_code": 0,
+      "timed_out": false,
+      "passed": true
+    }
+  ],
+  "complete": true,
+  "passed": false,
+  "network_requests": 0,
+  "k11_closed": false
+}

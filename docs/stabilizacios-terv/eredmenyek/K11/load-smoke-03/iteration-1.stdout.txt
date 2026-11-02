@@ -1,0 +1,22 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.python.netty.util.internal.PlatformDependent0$3 (file:/C:/Users/KZsolt/Downloads/jython-standalone-2.7.4.jar)
+WARNING: Please consider reporting this to the maintainers of class org.python.netty.util.internal.PlatformDependent0$3
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+warmup: {"heap_after_requested_gc_bytes": 58162072, "rows": 100, "seconds": 0.36700010299682617}
+rows-100: {"heap_after_requested_gc_bytes": 58049848, "rows": 100, "seconds": 0.17199993133544922}
+rows-1000: {"heap_after_requested_gc_bytes": 59442352, "rows": 1000, "seconds": 0.932999849319458}
+memory-small: {"heap_after_requested_gc_bytes": 57599392, "rows": 100, "seconds": 0.16000008583068848}
+memory-large: {"heap_after_requested_gc_bytes": 57525272, "rows": 100, "seconds": 0.9820001125335693}
+{
+  "checks": {
+    "no_errors": true, 
+    "owned_archive_reclaimed": true, 
+    "memory_observation_recorded_not_full_acceptance": true, 
+    "all_expected_stages": true
+  }, 
+  "passed": true, 
+  "errors": []
+}

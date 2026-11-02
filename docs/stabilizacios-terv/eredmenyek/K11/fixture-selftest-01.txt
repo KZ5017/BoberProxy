@@ -1,0 +1,9 @@
+test_controlled_hold_and_raw_capture (__main__.FixtureTests.test_controlled_hold_and_raw_capture) ... ok
+test_hops_and_loop_are_explicit_finite_individual_requests (__main__.FixtureTests.test_hops_and_loop_are_explicit_finite_individual_requests) ... ok
+test_relative_redirect_rotates_final_state_without_extra_action (__main__.FixtureTests.test_relative_redirect_rotates_final_state_without_extra_action) ... ok
+test_slow_action_is_counted_once_before_delay (__main__.FixtureTests.test_slow_action_is_counted_once_before_delay) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.287s
+
+OK

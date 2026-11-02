@@ -226,6 +226,8 @@ Közös körzárás: célzott ellenőrzés, Burp-betöltési próba, a saját di
 
 ## K11 — Végső regresszió, terhelés és átadás
 
+**Végrehajtási állapot (2026-11-02): lezárva a rögzített mérési körben.** [Jegyzőkönyv](eredmenyek/K11/README.md), [E01–E63 mátrix](eredmenyek/K11/matrix.md), [lezárási rekord](eredmenyek/K11/closure.json). A főforrás változatlan, nincs függő kézi kapu. Az eredeti terv alább megmarad: az E61 relatív callback-kapu baseline híján nem minősíthető; az E62 saját tároló-kohorsza igazolt, teljes Burp-heap attribúció nem történt. Ezek dokumentált mérési határok, nem utólag enyhített küszöbök.
+
 **Függőség:** K00–K10; minden kötelező döntés és F-státusz rendezett.
 
 **Feladatok:**

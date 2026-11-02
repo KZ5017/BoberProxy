@@ -1,5 +1,21 @@
 # CHANGELOG.md
 
+## 2026-11-02 — K11 Git checkpoint
+
+- Prepare the user-requested commit/push of closed K11 validation, helpers, synthetic evidence and handoff documentation. Production source/JAR remain unchanged; runtime captures and generated fixtures stay ignored. Closure reports retain their pre-checkpoint validation state.
+
+## 2026-11-02 — Close K11 validation in recorded scope
+
+- Complete actual Burp8/8 regression,21 wire cases, three full load/memory repeats, reference/large-response windows,30-minute mixed and5-minute fault runs; preserve historical failures and scope limits. Production source and bundled JAR unchanged.
+- Close actual100k selection/export, port/HTTPS/Host-mismatch/deadline, same-message manual request/response interception and final direct-root custom/CheckPage/viewer gates with user confirmation and empty Errors.
+- Publish E01–E63 matrix/closure and final live setup. E61 relative callback comparison remains unmeasurable without an old baseline; E62 proves a dedicated own-storage cohort, not whole-Burp heap attribution. No new Git checkpoint requested.
+
+## 2026-11-02 — Start K11 validation
+
+- Record successful actual Burp functional/reference/burst/large-response,30-minute mixed and5-minute injected-failure phases; retain observer-scope failure and corrected full rerun separately. Add final manual-intercept/actual selection/API helpers and generated synthetic fixtures. Final human gates remain open; production source unchanged.
+- Add a bounded local regression driver, private aggregate Burp/native helper and dedicated-JVM callback/archive/table load and memory probes. Record fixed acceptance targets and open live/soak gates under K11; production source unchanged.
+- Refresh old K03/K07 test assumptions for the existing session-reference model and Size value caption; retain original failures and passing reruns. Keep benchmark import/small-smoke/dynamic-class harness failures separate from product findings.
+
 ## 2026-11-02 — Approved compact sidebar checkpoint
 
 - Record user approval and requested commit/push of the wider fixed sidebar, compact aligned control rows and shorter Output area. Existing processing behavior is preserved; syntax/encoding/whitespace checks passed. Historical Burp reports remain scoped to their original source versions; K11 has not started.

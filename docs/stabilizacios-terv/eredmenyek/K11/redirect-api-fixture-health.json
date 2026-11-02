@@ -1,0 +1,20 @@
+{
+  "servers": [
+    {
+      "port": 18800,
+      "tls": false,
+      "ready": true
+    },
+    {
+      "port": 18801,
+      "tls": false,
+      "ready": true
+    },
+    {
+      "port": 18802,
+      "tls": true,
+      "ready": true
+    }
+  ],
+  "certificate_validation_disabled_only_for_own_loopback_probe": true
+}
