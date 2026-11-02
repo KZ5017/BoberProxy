@@ -1,5 +1,11 @@
 # AI_NOTES.md
 
+## Current README rewrite completed — documentation only (2026-11-02)
+
+- After UI04–UI05 checkpointede3542, user requested a coherent, accurate GitHub introduction/user guide. Rewrote the English README around CLI tool payload delivery, installation and a concrete first request, then two template modes, raw matching/routing, custom contract, state, logging/filtering, current resizable UI, troubleshooting and scoped validation. Original branding retained; current UI caption names used, no new runtime claims/features.
+- Explicitly preserve behavior-sensitive facts: Proxy-only rewriting versus other-tool logging; query/form input versus arbitrary template placement; original-service routing; CSRF-marker switch; pre-send original-request fallback/post-attempt drop; minimal GET redirects; global cookie/token model; finite work without forced termination; archive/budget limits. K11 baseline versus later UI evidence distinguished. No license/copyright file invented; existing MIT declaration and bundled BSD3 notice retained.
+- Verified23 relative links/anchors, balanced fences, two simple Python examples, source hash5911a528... and unchanged source/JAR diff. Only README/AI_NOTES/CHANGELOG modified; no Burp reload/traffic/test-helper execution. User requested commit/push of this documentation checkpoint; revision is recorded in Git history. Last actual UI05 approval remains current; no configuration change.
+
 ## UI04–UI05 Git checkpoint requested (2026-11-02)
 
 - User approved the final resizable editor/sidebar and requested commit/push of the complete UI04–UI05 work. Current production hash5911a528..., startup UI03, native38/38 and final actual manual approval/empty Errors recorded below. Include source, docs, scoped synthetic evidence and retained failures; runtime files remain ignored. Revision is in Git history; older no-commit/pending notes are historical. No further source change or traffic for this checkpoint.

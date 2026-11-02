@@ -1,5 +1,11 @@
 # CHANGELOG.md
 
+## 2026-11-02 — Rewrite the GitHub user guide
+
+- Rebuild README around BoberProxy's purpose: routing CLI tool payloads through templates, optional Python transformation, rotating cookie/CSRF state and a separate result-page request. Add a concrete first-request walkthrough, concise mode/control explanations and troubleshooting.
+- Preserve precise matching, byte/routing, failure, session, redirect, storage and execution boundaries; describe the approved resizable UI and distinguish K11 baseline evidence from later UI checks. Retain branding and existing license declarations.
+- Verify local links/anchors and illustrative code; runtime source/dependency unchanged. Documentation only, without new Burp traffic; user requested a Git commit/push checkpoint after review.
+
 ## 2026-11-02 — UI04–UI05 Git checkpoint
 
 - Save the user-approved vertically resizable code editor with29-line maximum and native sidebar-width divider, retaining the previous width as its minimum. Include documentation, native/live evidence and the initial painting failure/reproduction; runtime files remain ignored.
