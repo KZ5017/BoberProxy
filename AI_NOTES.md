@@ -1,5 +1,37 @@
 # AI_NOTES.md
 
+## UI04–UI05 Git checkpoint requested (2026-11-02)
+
+- User approved the final resizable editor/sidebar and requested commit/push of the complete UI04–UI05 work. Current production hash5911a528..., startup UI03, native38/38 and final actual manual approval/empty Errors recorded below. Include source, docs, scoped synthetic evidence and retained failures; runtime files remain ignored. Revision is in Git history; older no-commit/pending notes are historical. No further source change or traffic for this checkpoint.
+
+## Current UI05 CLOSED — live width/29-line height approved (2026-11-02)
+
+- User confirms requested root reload works, width/height behavior approved, Errors empty. Source `5911a528c05b3f9899c62ca34829eb5f81d80400b18ce84b560daecfc7fa4b17`, Latin-1/CRLF, startup UI03. Native38/38 plus actual manual approval; no pending UI05 gate. Evidence: docs/ui-vezerlopanel-eredmenyek/UI05/README.md and burp-preview-final-user.json. No independent pixel/DPI measurement or live hash API probe claimed.
+- Root-only reload and all switches/InterceptOFF were requested; final switch positions were not independently re-queried. No new traffic, K11 rerun, commit/push. UI04 + UI05 remain uncommitted since1543238; historical failure reports remain intact. Older pending notes below are historical.
+
+## Current UI05 sidebar width preview — local38 PASS, live reload pending (2026-11-02)
+
+- User requested29 instead of30 maximum code rows and an experimental leftward-widening sidebar with the old fixed width retained as its minimum. Added native horizontal JSplitPane between workspace and controls,6px continuous divider, resizeWeight1.0; rightScroll minimum is existing _sidebar_width, viewport tracks actual width. No custom painting/execution/session/network changes. Reload resets width/height; startup UI03, Latin-1/CRLF, source `5911a528c05b3f9899c62ca34829eb5f81d80400b18ce84b560daecfc7fa4b17`.
+- Native38/38 PASS on enhanced/basic editors: actual initial paint/height repaint,29-line max,120px sidebar/editor growth and matching workspace reduction, viewport width, retained width on larger window, native divider bound returns original minimum. Report/script: docs/ui-vezerlopanel-eredmenyek/UI05/README.md. No actual mouse-driven Burp proof for this source yet; earlier UI04 actual confirmation remains scoped to828ff725 source.
+- REQUESTED remove/reload root only, no helper, all controls/InterceptOFF. Try left edge divider and29-line height at1440p, report appearance/Errors/preference. WAIT for response; do not assume loaded/accepted. No commit/push requested. UI04 plus this preview remain uncommitted since1543238.
+
+## Current UI04 CLOSED — live resize/painting confirmed (2026-11-02)
+
+- User confirmed repaired root reload: tab renders normally, resizing works, Errors empty. Current source `828ff725db73f3a93132bf2b8e5b2aa12f1c54713ffed6305a81705c1c6e0b3f`, Latin-1/CRLF, startup still UI03. Native24/24 paint/resize checks plus actual manual confirmation; no pending UI04 gate. See docs/ui-vezerlopanel-eredmenyek/UI04/README.md and burp-preview-final-user.json. Preserve original live failure, paint exception and geometry-only reports.
+- User was asked to reload root alone, all switches/InterceptOFF initially, then try the grip. Rendering/resizing/Errors explicitly confirmed; final custom-switch position was not independently queried. No new traffic, full K11 rerun, commit or push. K11 evidence remains tied to its prior source; older pending UI04 notes below are historical.
+
+## Current UI04 painting repair — local24 PASS; fresh live confirmation pending (2026-11-02)
+
+- User reported the first UI04 candidate loaded without Errors but tab painting broke, revealing controls only under mouse movement. First geometry22 PASS did not include painting and was insufficient. Reproduced exact root failure by painting the whole private tab: `JPanel.paintComponent` unavailable via class-qualified protected call in Jython; AttributeError stops painting. Both actual user FAIL and native reproduction retained under docs/ui-vezerlopanel-eredmenyek/UI04.
+- Replaced custom JPanel painter with standard JLabel grip; drag/bounds/layout unchanged. New source `828ff725db73f3a93132bf2b8e5b2aa12f1c54713ffed6305a81705c1c6e0b3f`, Latin-1/CRLF, startup UI03. Native24/24 PASS includes initial full painting and repaint after each drag for enhanced/basic editors; native-paint-fixed.json plus reproducible finite script snapshot. No network/full K11 rerun. Previous reports remain tied to old source.
+- REQUESTED user remove broken main and reload root, no helper, allOFF/InterceptOFF initially; verify full tab first, then resizing/Errors. If old paint residue persists, restart Burp before reload. WAIT for actual result; do not call live repair approved yet. No commit/push requested. Last confirmed live state is failed first UI04, unless user has removed it as requested.
+
+## Current UI04 resize preview — local PASS, root reload pending (2026-11-02)
+
+- User requested a practical vertical-only resize grip after clean K11 commit/push1543238. Added a 10px bottom grip, screen-Y drag with6–30-line font-relative bounds, fixed sidebar width and normal lower-row/Output movement; no persisted height or execution/session/network changes. Initial editor preferred height retained; minimum height follows it so narrow GridBag rows cannot squash the chosen size. Source SHA256 `7678b02fc096696e147e2eb67625cb796e8e28a3145528641ec1554eeff89f97`, Latin-1/CRLF, startup still UI03.
+- Native preview22/22 PASS in separate JVM for enhanced and fallback editors: actual editor/button movement80px, clamps, width, release/right-click, code/defaults unchanged. Reports/initial failures: docs/ui-vezerlopanel-eredmenyek/UI04/README.md. Runtime preview script/captures ignored; no full K11 rerun or new live traffic/helper.
+- Next manual gate: remove old main and load root BoberProxy.py; only Use custom codeblock ON, other switches/InterceptOFF. Check grip drag, lower buttons/Output and sidebar scroll, Errors. Last confirmed live instance is still prior K11 state (not assumed reloaded); no current actual Burp proof for UI04. No commit/push requested for this UI change. Earlier K11 evidence belongs to unchanged1bf7e15a source, not this candidate.
+
 ## K11 Git checkpoint requested (2026-11-02)
 
 - User requested commit/push of the closed K11 helpers, synthetic evidence and documentation. Production source/JAR remain unchanged. Revision is recorded in Git history; closure/evidence manifests preserve the validation state before this Git checkpoint. Runtime captures/generated custom fixtures remain ignored.

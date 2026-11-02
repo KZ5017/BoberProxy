@@ -1,0 +1,9 @@
+{
+  "kind": "UI05-user-confirmed-live-preview",
+  "candidate_source_sha256": "5911a528c05b3f9899c62ca34829eb5f81d80400b18ce84b560daecfc7fa4b17",
+  "source_verification": "User reloaded requested root candidate; no independent live hash API probe.",
+  "sidebar_width_and_editor_height_approved": true,
+  "errors_empty": true,
+  "user_reply": "Rendben működik, Errors üres",
+  "passed": true
+}

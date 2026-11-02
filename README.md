@@ -215,8 +215,10 @@ During initialization, BoberProxy:
 * Cookie & CSRF settings
 * Proxy mode toggle
 
-The control sidebar has a fixed width measured from its controls and font when
-loaded. Resizing the Burp window changes the left workspace width. Logging,
+The control sidebar starts at a minimum width measured from its controls and
+font when loaded. Drag its left divider leftward to widen it, or rightward to
+return to that minimum. Resizing the Burp window changes the left workspace
+width while retaining the selected sidebar width when space permits. Logging,
 workflow/session, custom code and output have independent layout groups; Test
 and Reset share an equal-width row filling the available space. Short windows scroll the
 sidebar vertically. Long code/regex lines scroll inside their own editors;
@@ -225,7 +227,7 @@ to measure a new width. Existing switches, defaults and processing behavior
 are preserved.
 
 The layout splits logging actions and session controls into shorter rows.
-The fixed sidebar width includes 30% extra space over the previous compact
+The minimum sidebar width includes 30% extra space over the previous compact
 layout for the code editor. CSRF and Response regex each have one visible text row and
 their own horizontal scrollbar when the pattern exceeds the available width.
 Injecting and Site map actions fill their rows. The four logging buttons share one equal-width row. Each cookie/CSRF
@@ -248,6 +250,11 @@ Proxy > Proxy settings.
 The custom editor uses the bundled [RSyntaxTextArea library](lib/README.md).
 It keeps the existing outer size and supports Python highlighting, line numbers,
 automatic indentation, four-space Tab input, bracket matching and undo/redo.
+Drag the small grip below the code editor up or down to adjust its height
+(approximately 6–29 lines). This grip changes only height; Test/Reset and Output move with
+the editor, and the sidebar scrolls vertically when needed. Reloading restores
+the initial editor height and minimum sidebar width.
+
 Long lines scroll horizontally. Editor colors follow the startup light/dark
 appearance; code still runs under Jython 2.7, with the same Test/Reset and timeout
 behavior. Syntax colors are an editing aid, not a Python validator. Typing does

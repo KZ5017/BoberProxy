@@ -1,0 +1,110 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+import os, sys, json, hashlib, traceback
+sys.path.insert(0, os.path.abspath('tests/stabilization'))
+from javax.swing import SwingUtilities
+from javax import swing
+from java.awt.event import MouseEvent, InputEvent
+from java.lang import System, Throwable
+from java.awt.image import BufferedImage
+from probe_template_native import load_source
+from probe_logging_native import NativeHelpers
+ns, raw = load_source(os.path.abspath('BoberProxy.py'))
+helpers = NativeHelpers()
+class Editor(object):
+    def getMessage(self): return helpers.stringToBytes('')
+    def setMessage(self, value, request): pass
+    def getComponent(self): return swing.JPanel()
+class Callbacks(object):
+    def getHelpers(self): return helpers
+    def createMessageEditor(self, controller, editable): return Editor()
+checks, owned, errors, dimensions, frames = {}, [], [], {}, []
+def layout(component):
+    # A non-showing preview has no automatic RepaintManager validation pass.
+    def invalidate_tree(node):
+        if hasattr(node, 'getComponents'):
+            for child in node.getComponents(): invalidate_tree(child)
+        node.invalidate()
+    def place(node):
+        node.doLayout()
+        if hasattr(node, 'getComponents'):
+            for child in node.getComponents(): place(child)
+    invalidate_tree(component)
+    place(component)
+def trial():
+    try:
+        for enhanced in (True, False):
+            if not enhanced: ns['CODE_EDITOR_SUPPORT'] = {'error':'CODE_EDITOR_JAR_MISSING'}
+            ui = ns['LoggerUI'](Callbacks(), ns['SimpleMessageController']())
+            owned.append(ui)
+            panel = ui.mainPanel
+            frame = swing.JFrame()
+            frames.append(frame)
+            frame.setContentPane(panel)
+            frame.pack()
+            frame.setSize(1400, 850)
+            frame.validate()
+            layout(panel)
+            image = BufferedImage(1400,850,BufferedImage.TYPE_INT_RGB)
+            graphics = image.createGraphics()
+            try: panel.paint(graphics)
+            finally: graphics.dispose()
+            checks[('enhanced_' if enhanced else 'basic_')+'initial_paint'] = True
+            prefix = 'enhanced_' if enhanced else 'basic_'
+            grip, scroll = ui.customCodeResizeGrip, ui.customCodeScroll
+            initial = scroll.getPreferredSize().height
+            width = ui.rightScroll.getWidth()
+            start_y = swing.SwingUtilities.convertPoint(ui.testCodeBtn, 0, 0, ui._controls_content).y
+            code = ui.customCodeArea.getText()
+            def sizes():
+                return dict(content_h=ui._controls_content.getHeight(),content_pref=ui._controls_content.getPreferredSize().height,scroll_h=scroll.getHeight(),scroll_pref=scroll.getPreferredSize().height,container_h=ui.customCodeContainer.getHeight(),container_pref=ui.customCodeContainer.getPreferredSize().height,button_y=swing.SwingUtilities.convertPoint(ui.testCodeBtn,0,0,ui._controls_content).y)
+            before_sizes = sizes()
+            def event(kind, y, button=MouseEvent.BUTTON1, x=100):
+                mods = InputEvent.BUTTON1_DOWN_MASK if kind != MouseEvent.MOUSE_RELEASED and button == MouseEvent.BUTTON1 else 0
+                grip.dispatchEvent(MouseEvent(grip, kind, System.currentTimeMillis(), mods,
+                                              5, 5, x, y, 1, False,
+                                              button if kind != MouseEvent.MOUSE_DRAGGED else MouseEvent.NOBUTTON))
+            def drag(delta):
+                event(MouseEvent.MOUSE_PRESSED, 200)
+                event(MouseEvent.MOUSE_DRAGGED, 200 + delta, x=1000)
+                event(MouseEvent.MOUSE_RELEASED, 200 + delta)
+                frame.validate()
+                layout(panel)
+                graphics = image.createGraphics()
+                try: panel.paint(graphics)
+                finally: graphics.dispose()
+            checks[prefix+'editor_type'] = bool(ui._code_editor_enhanced) == enhanced
+            drag(80)
+            button_y = swing.SwingUtilities.convertPoint(ui.testCodeBtn, 0, 0, ui._controls_content).y
+            after_sizes = sizes()
+            checks[prefix+'height_grows_80'] = scroll.getPreferredSize().height == initial + 80
+            checks[prefix+'buttons_move_80'] = button_y == start_y + 80
+            checks[prefix+'width_fixed_despite_horizontal_drag'] = width == ui.rightScroll.getWidth() == ui._sidebar_width
+            drag(5000)
+            checks[prefix+'maximum_clamped'] = scroll.getPreferredSize().height == ui._code_editor_max_height
+            checks[prefix+'sidebar_scrolls'] = ui._controls_content.getPreferredSize().height > ui.rightScroll.getViewport().getExtentSize().height
+            drag(-5000)
+            checks[prefix+'minimum_clamped'] = scroll.getPreferredSize().height == ui._code_editor_min_height
+            before = scroll.getPreferredSize().height
+            event(MouseEvent.MOUSE_DRAGGED, 800)
+            checks[prefix+'release_stops_resize'] = scroll.getPreferredSize().height == before
+            event(MouseEvent.MOUSE_PRESSED, 200, MouseEvent.BUTTON3)
+            event(MouseEvent.MOUSE_DRAGGED, 500)
+            event(MouseEvent.MOUSE_RELEASED, 500, MouseEvent.BUTTON3)
+            checks[prefix+'right_click_ignored'] = scroll.getPreferredSize().height == before
+            checks[prefix+'code_unchanged'] = ui.customCodeArea.getText() == code
+            checks[prefix+'remains_default_off'] = not ui.useCustomChk.isSelected() and not ui.proxyModeBtn.isSelected()
+            dimensions[prefix] = dict(initial=initial, minimum=ui._code_editor_min_height, maximum=ui._code_editor_max_height, width=width, button_shift=button_y-start_y, before=before_sizes, after=after_sizes)
+    except (BaseException, Throwable): errors.append(traceback.format_exc())
+    finally:
+        for ui in owned: ui.close_custom_runtime()
+        for frame in frames: frame.dispose()
+swing.SwingUtilities.invokeAndWait(trial)
+swing.SwingUtilities.invokeAndWait(lambda:None)
+for ui in owned:
+    for owner in (ui._custom_executor, ui._filter_worker, ui._log_writer, ui._log_io):
+        if owner.worker is not None: owner.worker.join(5)
+report=dict(kind='UI04-private-native-resize-and-paint-no-network',source_sha256=hashlib.sha256(raw).hexdigest(),checks=checks,errors=errors,dimensions=dimensions,network_requests=0,actual_burp=False,passed=bool(checks) and all(checks.values()) and not errors)
+with open('tests/stabilization/runtime/ui04-paint-fixed.json','w') as f: json.dump(report,f,indent=2)
+print(json.dumps(report,indent=2))
+sys.exit(0 if report['passed'] else 1)

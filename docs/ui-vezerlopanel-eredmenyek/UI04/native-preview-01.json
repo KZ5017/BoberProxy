@@ -1,0 +1,46 @@
+{
+  "kind": "UI04-private-native-resize-preview-no-network", 
+  "actual_burp": false, 
+  "checks": {
+    "enhanced_code_unchanged": true, 
+    "enhanced_width_fixed_despite_horizontal_drag": true, 
+    "enhanced_sidebar_scrolls": true, 
+    "basic_right_click_ignored": true, 
+    "basic_release_stops_resize": true, 
+    "basic_editor_type": true, 
+    "enhanced_editor_type": true, 
+    "basic_buttons_move_80": false, 
+    "enhanced_right_click_ignored": true, 
+    "enhanced_height_grows_80": true, 
+    "basic_sidebar_scrolls": true, 
+    "basic_code_unchanged": true, 
+    "basic_height_grows_80": true, 
+    "enhanced_remains_default_off": true, 
+    "enhanced_buttons_move_80": false, 
+    "enhanced_release_stops_resize": true, 
+    "basic_remains_default_off": true, 
+    "basic_minimum_clamped": true, 
+    "basic_maximum_clamped": true, 
+    "enhanced_minimum_clamped": true, 
+    "basic_width_fixed_despite_horizontal_drag": true, 
+    "enhanced_maximum_clamped": true
+  }, 
+  "source_sha256": "1cae71e13e4f88950f5d5c69787259e3d43dd3664e86c621a93271aca41312b5", 
+  "passed": false, 
+  "errors": [], 
+  "dimensions": {
+    "enhanced_": {
+      "initial": 178, 
+      "width": 554, 
+      "maximum": 518, 
+      "minimum": 110
+    }, 
+    "basic_": {
+      "initial": 178, 
+      "width": 554, 
+      "maximum": 498, 
+      "minimum": 114
+    }
+  }, 
+  "network_requests": 0
+}

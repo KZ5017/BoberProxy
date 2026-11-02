@@ -2268,8 +2268,14 @@ class LoggerUI(ITab):
         self.logPanel.add(self._build_status_bar(), BorderLayout.SOUTH)
         self.leftSplit.setRightComponent(self.logPanel)
 
-        self.mainPanel.add(self.leftSplit, BorderLayout.CENTER)
-        self.mainPanel.add(self._build_controls_panel(), BorderLayout.EAST)
+        # Native divider lets the sidebar grow leftward; its current width is the minimum.
+        self.controlsSplit = swing.JSplitPane(swing.JSplitPane.HORIZONTAL_SPLIT,
+                                             self.leftSplit, self._build_controls_panel())
+        self.controlsSplit.setResizeWeight(1.0)
+        self.controlsSplit.setContinuousLayout(True)
+        self.controlsSplit.setDividerSize(6)
+        self.controlsSplit.setBorder(None)
+        self.mainPanel.add(self.controlsSplit, BorderLayout.CENTER)
         self._component = self.mainPanel
         if self._code_editor_warning:
             self._log(self._code_editor_warning + ": basic code editor active; restore the bundled lib folder.")
@@ -2551,6 +2557,53 @@ class LoggerUI(ITab):
         basic_scroll.setPreferredSize(size)
         return basic, basic_scroll
 
+    def _build_resizable_code_editor(self):
+        from java.awt import Cursor
+        from java.awt.event import MouseAdapter
+        scroll = self.customCodeScroll
+        initial = scroll.getPreferredSize()
+        line = self.customCodeArea.getFontMetrics(self.customCodeArea.getFont()).getHeight()
+        chrome = max(0, initial.height - 10 * line)
+        self._code_editor_min_height = max(scroll.getMinimumSize().height, 6 * line + chrome)
+        self._code_editor_max_height = max(initial.height, 29 * line + chrome)
+        # Narrow GridBag rows may use minimum sizes for both dimensions.
+        scroll.setMinimumSize(Dimension(scroll.getMinimumSize().width, initial.height))
+        ui = self
+        class ResizeMouse(MouseAdapter):
+            origin = None
+            def mousePressed(self, event):
+                if swing.SwingUtilities.isLeftMouseButton(event):
+                    self.origin = (event.getYOnScreen(), scroll.getPreferredSize().height)
+            def mouseDragged(self, event):
+                if self.origin is None or ui._custom_ui_closed:
+                    return
+                y, height = self.origin
+                height = max(ui._code_editor_min_height, min(ui._code_editor_max_height,
+                             height + event.getYOnScreen() - y))
+                size = scroll.getPreferredSize()
+                if height != size.height:
+                    scroll.setPreferredSize(Dimension(size.width, height))
+                    scroll.setMinimumSize(Dimension(scroll.getMinimumSize().width, height))
+                    ui.customCodeContainer.revalidate()
+                    ui._controls_content.revalidate()
+                    ui.rightScroll.revalidate()
+                    ui.rightScroll.repaint()
+            def mouseReleased(self, event):
+                self.origin = None
+        # Use standard Swing painting; JPanel.paintComponent is protected in Jython.
+        grip = swing.JLabel(u"\u2550\u2550\u2550", swing.SwingConstants.CENTER)
+        grip.setPreferredSize(Dimension(0, 10))
+        grip.setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR))
+        grip.setToolTipText("Drag up or down to resize the code editor (6-29 lines)")
+        listener = ResizeMouse()
+        grip.addMouseListener(listener)
+        grip.addMouseMotionListener(listener)
+        self.customCodeResizeGrip = grip
+        self.customCodeContainer = swing.JPanel(BorderLayout())
+        self.customCodeContainer.add(scroll, BorderLayout.CENTER)
+        self.customCodeContainer.add(grip, BorderLayout.SOUTH)
+        return self.customCodeContainer
+
     def _build_custom_panel(self):
         from javax.swing.event import DocumentListener
         self.useCustomChk = swing.JCheckBox("Use custom codeblock", False, actionPerformed=self._on_toggle_custom)
@@ -2579,7 +2632,7 @@ class LoggerUI(ITab):
                 self._controls_row([swing.JLabel("Payload 1 parameter:"), self.payloadParamField], stretch=1),
                 self._controls_row([swing.JLabel("Payload 2 parameter:"), self.payloadParam2Field], stretch=1),
             ]),
-            self._controls_row([self.customCodeScroll], stretch=0),
+            self._controls_row([self._build_resizable_code_editor()], stretch=0),
             self._controls_buttons([self.testCodeBtn, self.resetBtn]),
         ])
 
@@ -2687,6 +2740,7 @@ class LoggerUI(ITab):
         self._sidebar_width = int(target_width * 1.30 + 0.5)
         content._fixed_width = self._sidebar_width - chrome
         self.rightScroll.setPreferredSize(Dimension(self._sidebar_width, content.getPreferredSize().height))
+        self.rightScroll.setMinimumSize(Dimension(self._sidebar_width, self.rightScroll.getMinimumSize().height))
         self._install_neutral_focus(self.rightScroll)
         return self.rightScroll
 

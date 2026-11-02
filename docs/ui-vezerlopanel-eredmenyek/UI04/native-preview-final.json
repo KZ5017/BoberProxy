@@ -1,0 +1,84 @@
+{
+  "kind": "UI04-private-native-resize-preview-no-network", 
+  "actual_burp": false, 
+  "checks": {
+    "enhanced_code_unchanged": true, 
+    "enhanced_width_fixed_despite_horizontal_drag": true, 
+    "enhanced_sidebar_scrolls": true, 
+    "basic_right_click_ignored": true, 
+    "basic_release_stops_resize": true, 
+    "basic_editor_type": true, 
+    "enhanced_editor_type": true, 
+    "basic_buttons_move_80": true, 
+    "enhanced_right_click_ignored": true, 
+    "enhanced_height_grows_80": true, 
+    "basic_sidebar_scrolls": true, 
+    "basic_code_unchanged": true, 
+    "basic_height_grows_80": true, 
+    "enhanced_remains_default_off": true, 
+    "enhanced_buttons_move_80": true, 
+    "enhanced_release_stops_resize": true, 
+    "basic_remains_default_off": true, 
+    "basic_minimum_clamped": true, 
+    "basic_maximum_clamped": true, 
+    "enhanced_minimum_clamped": true, 
+    "basic_width_fixed_despite_horizontal_drag": true, 
+    "enhanced_maximum_clamped": true
+  }, 
+  "source_sha256": "7678b02fc096696e147e2eb67625cb796e8e28a3145528641ec1554eeff89f97", 
+  "passed": true, 
+  "errors": [], 
+  "dimensions": {
+    "enhanced_": {
+      "initial": 178, 
+      "before": {
+        "container_h": 188, 
+        "scroll_pref": 178, 
+        "scroll_h": 178, 
+        "button_y": 707, 
+        "content_pref": 907, 
+        "content_h": 907, 
+        "container_pref": 188
+      }, 
+      "button_shift": 80, 
+      "width": 554, 
+      "maximum": 518, 
+      "after": {
+        "container_h": 268, 
+        "scroll_pref": 258, 
+        "scroll_h": 258, 
+        "button_y": 787, 
+        "content_pref": 987, 
+        "content_h": 987, 
+        "container_pref": 268
+      }, 
+      "minimum": 110
+    }, 
+    "basic_": {
+      "initial": 178, 
+      "before": {
+        "container_h": 188, 
+        "scroll_pref": 178, 
+        "scroll_h": 178, 
+        "button_y": 707, 
+        "content_pref": 907, 
+        "content_h": 907, 
+        "container_pref": 188
+      }, 
+      "button_shift": 80, 
+      "width": 554, 
+      "maximum": 498, 
+      "after": {
+        "container_h": 268, 
+        "scroll_pref": 258, 
+        "scroll_h": 258, 
+        "button_y": 787, 
+        "content_pref": 987, 
+        "content_h": 987, 
+        "container_pref": 268
+      }, 
+      "minimum": 114
+    }
+  }, 
+  "network_requests": 0
+}

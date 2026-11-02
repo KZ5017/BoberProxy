@@ -1,0 +1,8 @@
+{
+  "kind": "UI04-user-reported-live-paint-failure",
+  "candidate_source_sha256": "7678b02fc096696e147e2eb67625cb796e8e28a3145528641ec1554eeff89f97",
+  "load_errors_reported": false,
+  "tab_switch_and_repaint_ok": false,
+  "description": "Tab does not fully appear; moving mouse reveals scattered BoberProxy controls.",
+  "passed": false
+}

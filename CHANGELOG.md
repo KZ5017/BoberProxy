@@ -1,5 +1,33 @@
 # CHANGELOG.md
 
+## 2026-11-02 — UI04–UI05 Git checkpoint
+
+- Save the user-approved vertically resizable code editor with29-line maximum and native sidebar-width divider, retaining the previous width as its minimum. Include documentation, native/live evidence and the initial painting failure/reproduction; runtime files remain ignored.
+- Current source hash matches native38/38 validation and manual Burp approval. No additional source change or traffic for the checkpoint.
+
+## 2026-11-02 — UI05 live preview approved
+
+- User confirms native sidebar-width resizing and29-line editor height work in Burp, Errors empty. Close manual gate and archive confirmation alongside38/38 native checks. No further source change, traffic or Git checkpoint.
+
+## 2026-11-02 — Sidebar-width preview and29-line height cap
+
+- Reduce the custom editor maximum from30 to29 font-metric rows. Add a native left-edge divider to widen the sidebar, retaining its former fixed width as the minimum and preserving selected width during window growth where space allows.
+- Native38/38 geometry/paint checks pass for enhanced/basic editors; actual Burp preview/1440p fit and user preference pending. Processing unchanged; no new Git checkpoint.
+
+## 2026-11-02 — UI04 live verification closed
+
+- User confirms repaired root loads and renders normally, editor height is resizable and Errors is empty. Archive live confirmation with24/24 native paint/resize results; retain the failed initial candidate and reproduction. No further source change, traffic or Git checkpoint.
+
+## 2026-11-02 — Repair UI04 grip painting
+
+- Reproduce actual tab paint failure caused by a class-qualified call to protected JPanel.paintComponent in Jython; preserve the live failure and native exception. Earlier geometry-only PASS did not cover painting.
+- Replace the custom painter with a standard Swing label. Native24/24 checks include full initial painting and repaint after resizing for both editors; fresh actual Burp reload/visual confirmation pending. No processing-path change.
+
+## 2026-11-02 — Vertical code-editor resize preview
+
+- Add a bottom drag grip with font-relative6–30-line height limits and fixed width; keep Test/Reset and Output below it with existing sidebar scrolling. Height resets on reload; processing behavior unchanged.
+- Native22/22 resize checks pass for enhanced/basic editors; retain initial minimum-height layout failures and correction. Latin-1/CRLF preserved; actual Burp reload/visual approval pending. No full K11 rerun or Git checkpoint.
+
 ## 2026-11-02 — K11 Git checkpoint
 
 - Prepare the user-requested commit/push of closed K11 validation, helpers, synthetic evidence and handoff documentation. Production source/JAR remain unchanged; runtime captures and generated fixtures stay ignored. Closure reports retain their pre-checkpoint validation state.

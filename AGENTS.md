@@ -50,6 +50,7 @@ The environment above has live integration evidence under `docs/stabilizacios-te
 
 - Preserve Jython compatibility unless the project is explicitly being migrated.
 - Distribute the bundled `lib/` folder with the Python source. Load code-editor classes/themes outside the EDT, create widgets on it, and avoid global UIManager/keymap resets. Keep the editor's own anonymous keymap/action map: shared RSTA caches can retain another extension loader's actions. Missing dependencies must retain the basic editor with a visible warning.
+- UI layout checks must also paint the widgets: a geometry-only pass misses Jython painting exceptions. Prefer standard Swing components for simple handles; a class-qualified `JPanel.paintComponent(self, graphics)` call is not available through Jython's protected-method exposure.
 - Avoid introducing Python 3-only syntax into `BoberProxy.py` without confirming runtime expectations.
 - Treat broad `except:` blocks as behavior-sensitive areas; refactors there can change extension stability.
 - Treat the custom-code execution path as high risk because it uses `exec(...)`.

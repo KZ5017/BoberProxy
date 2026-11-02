@@ -1,0 +1,10 @@
+{
+  "kind": "UI04-user-confirmed-live-reload",
+  "source_sha256": "828ff725db73f3a93132bf2b8e5b2aa12f1c54713ffed6305a81705c1c6e0b3f",
+  "source_verification": "Loaded root candidate as requested; no independent live hash API probe.",
+  "tab_renders": true,
+  "editor_resizes": true,
+  "errors_empty": true,
+  "user_reply": "Rendben megjelenik és méretezhető, Errors üres",
+  "passed": true
+}
