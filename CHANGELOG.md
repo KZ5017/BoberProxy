@@ -1,5 +1,25 @@
 # CHANGELOG.md
 
+## 2026-11-02 — Approved compact sidebar checkpoint
+
+- Record user approval and requested commit/push of the wider fixed sidebar, compact aligned control rows and shorter Output area. Existing processing behavior is preserved; syntax/encoding/whitespace checks passed. Historical Burp reports remain scoped to their original source versions; K11 has not started.
+
+## 2026-11-02 — Equal payload parameter groups
+
+- Give Payload 1/2 label-and-field groups equal halves of their row, matching the custom/timeout split. Preserve editing and processing behavior.
+
+## 2026-11-02 — Align compact sidebar controls
+
+- Split cookie/CSRF control rows into equal thirds, custom/timeout into equal halves, and reduce Output preferred height by one font-metric line. Keep accepted fixed width and processing behavior; awaiting user preview.
+
+## 2026-11-02 — Compact sidebar row preview
+
+- Place size/comparator/value, four equal logging buttons, each session checkbox with its Clear/Show pair, and both payload fields into compact rows. Capitalize Size Filter and logging button captions. Keep the accepted widened fixed width independent of row preferred sizes; actions/defaults unchanged. Awaiting user preview.
+
+## 2026-11-02 — Sidebar width preview
+
+- Increase the computed fixed sidebar width by30% and shorten session checkbox captions to Auto-update Cookies / Auto-update CSRF. Preserve actions/defaults and fixed-width resizing behavior; awaiting user preview before further layout changes.
+
 ## 2026-11-02 — UI03 Git checkpoint
 
 - Prepare user-requested commit/push of the closed Python-editor implementation, bundled dependency/license, installation documentation and validation evidence. Runtime captures remain ignored; source/JAR hashes match actual Burp results. K11 not started.

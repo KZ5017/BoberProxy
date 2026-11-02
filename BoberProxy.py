@@ -2405,6 +2405,19 @@ class LoggerUI(ITab):
         return panel
 
     @staticmethod
+    def _controls_inline_form(pairs):
+        panel = swing.JPanel(GridBagLayout())
+        for index, (caption, field) in enumerate(pairs):
+            for offset, component in enumerate((swing.JLabel(caption), field)):
+                c = GridBagConstraints()
+                c.gridx, c.gridy = index * 2 + offset, 0
+                c.insets, c.anchor = Insets(3, 4, 3, 4), GridBagConstraints.WEST
+                c.weightx = float(offset)
+                c.fill = GridBagConstraints.HORIZONTAL if offset else GridBagConstraints.NONE
+                panel.add(component, c)
+        return panel
+
+    @staticmethod
     def _controls_section(title, rows):
         panel = swing.JPanel(GridBagLayout())
         panel.setBorder(swing.BorderFactory.createTitledBorder(title))
@@ -2424,7 +2437,7 @@ class LoggerUI(ITab):
             status.append(checkbox)
         self.lenTypeCombo = swing.JComboBox(["Total size", "Body size"])
         self.compCombo = swing.JComboBox(["Minimum", "Maximum", "Not equal"])
-        self.sizeField = swing.JTextField("", 10)
+        self.sizeField = swing.JTextField("", 6)
         self.sizeField.setToolTipText("Enter one or more byte values, separated by commas (e.g. 100,200,512)")
         self.regexField = swing.JTextArea("", 1, 28)
         self.regexField.setLineWrap(False)
@@ -2437,22 +2450,23 @@ class LoggerUI(ITab):
         self.regexField.setToolTipText("Uses Java regex (java.util.regex.Pattern); escape backslashes (\\w, \\d, etc.); evaluated with .find(), not .matches().")
         self.addSitemapBtn = swing.JButton("Add selected to Site map", actionPerformed=self.add_selected_to_sitemap)
         self.addSitemapBtn.setToolTipText("Adds selected messages to Site map and includes their URLs in Burp scope.")
-        self.clearBtn = swing.JButton("Clear log", actionPerformed=self.clear_log)
-        self.clearSelBtn = swing.JButton("Clear selected", actionPerformed=self.clear_selected)
-        self.pauseBtn = swing.JToggleButton("Pause logging", False, actionPerformed=self.toggle_pause)
+        self.clearBtn = swing.JButton("Clear Log", actionPerformed=self.clear_log)
+        self.clearSelBtn = swing.JButton("Clear Selected", actionPerformed=self.clear_selected)
+        self.pauseBtn = swing.JToggleButton("Pause Logging", False, actionPerformed=self.toggle_pause)
         self.filterBtn = swing.JButton("Filter", actionPerformed=lambda e: self._open_filter_dialog())
         panel = self._controls_section("Logging options", [
             self._controls_row(status),
-            self._controls_form([("Size filter:", self.lenTypeCombo),
-                                 ("Comparator:", self.compCombo), ("Value (bytes):", self.sizeField)]),
+            self._controls_inline_form([("Size Filter:", self.lenTypeCombo),
+                                       ("Comparator:", self.compCombo), ("Value (bytes):", self.sizeField)]),
             self._controls_row([swing.JLabel("Response regex")]),
             self._controls_row([self.responseRegexScroll], stretch=0),
             self._controls_row([self.addSitemapBtn], stretch=0),
-            self._controls_buttons([self.clearBtn, self.clearSelBtn]),
-            self._controls_buttons([self.filterBtn, self.pauseBtn]),
+            self._controls_buttons([self.clearBtn, self.clearSelBtn, self.filterBtn, self.pauseBtn]),
         ])
-        # Reference the former five-button row without reparenting its widgets.
-        buttons = [self.addSitemapBtn, self.clearBtn, self.clearSelBtn, self.pauseBtn, self.filterBtn]
+        # Keep the accepted width independent of current row/caption changes.
+        buttons = [swing.JButton(caption) for caption in
+                   ("Add selected to Site map", "Clear log", "Clear selected")]
+        buttons.extend([swing.JToggleButton("Pause logging"), swing.JButton("Filter")])
         border = panel.getInsets()
         self._sidebar_reference_content_width = (sum(b.getPreferredSize().width for b in buttons)
             + 8 * (len(buttons) + 1) + border.left + border.right + 12)
@@ -2464,9 +2478,9 @@ class LoggerUI(ITab):
         self.useCheckPageTemplate = False
         self.autoFollowRTChk = swing.JCheckBox("AutoFollow redirect on RT", False)
         self.autoFollowRTChk.setEnabled(False)
-        self.autoUpdateChk = swing.JCheckBox("Auto-update cookies from responses", False,
+        self.autoUpdateChk = swing.JCheckBox("Auto-update Cookies", False,
             actionPerformed=lambda e: setattr(self, "autoUpdateCookies", bool(self.autoUpdateChk.isSelected())))
-        self.autoUpdateCsrfChk = swing.JCheckBox("Auto-update CSRF from responses", False,
+        self.autoUpdateCsrfChk = swing.JCheckBox("Auto-update CSRF", False,
             actionPerformed=lambda e: setattr(self, "autoUpdateCsrf", bool(self.autoUpdateCsrfChk.isSelected())))
         self.clearCookiesBtn = swing.JButton("Clear Cookies", actionPerformed=lambda e: self._on_clear_cookies())
         self.showCookiesBtn = swing.JButton("Show Cookies", actionPerformed=lambda e: self._on_show_cookies())
@@ -2489,10 +2503,8 @@ class LoggerUI(ITab):
         self.csrfRegexScroll.setPreferredSize(self.csrfRegexScroll.getPreferredSize())
         return self._controls_section("Workflow / Cookies & CSRF", [
             self._controls_buttons([self.useCheckPageChk, self.autoFollowRTChk]),
-            self._controls_row([self.autoUpdateChk]),
-            self._controls_buttons([self.clearCookiesBtn, self.showCookiesBtn]),
-            self._controls_row([self.autoUpdateCsrfChk]),
-            self._controls_buttons([self.clearCsrfBtn, self.showCsrfBtn]),
+            self._controls_buttons([self.autoUpdateChk, self.clearCookiesBtn, self.showCookiesBtn]),
+            self._controls_buttons([self.autoUpdateCsrfChk, self.clearCsrfBtn, self.showCsrfBtn]),
             self._controls_row([swing.JLabel("CSRF regex"), self.resetCsrfRegexBtn], stretch=0),
             self._controls_row([self.csrfRegexScroll], stretch=0),
         ])
@@ -2561,9 +2573,12 @@ class LoggerUI(ITab):
         self.customCodeArea.getDocument().addDocumentListener(CustomSettingsListener())
         self.timeoutField.getDocument().addDocumentListener(CustomSettingsListener())
         return self._controls_section("Custom payload transform", [
-            self._controls_row([self.useCustomChk, swing.JLabel("Timeout (ms)"), self.timeoutField], stretch=0),
-            self._controls_form([("Payload 1 parameter:", self.payloadParamField),
-                                 ("Payload 2 parameter:", self.payloadParam2Field)]),
+            self._controls_buttons([self.useCustomChk,
+                self._controls_row([swing.JLabel("Timeout (ms)"), self.timeoutField])]),
+            self._controls_buttons([
+                self._controls_row([swing.JLabel("Payload 1 parameter:"), self.payloadParamField], stretch=1),
+                self._controls_row([swing.JLabel("Payload 2 parameter:"), self.payloadParam2Field], stretch=1),
+            ]),
             self._controls_row([self.customCodeScroll], stretch=0),
             self._controls_buttons([self.testCodeBtn, self.resetBtn]),
         ])
@@ -2589,7 +2604,8 @@ class LoggerUI(ITab):
         scroll.setViewportBorder(swing.BorderFactory.createEmptyBorder())
         scroll.setVerticalScrollBarPolicy(swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED)
         scroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
-        scroll.setPreferredSize(Dimension(0, 120))
+        line_height = self.customStatusArea.getFontMetrics(self.customStatusArea.getFont()).getHeight()
+        scroll.setPreferredSize(Dimension(0, max(line_height + 6, 120 - line_height)))
         panel = swing.JPanel(GridBagLayout())
         panel.setBorder(swing.BorderFactory.createTitledBorder("Output"))
         c = GridBagConstraints()
@@ -2658,7 +2674,7 @@ class LoggerUI(ITab):
             content.add(section, c)
         self._on_toggle_custom()
         self._controls_content = content
-        content_width = content.freeze_width()
+        content.freeze_width()
         self.rightScroll = swing.JScrollPane(content)
         self.rightScroll.setHorizontalScrollBarPolicy(swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
         self.rightScroll.setVerticalScrollBarPolicy(swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED)
@@ -2667,9 +2683,9 @@ class LoggerUI(ITab):
         chrome = border.left + border.right + self.rightScroll.getVerticalScrollBar().getPreferredSize().width
         reference_width = self._sidebar_reference_content_width + chrome
         target_width = int(reference_width * 2.0 / 3.0 + 0.5)
-        # Keep static controls readable if a font requires slightly more space.
-        content._fixed_width = max(content_width, target_width - chrome)
-        self._sidebar_width = content._fixed_width + chrome
+        # Use the accepted fixed reference, not the wider natural size of inline rows.
+        self._sidebar_width = int(target_width * 1.30 + 0.5)
+        content._fixed_width = self._sidebar_width - chrome
         self.rightScroll.setPreferredSize(Dimension(self._sidebar_width, content.getPreferredSize().height))
         self._install_neutral_focus(self.rightScroll)
         return self.rightScroll

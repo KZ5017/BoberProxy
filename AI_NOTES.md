@@ -1,5 +1,29 @@
 # AI_NOTES.md
 
+## Current sidebar checkpoint — user approved (2026-11-02)
+
+- User accepted the final compact layout and requested commit/push. Fixed sidebar width is 30% wider than the previous compact layout; logging actions, session controls and payload/custom groups use the approved aligned rows. Processing behavior and startup UI03 remain unchanged. Revision is recorded in Git history.
+- Current source SHA-256: `1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956`. Syntax, Latin-1/CRLF and diff whitespace checked. User approved the appearance; no automated Burp suite or traffic was rerun for these layout iterations. Earlier UI03 reports retain their original source hashes. Current switches/editor buffer after previews are not assumed; confirm before future traffic. K11 remains not started.
+
+## Current payload row — exact equal halves (2026-11-02)
+
+- User asked whether payload1/2 row had same exact50/50 split as custom/timeout. Previously it was one flexible inline GridBag row, not two fixed equal groups. Changed only this row to two equal GridLayout cells, each with its label and stretching text field, matching the row above. Other layout/behavior unchanged. StartupUI03, source hash1bf7e15a61785d581a555a7439166621331c1b3531b7d50baf48af031226b956, Latin1/CRLF; syntax checked, root reload/manual preview pending. No new tests/traffic/Git/K11.
+
+## Current sidebar alignment preview — thirds/halves and shorter Output (2026-11-02)
+
+- User refines current compact layout: each cookie/CSRF checkbox+Clear+Show row now three equal GridLayout columns, so both button pairs align vertically. Custom checkbox and timeout label/field group occupy equal halves, timeout input keeps natural small width. Output preferred height reduced from120px by one actual font-metric line, retaining at least one text row. Fixed widened sidebar width/actions/defaults unchanged.
+- StartupUI03, source hash2acbc2be01ffbad630438797fbd28d62dab0b77a3bfb5e1a12f4eb4e878d5d2c, Latin1/CRLF; syntax/whitespace checked only, manual preview via root reload pending. Do not claim 1080p scrollbar absence before user sees it; UI chrome/font scaling can affect exact fit. No new tests/traffic/Git/K11 for these visual iterations; closed UI03 reports remain historical hashes.
+
+## Current sidebar compact-row preview — awaiting visual feedback (2026-11-02)
+
+- User accepted the +30% width and now requests height savings only: Size Filter/comparator/value in one inline form, four equal logging buttons in one row, auto-cookie/CSRF checkboxes beside their own Clear/Show pairs, payload1/2 labels/text fields in one row. Implemented existing widgets/actions with a small inline GridBag helper; payloads remain editable text fields, no new dropdown behavior. Size Filter and Clear Log/Clear Selected/Pause Logging captions capitalized; byte field preferred columns6 (input unrestricted).
+- Preserve accepted fixed width: sizing reference uses former button captions and the same prior reference target with1.30 multiplier, independent of new row preferred widths. Font/runtime loading behavior unchanged; startupUI03. Source hash471bd533d04f200db3f66ed1eaf02877aa5a0e87fedc93acbcca739f380b0044, Latin1/CRLF. User previews via root reload; no tests/traffic/Git/K11 for this visual iteration. Historical UI03 closure remains for b8a50be8... source, not this layout. Last loaded width-only preview was accepted; new row layout not yet confirmed.
+
+## Current sidebar preview — fixed width +30 percent, shorter labels (2026-11-02)
+
+- User requests only preparation for a later sidebar redesign: increase current computed fixed outer width30%, shorten checkbox captions to Auto-update Cookies / Auto-update CSRF. Implemented local width scaling after existing size calculation, keeping fixed content/scroll width; no action/default/workflow/editor behavior changes. Startup remains UI03, current source hashc1078fc1fb3471e1c423256c64b11ab0bd4ef87c5722237456165636154240a6, Latin1/CRLF preserved.
+- User will preview after root reload and describe further layout changes. No new helper/tests/traffic for this low-impact appearance change; syntax/bytes checked. Last actual approved load/report remains prior UI03 hashb8a50be8...; do not relabel closed UI03 evidence as new candidate. Commit6eb16bb was pushed before this task; no new Git request. K11 not started, SI integration still declined.
+
 ## Current UI03 checkpoint — user requested commit/push (2026-11-02)
 
 - User explicitly requested saving the closed UI03 state. Checkpoint includes pinned editor JAR/license/provenance, code changes, focused plan, private helpers and actual/synthetic evidence including failed attempts. Ignored generated runtime files remain outside Git. Revision is in Git history.

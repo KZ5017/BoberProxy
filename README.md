@@ -224,12 +224,15 @@ they do not widen the whole sidebar. Reload after changing the startup font/DPI
 to measure a new width. Existing switches, defaults and processing behavior
 are preserved.
 
-The compact layout splits logging actions and session controls into shorter
-rows, targeting about two-thirds of the former sidebar width while keeping
-controls readable. CSRF and Response regex each have one visible text row and
+The layout splits logging actions and session controls into shorter rows.
+The fixed sidebar width includes 30% extra space over the previous compact
+layout for the code editor. CSRF and Response regex each have one visible text row and
 their own horizontal scrollbar when the pattern exceeds the available width.
-Injecting and Site map actions fill their rows. Logging, cookie/CSRF and
-Test/Reset button pairs share each row equally. Request/response viewers start
+Injecting and Site map actions fill their rows. The four logging buttons share one equal-width row. Each cookie/CSRF
+checkbox shares a row with its Clear/Show pair in three equal columns. Size Filter, comparator and
+byte value share a row. The two payload parameter groups each occupy half a row. Test/Reset
+buttons share their row equally. The custom checkbox and timeout group occupy
+equal halves of their row. Request/response viewers start
 at equal widths and share resizing space equally; their divider remains draggable.
 
 The bottom status strip shows filter and recent-operation messages; long text is
