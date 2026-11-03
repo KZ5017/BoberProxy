@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## v1.0.0 — First Stable Release
+
+- Route eligible Burp Proxy requests through request templates, with optional Python 2.7 payload transformations and a separate CheckPage result request.
+- Track rotating cookies and CSRF tokens in one coordinated, extension-owned scope. Guard template dispatch, state collection and redirects by the configured origin and optional path; an outside redirect stops before dispatch and an eligible CheckPage continues.
+- Provide filtered HTTP logging, a bundled Python code editor and an adjustable workspace.
+- Stabilization and regression evidence covers template bytes, sessions, redirects, UI, actual Burp traffic and controlled scope changes in the recorded environment. Known limits remain, including non-forcible custom/regex cancellation and unverified environments and HTTP/2 behavior; see the README and validation reports.
+
 ## 2026-11-03 — Reconcile the README with the scoped workflow
 
 - Review the complete guide against the current source. Clarify eligible/in-scope examples and CheckPage endpoints, static Host/authority constraints, AutoFollow activation/reset and successful two-call custom execution.

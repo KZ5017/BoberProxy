@@ -4,7 +4,7 @@
 
 BoberProxy lets tools such as sqlmap, sstimap and ffuf drive an application's HTTP workflow through Burp Proxy. It takes selected parameter values from eligible in-scope requests, optionally transforms them with Python, and inserts them into a complete request template. Cookie and CSRF automation tracks state changes between requests. An optional **CheckPage Template** retrieves the result from another known endpoint within that scope and returns that response to the tool.
 
-This is useful when a tool can generate the right payloads, but needs help delivering them in the application's required format, maintaining a rotating session, or evaluating an effect that appears somewhere other than the submission response.
+This is useful when a tool can generate the right payloads, but needs help delivering them in the application's required format, maintaining a rotating session, or evaluating an effect that appears somewhere other than the submission response. BoberProxy combines per-request payload transformation, coordinated session state and a separate result-page request in one workflow for the command-line tool.
 
 <p align="center">
   <img width="767" height="512" alt="BoberProxy" src="https://github.com/user-attachments/assets/53abcb60-e218-4153-823f-d5c2a2f902d0" />
@@ -22,6 +22,7 @@ This is useful when a tool can generate the right payloads, but needs help deliv
 - [Logging and filters](#logging-and-filters)
 - [Interface](#interface)
 - [Troubleshooting](#troubleshooting)
+- [Known limitations](#known-limitations)
 - [Validation and boundaries](#validation-and-boundaries)
 - [Development and license](#development-and-license)
 
@@ -44,11 +45,24 @@ This is useful when a tool can generate the right payloads, but needs help deliv
 - A Jython standalone JAR. The verified runtime is **Jython 2.7.4**; custom code uses Python 2.7 syntax and the libraries available to that runtime.
 - The complete BoberProxy package, including the bundled `lib/` directory for the enhanced code editor.
 
-The recorded integration environment is **Burp Suite Community 2026.10.1, Jython 2.7.4, Java 26.0.2 on Windows**. The results do not establish compatibility with other editions or runtime versions.
+### Compatibility
+
+| Environment | Status |
+| --- | --- |
+| Burp Suite Community 2026.10.1, Jython 2.7.4, Java 26.0.2, Windows 11 | Tested together; see the validation evidence below. |
+| Other Burp versions or editions with legacy Python extension support, using Jython 2.7.4 | Potentially compatible, but not tested; verify in your environment. |
+| Other Jython or Java versions and operating systems | Compatibility unknown; no test claim. |
+
+The screenshot below is illustrative and shows a different Burp version; it is not compatibility evidence.
 
 ### Load the extension
 
-1. Clone the repository or extract its complete ZIP. Keep this structure:
+1. Obtain the files in one of two ways:
+
+   - Clone the repository: `git clone https://github.com/KZ5017/BoberProxy.git`.
+   - Once published, download `BoberProxy-v1.0.0.zip` from [GitHub Releases](https://github.com/KZ5017/BoberProxy/releases) and extract it.
+
+   Keep this structure:
 
    ```text
    BoberProxy.py
@@ -57,7 +71,7 @@ The recorded integration environment is **Burp Suite Community 2026.10.1, Jython
      RSyntaxTextArea-LICENSE.txt
    ```
 
-2. In Burp **Settings → Extensions → Python environment**, select the Jython standalone JAR.
+2. Obtain the Jython standalone 2.7.4 JAR separately. In Burp **Settings → Extensions → Python environment**, select that JAR; it is not included in the BoberProxy package.
 3. Open **Extensions → Installed → Add**, choose **Python**, and select the root `BoberProxy.py`.
 4. Open the **BoberProxy** tab. Check the extension's **Output** and **Errors** panes for loading problems.
 
@@ -269,6 +283,8 @@ There is a shared **32 MiB budget for pending/active raw log snapshots** and fin
 
 ## Interface
 
+![BoberProxy workspace with its scope, logging, session and code-editor controls](screenshots/workspace.png)
+
 The main workspace contains **Viewer**, **Request Template** and **CheckPage Template** tabs, with the log beneath them. Request/response viewers start at equal widths; the dividers remain adjustable.
 
 - **Sidebar width:** drag the sidebar's left divider leftward to widen it, or rightward back to its initial minimum. That minimum is measured from the startup font and controls.
@@ -294,15 +310,22 @@ There is no separate log search box or next-match navigator. Use **Filter → Re
 | A failure returns HTTP 200 | Read BoberProxy's Output/status and response body: Burp can return an extension-drop error page with status 200. |
 | The editor has no highlighting or line numbers | Restore `lib/` beside the root Python file and reload; inspect the dependency warning. |
 
+## Known limitations
+
+- The extension runs under Jython/Python 2.7; arbitrary custom code and pathological Java regexes cannot be forcibly stopped reliably. A restart may be needed after a non-returning operation.
+- BoberProxy scope covers one origin and optional path prefix; it is not a general network firewall or a browser-style per-cookie Domain/Path/Secure policy. Scope replacement clears the managed session.
+- An out-of-scope redirect is not followed. The authorized redirect response can update session data, and an in-scope CheckPage continues when enabled.
+- Other Burp, Jython, Java and operating-system combinations have not been validated. Full HTTP/2 behavior is not established by the HTTP/1.x loopback tests.
+
 ## Validation and boundaries
 
-The stabilization work covers request delivery, byte handling, state coordination, bounded custom/regex work, logging/archive lifecycle and UI behavior. The [K11 report](docs/stabilizacios-terv/eredmenyek/K11/README.md) and [E01–E63 matrix](docs/stabilizacios-terv/eredmenyek/K11/matrix.md) record actual results, source hashes, failed attempts and measurement limits.
+The stabilization work covers request delivery, byte handling, state coordination, bounded custom/regex work, logging/archive lifecycle and UI behavior. The [K11 report](https://github.com/KZ5017/BoberProxy/blob/main/docs/stabilizacios-terv/eredmenyek/K11/README.md) and [E01–E63 matrix](https://github.com/KZ5017/BoberProxy/blob/main/docs/stabilizacios-terv/eredmenyek/K11/matrix.md) record actual results, source hashes, failed attempts and measurement limits.
 
-That baseline includes actual Burp regression and directed HTTP/1.x traffic, three dedicated 1k/10k/100k load-and-memory runs, a **30-minute mixed run with 45,000 client requests**, and a separate **5-minute fault run**. The later [editor-height](docs/ui-vezerlopanel-eredmenyek/UI04/README.md) and [sidebar-width](docs/ui-vezerlopanel-eredmenyek/UI05/README.md) changes have their own native and manual Burp checks; the full K11 load run was not repeated for those UI changes.
+That baseline includes actual Burp regression and directed HTTP/1.x traffic, three dedicated 1k/10k/100k load-and-memory runs, a **30-minute mixed run with 45,000 client requests**, and a separate **5-minute fault run**. The later [editor-height](https://github.com/KZ5017/BoberProxy/blob/main/docs/ui-vezerlopanel-eredmenyek/UI04/README.md) and [sidebar-width](https://github.com/KZ5017/BoberProxy/blob/main/docs/ui-vezerlopanel-eredmenyek/UI05/README.md) changes have their own native and manual Burp checks; the full K11 load run was not repeated for those UI changes.
 
 The reports are scoped evidence, not a universal throughput or compatibility guarantee. The old isolated callback baseline is unavailable, so the original relative callback-performance gate cannot be assessed. Dedicated body-retention tests do not attribute the entire Burp heap to the extension. Full HTTP/2 behavior and other runtime versions have not been established by these HTTP/1.x checks.
 
-The [Target Scope evidence](docs/target-scope-eredmenyek/README.md) separately records the later guard implementation: CPython/Jython regressions, native/actual Burp UI checks, directed A/B/HTTPS traffic, controlled scope changes and same-message manual interception. The full K11 long-run workload was not repeated for this change.
+The [Target Scope evidence](https://github.com/KZ5017/BoberProxy/blob/main/docs/target-scope-eredmenyek/README.md) separately records the later guard implementation: CPython/Jython regressions, native/actual Burp UI checks, directed A/B/HTTPS traffic, controlled scope changes and same-message manual interception. The full K11 long-run workload was not repeated for this change.
 
 The operational boundaries to keep in mind are the **single-scope cookie/token model**, **raw byte handling**, **pre-send original-request fallback**, **minimal GET redirect policy**, **temporary log storage**, and **absence of guaranteed forced termination for custom code or Java regexes**, described above.
 
@@ -310,9 +333,9 @@ The operational boundaries to keep in mind are the **single-scope cookie/token m
 
 The runtime implementation is [BoberProxy.py](BoberProxy.py); the editor dependency is bundled under [lib/](lib/README.md). Development and verification material is separate from normal installation:
 
-- [Test tools and usage](tests/stabilization/README.md)
-- [Stabilization plan and execution history](docs/stabilizacios-terv/README.md)
+- [Test tools and usage](https://github.com/KZ5017/BoberProxy/blob/main/tests/stabilization/README.md)
+- [Stabilization plan and execution history](https://github.com/KZ5017/BoberProxy/blob/main/docs/stabilizacios-terv/README.md)
 - [Changelog](CHANGELOG.md)
-- [Contributor guardrails](AGENTS.md)
+- [Contributor guardrails](https://github.com/KZ5017/BoberProxy/blob/main/AGENTS.md)
 
-BoberProxy declares the **MIT License**. The bundled **RSyntaxTextArea 3.6.3** library is distributed under **BSD-3-Clause**; its provenance and complete upstream license are included in [lib/README.md](lib/README.md) and [RSyntaxTextArea-LICENSE.txt](lib/RSyntaxTextArea-LICENSE.txt).
+BoberProxy is distributed under the [MIT License](LICENSE). The bundled **RSyntaxTextArea 3.6.3** library is distributed under **BSD-3-Clause**; its provenance and complete upstream license are included in [lib/README.md](lib/README.md) and [RSyntaxTextArea-LICENSE.txt](lib/RSyntaxTextArea-LICENSE.txt).

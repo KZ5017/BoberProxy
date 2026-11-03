@@ -1,0 +1,4 @@
+# Locally generated release archives and verification outputs.
+/dist/
+__pycache__/
+*.py[cod]

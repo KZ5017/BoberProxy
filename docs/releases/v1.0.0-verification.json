@@ -1,0 +1,73 @@
+{
+  "kind": "v1.0.0-release-preparation",
+  "publication_status": "not published",
+  "runtime_source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "archive_sha256": "f1509ebf542f01737fdfff986f5ffb46ca3710364d9f9aaf698c68a8427299e5",
+  "jar_sha256": "5d81946b70a97fa5ea6884295a7fdd2a703cc3b0ef944796c7c696b4395413f6",
+  "screenshot_sha256": "39e1dfe79706d89e2974a97ea9abad3fc8c08031592e8e10eea9910d3b4ac125",
+  "archive_files": [
+    "BoberProxy.py",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "lib/README.md",
+    "lib/RSyntaxTextArea-LICENSE.txt",
+    "lib/rsyntaxtextarea-3.6.3.jar",
+    "screenshots/workspace.png"
+  ],
+  "archive_exact_inputs": true,
+  "reproducible_independent_directory_and_timestamps": true,
+  "readme_package_local_links": true,
+  "regressions": {
+    "cpython": {
+      "total": 243,
+      "passed": 242,
+      "expected_failures": 1,
+      "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c"
+    },
+    "jython": {
+      "total": 243,
+      "passed": 242,
+      "expected_failures": 1,
+      "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c"
+    }
+  },
+  "standalone_extracted_load": {
+    "actual_burp_application": false,
+    "kind": "release-extracted-standalone-jython-private-callbacks",
+    "checks": {
+      "callbacks_registered": true,
+      "private_unload_closed": true,
+      "bundled_editor_active": true,
+      "scope_starts_empty_injection_disabled": true,
+      "full_panel_paints": true,
+      "jar_loaded_from_extraction": true
+    },
+    "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+    "java_version": "26.0.2",
+    "passed": true,
+    "errors": [],
+    "network_requests": 0
+  },
+  "standalone_first_attempt": {
+    "passed": false,
+    "context": "Standalone helper painted an unpacked, unrealized panel and failed with Graphics2D null. A packed private JFrame fixed the helper; no production code changed."
+  },
+  "actual_burp_extracted_load": {
+    "passed": true,
+    "source": "earlier extraction with byte-identical final runtime and JAR",
+    "user_confirmed_ui_and_editor": true,
+    "errors_empty": true,
+    "network_requests_sent": false,
+    "other_archive_difference": "final archive has corrected CHANGELOG heading"
+  },
+  "previous_extracted_runtime_and_jar_match_final_archive": true,
+  "tracked_secret_pattern_matches": 0,
+  "resumed_final_review": {
+    "passed": true,
+    "archive_matches_current_builder_and_inputs": true,
+    "runtime_jar_screenshot_hashes_match": true,
+    "documentation_links_checked": true,
+    "publication_performed": false
+  }
+}
