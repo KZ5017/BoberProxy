@@ -1,5 +1,11 @@
 # CHANGELOG.md
 
+## 2026-11-03 — Reconcile the README with the scoped workflow
+
+- Review the complete guide against the current source. Clarify eligible/in-scope examples and CheckPage endpoints, static Host/authority constraints, AutoFollow activation/reset and successful two-call custom execution.
+- Distinguish cookie/CSRF Clear from Clear scope, add scope replacement to ownership release, separate preparation fallback from scope-change/Proxy-replacement failure handling, and clarify Burp Site map scope independence and unknown-body capture filtering.
+- Documentation only; tested runtime source and bundled dependency unchanged. Validate links, anchors, examples and diff; user authorized commit/push of the corrections.
+
 ## 2026-11-03 — Implement Target Scope candidate
 
 - Add an immutable exact-origin/path policy, strict Host/authority checks, target-bound session provenance/generations and atomic scope replacement. Guard the Proxy entry, internal sender and final Proxy handoff; preserve normal outside pass-through and logging.

@@ -1,5 +1,10 @@
 # AI_NOTES.md
 
+## Current README consistency review — documentation checkpoint (2026-11-03)
+
+- After Target Scope commit d521950, user requested a complete README/source consistency review and authorized committing/pushing necessary documentation fixes. Clarified scope-qualified workflow examples and Host markers, AutoFollow enable/reset, successful custom two-call semantics, cookie/CSRF Clear versus Clear scope, scope-change ownership release, preparation versus final Proxy-replacement failures, independent Site map/Burp scope, and capture Body-size fallback when unknown.
+- Only README/CHANGELOG/AI_NOTES changed. Production remains07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c, existing live proof applies to identical bytes. No Burp reload/traffic/settings changes or new runtime tests; source, local links/anchors/examples and Git diff verified. Checkpoint revision is recorded in Git history. Current Burp setup remains the last TG05 snapshot below unless user changes it.
+
 ## Current Target Scope CLOSED — TG01–TG05 actual root verified (2026-11-03)
 
 - User authorized docs/boberproxy-target-scope-terv.md execution. Implementation +all directed gates CLOSED in the recorded environment. Production SHA256 `07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c`, Latin-1/exactCRLF/startup `BoberProxy loaded (UI03)`. No source edits after final local/native/live checks. Git baseline289727b; user requested a full Target Scope commit/push checkpoint. Its revision is recorded in Git history. Worktree includes source, docs, helpers and synthetic evidence; generated runtime files/private TLS key remain ignored.
