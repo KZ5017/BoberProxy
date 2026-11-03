@@ -1,0 +1,15 @@
+{
+  "release_id": 432917031,
+  "commit": "5595baaaeaf202e60c7f2735002050edd45afefd",
+  "tag": "v1.0.0",
+  "sha256": "f1509ebf542f01737fdfff986f5ffb46ca3710364d9f9aaf698c68a8427299e5",
+  "phase": "published-and-public-download-verified",
+  "asset_id": 706197137,
+  "url": "https://github.com/KZ5017/BoberProxy/releases/tag/v1.0.0",
+  "asset_url": "https://github.com/KZ5017/BoberProxy/releases/download/v1.0.0/BoberProxy-v1.0.0.zip",
+  "published_at": "2026-11-03T16:02:26Z",
+  "asset_bytes": 2018615,
+  "public_download_sha256": "f1509ebf542f01737fdfff986f5ffb46ca3710364d9f9aaf698c68a8427299e5",
+  "annotated_tag_object": "a5a6d5ad77e0b24c8524e7564236c1035881740c",
+  "independent_committed_checkout_reproduced_zip": true
+}

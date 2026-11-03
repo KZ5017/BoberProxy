@@ -1,6 +1,5 @@
 {
   "kind": "v1.0.0-release-preparation",
-  "publication_status": "not published",
   "runtime_source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
   "archive_sha256": "f1509ebf542f01737fdfff986f5ffb46ca3710364d9f9aaf698c68a8427299e5",
   "jar_sha256": "5d81946b70a97fa5ea6884295a7fdd2a703cc3b0ef944796c7c696b4395413f6",
@@ -69,5 +68,7 @@
     "runtime_jar_screenshot_hashes_match": true,
     "documentation_links_checked": true,
     "publication_performed": false
-  }
+  },
+  "publication_status_at_preparation": "not published",
+  "publication_receipt": "v1.0.0-publication.json"
 }

@@ -1,6 +1,13 @@
 # AI_NOTES.md
 
-## Current v1.0.0 publication authorized — in progress (2026-11-03)
+## Current v1.0.0 PUBLISHED — public ZIP checksum verified (2026-11-03)
+
+- User explicitly authorized completing the remaining publication steps. Release commit `5595baaaeaf202e60c7f2735002050edd45afefd` and annotated tag `v1.0.0` pushed. Public stable GitHub Release: https://github.com/KZ5017/BoberProxy/releases/tag/v1.0.0 ; asset https://github.com/KZ5017/BoberProxy/releases/download/v1.0.0/BoberProxy-v1.0.0.zip . No publication approval remains pending.
+- Asset2018615 bytes, SHA256 `f1509ebf542f01737fdfff986f5ffb46ca3710364d9f9aaf698c68a8427299e5`. Independent checkout of the committed release rebuilt identical ZIP; draft asset and public download both checksum-verified. Runtime remains07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c, editor JAR/screenshot unchanged. No new Burp activity or functional test rerun.
+- Public metadata/source/tag/asset receipt: docs/releases/v1.0.0-publication.json; readiness doc updated. The publication-status-at-preparation field in verification is historical; the receipt is final. A documentation-only follow-up records publication on main; the release tag must remain at5595baa and the published ZIP must not be replaced for later edits.
+- Private ignored publisher runtime/publish_v100.py and receipt remain for audit/resume; credentials were used only in memory and never logged/stored. Do not run --commit with another source commit or overwrite release/tag. CURRENT BURP remains the previously loaded runtime/release-v100-fx9pt2pg extracted source with byte-identical runtime/JAR; no settings or traffic changed during publication.
+
+## Previous v1.0.0 publication authorization snapshot — completed (2026-11-03)
 
 - User explicitly requested completing the remaining commit/push, v1.0.0 tag and GitHub Release publication after the preparation summary. This supersedes the preparation-only restriction below. GitHub API preflight confirms push permission and no existing v1.0.0 tag/release.
 - Publish the reviewed8-file ZIP SHA256 `f1509ebf542f01737fdfff986f5ffb46ca3710364d9f9aaf698c68a8427299e5` using docs/releases/v1.0.0.md. Runtime/JAR/screenshot unchanged; no more Burp tests needed. Commit preparation files, verify independent committed checkout, push annotated tag, create draft/upload/verify asset then publish and verify public download.
