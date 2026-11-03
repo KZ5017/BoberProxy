@@ -57,9 +57,12 @@ class ReportResult(unittest.TextTestResult):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--report', help='Optional JSON report path (parent must exist)')
-    parser.add_argument('--suite', choices=['source', 'transport', 'templates', 'redirects', 'session', 'custom', 'runtime', 'filters', 'logging', 'cleanup', 'all'], default='source')
+    parser.add_argument('--suite', choices=['source', 'transport', 'templates', 'redirects', 'session', 'custom', 'runtime', 'filters', 'logging', 'cleanup', 'scope', 'all'], default='source')
     args = parser.parse_args()
     suite = unittest.TestSuite()
+    if args.suite in ('scope', 'all'):
+        import test_target_scope
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_target_scope))
     if args.suite in ('source', 'all'):
         suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_source_logic))
     if args.suite in ('transport', 'all'):

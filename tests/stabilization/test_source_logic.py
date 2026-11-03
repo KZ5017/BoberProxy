@@ -59,12 +59,13 @@ class SourceCase(unittest.TestCase):
         self.ui.useCheckPageTemplate = True
         self.rt = as_bytes('POST /action HTTP/1.1\r\nHost: demo\r\n\r\n')
         self.ui.build_request_from_template = lambda **kwargs: self.rt
-        self.ui.build_checkpage_request = lambda **kwargs: as_bytes('CHECKPAGE')
+        self.ui.build_checkpage_request = lambda **kwargs: as_bytes('GET /check HTTP/1.1\r\nHost: demo\r\n\r\n')
         return self.ui.proxy_flow_process_request(
             as_bytes('GET /?q=ONE HTTP/1.1\r\nHost: demo\r\n\r\n'),
-            'demo', 443, True)
+            'demo', 80, False)
 
     def redirect(self):
+        self.ui.sessions.replace_scope(self.ns['TargetScopePolicy']('https://demo:8443'))
         self.ui.autoUpdateCookies = True
         self.ui.callbacks = Callbacks(as_bytes('HTTP/1.1 200 OK\r\nSet-Cookie: sid=last\r\n\r\n'))
         return self.ui._follow_redirects_chain(
@@ -161,7 +162,7 @@ class FixedRegressions(SourceCase):
         rt = as_bytes('POST /action HTTP/1.1\r\nHost: demo\r\n\r\n')
         self.ui.build_request_from_template = lambda **kwargs: rt
         result = self.ui.proxy_flow_process_request(
-            as_bytes('GET /?q=ONE HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 443, True)
+            as_bytes('GET /?q=ONE HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 80, False)
         self.assertEqual(len(self.ui.callbacks.calls), 1)
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].ERROR_AFTER_SEND)
         self.assertIsNone(result.request_bytes)
@@ -190,7 +191,7 @@ class CompatibilityBaseline(SourceCase):
 
     def test_query_precedes_nonempty_form_body(self):
         captured = []
-        self.ui.build_request_from_template = lambda **kw: captured.append(kw) or as_bytes('BUILT')
+        self.ui.build_request_from_template = lambda **kw: captured.append(kw) or as_bytes('GET /built HTTP/1.1\r\nHost: demo\r\n\r\n')
         request = as_bytes('POST /?q=QUERY HTTP/1.1\r\nHost: demo\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\nq=BODY&w=%252F+')
         self.ui.proxy_flow_process_request(request, 'demo', 80, False)
         self.assertEqual(captured[0]['incoming_payload1'], 'QUERY')
@@ -227,10 +228,10 @@ class CompatibilityBaseline(SourceCase):
         self.assertEqual(tuple(result), ('ONE', 'TWO', 'TOKEN'))
 
     def test_no_checkpage_means_no_internal_request(self):
-        self.ui.build_request_from_template = lambda **kw: as_bytes('BUILT')
+        self.ui.build_request_from_template = lambda **kw: as_bytes('GET /built HTTP/1.1\r\nHost: demo\r\n\r\n')
         result = self.ui.proxy_flow_process_request(as_bytes('GET /?q=ONE HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 80, False)
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
-        self.assertEqual(result.request_bytes, as_bytes('BUILT'))
+        self.assertEqual(result.request_bytes, as_bytes('GET /built HTTP/1.1\r\nHost: demo\r\n\r\n'))
         self.assertEqual(self.ui.callbacks.calls, [])
 
     def test_log_ids_stay_stable_newest_first(self):

@@ -1,5 +1,18 @@
 # CHANGELOG.md
 
+## 2026-11-03 — Implement Target Scope candidate
+
+- Add an immutable exact-origin/path policy, strict Host/authority checks, target-bound session provenance/generations and atomic scope replacement. Guard the Proxy entry, internal sender and final Proxy handoff; preserve normal outside pass-through and logging.
+- Add the equal-width BoberProxy scope/Injection row and Apply/Clear/Cancel dialog, disabled-by-default injection, guarded activation and worker-preserving custom cancellation. Outside redirect is a neutral stop, retaining legitimate response state and continuing valid CheckPage.
+- CPython/Jython243 cases (242 pass +1 accepted hard-stop limit), native and actual Burp62/62 UI checks plus a separate35% larger private-font62/62 paint run,22 directed A/B/HTTPS traffic cases and same-message manual request/response Forward checks pass. Preserve earlier fixture/runner failures; target counters and raw bytes verify no foreign dispatch/replay/state pollution. Direct-root final1RT/1CP/2custom and viewer/204/empty-Errors confirmation also pass; user requested a Git checkpoint including the plan, helpers and synthetic evidence.
+- Update README and contributor guardrails for mandatory extension scope, reset/revocation, strict template authority and neutral outside redirect continuation; preserve browser-cookie, runtime and cancellation boundaries.
+
+## 2026-11-03 — Plan extension-owned target scope
+
+- Add a concrete five-round implementation plan for an explicit single-target origin/path scope, guarded workflow and session collection, atomic target change, per-send/final-Proxy checks and an equal-width scope/injection control row with a configuration dialog.
+- Record user-approved redirect semantics: preserve existing modes, collect the legitimate redirecting response's state, stop before an outside dispatch and continue valid CheckPage processing. Define scoped tests, race boundaries and original-traffic pass-through.
+- Planning only; production source, README behavior claims and runtime settings unchanged. No tests, traffic or Git checkpoint.
+
 ## 2026-11-02 — Rewrite the GitHub user guide
 
 - Rebuild README around BoberProxy's purpose: routing CLI tool payloads through templates, optional Python transformation, rotating cookie/CSRF state and a separate result-page request. Add a concrete first-request walkthrough, concise mode/control explanations and troubleshooting.

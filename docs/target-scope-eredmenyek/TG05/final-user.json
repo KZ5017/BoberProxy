@@ -1,0 +1,10 @@
+{
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "run": "tg-final-direct-a65c82cc9fb5",
+  "direct_root_only": true,
+  "viewer_entry_bytes_empty_confirmed": true,
+  "empty_204_body_zero": true,
+  "request_response_viewer": true,
+  "errors_empty": true,
+  "configuration_unchanged": true
+}

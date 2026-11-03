@@ -29,7 +29,7 @@ class RuntimeSessionTests(SourceCase):
         SourceCase.tearDown(self)
 
     def context(self, key, managed=True, config=None):
-        ctx, error = self.co.register(key, config or self.ui._capture_runtime(), managed)
+        ctx, error = self.co.register(key, config or self.ui._capture_runtime(), managed, (self.co.scope_policy.origin, '/'))
         self.assertIsNone(error)
         return ctx
 
@@ -183,14 +183,14 @@ class RuntimeSessionTests(SourceCase):
         owner = self.context(1)
         self.begin(owner)
         passive = self.context(2, False)
-        _, error = self.co.register(3, self.ui._capture_runtime(), False)
+        _, error = self.co.register(3, self.ui._capture_runtime(), False, (self.co.scope_policy.origin, '/'))
         self.assertEqual(error, 'SESSION_TRACKING_FULL')
         owner.created -= 200000
         passive.created -= 200000
         self.context(3, False)
         self.assertIn(1, self.co.records)
         self.assertNotIn(2, self.co.records)
-        self.assertEqual(self.co.response(2, reply('UNKNOWN'))[0], 'SESSION_RESPONSE_UNTRACKED')
+        self.assertEqual(self.co.response(2, reply('UNKNOWN'))[0], 'SCOPE_RESPONSE_IGNORED')
         self.assertEqual(self.ui.cookieManager.jar, {})
 
     def test_close_wakes_waiters_and_rejects_late_response(self):
@@ -235,7 +235,7 @@ class RuntimeSessionTests(SourceCase):
                 ui._publish_runtime()
                 return Response(reply('OWN'))
         ui.callbacks = ChangeDuringSend()
-        result = ui.proxy_flow_process_request(as_bytes('GET /?q=ONE&w=TWO HTTP/1.1\r\n\r\n'), 'demo', 80, False)
+        result = ui.proxy_flow_process_request(as_bytes('GET /?q=ONE&w=TWO HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 80, False)
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
         request = as_text(result.request_bytes)
         self.assertIn('/workflow/check', request)
@@ -273,7 +273,7 @@ class RuntimeSessionTests(SourceCase):
                 ui.sessions.clear('csrf')
                 return Response(reply('LATE'))
         ui.callbacks = ClearDuringSend()
-        result = ui.proxy_flow_process_request(as_bytes('GET /?q=ONE HTTP/1.1\r\n\r\n'), 'demo', 80, False)
+        result = ui.proxy_flow_process_request(as_bytes('GET /?q=ONE HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 80, False)
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].ERROR_AFTER_SEND)
         self.assertEqual(result.error_code, 'SESSION_CLEARED')
         self.assertIsNone(result.request_bytes)

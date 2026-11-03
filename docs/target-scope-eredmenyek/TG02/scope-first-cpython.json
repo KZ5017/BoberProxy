@@ -1,0 +1,151 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003673,
+      "test": "test_target_scope.PolicyTests.test_default_port_and_case"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000245,
+      "test": "test_target_scope.PolicyTests.test_dynamic_path_only_deferred_during_preflight"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000283,
+      "test": "test_target_scope.PolicyTests.test_host_and_service_and_absolute_authority"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.002611,
+      "test": "test_target_scope.PolicyTests.test_idna_and_ipv6_without_name_resolution"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000239,
+      "test": "test_target_scope.PolicyTests.test_invalid_origins"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00011,
+      "test": "test_target_scope.PolicyTests.test_nondefault_port_required_in_host"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 5.8e-05,
+      "test": "test_target_scope.PolicyTests.test_policy_is_immutable"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000258,
+      "test": "test_target_scope.PolicyTests.test_prefix_boundaries_and_encoded_paths"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001017,
+      "test": "test_target_scope.ScopeWorkflowTests.test_dynamic_cp_path_rejection_is_post_send_no_replay"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000238,
+      "test": "test_target_scope.ScopeWorkflowTests.test_equivalent_apply_does_not_reset"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.002468,
+      "test": "test_target_scope.ScopeWorkflowTests.test_foreign_redirect_preserves_own_response_state_and_continues_cp"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000241,
+      "test": "test_target_scope.ScopeWorkflowTests.test_foreign_request_and_virtual_host_do_not_enter_workflow"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000294,
+      "test": "test_target_scope.ScopeWorkflowTests.test_foreign_template_authority_is_rejected_before_custom_or_send"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000119,
+      "test": "test_target_scope.ScopeWorkflowTests.test_no_provenance_does_not_update_state"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000416,
+      "test": "test_target_scope.ScopeWorkflowTests.test_outside_proxy_preserves_actions_in_both_phases"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000423,
+      "test": "test_target_scope.ScopeWorkflowTests.test_passive_in_scope_collects_with_rewrite_off"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00131,
+      "test": "test_target_scope.ScopeWorkflowTests.test_prefix_guard_stops_redirect_but_allows_cp"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000966,
+      "test": "test_target_scope.ScopeWorkflowTests.test_proxy_final_response_keeps_cp_provenance_and_releases_owner"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000503,
+      "test": "test_target_scope.ScopeWorkflowTests.test_scope_change_during_rt_rejects_late_state_and_cp"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000281,
+      "test": "test_target_scope.ScopeWorkflowTests.test_sender_without_valid_context_has_no_api_call"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000237,
+      "test": "test_target_scope.ScopeWorkflowTests.test_stale_handoff_cannot_replace_request"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000392,
+      "test": "test_target_scope.ScopeWorkflowTests.test_target_change_clears_both_state_and_rejects_a_b_a_late_response"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000302,
+      "test": "test_target_scope.ScopeWorkflowTests.test_unconfigured_is_closed_for_custom_network_and_collection"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 23,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "57e30378f103d0b78eb36e068aeffbdee399af1a054494566de2387ba42a87f4",
+  "successful_baseline_run": true,
+  "suite": "scope",
+  "total": 23
+}

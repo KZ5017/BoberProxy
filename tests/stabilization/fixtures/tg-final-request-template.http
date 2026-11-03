@@ -1,0 +1,6 @@
+POST /scope/action?case=normal&run=53c0undm4rk3r HTTP/1.1
+Host: 127.0.0.1:18810
+X-Bober-TG: 53c0undm4rk3r
+Content-Type: application/x-www-form-urlencoded
+
+one=p4yl04dm4rk3r&two=53c0undm4rk3r

@@ -277,3 +277,19 @@ python -B tests/stabilization/measure_proxy.py --count 200 --rate 25 --report te
 Az izolált lista-mikromérés 1k/10k/100k sort vizsgál, valódi body és Swing nélkül. A proxy-mérés szekvenciális: a 25/s a küldés célüteme, nem garantált elért throughput. A mért késleltetés a kliens, a Burp és a helyi szerver együttese, nem a callback önálló ideje.
 
 Összehasonlítható mérések idején ne fusson másik teszt-JVM vagy eltérő forgalmi próba. Az első, párhuzamos környezeti próbák alatti 1000 kéréses futás működési/bemelegítési bizonyíték; nem tiszta teljesítményreferencia.
+
+
+## Target Scope (TG01–TG05)
+
+A friss production példány alapértelmezetten scope nélkül indul: a régi workflow-fixture-ek aktiválása előtt meg kell adni a saját cél originjét/path-prefixét. A korábbi K00–K11 riportok történeti bizonyítékok, nem az új scope nélküli aktív működés leírásai.
+
+- Terv és forráshashhez kötött eredmények: [Target Scope](../../docs/target-scope-eredmenyek/README.md).
+- `run_logic.py --suite scope`: policy, authority, provenance, session és scope-váltási versenyek; a teljes `all` regresszió mindkét runtime alatt külön jelentett.
+- `probe_target_scope_native.py` / `burp_target_scope_probe.py`: véges UI/paint/resize és Apply/Cancel/Clear kapu, külön JVM illetve valódi Burp, hálózat nélkül.
+- `target_server_scope.py`: kizárólag saját18810/18811 HTTP és opcionális18812 TLS cél. Nyers request-bájtok, külön run/cél számlálók; cert/kulcs/capture a figyelmen kívül hagyott runtime alatt.
+- `burp_target_scope_instrumented.py`: változatlan root forrás, saját megjelölt loopback-telemetria és fix EDT profilok. Betöltés nem küld kérést. A fájlcsatorna kizárólag ebben a privát belépőben létezik; ne használd rendes extensionként.
+- `run_target_scope_wire.py`:22 élő eset, egyszeri küldések és céloldali számlálók. A `--only` szűk javítási újrafuttatáshoz való, új runazonosítókkal.
+- `run_target_scope_manual.py`: egyetlen idegenorigin request/response, ugyanazon Proxy-objektumon; kézi két Forward szükséges.
+- `prepare_target_scope_final.py` és `run_target_scope_final.py`: a segéd nélküli root végső próbája, `tg-final-` HTTP-sablonokkal és a generált `runtime/custom-tg-final-pass-through.py` trace-kóddal.
+
+A standalone wrapper-smoke és a betöltött live wrapper ugyanazokat a TG-csatornafájlokat használná: soha ne futtasd őket egyszerre. Előbb a külön smoke zárul le, aztán a felhasználó betölti a live példányt; a controller csak a hozzá tartozó instance-azonosítót fogadja el. Eltávolítás után ne küldj további wrapperparancsot. A végső root-kliens nem használja a parancscsatornát.

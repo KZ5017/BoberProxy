@@ -1,0 +1,181 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00345,
+      "test": "test_target_scope.PolicyTests.test_default_port_and_case"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000242,
+      "test": "test_target_scope.PolicyTests.test_dynamic_path_only_deferred_during_preflight"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000301,
+      "test": "test_target_scope.PolicyTests.test_host_and_service_and_absolute_authority"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.002256,
+      "test": "test_target_scope.PolicyTests.test_idna_and_ipv6_without_name_resolution"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000244,
+      "test": "test_target_scope.PolicyTests.test_invalid_origins"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000107,
+      "test": "test_target_scope.PolicyTests.test_nondefault_port_required_in_host"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 5.1e-05,
+      "test": "test_target_scope.PolicyTests.test_policy_is_immutable"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00039,
+      "test": "test_target_scope.PolicyTests.test_prefix_boundaries_and_encoded_paths"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000648,
+      "test": "test_target_scope.ScopeRaceTests.test_post_custom_duplicate_host_is_not_dispatched"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.001641,
+      "test": "test_target_scope.ScopeRaceTests.test_queued_custom_is_cancelled_without_execution_or_worker_replacement"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000982,
+      "test": "test_target_scope.ScopeRaceTests.test_running_custom_result_is_revoked_after_scope_change"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00093,
+      "test": "test_target_scope.ScopeRaceTests.test_scope_change_at_final_handoff_never_retargets_or_replays"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000617,
+      "test": "test_target_scope.ScopeRaceTests.test_scope_revokes_waiting_workflow"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00068,
+      "test": "test_target_scope.ScopeWorkflowTests.test_dynamic_cp_path_rejection_is_post_send_no_replay"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000192,
+      "test": "test_target_scope.ScopeWorkflowTests.test_equivalent_apply_does_not_reset"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003595,
+      "test": "test_target_scope.ScopeWorkflowTests.test_foreign_redirect_preserves_own_response_state_and_continues_cp"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000216,
+      "test": "test_target_scope.ScopeWorkflowTests.test_foreign_request_and_virtual_host_do_not_enter_workflow"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000281,
+      "test": "test_target_scope.ScopeWorkflowTests.test_foreign_template_authority_is_rejected_before_custom_or_send"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000117,
+      "test": "test_target_scope.ScopeWorkflowTests.test_no_provenance_does_not_update_state"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000345,
+      "test": "test_target_scope.ScopeWorkflowTests.test_outside_proxy_preserves_actions_in_both_phases"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000286,
+      "test": "test_target_scope.ScopeWorkflowTests.test_passive_in_scope_collects_with_rewrite_off"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000584,
+      "test": "test_target_scope.ScopeWorkflowTests.test_prefix_guard_stops_redirect_but_allows_cp"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000564,
+      "test": "test_target_scope.ScopeWorkflowTests.test_proxy_final_response_keeps_cp_provenance_and_releases_owner"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000415,
+      "test": "test_target_scope.ScopeWorkflowTests.test_scope_change_during_rt_rejects_late_state_and_cp"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000202,
+      "test": "test_target_scope.ScopeWorkflowTests.test_sender_without_valid_context_has_no_api_call"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000211,
+      "test": "test_target_scope.ScopeWorkflowTests.test_stale_handoff_cannot_replace_request"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000257,
+      "test": "test_target_scope.ScopeWorkflowTests.test_target_change_clears_both_state_and_rejects_a_b_a_late_response"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000188,
+      "test": "test_target_scope.ScopeWorkflowTests.test_unconfigured_is_closed_for_custom_network_and_collection"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 28,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "57e30378f103d0b78eb36e068aeffbdee399af1a054494566de2387ba42a87f4",
+  "successful_baseline_run": true,
+  "suite": "scope",
+  "total": 28
+}

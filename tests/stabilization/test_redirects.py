@@ -33,6 +33,9 @@ class SequenceCallbacks(Callbacks):
 class RedirectTests(SourceCase):
     def setUp(self):
         SourceCase.setUp(self)
+        self.ui.sessions.replace_scope(self.ns['TargetScopePolicy']('https://demo:8443'))
+        for editor in (self.ui.reqTemplateEditor,self.ui.checkPageEditor):
+            editor.message=editor.message.replace(as_bytes('Host: demo\r\n'),as_bytes('Host: demo:8443\r\n'))
         self.original_clock = self.ns['_monotonic_ms']
         self.original_budget = self.ns['WORKFLOW_TIMEOUT_MS']
 
@@ -43,7 +46,7 @@ class RedirectTests(SourceCase):
 
     def follow(self, location='next', max_redirects=10, initial_method='POST', **kwargs):
         return self.ui._follow_redirects_chain(
-            as_bytes(initial_method + ' /a/start?x=1 HTTP/1.1\r\nHost: unrelated.invalid:9\r\n'
+            as_bytes(initial_method + ' /a/start?x=1 HTTP/1.1\r\nHost: demo:8443\r\n'
                      'User-Agent: K03-UA\r\nAuthorization: Bearer SYNTHETIC\r\nCookie: template=old\r\n'
                      'Content-Type: application/x-www-form-urlencoded\r\n\r\nORIGINAL_BODY'),
             response(location=location, token='INITIAL'), 'demo', 8443, True,
@@ -51,7 +54,7 @@ class RedirectTests(SourceCase):
 
     def workflow_request(self):
         return self.ui.proxy_flow_process_request(
-            as_bytes('GET /entry?q=ONE&w=TWO HTTP/1.1\r\nHost: demo\r\n\r\n'), 'demo', 8443, True)
+            as_bytes('GET /entry?q=ONE&w=TWO HTTP/1.1\r\nHost: demo:8443\r\n\r\n'), 'demo', 8443, True)
 
     def fake_clock(self, budget=50):
         now = [0]
@@ -90,7 +93,7 @@ class RedirectTests(SourceCase):
         self.assertEqual(self.ns['_redirect_host_header']('::1', 80, False), '[::1]')
 
     def test_invalid_locations_fail_without_guessing_a_destination(self):
-        invalid = ['ftp://other/x', 'javascript:alert(1)', 'http:///x', '//',
+        invalid = ['http:///x', '//',
                    'https://user:pass@other/x', 'http://other:bad/x', 'http://other:0/x',
                    'http://other:65536/x', 'http://other:/x', 'http://[broken/x',
                    'next path', 'http://other\\evil/x', '://broken']
@@ -110,12 +113,12 @@ class RedirectTests(SourceCase):
         self.ui.autoUpdateCookies = True
         self.ui.cookieManager.jar['sid'] = 'SYNTHETIC'
         self.ui.callbacks = Callbacks(response=response(200, None))
-        result = self.follow('http://other:8080/next#fragment')
+        result = self.follow('https://demo:8443/next#fragment')
         self.assertIsNone(result.error_code)
         service, request = self.ui.callbacks.calls[0]
-        self.assertEqual(service, ('other', 8080, 'http'))
+        self.assertEqual(service, ('demo', 8443, 'https'))
         text = as_text(request)
-        self.assertTrue(text.startswith('GET /next HTTP/1.1\r\nHost: other:8080\r\n'))
+        self.assertTrue(text.startswith('GET /next HTTP/1.1\r\nHost: demo:8443\r\n'))
         self.assertIn('User-Agent: K03-UA', text)
         self.assertIn('Cookie: sid=SYNTHETIC', text)
         self.assertNotIn('Authorization:', text)
@@ -125,19 +128,21 @@ class RedirectTests(SourceCase):
         self.assertEqual(text.split('\r\n\r\n', 1)[1], '')
 
     def test_all_existing_3xx_statuses_keep_get_policy(self):
+        self.ui.sessions.replace_scope(self.ns['TargetScopePolicy']('http://demo'))
         for status in (301, 302, 303, 307, 308):
             self.ui.callbacks = Callbacks(response=response(200, None))
             self.ui._http_sender = None
-            result = self.ui._follow_redirects_chain(as_bytes('POST /start HTTP/1.1\r\n\r\nBODY'),
+            result = self.ui._follow_redirects_chain(as_bytes('POST /start HTTP/1.1\r\nHost: demo\r\n\r\nBODY'),
                                                      response(status, '/next'), 'demo', 80, False)
             self.assertIsNone(result.error_code)
             self.assertTrue(self.ui.callbacks.calls[0][1].startswith(as_bytes('GET /next ')))
 
     def test_no_redirect_updates_initial_response_once(self):
+        self.ui.sessions.replace_scope(self.ns['TargetScopePolicy']('http://demo'))
         updates = []
         self.ui._update_cookies_and_csrf = updates.append
         initial = response(200, None)
-        result = self.ui._follow_redirects_chain(as_bytes('GET / HTTP/1.1\r\n\r\n'), initial, 'demo', 80, False)
+        result = self.ui._follow_redirects_chain(as_bytes('GET / HTTP/1.1\r\nHost: demo\r\n\r\n'), initial, 'demo', 80, False)
         self.assertEqual(result.response_bytes, initial)
         self.assertEqual(updates, [initial])
         self.assertEqual(self.ui.callbacks.calls, [])
@@ -273,22 +278,22 @@ class RedirectTests(SourceCase):
     def test_invalid_redirect_after_rt_is_an_explicit_post_send_error(self):
         self.ui.useCheckPageTemplate = True
         self.ui.autoFollowRTChk = Check(selected=True)
-        self.ui.callbacks = Callbacks(response=response(302, 'file:///bad'))
+        self.ui.callbacks = Callbacks(response=response(302, 'http://[broken'))
         result = self.workflow_request()
         self.assertEqual(result.error_code, 'REDIRECT_INVALID_LOCATION')
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].ERROR_AFTER_SEND)
         self.assertEqual(len(self.ui.callbacks.calls), 1)
 
-    def test_cp_uses_last_redirect_token_with_original_service(self):
+    def test_cp_after_outside_redirect_uses_last_allowed_token(self):
         self.ui.useCheckPageTemplate = True
         self.ui.autoFollowRTChk = Check(selected=True)
         self.ui.autoUpdateCsrf = True
         self.ui.callbacks = SequenceCallbacks([response(302, 'http://other:8080/next', 'token="FIRST"'), response(200, None, 'token="LAST"')])
         result = self.workflow_request()
         self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
-        self.assertIn('csrf=LAST', as_text(result.request_bytes))
+        self.assertIn('csrf=FIRST', as_text(result.request_bytes))
         self.assertEqual(self.ui.callbacks.calls[0][0], ('demo', 8443, 'https'))
-        self.assertEqual(self.ui.callbacks.calls[1][0], ('other', 8080, 'http'))
+        self.assertEqual(len(self.ui.callbacks.calls), 1, 'Outside redirect must not be sent')
 
 
 class PassiveActionTests(SourceCase):
@@ -304,7 +309,7 @@ class PassiveActionTests(SourceCase):
                 for action in (0, 1, 2, 3):
                     intercepted = Intercepted()
                     intercepted.message = ReplyMessage()
-                    intercepted.message.request = as_bytes('GET /unmatched HTTP/1.1\r\n\r\n')
+                    intercepted.message.request = as_bytes('GET /unmatched HTTP/1.1\r\nHost: demo\r\n\r\n')
                     intercepted.action = action
                     updates = []
                     original_update = self.ui.sessions.update

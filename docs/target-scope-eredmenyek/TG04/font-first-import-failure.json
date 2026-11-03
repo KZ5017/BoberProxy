@@ -1,0 +1,7 @@
+{
+  "kind": "standalone-helper-import-failure-before-product-load",
+  "passed": false,
+  "error": "ImportError: cannot import name swing",
+  "cause": "Jython package discovery required importing javax.swing.SwingUtilities before from javax import swing in this standalone entry",
+  "production_changed": false
+}

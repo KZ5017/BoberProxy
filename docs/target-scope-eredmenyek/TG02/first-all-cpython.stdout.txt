@@ -1,0 +1,643 @@
+test_default_port_and_case (test_target_scope.PolicyTests.test_default_port_and_case) ... ok
+test_dynamic_path_only_deferred_during_preflight (test_target_scope.PolicyTests.test_dynamic_path_only_deferred_during_preflight) ... ok
+test_host_and_service_and_absolute_authority (test_target_scope.PolicyTests.test_host_and_service_and_absolute_authority) ... ok
+test_idna_and_ipv6_without_name_resolution (test_target_scope.PolicyTests.test_idna_and_ipv6_without_name_resolution) ... ok
+test_invalid_origins (test_target_scope.PolicyTests.test_invalid_origins) ... ok
+test_nondefault_port_required_in_host (test_target_scope.PolicyTests.test_nondefault_port_required_in_host) ... ok
+test_policy_is_immutable (test_target_scope.PolicyTests.test_policy_is_immutable) ... ok
+test_prefix_boundaries_and_encoded_paths (test_target_scope.PolicyTests.test_prefix_boundaries_and_encoded_paths) ... ok
+test_cookie_merge_keeps_unmanaged_template_cookie (test_source_logic.CompatibilityBaseline.test_cookie_merge_keeps_unmanaged_template_cookie) ... ok
+test_csrf_no_match_retains_previous_token (test_source_logic.CompatibilityBaseline.test_csrf_no_match_retains_previous_token) ... ok
+test_custom_passthrough_contract (test_source_logic.CompatibilityBaseline.test_custom_passthrough_contract) ... ok
+test_empty_payloads_currently_do_not_activate (test_source_logic.CompatibilityBaseline.test_empty_payloads_currently_do_not_activate) ... ok
+test_log_ids_stay_stable_newest_first (test_source_logic.CompatibilityBaseline.test_log_ids_stay_stable_newest_first) ... ok
+test_missing_payload_does_not_activate (test_source_logic.CompatibilityBaseline.test_missing_payload_does_not_activate) ... ok
+test_no_checkpage_means_no_internal_request (test_source_logic.CompatibilityBaseline.test_no_checkpage_means_no_internal_request) ... FAIL
+test_query_precedes_nonempty_form_body (test_source_logic.CompatibilityBaseline.test_query_precedes_nonempty_form_body) ... ok
+test_raw_payload_percent_and_plus_are_unchanged (test_source_logic.CompatibilityBaseline.test_raw_payload_percent_and_plus_are_unchanged) ... ok
+test_template_replaces_two_payloads (test_source_logic.CompatibilityBaseline.test_template_replaces_two_payloads) ... ok
+test_P13_timeout_covers_top_level_user_code (test_source_logic.CustomFixedRegressions.test_P13_timeout_covers_top_level_user_code) ... ok
+test_P01_custom_error_preserves_original_diagnostic (test_source_logic.FixedRegressions.test_P01_custom_error_preserves_original_diagnostic) ... ok
+test_P02_sent_request_not_returned_after_checkpage_error (test_source_logic.FixedRegressions.test_P02_sent_request_not_returned_after_checkpage_error) ... FAIL
+test_P03_unselected_autofollow_does_not_follow (test_source_logic.FixedRegressions.test_P03_unselected_autofollow_does_not_follow) ... ok
+test_P04_legacy_response_is_not_discarded (test_source_logic.FixedRegressions.test_P04_legacy_response_is_not_discarded) ... FAIL
+test_P05_relative_redirect_keeps_directory_and_port (test_source_logic.FixedRegressions.test_P05_relative_redirect_keeps_directory_and_port) ... ERROR
+test_P06_last_redirect_response_updates_cookie (test_source_logic.FixedRegressions.test_P06_last_redirect_response_updates_cookie) ... FAIL
+test_P11_inserted_payload_is_not_replaced_again (test_source_logic.FixedRegressions.test_P11_inserted_payload_is_not_replaced_again) ... ok
+test_P12_zero_body_length_is_not_missing (test_source_logic.FixedRegressions.test_P12_zero_body_length_is_not_missing) ... ok
+test_P14_timeout_does_not_leave_worker_running (test_source_logic.KnownDefects.test_P14_timeout_does_not_leave_worker_running) ... expected failure
+test_P07_deleted_prefix_is_valid_cookie_value (test_source_logic.SessionFixedRegressions.test_P07_deleted_prefix_is_valid_cookie_value) ... ok
+test_P08_max_age_zero_deletes_cookie (test_source_logic.SessionFixedRegressions.test_P08_max_age_zero_deletes_cookie) ... ok
+test_P09_cookie_header_name_is_exact (test_source_logic.SessionFixedRegressions.test_P09_cookie_header_name_is_exact) ... ok
+test_P10_deleted_cookie_not_revived_from_template (test_source_logic.SessionFixedRegressions.test_P10_deleted_cookie_not_revived_from_template) ... ok
+test_diagnostic_failure_cannot_undo_post_send_drop (test_transport.ProxyActionTests.test_diagnostic_failure_cannot_undo_post_send_drop) ... ok
+test_post_send_failure_drops_original_instead_of_forwarding_it (test_transport.ProxyActionTests.test_post_send_failure_drops_original_instead_of_forwarding_it) ... ok
+test_pre_send_failure_forwards_original_with_diagnostic (test_transport.ProxyActionTests.test_pre_send_failure_forwards_original_with_diagnostic) ... ok
+test_ready_replaces_only_the_proxy_request (test_transport.ProxyActionTests.test_ready_replaces_only_the_proxy_request) ... ok
+test_replace_failure_after_internal_send_also_drops (test_transport.ProxyActionTests.test_replace_failure_after_internal_send_also_drops) ... ok
+test_unclassified_workflow_failure_does_not_risk_another_operation (test_transport.ProxyActionTests.test_unclassified_workflow_failure_does_not_risk_another_operation) ... ok
+test_empty_response_is_not_success (test_transport.SenderTests.test_empty_response_is_not_success) ... ok
+test_legacy_null_bytes_are_not_polled (test_transport.SenderTests.test_legacy_null_bytes_are_not_polled) ... ok
+test_legacy_raw_response_uses_one_four_argument_call (test_transport.SenderTests.test_legacy_raw_response_uses_one_four_argument_call) ... ok
+test_null_object_response_is_not_polled_or_retried (test_transport.SenderTests.test_null_object_response_is_not_polled_or_retried) ... ok
+test_response_read_error_is_also_delivery_uncertainty (test_transport.SenderTests.test_response_read_error_is_also_delivery_uncertainty) ... ok
+test_send_exception_does_not_try_the_other_overload (test_transport.SenderTests.test_send_exception_does_not_try_the_other_overload) ... ok
+test_service_api_is_preferred_without_probe_request (test_transport.SenderTests.test_service_api_is_preferred_without_probe_request) ... ok
+test_service_build_failure_does_not_claim_attempted_send (test_transport.SenderTests.test_service_build_failure_does_not_claim_attempted_send) ... ok
+test_unsupported_api_fails_before_any_send (test_transport.SenderTests.test_unsupported_api_fails_before_any_send) ... ok
+test_wrong_response_type_is_an_explicit_error (test_transport.SenderTests.test_wrong_response_type_is_an_explicit_error) ... ok
+test_checkpage_build_failure_preserves_sent_state (test_transport.WorkflowTests.test_checkpage_build_failure_preserves_sent_state) ... ok
+test_checkpage_uses_the_preflight_template_snapshot (test_transport.WorkflowTests.test_checkpage_uses_the_preflight_template_snapshot) ... ok
+test_empty_checkpage_is_rejected_before_build_or_send (test_transport.WorkflowTests.test_empty_checkpage_is_rejected_before_build_or_send) ... ok
+test_failure_fixture_with_cached_token_stops_before_any_rt (test_transport.WorkflowTests.test_failure_fixture_with_cached_token_stops_before_any_rt) ... ok
+test_malformed_checkpage_is_rejected_before_send (test_transport.WorkflowTests.test_malformed_checkpage_is_rejected_before_send) ... ok
+test_missing_request_template_is_a_pre_send_error (test_transport.WorkflowTests.test_missing_request_template_is_a_pre_send_error) ... ok
+test_no_response_stops_before_checkpage (test_transport.WorkflowTests.test_no_response_stops_before_checkpage) ... ok
+test_preflight_does_not_add_a_custom_call (test_transport.WorkflowTests.test_preflight_does_not_add_a_custom_call) ... ok
+test_real_custom_failure_fixture_stops_after_one_rt (test_transport.WorkflowTests.test_real_custom_failure_fixture_stops_after_one_rt) ... ok
+test_request_build_failure_does_not_send (test_transport.WorkflowTests.test_request_build_failure_does_not_send) ... ok
+test_unexpected_checkpage_exception_preserves_sent_state (test_transport.WorkflowTests.test_unexpected_checkpage_exception_preserves_sent_state) ... ok
+test_all_original_markers_are_replaced_once (test_templates.TemplateTests.test_all_original_markers_are_replaced_once) ... ok
+test_bad_custom_types_do_not_become_repr_or_empty (test_templates.TemplateTests.test_bad_custom_types_do_not_become_repr_or_empty) ... ok
+test_binary_and_utf8_payload_bytes_are_preserved (test_templates.TemplateTests.test_binary_and_utf8_payload_bytes_are_preserved) ... ok
+test_binary_template_body_is_preserved (test_templates.TemplateTests.test_binary_template_body_is_preserved) ... ok
+test_byte_valued_unicode_has_explicit_latin1_mapping (test_templates.TemplateTests.test_byte_valued_unicode_has_explicit_latin1_mapping) ... ok
+test_content_length_counts_bytes_after_replacement (test_templates.TemplateTests.test_content_length_counts_bytes_after_replacement) ... ok
+test_cookie_injection_preserves_binary_and_utf8_bodies (test_templates.TemplateTests.test_cookie_injection_preserves_binary_and_utf8_bodies) ... ok
+test_cookie_value_is_not_scanned_for_markers (test_templates.TemplateTests.test_cookie_value_is_not_scanned_for_markers) ... ok
+test_custom_failures_preserve_the_original_reason (test_templates.TemplateTests.test_custom_failures_preserve_the_original_reason) ... ok
+test_custom_none_and_empty_values_remain_empty (test_templates.TemplateTests.test_custom_none_and_empty_values_remain_empty) ... ok
+test_custom_runs_twice_with_step_specific_token_and_raw_inputs (test_templates.TemplateTests.test_custom_runs_twice_with_step_specific_token_and_raw_inputs) ... ok
+test_disabled_csrf_and_missing_token_keep_original_marker (test_templates.TemplateTests.test_disabled_csrf_and_missing_token_keep_original_marker) ... ok
+test_finite_custom_timeout_is_a_transform_failure (test_templates.TemplateTests.test_finite_custom_timeout_is_a_transform_failure) ... ok
+test_helper_parse_failure_does_not_produce_an_empty_request (test_templates.TemplateTests.test_helper_parse_failure_does_not_produce_an_empty_request) ... ok
+test_list_and_tuple_outputs_are_supported (test_templates.TemplateTests.test_list_and_tuple_outputs_are_supported) ... ok
+test_missing_or_invalid_analysis_is_an_explicit_error (test_templates.TemplateTests.test_missing_or_invalid_analysis_is_an_explicit_error) ... ok
+test_non_byte_unicode_requires_explicit_encoding (test_templates.TemplateTests.test_non_byte_unicode_requires_explicit_encoding) ... ok
+test_original_custom_diagnostic_survives_proxy_error_reporting (test_templates.TemplateTests.test_original_custom_diagnostic_survives_proxy_error_reporting) ... ok
+test_raw_parameter_priorities_and_activation_are_unchanged (test_templates.TemplateTests.test_raw_parameter_priorities_and_activation_are_unchanged) ... ok
+test_rebuild_failure_does_not_return_stale_content_length (test_templates.TemplateTests.test_rebuild_failure_does_not_return_stale_content_length) ... ok
+test_table_distinguishes_unknown_body_length_from_zero (test_templates.TemplateTests.test_table_distinguishes_unknown_body_length_from_zero) ... ok
+test_unknown_editor_object_is_not_stringified (test_templates.TemplateTests.test_unknown_editor_object_is_not_stringified) ... ok
+test_zero_nonzero_and_missing_body_lengths_filter_distinctly (test_templates.TemplateTests.test_zero_nonzero_and_missing_body_lengths_filter_distinctly) ... ok
+test_matched_active_request_keeps_automatic_forward_behavior (test_redirects.PassiveActionTests.test_matched_active_request_keeps_automatic_forward_behavior) ... ok
+test_missing_response_data_does_not_change_existing_interception (test_redirects.PassiveActionTests.test_missing_response_data_does_not_change_existing_interception) ... ok
+test_request_and_response_preserve_prior_actions_in_passive_or_unmatched_modes (test_redirects.PassiveActionTests.test_request_and_response_preserve_prior_actions_in_passive_or_unmatched_modes) ... FAIL
+test_absolute_request_target_cannot_change_service_origin (test_redirects.RedirectTests.test_absolute_request_target_cannot_change_service_origin) ... ok
+test_all_existing_3xx_statuses_keep_get_policy (test_redirects.RedirectTests.test_all_existing_3xx_statuses_keep_get_policy) ... FAIL
+test_control_characters_are_not_accepted_inside_a_location_value (test_redirects.RedirectTests.test_control_characters_are_not_accepted_inside_a_location_value) ... ok
+test_cp_uses_last_redirect_token_with_original_service (test_redirects.RedirectTests.test_cp_uses_last_redirect_token_with_original_service) ... FAIL
+test_deadline_before_rt_send_preserves_no_send_state (test_redirects.RedirectTests.test_deadline_before_rt_send_preserves_no_send_state) ... FAIL
+test_eleven_hops_stop_at_ten_after_updating_last_response (test_redirects.RedirectTests.test_eleven_hops_stop_at_ten_after_updating_last_response) ... FAIL
+test_expired_budget_after_cp_build_is_not_returned_as_ready (test_redirects.RedirectTests.test_expired_budget_after_cp_build_is_not_returned_as_ready) ... FAIL
+test_get_self_loop_is_detected_before_another_send (test_redirects.RedirectTests.test_get_self_loop_is_detected_before_another_send) ... FAIL
+test_invalid_locations_fail_without_guessing_a_destination (test_redirects.RedirectTests.test_invalid_locations_fail_without_guessing_a_destination) ... FAIL
+test_invalid_redirect_after_rt_is_an_explicit_post_send_error (test_redirects.RedirectTests.test_invalid_redirect_after_rt_is_an_explicit_post_send_error) ... FAIL
+test_ipv6_authority_and_nondefault_port_are_preserved (test_redirects.RedirectTests.test_ipv6_authority_and_nondefault_port_are_preserved) ... ok
+test_late_blocking_rt_response_is_updated_but_no_cp_is_sent (test_redirects.RedirectTests.test_late_blocking_rt_response_is_updated_but_no_cp_is_sent) ... FAIL
+test_minimal_get_preserves_only_user_agent_and_managed_cookies (test_redirects.RedirectTests.test_minimal_get_preserves_only_user_agent_and_managed_cookies) ... FAIL
+test_no_checkpage_means_no_internal_send_or_redirect (test_redirects.RedirectTests.test_no_checkpage_means_no_internal_send_or_redirect) ... FAIL
+test_no_redirect_updates_initial_response_once (test_redirects.RedirectTests.test_no_redirect_updates_initial_response_once) ... FAIL
+test_post_to_get_same_url_is_allowed_once_then_loop_is_detected (test_redirects.RedirectTests.test_post_to_get_same_url_is_allowed_once_then_loop_is_detected) ... FAIL
+test_redirect_send_failure_has_no_retry_or_checkpage_fallback (test_redirects.RedirectTests.test_redirect_send_failure_has_no_retry_or_checkpage_fallback) ... FAIL
+test_relative_destinations_use_service_path_query_and_port (test_redirects.RedirectTests.test_relative_destinations_use_service_path_query_and_port) ... ok
+test_selection_is_required_and_captured_before_rt_send (test_redirects.RedirectTests.test_selection_is_required_and_captured_before_rt_send) ... FAIL
+test_shared_deadline_includes_rt_and_multiple_redirects (test_redirects.RedirectTests.test_shared_deadline_includes_rt_and_multiple_redirects) ... FAIL
+test_ten_hops_update_all_eleven_responses_once (test_redirects.RedirectTests.test_ten_hops_update_all_eleven_responses_once) ... FAIL
+test_zero_hops_still_update_initial_response (test_redirects.RedirectTests.test_zero_hops_still_update_initial_response) ... FAIL
+test_clear_during_decode_prevents_stale_cookie_update (test_session_state.CookieTests.test_clear_during_decode_prevents_stale_cookie_update) ... ok
+test_deleted_and_empty_are_values (test_session_state.CookieTests.test_deleted_and_empty_are_values) ... ok
+test_dump_expires_and_session_readdition_removes_old_deadline (test_session_state.CookieTests.test_dump_expires_and_session_readdition_removes_old_deadline) ... ok
+test_duplicate_attributes_last_valid_wins (test_session_state.CookieTests.test_duplicate_attributes_last_valid_wins) ... ok
+test_duplicate_headers_and_body_bytes_survive_merge (test_session_state.CookieTests.test_duplicate_headers_and_body_bytes_survive_merge) ... ok
+test_exact_header_names_and_body_is_ignored (test_session_state.CookieTests.test_exact_header_names_and_body_is_ignored) ... ok
+test_expires_is_utc_and_comma_does_not_split_cookies (test_session_state.CookieTests.test_expires_is_utc_and_comma_does_not_split_cookies) ... ok
+test_future_expiry_becomes_tombstone_without_new_response (test_session_state.CookieTests.test_future_expiry_becomes_tombstone_without_new_response) ... ok
+test_global_cookie_model_has_no_host_path_secure_partition (test_session_state.CookieTests.test_global_cookie_model_has_no_host_path_secure_partition) ... ok
+test_huge_positive_max_age_is_valid_and_bounded (test_session_state.CookieTests.test_huge_positive_max_age_is_valid_and_bounded) ... ok
+test_invalid_cookie_names_and_controls_do_not_hide_valid_fields (test_session_state.CookieTests.test_invalid_cookie_names_and_controls_do_not_hide_valid_fields) ... ok
+test_invalid_dates_are_ignored_without_normalization (test_session_state.CookieTests.test_invalid_dates_are_ignored_without_normalization) ... ok
+test_invalid_max_age_falls_back_to_expires (test_session_state.CookieTests.test_invalid_max_age_falls_back_to_expires) ... ok
+test_legacy_cookie_dates_and_two_digit_years (test_session_state.CookieTests.test_legacy_cookie_dates_and_two_digit_years) ... ok
+test_max_age_overrides_expires_both_directions (test_session_state.CookieTests.test_max_age_overrides_expires_both_directions) ... ok
+test_max_age_zero_and_negative_suppress_template (test_session_state.CookieTests.test_max_age_zero_and_negative_suppress_template) ... ok
+test_tombstone_readdition_and_clear (test_session_state.CookieTests.test_tombstone_readdition_and_clear) ... ok
+test_all_update_and_injection_switch_combinations (test_session_state.CsrfSwitchTests.test_all_update_and_injection_switch_combinations) ... FAIL
+test_clear_during_decode_rejects_stale_update (test_session_state.CsrfTests.test_clear_during_decode_rejects_stale_update) ... ok
+test_compile_only_on_changed_pattern (test_session_state.CsrfTests.test_compile_only_on_changed_pattern) ... ok
+test_compressed_bytes_are_not_implicitly_decompressed (test_session_state.CsrfTests.test_compressed_bytes_are_not_implicitly_decompressed) ... ok
+test_configuration_is_unicode_and_does_not_use_wire_encoding (test_session_state.CsrfTests.test_configuration_is_unicode_and_does_not_use_wire_encoding) ... ok
+test_empty_token_and_clear_are_distinct (test_session_state.CsrfTests.test_empty_token_and_clear_are_distinct) ... ok
+test_first_of_multiple_captures_and_existing_flags (test_session_state.CsrfTests.test_first_of_multiple_captures_and_existing_flags) ... ok
+test_invalid_input_does_not_replace_token (test_session_state.CsrfTests.test_invalid_input_does_not_replace_token) ... ok
+test_invalid_regex_and_missing_group_preserve_token (test_session_state.CsrfTests.test_invalid_regex_and_missing_group_preserve_token) ... ok
+test_no_match_keeps_token_with_distinct_status (test_session_state.CsrfTests.test_no_match_keeps_token_with_distinct_status) ... ok
+test_non_ascii_bytes_are_kept (test_session_state.CsrfTests.test_non_ascii_bytes_are_kept) ... ok
+test_optional_unmatched_capture_does_not_clear (test_session_state.CsrfTests.test_optional_unmatched_capture_does_not_clear) ... ok
+test_pattern_edit_during_decode_rejects_old_result (test_session_state.CsrfTests.test_pattern_edit_during_decode_rejects_old_result) ... ok
+test_unset_pattern_is_not_no_match_or_error (test_session_state.CsrfTests.test_unset_pattern_is_not_no_match_or_error) ... ok
+test_ten_hops_update_real_stores_once_and_final_deletion_reaches_checkpage (test_session_state.WorkflowStateTests.test_ten_hops_update_real_stores_once_and_final_deletion_reaches_checkpage) ... ok
+test_close_resolves_waiters_and_prevents_reload_worker_accumulation (test_custom_executor.CustomTests.test_close_resolves_waiters_and_prevents_reload_worker_accumulation) ... ok
+test_compile_cache_does_not_cache_namespace_or_skip_top_level (test_custom_executor.CustomTests.test_compile_cache_does_not_cache_namespace_or_skip_top_level) ... ok
+test_default_and_timeout_validation (test_custom_executor.CustomTests.test_default_and_timeout_validation) ... ok
+test_exception_text_cannot_kill_worker (test_custom_executor.CustomTests.test_exception_text_cannot_kill_worker) ... ok
+test_idle_close_terminates_worker_and_rejects_new_jobs (test_custom_executor.CustomTests.test_idle_close_terminates_worker_and_rejects_new_jobs) ... ok
+test_invalid_ui_timeout_is_visible_pre_send_error (test_custom_executor.CustomTests.test_invalid_ui_timeout_is_visible_pre_send_error) ... ok
+test_late_function_result_is_discarded (test_custom_executor.CustomTests.test_late_function_result_is_discarded) ... ok
+test_late_top_level_cannot_proceed_to_function_or_replace_worker (test_custom_executor.CustomTests.test_late_top_level_cannot_proceed_to_function_or_replace_worker) ... ok
+test_one_active_one_waiting_then_busy (test_custom_executor.CustomTests.test_one_active_one_waiting_then_busy) ... ok
+test_python_base_exception_cannot_kill_worker (test_custom_executor.CustomTests.test_python_base_exception_cannot_kill_worker) ... ok
+test_queue_time_counts_and_expired_job_never_executes (test_custom_executor.CustomTests.test_queue_time_counts_and_expired_job_never_executes) ... ok
+test_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8 (test_custom_executor.CustomTests.test_unicode_editor_source_allows_encoding_cookie_and_explicit_utf8) ... ok
+test_workflow_freezes_source_timeout_and_enabled_state_for_both_calls (test_custom_executor.CustomTests.test_workflow_freezes_source_timeout_and_enabled_state_for_both_calls) ... ok
+test_callbacks_with_published_config_do_not_read_widgets (test_runtime_session.RuntimeSessionTests.test_callbacks_with_published_config_do_not_read_widgets) ... ok
+test_clear_after_internal_send_stops_before_checkpage (test_runtime_session.RuntimeSessionTests.test_clear_after_internal_send_stops_before_checkpage) ... FAIL
+test_clear_csrf_invalidates_both_publication_channels (test_runtime_session.RuntimeSessionTests.test_clear_csrf_invalidates_both_publication_channels) ... FAIL
+test_clear_releases_owner_and_waiter_seeds_new_epoch (test_runtime_session.RuntimeSessionTests.test_clear_releases_owner_and_waiter_seeds_new_epoch) ... FAIL
+test_clear_while_parser_waits_does_not_block_or_publish (test_runtime_session.RuntimeSessionTests.test_clear_while_parser_waits_does_not_block_or_publish) ... FAIL
+test_close_wakes_waiters_and_rejects_late_response (test_runtime_session.RuntimeSessionTests.test_close_wakes_waiters_and_rejects_late_response) ... FAIL
+test_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie (test_runtime_session.RuntimeSessionTests.test_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie) ... FAIL
+test_metadata_capacity_expiry_and_unknown_response_are_explicit (test_runtime_session.RuntimeSessionTests.test_metadata_capacity_expiry_and_unknown_response_are_explicit) ... FAIL
+test_missing_final_response_keeps_lease_until_explicit_recovery (test_runtime_session.RuntimeSessionTests.test_missing_final_response_keeps_lease_until_explicit_recovery) ... FAIL
+test_next_owner_waits_until_final_proxy_response (test_runtime_session.RuntimeSessionTests.test_next_owner_waits_until_final_proxy_response) ... FAIL
+test_passive_response_does_not_replace_owner_local_state (test_runtime_session.RuntimeSessionTests.test_passive_response_does_not_replace_owner_local_state) ... FAIL
+test_queue_capacity_and_deadline_do_not_release_owner (test_runtime_session.RuntimeSessionTests.test_queue_capacity_and_deadline_do_not_release_owner) ... FAIL
+test_reference_rehook_does_not_repeat_workflow_and_null_response_releases (test_runtime_session.RuntimeSessionTests.test_reference_rehook_does_not_repeat_workflow_and_null_response_releases) ... ok
+test_response_uses_request_time_flags_and_regex (test_runtime_session.RuntimeSessionTests.test_response_uses_request_time_flags_and_regex) ... FAIL
+test_workflow_freezes_templates_flags_payload_names_and_regex (test_runtime_session.RuntimeSessionTests.test_workflow_freezes_templates_flags_payload_names_and_regex) ... FAIL
+test_busy_capture_is_visible_and_does_not_accept_unknown_match (test_filters.FilterTests.test_busy_capture_is_visible_and_does_not_accept_unknown_match) ... ok
+test_busy_display_retains_already_admitted_entry (test_filters.FilterTests.test_busy_display_retains_already_admitted_entry) ... ok
+test_capture_characterized_matches (test_filters.FilterTests.test_capture_characterized_matches) ... ok
+test_clear_during_rebuild_never_restores_old_rows (test_filters.FilterTests.test_clear_during_rebuild_never_restores_old_rows) ... ok
+test_clear_selected_invalidates_search_but_not_new_admission (test_filters.FilterTests.test_clear_selected_invalidates_search_but_not_new_admission) ... ok
+test_clear_while_callback_analyzes_does_not_resurrect_event (test_filters.FilterTests.test_clear_while_callback_analyzes_does_not_resurrect_event) ... ok
+test_clearing_regex_with_valid_size_does_not_wait_for_busy_worker (test_filters.FilterTests.test_clearing_regex_with_valid_size_does_not_wait_for_busy_worker) ... ok
+test_close_ignores_pending_search_result (test_filters.FilterTests.test_close_ignores_pending_search_result) ... ok
+test_compilation_is_not_repeated_per_row (test_filters.FilterTests.test_compilation_is_not_repeated_per_row) ... ok
+test_display_characterized_matches (test_filters.FilterTests.test_display_characterized_matches) ... ok
+test_invalid_capture_regex_retains_last_valid_plan (test_filters.FilterTests.test_invalid_capture_regex_retains_last_valid_plan) ... ok
+test_invalid_display_is_atomic_and_keeps_previous_filter (test_filters.FilterTests.test_invalid_display_is_atomic_and_keeps_previous_filter) ... ok
+test_invalid_numeric_retains_last_valid_capture (test_filters.FilterTests.test_invalid_numeric_retains_last_valid_capture) ... ok
+test_legacy_empty_regex_item_has_no_response_decode (test_filters.FilterTests.test_legacy_empty_regex_item_has_no_response_decode) ... ok
+test_metadata_rejection_does_not_queue_regex_work (test_filters.FilterTests.test_metadata_rejection_does_not_queue_regex_work) ... ok
+test_new_filter_wins_over_late_old_search (test_filters.FilterTests.test_new_filter_wins_over_late_old_search) ... ok
+test_new_rows_merge_into_stable_rebuild_snapshot (test_filters.FilterTests.test_new_rows_merge_into_stable_rebuild_snapshot) ... ok
+test_no_display_filter_erases_stored_entries (test_filters.FilterTests.test_no_display_filter_erases_stored_entries) ... ok
+test_other_settings_reuse_unchanged_compiled_patterns (test_filters.FilterTests.test_other_settings_reuse_unchanged_compiled_patterns) ... ok
+test_reset_to_current_filter_cancels_pending_new_validation (test_filters.FilterTests.test_reset_to_current_filter_cancels_pending_new_validation) ... ok
+test_reset_to_current_filter_clears_invalid_draft_error (test_filters.FilterTests.test_reset_to_current_filter_clears_invalid_draft_error) ... ok
+test_unknown_new_row_is_rechecked_instead_of_lost (test_filters.FilterTests.test_unknown_new_row_is_rechecked_instead_of_lost) ... ok
+test_worker_capacity_and_coalesced_controls_are_bounded (test_filters.FilterTests.test_worker_capacity_and_coalesced_controls_are_bounded) ... ok
+test_archive_exact_binary_and_null_versus_empty (test_log_storage.LogStorageTests.test_archive_exact_binary_and_null_versus_empty) ... ok
+test_archive_refuses_edt_io (test_log_storage.LogStorageTests.test_archive_refuses_edt_io) ... ok
+test_byte_limit_rejects_before_snapshot_and_pauses_visibly (test_log_storage.LogStorageTests.test_byte_limit_rejects_before_snapshot_and_pauses_visibly) ... ok
+test_clear_and_selected_release_only_owned_files (test_log_storage.LogStorageTests.test_clear_and_selected_release_only_owned_files) ... ok
+test_clear_while_write_in_progress_cannot_restore_row_or_file (test_log_storage.LogStorageTests.test_clear_while_write_in_progress_cannot_restore_row_or_file) ... ok
+test_concurrent_rejection_accounting_has_no_lost_increment (test_log_storage.LogStorageTests.test_concurrent_rejection_accounting_has_no_lost_increment) ... ok
+test_model_index_lookup_and_multiple_removal_are_stable (test_log_storage.LogStorageTests.test_model_index_lookup_and_multiple_removal_are_stable) ... ok
+test_one_batch_notification_covers_a_burst (test_log_storage.LogStorageTests.test_one_batch_notification_covers_a_burst) ... ok
+test_pending_accepted_rows_finish_after_pause (test_log_storage.LogStorageTests.test_pending_accepted_rows_finish_after_pause) ... ok
+test_preparation_order_cannot_overtake_first_snapshot (test_log_storage.LogStorageTests.test_preparation_order_cannot_overtake_first_snapshot) ... ok
+test_shared_raw_budget_and_close_release_reservations (test_log_storage.LogStorageTests.test_shared_raw_budget_and_close_release_reservations) ... ok
+test_snapshot_freezes_mutable_source_before_return (test_log_storage.LogStorageTests.test_snapshot_freezes_mutable_source_before_return) ... ok
+test_storage_write_failure_pauses_new_admission_without_erasing_old (test_log_storage.LogStorageTests.test_storage_write_failure_pauses_new_admission_without_erasing_old) ... ok
+test_truncated_file_is_visible_read_failure (test_log_storage.LogStorageTests.test_truncated_file_is_visible_read_failure) ... ok
+test_unload_after_persist_before_publish_cleans_owned_files (test_log_storage.LogStorageTests.test_unload_after_persist_before_publish_cleans_owned_files) ... ok
+test_replacing_rows_during_batch_never_emits_a_false_insert_interval (test_log_review.LogFinalReview.test_replacing_rows_during_batch_never_emits_a_false_insert_interval) ... ok
+test_unload_explicitly_releases_viewer_content_and_log_metadata (test_log_review.LogFinalReview.test_unload_explicitly_releases_viewer_content_and_log_metadata) ... ok
+test_broken_output_does_not_raise_from_diagnostic (test_cleanup.CleanupTests.test_broken_output_does_not_raise_from_diagnostic) ... ok
+test_checkpage_exception_retains_none_fallback_with_safe_diagnostic (test_cleanup.CleanupTests.test_checkpage_exception_retains_none_fallback_with_safe_diagnostic) ... ok
+test_diagnostic_omits_exception_text_and_does_not_stringify_it (test_cleanup.CleanupTests.test_diagnostic_omits_exception_text_and_does_not_stringify_it) ... ok
+test_http_callback_failure_is_visible_without_exception_contents (test_cleanup.CleanupTests.test_http_callback_failure_is_visible_without_exception_contents) ... ok
+test_partial_analysis_failures_remain_visible_and_preserve_admission (test_cleanup.CleanupTests.test_partial_analysis_failures_remain_visible_and_preserve_admission) ... ok
+test_workflow_output_failure_cannot_prevent_error_status (test_cleanup.CleanupTests.test_workflow_output_failure_cannot_prevent_error_status) ... ok
+test_failed_filter_load_is_closed_without_showing_default_draft (test_cleanup_final.FinalCleanupTests.test_failed_filter_load_is_closed_without_showing_default_draft) ... ok
+test_failed_template_clear_is_visible_and_does_not_claim_success (test_cleanup_final.FinalCleanupTests.test_failed_template_clear_is_visible_and_does_not_claim_success) ... ok
+test_hostile_parser_exception_keeps_template_fallback (test_cleanup_final.FinalCleanupTests.test_hostile_parser_exception_keeps_template_fallback) ... ok
+test_startup_withdraw_continues_after_close_and_error_output_failures (test_cleanup_final.FinalCleanupTests.test_startup_withdraw_continues_after_close_and_error_output_failures) ... ok
+test_template_clear_never_sends_null_to_either_editor (test_cleanup_final.FinalCleanupTests.test_template_clear_never_sends_null_to_either_editor) ... ok
+test_ui_error_reporting_failure_does_not_escape (test_cleanup_final.FinalCleanupTests.test_ui_error_reporting_failure_does_not_escape) ... ok
+
+======================================================================
+ERROR: test_P05_relative_redirect_keeps_directory_and_port (test_source_logic.FixedRegressions.test_P05_relative_redirect_keeps_directory_and_port)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_source_logic.py", line 127, in test_P05_relative_redirect_keeps_directory_and_port
+    service, request = self.ui.callbacks.calls[0]
+                       ~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_no_checkpage_means_no_internal_request (test_source_logic.CompatibilityBaseline.test_no_checkpage_means_no_internal_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_source_logic.py", line 232, in test_no_checkpage_means_no_internal_request
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'error_before_send' != 'ready'
+- error_before_send
++ ready
+
+
+======================================================================
+FAIL: test_P02_sent_request_not_returned_after_checkpage_error (test_source_logic.FixedRegressions.test_P02_sent_request_not_returned_after_checkpage_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_source_logic.py", line 165, in test_P02_sent_request_not_returned_after_checkpage_error
+    self.assertEqual(len(self.ui.callbacks.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_P04_legacy_response_is_not_discarded (test_source_logic.FixedRegressions.test_P04_legacy_response_is_not_discarded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_source_logic.py", line 178, in test_P04_legacy_response_is_not_discarded
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'ready'
+- no_match
++ ready
+
+
+======================================================================
+FAIL: test_P06_last_redirect_response_updates_cookie (test_source_logic.FixedRegressions.test_P06_last_redirect_response_updates_cookie)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_source_logic.py", line 133, in test_P06_last_redirect_response_updates_cookie
+    self.assertEqual(self.ui.cookieManager.jar.get('sid'), 'last')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'last'
+
+======================================================================
+FAIL: test_request_and_response_preserve_prior_actions_in_passive_or_unmatched_modes (test_redirects.PassiveActionTests.test_request_and_response_preserve_prior_actions_in_passive_or_unmatched_modes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 317, in test_request_and_response_preserve_prior_actions_in_passive_or_unmatched_modes
+    self.assertEqual(len(updates), 0 if request else 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_all_existing_3xx_statuses_keep_get_policy (test_redirects.RedirectTests.test_all_existing_3xx_statuses_keep_get_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 133, in test_all_existing_3xx_statuses_keep_get_policy
+    self.assertIsNone(result.error_code)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TEMPLATE_AUTHORITY_MISMATCH' is not None
+
+======================================================================
+FAIL: test_cp_uses_last_redirect_token_with_original_service (test_redirects.RedirectTests.test_cp_uses_last_redirect_token_with_original_service)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 288, in test_cp_uses_last_redirect_token_with_original_service
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'ready'
+- no_match
++ ready
+
+
+======================================================================
+FAIL: test_deadline_before_rt_send_preserves_no_send_state (test_redirects.RedirectTests.test_deadline_before_rt_send_preserves_no_send_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 245, in test_deadline_before_rt_send_preserves_no_send_state
+    self.assertEqual(result.error_code, 'WORKFLOW_TIMEOUT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'WORKFLOW_TIMEOUT'
+
+======================================================================
+FAIL: test_eleven_hops_stop_at_ten_after_updating_last_response (test_redirects.RedirectTests.test_eleven_hops_stop_at_ten_after_updating_last_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 162, in test_eleven_hops_stop_at_ten_after_updating_last_response
+    self.assertEqual(result.error_code, 'REDIRECT_LIMIT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' != 'REDIRECT_LIMIT'
+- TARGET_SCOPE_DENIED
++ REDIRECT_LIMIT
+
+
+======================================================================
+FAIL: test_expired_budget_after_cp_build_is_not_returned_as_ready (test_redirects.RedirectTests.test_expired_budget_after_cp_build_is_not_returned_as_ready)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 269, in test_expired_budget_after_cp_build_is_not_returned_as_ready
+    self.assertEqual(result.error_code, 'WORKFLOW_TIMEOUT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'WORKFLOW_TIMEOUT'
+
+======================================================================
+FAIL: test_get_self_loop_is_detected_before_another_send (test_redirects.RedirectTests.test_get_self_loop_is_detected_before_another_send)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 177, in test_get_self_loop_is_detected_before_another_send
+    self.assertEqual(result.error_code, 'REDIRECT_LOOP')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' != 'REDIRECT_LOOP'
+- TARGET_SCOPE_DENIED
++ REDIRECT_LOOP
+
+
+======================================================================
+FAIL: test_invalid_locations_fail_without_guessing_a_destination (test_redirects.RedirectTests.test_invalid_locations_fail_without_guessing_a_destination)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 101, in test_invalid_locations_fail_without_guessing_a_destination
+    self.assertEqual(result.error_code, 'REDIRECT_INVALID_LOCATION', location)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' != 'REDIRECT_INVALID_LOCATION'
+- TARGET_SCOPE_DENIED
++ REDIRECT_INVALID_LOCATION
+ : ftp://other/x
+
+======================================================================
+FAIL: test_invalid_redirect_after_rt_is_an_explicit_post_send_error (test_redirects.RedirectTests.test_invalid_redirect_after_rt_is_an_explicit_post_send_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 278, in test_invalid_redirect_after_rt_is_an_explicit_post_send_error
+    self.assertEqual(result.error_code, 'REDIRECT_INVALID_LOCATION')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'REDIRECT_INVALID_LOCATION'
+
+======================================================================
+FAIL: test_late_blocking_rt_response_is_updated_but_no_cp_is_sent (test_redirects.RedirectTests.test_late_blocking_rt_response_is_updated_but_no_cp_is_sent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 256, in test_late_blocking_rt_response_is_updated_but_no_cp_is_sent
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].ERROR_AFTER_SEND)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'error_after_send'
+- no_match
++ error_after_send
+
+
+======================================================================
+FAIL: test_minimal_get_preserves_only_user_agent_and_managed_cookies (test_redirects.RedirectTests.test_minimal_get_preserves_only_user_agent_and_managed_cookies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 114, in test_minimal_get_preserves_only_user_agent_and_managed_cookies
+    self.assertIsNone(result.error_code)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_no_checkpage_means_no_internal_send_or_redirect (test_redirects.RedirectTests.test_no_checkpage_means_no_internal_send_or_redirect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 219, in test_no_checkpage_means_no_internal_send_or_redirect
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'ready'
+- no_match
++ ready
+
+
+======================================================================
+FAIL: test_no_redirect_updates_initial_response_once (test_redirects.RedirectTests.test_no_redirect_updates_initial_response_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 142, in test_no_redirect_updates_initial_response_once
+    self.assertEqual(updates, [initial])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [b'HTTP/1.1 200 Fixture\r\n\r\n']
+
+Second list contains 1 additional elements.
+First extra element 0:
+b'HTTP/1.1 200 Fixture\r\n\r\n'
+
+- []
++ [b'HTTP/1.1 200 Fixture\r\n\r\n']
+
+======================================================================
+FAIL: test_post_to_get_same_url_is_allowed_once_then_loop_is_detected (test_redirects.RedirectTests.test_post_to_get_same_url_is_allowed_once_then_loop_is_detected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 183, in test_post_to_get_same_url_is_allowed_once_then_loop_is_detected
+    self.assertEqual(result.error_code, 'REDIRECT_LOOP')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' != 'REDIRECT_LOOP'
+- TARGET_SCOPE_DENIED
++ REDIRECT_LOOP
+
+
+======================================================================
+FAIL: test_redirect_send_failure_has_no_retry_or_checkpage_fallback (test_redirects.RedirectTests.test_redirect_send_failure_has_no_retry_or_checkpage_fallback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 194, in test_redirect_send_failure_has_no_retry_or_checkpage_fallback
+    self.assertEqual(result.error_code, 'HTTP_SEND_FAILED')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' != 'HTTP_SEND_FAILED'
+- TARGET_SCOPE_DENIED
++ HTTP_SEND_FAILED
+
+
+======================================================================
+FAIL: test_selection_is_required_and_captured_before_rt_send (test_redirects.RedirectTests.test_selection_is_required_and_captured_before_rt_send)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 212, in test_selection_is_required_and_captured_before_rt_send
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'ready'
+- no_match
++ ready
+
+
+======================================================================
+FAIL: test_shared_deadline_includes_rt_and_multiple_redirects (test_redirects.RedirectTests.test_shared_deadline_includes_rt_and_multiple_redirects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 231, in test_shared_deadline_includes_rt_and_multiple_redirects
+    self.assertEqual(result.error_code, 'WORKFLOW_TIMEOUT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'WORKFLOW_TIMEOUT'
+
+======================================================================
+FAIL: test_ten_hops_update_all_eleven_responses_once (test_redirects.RedirectTests.test_ten_hops_update_all_eleven_responses_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 151, in test_ten_hops_update_all_eleven_responses_once
+    self.assertIsNone(result.error_code)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_zero_hops_still_update_initial_response (test_redirects.RedirectTests.test_zero_hops_still_update_initial_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_redirects.py", line 171, in test_zero_hops_still_update_initial_response
+    self.assertEqual(result.error_code, 'REDIRECT_LIMIT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' != 'REDIRECT_LIMIT'
+- TARGET_SCOPE_DENIED
++ REDIRECT_LIMIT
+
+
+======================================================================
+FAIL: test_all_update_and_injection_switch_combinations (test_session_state.CsrfSwitchTests.test_all_update_and_injection_switch_combinations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_session_state.py", line 306, in test_all_update_and_injection_switch_combinations
+    self.assertEqual(self.manager.get_token(), 'TOKEN' if csrf else None)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'TOKEN'
+
+======================================================================
+FAIL: test_clear_after_internal_send_stops_before_checkpage (test_runtime_session.RuntimeSessionTests.test_clear_after_internal_send_stops_before_checkpage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 277, in test_clear_after_internal_send_stops_before_checkpage
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].ERROR_AFTER_SEND)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'error_after_send'
+- no_match
++ error_after_send
+
+
+======================================================================
+FAIL: test_clear_csrf_invalidates_both_publication_channels (test_runtime_session.RuntimeSessionTests.test_clear_csrf_invalidates_both_publication_channels)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 103, in test_clear_csrf_invalidates_both_publication_channels
+    old = self.context(1, False)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_clear_releases_owner_and_waiter_seeds_new_epoch (test_runtime_session.RuntimeSessionTests.test_clear_releases_owner_and_waiter_seeds_new_epoch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 85, in test_clear_releases_owner_and_waiter_seeds_new_epoch
+    first, second = self.context(1), self.context(2)
+                    ~~~~~~~~~~~~^^^
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_clear_while_parser_waits_does_not_block_or_publish (test_runtime_session.RuntimeSessionTests.test_clear_while_parser_waits_does_not_block_or_publish)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 112, in test_clear_while_parser_waits_does_not_block_or_publish
+    owner = self.context(1)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_close_wakes_waiters_and_rejects_late_response (test_runtime_session.RuntimeSessionTests.test_close_wakes_waiters_and_rejects_late_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 197, in test_close_wakes_waiters_and_rejects_late_response
+    first, second = self.context(1), self.context(2)
+                    ~~~~~~~~~~~~^^^
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie (test_runtime_session.RuntimeSessionTests.test_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 135, in test_late_parser_cannot_overwrite_newer_response_or_lose_other_cookie
+    old = self.context(1)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_metadata_capacity_expiry_and_unknown_response_are_explicit (test_runtime_session.RuntimeSessionTests.test_metadata_capacity_expiry_and_unknown_response_are_explicit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 183, in test_metadata_capacity_expiry_and_unknown_response_are_explicit
+    owner = self.context(1)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_missing_final_response_keeps_lease_until_explicit_recovery (test_runtime_session.RuntimeSessionTests.test_missing_final_response_keeps_lease_until_explicit_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 158, in test_missing_final_response_keeps_lease_until_explicit_recovery
+    first = self.context(1)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_next_owner_waits_until_final_proxy_response (test_runtime_session.RuntimeSessionTests.test_next_owner_waits_until_final_proxy_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 71, in test_next_owner_waits_until_final_proxy_response
+    first, second = self.context(1), self.context(2)
+                    ~~~~~~~~~~~~^^^
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_passive_response_does_not_replace_owner_local_state (test_runtime_session.RuntimeSessionTests.test_passive_response_does_not_replace_owner_local_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 53, in test_passive_response_does_not_replace_owner_local_state
+    owner = self.context(1)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_queue_capacity_and_deadline_do_not_release_owner (test_runtime_session.RuntimeSessionTests.test_queue_capacity_and_deadline_do_not_release_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 171, in test_queue_capacity_and_deadline_do_not_release_owner
+    first = self.context(1)
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_response_uses_request_time_flags_and_regex (test_runtime_session.RuntimeSessionTests.test_response_uses_request_time_flags_and_regex)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 210, in test_response_uses_request_time_flags_and_regex
+    self.context(1, False)
+    ~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 33, in context
+    self.assertIsNone(error)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+AssertionError: 'TARGET_SCOPE_DENIED' is not None
+
+======================================================================
+FAIL: test_workflow_freezes_templates_flags_payload_names_and_regex (test_runtime_session.RuntimeSessionTests.test_workflow_freezes_templates_flags_payload_names_and_regex)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\KZsolt\SELF_WORK_DIR\CODEX\Codex_BoberProxy\BoberProxy\tests\stabilization\test_runtime_session.py", line 239, in test_workflow_freezes_templates_flags_payload_names_and_regex
+    self.assertEqual(result.status, self.ns['ProxyWorkflowResult'].READY)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no_match' != 'ready'
+- no_match
++ ready
+
+
+----------------------------------------------------------------------
+Ran 219 tests in 2.563s
+
+FAILED (failures=37, errors=1, expected failures=1)
+Baseline: 219 tests; 1 known unfixed defects.
+Expected failures are reproduced defects, not fixed acceptance tests.

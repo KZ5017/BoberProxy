@@ -255,6 +255,7 @@ def load_namespace():
     wanted = set(['LogEntry', 'LogStore', 'LogTableModel', 'CsrfManager',
                   'CookieManager', 'LoggerUI', '_exec_in_namespace',
                   'HttpSendResult', 'HttpRequestSender', 'ProxyWorkflowResult', 'BurpExtender', 'SimpleMessageController'])
+    wanted.update(['ScopeError','_scope_text','_scope_host','_scope_authority','_scope_service','_scope_path','TargetScopePolicy'])
     wanted.update(['TemplateBuildError', '_wire_text', '_custom_value', '_extract_raw_payloads', '_print_diagnostic'])
     wanted.update(['RedirectResult', '_monotonic_ms', '_redirect_host_header',
                    '_redirect_base', '_redirect_destination'])
@@ -351,6 +352,8 @@ def new_ui(namespace):
         ui._init_custom_runtime()
     if hasattr(ui, '_init_session_runtime'):
         ui._init_session_runtime()
+        ui.sessions.replace_scope(namespace['TargetScopePolicy']('http://demo'))
+        ui._proxy_mode_active = True
     if hasattr(ui, '_init_filter_runtime'):
         ui._init_filter_runtime()
     return ui

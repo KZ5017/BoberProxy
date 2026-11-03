@@ -1,0 +1,146 @@
+{
+  "kind": "TG05-direct-root-final-no-instrumentation",
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "run": "tg-final-direct-a65c82cc9fb5",
+  "viewer_run": "tg-final-direct-a65c82cc9fb5-viewer",
+  "checks": {
+    "status": true,
+    "once": true,
+    "two_calls": true,
+    "payload": true,
+    "tokens": true,
+    "raw_/scope/action": true,
+    "raw_/scope/check": true,
+    "viewer_bytes": true,
+    "viewer_empty": true,
+    "no_late_replay": true
+  },
+  "passed": true,
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Server",
+        "BaseHTTP/0.6 Python/3.13.1"
+      ],
+      [
+        "Date",
+        "Tue, 03 Nov 2026 12:15:52 GMT"
+      ],
+      [
+        "Content-Length",
+        "1110"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Content-Type",
+        "application/json"
+      ]
+    ],
+    "body": "{\"accepted\": true, \"kind\": \"A\", \"run\": \"tg-final-direct-a65c82cc9fb5\", \"actions\": 1, \"checks\": 1, \"nexts\": 0, \"request\": {\"kind\": \"A\", \"run\": \"tg-final-direct-a65c82cc9fb5\", \"method\": \"POST\", \"target\": \"/scope/check?run=tg-final-direct-a65c82cc9fb5\", \"headers\": [[\"Host\", \"127.0.0.1:18810\"], [\"Cookie\", \"sid=sid.A.tg-final-direct-a65c82cc9fb5.1\"], [\"X-Bober-TG\", \"tg-final-direct-a65c82cc9fb5\"], [\"Content-Type\", \"application/x-www-form-urlencoded\"], [\"Content-Length\", \"89\"]], \"raw_base64\": \"UE9TVCAvc2NvcGUvY2hlY2s/cnVuPXRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODgxMA0KQ29va2llOiBzaWQ9c2lkLkEudGctZmluYWwtZGlyZWN0LWE2NWM4MmNjOWZiNS4xDQpYLUJvYmVyLVRHOiB0Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDg5DQoNCmNzcmY9Y3NyZi5BLnRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUuMSZvbmU9JTI1MkYrJTJCJnR3bz10Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1\", \"body_base64\": \"Y3NyZj1jc3JmLkEudGctZmluYWwtZGlyZWN0LWE2NWM4MmNjOWZiNS4xJm9uZT0lMjUyRislMkImdHdvPXRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjU=\", \"monotonic\": 8065.3413132}}",
+    "body_base64": "eyJhY2NlcHRlZCI6IHRydWUsICJraW5kIjogIkEiLCAicnVuIjogInRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUiLCAiYWN0aW9ucyI6IDEsICJjaGVja3MiOiAxLCAibmV4dHMiOiAwLCAicmVxdWVzdCI6IHsia2luZCI6ICJBIiwgInJ1biI6ICJ0Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1IiwgIm1ldGhvZCI6ICJQT1NUIiwgInRhcmdldCI6ICIvc2NvcGUvY2hlY2s/cnVuPXRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUiLCAiaGVhZGVycyI6IFtbIkhvc3QiLCAiMTI3LjAuMC4xOjE4ODEwIl0sIFsiQ29va2llIiwgInNpZD1zaWQuQS50Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1LjEiXSwgWyJYLUJvYmVyLVRHIiwgInRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUiXSwgWyJDb250ZW50LVR5cGUiLCAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkIl0sIFsiQ29udGVudC1MZW5ndGgiLCAiODkiXV0sICJyYXdfYmFzZTY0IjogIlVFOVRWQ0F2YzJOdmNHVXZZMmhsWTJzL2NuVnVQWFJuTFdacGJtRnNMV1JwY21WamRDMWhOalZqT0RKall6bG1ZalVnU0ZSVVVDOHhMakVOQ2todmMzUTZJREV5Tnk0d0xqQXVNVG94T0RneE1BMEtRMjl2YTJsbE9pQnphV1E5YzJsa0xrRXVkR2N0Wm1sdVlXd3RaR2x5WldOMExXRTJOV000TW1Oak9XWmlOUzR4RFFwWUxVSnZZbVZ5TFZSSE9pQjBaeTFtYVc1aGJDMWthWEpsWTNRdFlUWTFZemd5WTJNNVptSTFEUXBEYjI1MFpXNTBMVlI1Y0dVNklHRndjR3hwWTJGMGFXOXVMM2d0ZDNkM0xXWnZjbTB0ZFhKc1pXNWpiMlJsWkEwS1EyOXVkR1Z1ZEMxTVpXNW5kR2c2SURnNURRb05DbU56Y21ZOVkzTnlaaTVCTG5SbkxXWnBibUZzTFdScGNtVmpkQzFoTmpWak9ESmpZemxtWWpVdU1TWnZibVU5SlRJMU1rWXJKVEpDSm5SM2J6MTBaeTFtYVc1aGJDMWthWEpsWTNRdFlUWTFZemd5WTJNNVptSTEiLCAiYm9keV9iYXNlNjQiOiAiWTNOeVpqMWpjM0ptTGtFdWRHY3RabWx1WVd3dFpHbHlaV04wTFdFMk5XTTRNbU5qT1daaU5TNHhKbTl1WlQwbE1qVXlSaXNsTWtJbWRIZHZQWFJuTFdacGJtRnNMV1JwY21WamRDMWhOalZqT0RKall6bG1ZalU9IiwgIm1vbm90b25pYyI6IDgwNjUuMzQxMzEzMn19",
+    "elapsed": 0.2817340999999942
+  },
+  "target": {
+    "actions": 1,
+    "checks": 1,
+    "event_count": 2,
+    "events": [
+      {
+        "body_base64": "b25lPSUyNTJGKyUyQiZ0d289dGctZmluYWwtZGlyZWN0LWE2NWM4MmNjOWZiNQ==",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18810"
+          ],
+          [
+            "X-Bober-TG",
+            "tg-final-direct-a65c82cc9fb5"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "46"
+          ]
+        ],
+        "kind": "A",
+        "method": "POST",
+        "monotonic": 8065.2001563,
+        "raw_base64": "UE9TVCAvc2NvcGUvYWN0aW9uP2Nhc2U9bm9ybWFsJnJ1bj10Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg4MTANClgtQm9iZXItVEc6IHRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDYNCg0Kb25lPSUyNTJGKyUyQiZ0d289dGctZmluYWwtZGlyZWN0LWE2NWM4MmNjOWZiNQ==",
+        "run": "tg-final-direct-a65c82cc9fb5",
+        "target": "/scope/action?case=normal&run=tg-final-direct-a65c82cc9fb5"
+      },
+      {
+        "body_base64": "Y3NyZj1jc3JmLkEudGctZmluYWwtZGlyZWN0LWE2NWM4MmNjOWZiNS4xJm9uZT0lMjUyRislMkImdHdvPXRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjU=",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18810"
+          ],
+          [
+            "Cookie",
+            "sid=sid.A.tg-final-direct-a65c82cc9fb5.1"
+          ],
+          [
+            "X-Bober-TG",
+            "tg-final-direct-a65c82cc9fb5"
+          ],
+          [
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          ],
+          [
+            "Content-Length",
+            "89"
+          ]
+        ],
+        "kind": "A",
+        "method": "POST",
+        "monotonic": 8065.3413132,
+        "raw_base64": "UE9TVCAvc2NvcGUvY2hlY2s/cnVuPXRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMToxODgxMA0KQ29va2llOiBzaWQ9c2lkLkEudGctZmluYWwtZGlyZWN0LWE2NWM4MmNjOWZiNS4xDQpYLUJvYmVyLVRHOiB0Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZA0KQ29udGVudC1MZW5ndGg6IDg5DQoNCmNzcmY9Y3NyZi5BLnRnLWZpbmFsLWRpcmVjdC1hNjVjODJjYzlmYjUuMSZvbmU9JTI1MkYrJTJCJnR3bz10Zy1maW5hbC1kaXJlY3QtYTY1YzgyY2M5ZmI1",
+        "run": "tg-final-direct-a65c82cc9fb5",
+        "target": "/scope/check?run=tg-final-direct-a65c82cc9fb5"
+      }
+    ],
+    "incoming_session_ok": true,
+    "kind": "A",
+    "nexts": 0,
+    "run": "tg-final-direct-a65c82cc9fb5",
+    "seeded": false,
+    "version": 1
+  },
+  "custom": [
+    {
+      "payload1": "%252F+%2B",
+      "payload2": "tg-final-direct-a65c82cc9fb5",
+      "csrf_token": null,
+      "java_version": "26.0.2"
+    },
+    {
+      "payload1": "%252F+%2B",
+      "payload2": "tg-final-direct-a65c82cc9fb5",
+      "csrf_token": "csrf.A.tg-final-direct-a65c82cc9fb5.1",
+      "java_version": "26.0.2"
+    }
+  ],
+  "viewer": {
+    "/scope/entry": {
+      "status": 200,
+      "body_bytes": 153
+    },
+    "/scope/bytes": {
+      "status": 200,
+      "body_bytes": 256
+    },
+    "/scope/empty": {
+      "status": 204,
+      "body_bytes": 0
+    }
+  }
+}

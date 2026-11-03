@@ -296,7 +296,12 @@ class CsrfSwitchTests(SourceCase):
             self.manager.clear()
             self.ui.autoUpdateCookies = cookies
             self.ui.autoUpdateCsrf = csrf
+            config=self.ui._capture_runtime()
+            context,error=self.ui.sessions.register(None,config,False,(self.ui.sessions.scope_policy.origin,'/'))
+            self.assertIsNone(error)
+            self.ui._flow_local.context=context
             self.ui._update_cookies_and_csrf(response('sid=NEW', body='token="TOKEN"'))
+            self.ui._flow_local.context=None
             template = as_bytes('GET /?csrf=c5rfm4rk3r HTTP/1.1\r\nHost: demo\r\nCookie: sid=old\r\n\r\n')
             request = self.ui.build_request_from_template(
                 get_editor_message=lambda: template, helpers=self.ui.helpers,

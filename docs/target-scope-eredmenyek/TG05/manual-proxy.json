@@ -1,0 +1,103 @@
+{
+  "kind": "TG05-real-same-Proxy-message-manual-intercept",
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "run": "tg-manual-192f02deb378",
+  "checks": {
+    "status": true,
+    "one_original": true,
+    "same_message_pair": true,
+    "actions_preserved": true,
+    "no_foreign_state": true,
+    "no_custom": true
+  },
+  "passed": true,
+  "audit": [
+    {
+      "request": true,
+      "before": 1,
+      "line": "GET /scope/manual?run=tg-manual-192f02deb378&q=normal&w=tg-manual-192f02deb378 HTTP/1.1",
+      "run": "tg-manual-192f02deb378",
+      "manual": true,
+      "reference": 59,
+      "elapsed_ms": 0.2025,
+      "after": 1
+    },
+    {
+      "request": false,
+      "before": 1,
+      "line": "GET /scope/manual?run=tg-manual-192f02deb378&q=normal&w=tg-manual-192f02deb378 HTTP/1.1",
+      "run": "tg-manual-192f02deb378",
+      "manual": true,
+      "reference": 59,
+      "elapsed_ms": 0.0552,
+      "after": 1
+    }
+  ],
+  "target": {
+    "actions": 0,
+    "checks": 0,
+    "event_count": 1,
+    "events": [
+      {
+        "body_base64": "",
+        "headers": [
+          [
+            "Host",
+            "127.0.0.1:18811"
+          ],
+          [
+            "X-Bober-TG",
+            "tg-manual-192f02deb378"
+          ],
+          [
+            "Connection",
+            "keep-alive"
+          ]
+        ],
+        "kind": "B",
+        "method": "GET",
+        "monotonic": 7687.0678009,
+        "raw_base64": "R0VUIC9zY29wZS9tYW51YWw/cnVuPXRnLW1hbnVhbC0xOTJmMDJkZWIzNzgmcT1ub3JtYWwmdz10Zy1tYW51YWwtMTkyZjAyZGViMzc4IEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg4MTENClgtQm9iZXItVEc6IHRnLW1hbnVhbC0xOTJmMDJkZWIzNzgNCkNvbm5lY3Rpb246IGtlZXAtYWxpdmUNCg0K",
+        "run": "tg-manual-192f02deb378",
+        "target": "/scope/manual?run=tg-manual-192f02deb378&q=normal&w=tg-manual-192f02deb378"
+      }
+    ],
+    "kind": "B",
+    "nexts": 0,
+    "run": "tg-manual-192f02deb378",
+    "seeded": false,
+    "version": 0
+  },
+  "response": {
+    "status": 200,
+    "headers": [
+      [
+        "Server",
+        "BaseHTTP/0.6 Python/3.13.1"
+      ],
+      [
+        "Date",
+        "Tue, 03 Nov 2026 12:09:34 GMT"
+      ],
+      [
+        "Content-Length",
+        "127"
+      ],
+      [
+        "Connection",
+        "close"
+      ],
+      [
+        "Set-Cookie",
+        "sid=sid.B.tg-manual-192f02deb378.0; Path=/scope"
+      ],
+      [
+        "Content-Type",
+        "text/html"
+      ]
+    ],
+    "body": "<html><input name=\"csrfmiddlewaretoken\" value=\"csrf.B.tg-manual-192f02deb378.0\"> token=\"csrf.B.tg-manual-192f02deb378.0\"</html>",
+    "body_base64": "PGh0bWw+PGlucHV0IG5hbWU9ImNzcmZtaWRkbGV3YXJldG9rZW4iIHZhbHVlPSJjc3JmLkIudGctbWFudWFsLTE5MmYwMmRlYjM3OC4wIj4gdG9rZW49ImNzcmYuQi50Zy1tYW51YWwtMTkyZjAyZGViMzc4LjAiPC9odG1sPg==",
+    "elapsed": 18.114709499999663
+  }
+}

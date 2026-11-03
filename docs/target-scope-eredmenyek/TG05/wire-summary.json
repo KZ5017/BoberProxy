@@ -1,0 +1,520 @@
+{
+  "kind": "TG05-evidence-index-not-a-new-run",
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "passed": true,
+  "cases": [
+    {
+      "name": "TG-S01 empty scope; automation ON; original only",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-S02/S03 passive A capture; B pass-through cannot poison A",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-F baseline normal two-step",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R01 same-origin relative redirect",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-host",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-tls",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R02/R03 neutral stop outside-path",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R02/R03 neutral stop non-http",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R04 Follow OFF; CheckPage ON",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R04 CheckPage OFF returns actual 302; no follow",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-F raw payload percent/plus unchanged in both requests",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-R05 bad-location post-attempt drop/no replay",
+      "passed": true,
+      "evidence_file": "wire-corrected-failures.json"
+    },
+    {
+      "name": "TG-R05 close post-attempt drop/no replay",
+      "passed": true,
+      "evidence_file": "wire-corrected-failures.json"
+    },
+    {
+      "name": "TG-P04 invalid edited CheckPage preflight; zero generated sends",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-S04 A-B-A late original response cannot refill state",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-C01 scope replacement while RT accepted; no CP/replay/publication",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-C01 running custom discarded; waiting workflow never starts custom",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-C02 real final Proxy authorization invalidated after guard",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-F HTTPS positive RT/CheckPage on exact TLS origin",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-U03 Burp Target scope independent",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    },
+    {
+      "name": "TG-C03 bounded mixed-origin/path burst32 then normal recovery",
+      "passed": true,
+      "evidence_file": "wire-first.json"
+    }
+  ],
+  "late_counter_recheck": [
+    {
+      "name": "TG-S01 empty scope; automation ON; original only",
+      "run": "tg-none-88829282c023",
+      "kind": "A",
+      "counters": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-F baseline normal two-step",
+      "run": "tg-normal-2e13d98066af",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-F baseline normal two-step",
+      "run": "tg-normal-2e13d98066af",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-F baseline normal two-step",
+      "run": "tg-normal-2e13d98066af",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R01 same-origin relative redirect",
+      "run": "tg-relative-980c7eda50c5",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        1,
+        3
+      ]
+    },
+    {
+      "name": "TG-R01 same-origin relative redirect",
+      "run": "tg-relative-980c7eda50c5",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R01 same-origin relative redirect",
+      "run": "tg-relative-980c7eda50c5",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign",
+      "run": "tg-foreign-86cd1370c755",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign",
+      "run": "tg-foreign-86cd1370c755",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign",
+      "run": "tg-foreign-86cd1370c755",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-host",
+      "run": "tg-foreign-host-83f3923cc0a2",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-host",
+      "run": "tg-foreign-host-83f3923cc0a2",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-host",
+      "run": "tg-foreign-host-83f3923cc0a2",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-tls",
+      "run": "tg-foreign-tls-27b1659ff66d",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-tls",
+      "run": "tg-foreign-tls-27b1659ff66d",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop foreign-tls",
+      "run": "tg-foreign-tls-27b1659ff66d",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop outside-path",
+      "run": "tg-outside-path-4f2f6dc27601",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop outside-path",
+      "run": "tg-outside-path-4f2f6dc27601",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop outside-path",
+      "run": "tg-outside-path-4f2f6dc27601",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop non-http",
+      "run": "tg-non-http-bad5bcc1b70e",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop non-http",
+      "run": "tg-non-http-bad5bcc1b70e",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R02/R03 neutral stop non-http",
+      "run": "tg-non-http-bad5bcc1b70e",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R04 Follow OFF; CheckPage ON",
+      "run": "tg-relative-2d7c792215ce",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R04 Follow OFF; CheckPage ON",
+      "run": "tg-relative-2d7c792215ce",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R04 Follow OFF; CheckPage ON",
+      "run": "tg-relative-2d7c792215ce",
+      "kind": "T",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-R04 CheckPage OFF returns actual 302; no follow",
+      "run": "tg-rt-only-71919c55e1a8",
+      "kind": "A",
+      "counters": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-F raw payload percent/plus unchanged in both requests",
+      "run": "tg-raw-028223122a87",
+      "kind": "A",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "TG-R05 bad-location post-attempt drop/no replay",
+      "run": "tg-bad-location-8d0f63761d5e",
+      "kind": "A",
+      "counters": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-R05 close post-attempt drop/no replay",
+      "run": "tg-close-50d63eafd3d5",
+      "kind": "A",
+      "counters": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-P04 invalid edited CheckPage preflight; zero generated sends",
+      "run": "tg-cp-path-deny-9cbbb3135eff",
+      "kind": "A",
+      "counters": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-S04 A-B-A late original response cannot refill state",
+      "run": "tg-late-passive-26de1fe81881",
+      "kind": "A",
+      "counters": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-C01 scope replacement while RT accepted; no CP/replay/publication",
+      "run": "tg-mid-rt-9c298f9ab1bb",
+      "kind": "A",
+      "counters": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-C02 real final Proxy authorization invalidated after guard",
+      "run": "tg-handoff-1bb99cbb40d8",
+      "kind": "A",
+      "counters": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TG-F HTTPS positive RT/CheckPage on exact TLS origin",
+      "run": "tg-normal-18573e00b954",
+      "kind": "A",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-F HTTPS positive RT/CheckPage on exact TLS origin",
+      "run": "tg-normal-18573e00b954",
+      "kind": "B",
+      "counters": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TG-F HTTPS positive RT/CheckPage on exact TLS origin",
+      "run": "tg-normal-18573e00b954",
+      "kind": "T",
+      "counters": [
+        1,
+        1,
+        0,
+        2
+      ]
+    }
+  ],
+  "tracking_drained": true,
+  "manual_setup": {
+    "scope": "http://127.0.0.1:18810",
+    "proxy": true
+  }
+}

@@ -156,6 +156,202 @@ def _custom_value(value, helpers=None):
     return "" if value is None else _wire_text(value, helpers)
 
 
+class ScopeError(ValueError):
+    """Fixed scope diagnostic without echoing request/session values."""
+    def __init__(self, code="SCOPE_INVALID"):
+        self.code = code
+        ValueError.__init__(self, code)
+
+
+def _scope_text(value):
+    try:
+        return unicode(value)
+    except NameError:
+        return value.decode("ascii") if isinstance(value, bytes) else str(value)
+
+
+def _scope_host(value):
+    host = _scope_text(value)
+    if host.startswith("[") and host.endswith("]"):
+        host = host[1:-1]
+    if not host or len(host)>253 or re.search(r"[\s\x00-\x20\x7f/@?#\\%]", host) or host.endswith("."):
+        raise ScopeError()
+    if ":" in host:
+        if host.count("::") > 1 or ":::" in host:
+            raise ScopeError()
+        if "." in host:
+            tail = host.rsplit(":", 1)[-1]
+            key, unused = _scope_host(tail)
+            if key[0] != "ipv4":
+                raise ScopeError()
+            parts = key[1]
+            host = host[:-len(tail)] + "%x:%x" % (parts[0]*256+parts[1], parts[2]*256+parts[3])
+        compressed = "::" in host
+        if compressed:
+            left, right = host.split("::")
+            left, right = left.split(":") if left else [], right.split(":") if right else []
+            missing = 8-len(left)-len(right)
+            if missing < 1:
+                raise ScopeError()
+            words = left + ["0"]*missing + right
+        else:
+            words = host.split(":")
+        if len(words) != 8 or any(not re.match(r"^[0-9a-fA-F]{1,4}$", part) for part in words):
+            raise ScopeError()
+        numeric = tuple(int(part,16) for part in words)
+        return ("ipv6", numeric), ":".join("%x" % part for part in numeric)
+    if re.match(r"^[0-9.]+$", host):
+        parts = host.split(".")
+        if len(parts) != 4 or any(not part or len(part)>1 and part.startswith("0") for part in parts):
+            raise ScopeError()
+        numeric = tuple(int(part) for part in parts)
+        if any(part>255 for part in numeric):
+            raise ScopeError()
+        return ("ipv4",numeric), ".".join(str(part) for part in numeric)
+    try:
+        host = host.encode("idna").decode("ascii").lower()
+    except (UnicodeError, ValueError):
+        raise ScopeError()
+    if len(host)>253 or any(not re.match(r"^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$", part) for part in host.split(".")):
+        raise ScopeError()
+    return ("dns",host), host
+
+
+def _scope_authority(value, scheme):
+    value = _scope_text(value)
+    if re.search(r"[\s\x00-\x20\x7f/@?#\\%]",value):
+        raise ScopeError()
+    if value.startswith("["):
+        end = value.find("]")
+        if end<0:
+            raise ScopeError()
+        host, suffix = value[1:end], value[end+1:]
+        if ":" not in host or suffix and not suffix.startswith(":"):
+            raise ScopeError()
+        port = suffix[1:] if suffix else None
+    else:
+        if value.count(":")>1:
+            raise ScopeError()
+        host, sep, port = value.partition(":")
+        port = port if sep else None
+    if port is not None and (len(port)>5 or not re.match(r"^[0-9]+$",port)):
+        raise ScopeError()
+    port = int(port) if port is not None else (443 if scheme=="https" else 80)
+    if not 1<=port<=65535:
+        raise ScopeError()
+    key, display = _scope_host(host)
+    return (scheme,key,port), display
+
+
+def _scope_service(service):
+    protocol = _scope_text(service.getProtocol()).lower()
+    if protocol not in ("http","https"):
+        raise ScopeError("TARGET_SCOPE_DENIED")
+    return service.getHost(), int(service.getPort()), protocol=="https"
+
+
+def _scope_path(value, strict=False):
+    path = _scope_text(value or "/")
+    if not path.startswith("/") or re.search(r"[\x00-\x20\x7f\\?#]",path):
+        raise ScopeError("TARGET_SCOPE_DENIED")
+    if re.search(r"%(?![0-9a-fA-F]{2})",path):
+        raise ScopeError("TARGET_SCOPE_DENIED")
+    if strict and ("//" in path or re.search(r"%(?:2f|5c|25)",path,re.I)):
+        raise ScopeError("TARGET_SCOPE_DENIED")
+    def decoded(match):
+        char = chr(int(match.group(1),16))
+        return char if re.match(r"[A-Za-z0-9._~-]",char) else "%"+match.group(1).upper()
+    path = re.sub(r"%([0-9a-fA-F]{2})",decoded,path)
+    if strict and any(part in (".","..") for part in path.split("/")):
+        raise ScopeError("TARGET_SCOPE_DENIED")
+    return path
+
+
+class TargetScopePolicy(object):
+    """One immutable origin and optional segment-boundary path, without DNS/I/O."""
+    __slots__ = ("origin", "host", "prefix", "label")
+    def __init__(self, origin, prefix=""):
+        origin = _scope_text(origin).strip()
+        if re.search(r"[\s\x00-\x20\x7f\\]",origin):
+            raise ScopeError()
+        parsed = urlparse(origin)
+        scheme = parsed.scheme.lower()
+        if scheme not in ("http","https") or not parsed.netloc or parsed.path not in ("","/") or parsed.params or parsed.query or parsed.fragment or "?" in origin or "#" in origin:
+            raise ScopeError()
+        key, host = _scope_authority(parsed.netloc,scheme)
+        prefix = _scope_path(_scope_text(prefix).strip() or "/",True).rstrip("/") or "/"
+        authority = "["+host+"]" if ":" in host else host
+        if key[2] != (443 if scheme=="https" else 80):
+            authority += ":%d" % key[2]
+        object.__setattr__(self,"origin",key)
+        object.__setattr__(self,"host",host)
+        object.__setattr__(self,"prefix",prefix)
+        object.__setattr__(self,"label",scheme+"://"+authority+(prefix if prefix!="/" else ""))
+    def __setattr__(self, name, value):
+        raise AttributeError("Target scope is immutable")
+    def equivalent(self, other):
+        return other is not None and self.origin==other.origin and self.prefix==other.prefix
+    def allows(self, host, port, https, path):
+        try:
+            scheme = "https" if https else "http"
+            if (scheme,_scope_host(host)[0],int(port)) != self.origin:
+                return False
+            path = _scope_path(path,self.prefix!="/")
+            return self.prefix=="/" or path==self.prefix or path.startswith(self.prefix+"/")
+        except (ScopeError,ValueError,TypeError,UnicodeError):
+            return False
+    def contains(self, provenance):
+        if not provenance or provenance[0] != self.origin:
+            return False
+        try:
+            path = _scope_path(provenance[1],self.prefix!="/")
+            return self.prefix=="/" or path==self.prefix or path.startswith(self.prefix+"/")
+        except (ValueError, TypeError):
+            return False
+
+    def inspect(self, host, port, https, request, helpers=None, preflight=False):
+        """Return proven origin/path or raise; never alter the wire request."""
+        scheme = "https" if https else "http"
+        service = (scheme,_scope_host(host)[0],int(port))
+        if service != self.origin:
+            raise ScopeError("TARGET_SCOPE_DENIED")
+        text = _wire_text(request,helpers)
+        head = text.split("\r\n\r\n",1)[0]
+        lines = head.split("\r\n")
+        parts = lines[0].split() if lines else []
+        if len(parts)!=3 or not parts[2].startswith("HTTP/"):
+            raise ScopeError("TARGET_SCOPE_DENIED")
+        target = parts[1]
+        if target.startswith("/") and not target.startswith("//"):
+            path = target.split("?",1)[0]
+            if "#" in target:
+                raise ScopeError("TARGET_SCOPE_DENIED")
+        else:
+            parsed = urlparse(target)
+            if parsed.scheme.lower()!=scheme or not parsed.netloc or parsed.fragment or "#" in target:
+                raise ScopeError("TARGET_SCOPE_DENIED")
+            if _scope_authority(parsed.netloc,scheme)[0]!=service:
+                raise ScopeError("TEMPLATE_AUTHORITY_MISMATCH")
+            path = (parsed.path or "/")+(";"+parsed.params if parsed.params else "")
+        hosts = []
+        for line in lines[1:]:
+            if not line or line[0] in " \t" or ":" not in line:
+                raise ScopeError("TEMPLATE_AUTHORITY_MISMATCH")
+            name,value = line.split(":",1)
+            if re.search(r"[\x00-\x08\x0a-\x1f\x7f]",value):
+                raise ScopeError("TEMPLATE_AUTHORITY_MISMATCH")
+            if not re.match(r"^[!#$%&'*+.^_`|~0-9A-Za-z-]+$",name):
+                raise ScopeError("TEMPLATE_AUTHORITY_MISMATCH")
+            if name.lower()=="host":
+                hosts.append(value.strip(" \t"))
+        if len(hosts)!=1 or any(marker in hosts[0] for marker in (TEMPLATE_PAYLOAD_MARKER_1,TEMPLATE_PAYLOAD_MARKER_2,TEMPLATE_CSRF_MARKER)) or _scope_authority(hosts[0],scheme)[0]!=service:
+            raise ScopeError("TEMPLATE_AUTHORITY_MISMATCH")
+        dynamic = preflight and any(marker in path for marker in (TEMPLATE_PAYLOAD_MARKER_1,TEMPLATE_PAYLOAD_MARKER_2,TEMPLATE_CSRF_MARKER))
+        if not dynamic and not self.allows(host,port,https,path):
+            raise ScopeError("TARGET_SCOPE_DENIED")
+        return (service,_scope_path(path, self.prefix!="/" and not dynamic))
+
+
 def _extract_raw_payloads(request_text, name1, name2):
     """Keep the historical query/form, nonempty and equal-name priorities."""
     payload1, payload2 = "", ""
@@ -195,7 +391,8 @@ def _monotonic_ms():
 
 class RedirectResult(object):
     """Keep terminal redirect errors separate from a usable final response."""
-    def __init__(self, response_bytes, hops=0, error_code=None, error_type=None):
+    def __init__(self, response_bytes, hops=0, error_code=None, error_type=None, stop_reason=None):
+        self.stop_reason = stop_reason
         self.response_bytes = response_bytes
         self.hops = hops
         self.error_code = error_code
@@ -1013,6 +1210,9 @@ class SessionContext(object):
         self.cancelled = False
         self.cookies = self.csrf = None
         self.any_sent = False
+        selection = config.get("scope") or (None, -1)
+        self.scope_policy, self.scope_generation = selection
+        self.provenance = self.initial_provenance = self.response_provenance = None
 
 
 class SessionCoordinator(object):
@@ -1038,6 +1238,55 @@ class SessionCoordinator(object):
         self.max_records = 4096
         self.max_waiters = 32
         self.record_ttl_ms = 120000
+        self.scope_policy, self.scope_generation = None, 0
+
+    def selection(self):
+        with self.condition:
+            return self.scope_policy, self.scope_generation
+
+    def scope_matches(self, selection):
+        with self.condition:
+            return bool(selection and self.scope_policy is not None and
+                        selection[0] is self.scope_policy and selection[1] == self.scope_generation)
+
+    def replace_scope(self, policy):
+        with self.condition:
+            if self.closed:
+                return False
+            if self.scope_policy is policy or (policy is not None and policy.equivalent(self.scope_policy)):
+                return False
+            self.scope_generation += 1
+            self.epoch += 1
+            for context in list(self.records.values()) + self.waiting + ([self.owner] if self.owner else []):
+                context.cancelled = True
+            self.records.clear()
+            self.owner = None
+            self.cookies.clear()
+            self.csrf.clear()
+            self.cookie_sequences, self.token_sequence = {}, 0
+            self.scope_policy = policy
+            self.condition.notifyAll()
+            return True
+
+    def _scope_current(self, context):
+        return (context is not None and not self.closed and not context.cancelled and
+                self.scope_policy is not None and context.scope_policy is self.scope_policy and
+                context.scope_generation == self.scope_generation)
+
+    def authorize(self, context, provenance, handoff=None):
+        # This bounded authorization/handoff and scope replacement share a lock.
+        # Network calls never hold it; an already authorized old-origin send may finish.
+        with self.condition:
+            if not self.valid(context) or self.owner is not context or not self.scope_policy.contains(provenance):
+                return False
+            if handoff is not None:
+                handoff()
+                context.phase = "handoff"
+                context.provenance = provenance
+                context.response_provenance = None
+            else:
+                context.response_provenance = provenance
+            return True
 
     def _prune_locked(self):
         now = _monotonic_ms()
@@ -1047,16 +1296,21 @@ class SessionCoordinator(object):
             if now - context.created >= self.record_ttl_ms:
                 self.records.pop(key, None)
 
-    def register(self, key, config, matched):
+    def register(self, key, config, matched, provenance=None):
         with self.condition:
             if self.closed:
                 return None, "SESSION_CLOSED"
+            if not self.scope_matches(config.get("scope")):
+                return None, "SCOPE_NOT_CONFIGURED" if self.scope_policy is None else "SCOPE_CHANGED"
+            if not self.scope_policy.contains(provenance):
+                return None, "TARGET_SCOPE_DENIED"
             if key is not None and key in self.records:
                 return self.records[key], "EXISTING"
             self._prune_locked()
             if key is not None and len(self.records) >= self.max_records:
                 return None, "SESSION_TRACKING_FULL"
             context = SessionContext(key, config, self.epoch, matched)
+            context.provenance = context.initial_provenance = provenance
             if key is not None:
                 self.records[key] = context
             return context, None
@@ -1065,6 +1319,8 @@ class SessionCoordinator(object):
         with self.condition:
             if self.closed:
                 return "SESSION_CLOSED"
+            if not self._scope_current(context):
+                return "SCOPE_CHANGED"
             if len(self.waiting) >= self.max_waiters:
                 return "SESSION_BUSY"
             self.waiting.append(context)
@@ -1072,6 +1328,8 @@ class SessionCoordinator(object):
                 while self.owner is not None or self.waiting[0] is not context:
                     if self.closed:
                         return "SESSION_CLOSED"
+                    if not self._scope_current(context):
+                        return "SCOPE_CHANGED"
                     now = _monotonic_ms()
                     if self.owner is not None and now >= self.owner.deadline:
                         # Unknown delivery is not proof that the old CP stopped.
@@ -1087,6 +1345,8 @@ class SessionCoordinator(object):
                     return "SESSION_CLOSED"
                 if _monotonic_ms() >= deadline:
                     return "SESSION_BUSY"
+                if not self._scope_current(context):
+                    return "SCOPE_CHANGED"
                 context.epoch = self.epoch
                 context.deadline = deadline
                 context.cookies = _session_cookie_copy(self.cookies)
@@ -1100,7 +1360,7 @@ class SessionCoordinator(object):
 
     def valid(self, context):
         with self.condition:
-            return not self.closed and not context.cancelled and context.epoch == self.epoch
+            return self._scope_current(context) and context.epoch == self.epoch
 
     def commit(self, context):
         with self.condition:
@@ -1118,6 +1378,8 @@ class SessionCoordinator(object):
                 context.phase = "passive"
                 context.config = None
                 context.cookies = context.csrf = None
+                context.provenance = context.initial_provenance
+                context.response_provenance = None
             elif context.key is not None:
                 self.records.pop(context.key, None)
 
@@ -1147,8 +1409,10 @@ class SessionCoordinator(object):
     def update(self, context, response):
         # No regex or response parsing occurs while holding the ownership lock.
         with self.condition:
-            if self.closed or context.cancelled or context.epoch != self.epoch:
+            if not self.valid(context):
                 return "SESSION_STALE_RESPONSE", None
+            if not self.scope_policy.contains(context.response_provenance or context.provenance):
+                return "SCOPE_RESPONSE_IGNORED", None
             if not context.cookies_enabled and not context.csrf_enabled:
                 return None, None
             self.sequence += 1
@@ -1167,7 +1431,7 @@ class SessionCoordinator(object):
             for name in names:
                 delta.append((name, cookies.jar.get(name), cookies.expires.get(name), name in cookies.deleted))
         with self.condition:
-            if self.closed or context.cancelled or context.epoch != self.epoch:
+            if not self.valid(context):
                 return "SESSION_STALE_RESPONSE", None
             with self.cookies.lock:
                 for name, value, expiry, deleted in delta:
@@ -1192,13 +1456,20 @@ class SessionCoordinator(object):
                     self.csrf._status, self.csrf._detail = "UPDATED", None
         return csrf.get_status() if context.csrf_enabled else (None, None)
 
-    def response(self, key, response):
+    def response(self, key, response, service=None, request=None):
         with self.condition:
             context = self.records.pop(key, None)
             if context is None:
-                self.untracked_responses += 1
-                return "SESSION_RESPONSE_UNTRACKED", None
+                return "SCOPE_RESPONSE_IGNORED", None
         try:
+            if service is not None:
+                try:
+                    host,port,https = _scope_service(service)
+                    actual = context.scope_policy.inspect(host,port,https,request)
+                    if actual != context.provenance:
+                        return "SCOPE_RESPONSE_IGNORED", None
+                except (Exception, JavaThrowable):
+                    return "SCOPE_RESPONSE_IGNORED", None
             return self.update(context, response) if response is not None else (None, None)
         finally:
             self.finish(context)
@@ -1332,9 +1603,10 @@ def _start_custom_worker(target, gate_name=None):
 
 
 class CustomJob(object):
-    def __init__(self, code, args, deadline):
+    def __init__(self, code, args, deadline, validity=None):
         self.code, self.args, self.deadline = code, args, deadline
         self.done, self.timed_out, self.result = False, False, None
+        self.validity = validity
 
 
 class CustomExecutor(object):
@@ -1353,6 +1625,11 @@ class CustomExecutor(object):
             self.condition.notifyAll()
 
     def _poll_locked(self, job):
+        if not job.done and job.validity is not None and not job.validity():
+            self._finish_locked(job, _custom_failure("CUSTOM_CANCELLED", "workflow scope/state changed"))
+            if self.pending is job:
+                self.pending = None
+                job.code, job.args = None, ()
         if not job.done and _monotonic_ms() >= job.deadline:
             job.timed_out = True
             self._finish_locked(job, _custom_failure("CUSTOM_TIMEOUT", "timeout"))
@@ -1361,7 +1638,7 @@ class CustomExecutor(object):
                 job.code, job.args = None, ()
         return job.result if job.done else None
 
-    def submit(self, code, timeout_ms, args):
+    def submit(self, code, timeout_ms, args, validity=None):
         # Deadline precedes worker acquisition, queueing and compilation.
         started = _monotonic_ms()
         try:
@@ -1370,8 +1647,10 @@ class CustomExecutor(object):
             job = CustomJob(None, (), started)
             job.done, job.result = True, _custom_failure("CUSTOM_CONFIG_ERROR", str(error))
             return job
-        job = CustomJob(code, args, started + timeout_ms)
+        job = CustomJob(code, args, started + timeout_ms, validity)
         with self.condition:
+            if self._poll_locked(job) is not None:
+                return job
             if self.closed:
                 self._finish_locked(job, _custom_failure("CUSTOM_CLOSED", "extension unloaded"))
                 return job
@@ -1405,7 +1684,8 @@ class CustomExecutor(object):
     def wait(self, job):
         with self.condition:
             while self._poll_locked(job) is None:
-                self.condition.wait(max(0.001, (job.deadline - _monotonic_ms()) / 1000.0))
+                remaining = max(0.001, (job.deadline - _monotonic_ms()) / 1000.0)
+                self.condition.wait(min(0.05,remaining) if job.validity is not None else remaining)
             return job.result
 
     def _cancelled(self, job):
@@ -2017,6 +2297,79 @@ class SidebarPanel(swing.JPanel, swing.Scrollable):
         extent = visible.height if orientation == swing.SwingConstants.VERTICAL else visible.width
         return max(1, extent - self.getScrollableUnitIncrement(visible, orientation, direction))
 
+
+
+class TargetScopeDialog(object):
+    def __init__(self, parent):
+        from java.awt.event import WindowAdapter
+        self.parent = parent
+        self.dialog = swing.JDialog()
+        self.dialog.setTitle("BoberProxy scope")
+        self.dialog.setModal(True)
+        self.dialog.setDefaultCloseOperation(swing.JDialog.DISPOSE_ON_CLOSE)
+        self.origin = swing.JTextField(40)
+        self.prefix = swing.JTextField(40)
+        policy = parent.sessions.selection()[0]
+        if policy is not None:
+            self.origin.setText(policy.origin[0]+"://"+_redirect_host_header(policy.host,policy.origin[2],policy.origin[0]=="https"))
+            self.prefix.setText("" if policy.prefix=="/" else policy.prefix)
+        panel = swing.JPanel(GridBagLayout())
+        panel.setBorder(swing.BorderFactory.createEmptyBorder(10,10,10,10))
+        for row, (caption, field) in enumerate((("Target origin",self.origin),("Path prefix (optional)",self.prefix))):
+            label = swing.JLabel(caption)
+            label.setLabelFor(field)
+            c = GridBagConstraints()
+            c.gridx,c.gridy,c.insets = 0,row,Insets(4,4,4,8)
+            c.anchor = GridBagConstraints.WEST
+            panel.add(label,c)
+            c = GridBagConstraints()
+            c.gridx,c.gridy,c.weightx,c.fill,c.insets = 1,row,1.0,GridBagConstraints.HORIZONTAL,Insets(4,4,4,4)
+            panel.add(field,c)
+        self.error = swing.JLabel(" ")
+        self.error.setForeground(Color(180,50,50))
+        rows = [swing.JLabel("One HTTP(S) origin; independent of Burp target scope."),
+                swing.JLabel("Changing scope clears cookies/CSRF and switches template injection off."),self.error]
+        for row, item in enumerate(rows,2):
+            c = GridBagConstraints()
+            c.gridx,c.gridy,c.gridwidth,c.insets = 0,row,2,Insets(5,4,5,4)
+            c.anchor = GridBagConstraints.WEST
+            panel.add(item,c)
+        buttons = swing.JPanel(FlowLayout(FlowLayout.RIGHT))
+        self.applyBtn = swing.JButton("Apply",actionPerformed=self.apply)
+        self.clearBtn = swing.JButton("Clear scope",actionPerformed=self.clear)
+        self.clearBtn.setEnabled(policy is not None)
+        buttons.add(self.applyBtn)
+        buttons.add(self.clearBtn)
+        buttons.add(swing.JButton("Cancel",actionPerformed=lambda event:self.dialog.dispose()))
+        c = GridBagConstraints()
+        c.gridx,c.gridy,c.gridwidth,c.fill = 0,5,2,GridBagConstraints.HORIZONTAL
+        panel.add(buttons,c)
+        self.dialog.setContentPane(panel)
+        self.dialog.getRootPane().setDefaultButton(self.applyBtn)
+        owner = self
+        class Closing(WindowAdapter):
+            def windowClosed(self, event):
+                if parent._scope_dialog is owner:
+                    parent._scope_dialog = None
+        self.dialog.addWindowListener(Closing())
+        self.dialog.pack()
+        self.dialog.setLocationRelativeTo(parent._component)
+    def apply(self, event=None):
+        try:
+            TargetScopePolicy(self.origin.getText())
+        except (ValueError,UnicodeError):
+            self.error.setText("Target origin: enter http(s)://host[:port], without credentials or a path.")
+            return
+        try:
+            policy = TargetScopePolicy(self.origin.getText(),self.prefix.getText())
+        except (ValueError,UnicodeError):
+            self.error.setText("Path prefix: enter a plain absolute path without query or ambiguous segments.")
+            return
+        self.parent._apply_scope(policy)
+        self.dialog.dispose()
+    def clear(self, event=None):
+        self.parent._apply_scope(None)
+        self.dialog.dispose()
 
 
 class LoggerUI(ITab):
@@ -2716,7 +3069,12 @@ class LoggerUI(ITab):
         content = SidebarPanel()
         self.proxyModeBtn = swing.JToggleButton("Injecting proxy from templates", False,
             actionPerformed=lambda e: self._on_proxy_toggle())
-        sections = [self._controls_row([self.proxyModeBtn], stretch=0), self._build_logging_panel(),
+        self.proxyModeBtn.setEnabled(False)
+        self.proxyModeBtn.setToolTipText("Configure BoberProxy scope before enabling template injection.")
+        self.scopeBtn = swing.JButton("BoberProxy scope",actionPerformed=self._open_scope_dialog)
+        self.scopeBtn.setToolTipText("Not configured")
+        self._scope_dialog = None
+        sections = [self._controls_buttons([self.scopeBtn,self.proxyModeBtn]), self._build_logging_panel(),
                     self._build_session_panel(), self._build_custom_panel(), self._build_output_panel()]
         for row, section in enumerate(sections):
             c = GridBagConstraints()
@@ -2774,6 +3132,29 @@ class LoggerUI(ITab):
             _print_diagnostic("[BoberProxy] STATUS_REPORT_FAILED", failure)
 
 
+    def _open_scope_dialog(self, event=None):
+        if self._custom_ui_closed:
+            return
+        if self._scope_dialog is None:
+            self._scope_dialog = TargetScopeDialog(self)
+        self._scope_dialog.dialog.setVisible(True)
+        self._scope_dialog = None
+
+    def _apply_scope(self, policy):
+        if self._custom_ui_closed:
+            return
+        changed = self.sessions.replace_scope(policy)
+        if changed:
+            self.proxyModeBtn.setSelected(False)
+            self._proxy_mode_active = False
+            self._update_autofollow_enabled_on_proxy()
+        self.proxyModeBtn.setEnabled(policy is not None)
+        self.scopeBtn.setToolTipText(policy.label if policy is not None else "Not configured")
+        self._publish_runtime()
+        self.set_status("BoberProxy scope: " + (policy.label if policy is not None else "not configured"))
+        if changed:
+            self._log("Scope changed; cookies/CSRF cleared; template injection OFF.")
+
     def _on_proxy_toggle(self):
         """
         Toggle the proxy-mode processing flag. When enabled, the extension will
@@ -2781,7 +3162,20 @@ class LoggerUI(ITab):
         """
         try:
             self._proxy_mode_active = bool(self.proxyModeBtn.isSelected())
-
+            if self._proxy_mode_active:
+                policy = self.sessions.selection()[0]
+                try:
+                    if policy is None:
+                        raise ScopeError("SCOPE_NOT_CONFIGURED")
+                    templates = [self.reqTemplateEditor.getMessage()]
+                    if self.useCheckPageChk.isSelected():
+                        templates.append(self.checkPageEditor.getMessage())
+                    for template in templates:
+                        policy.inspect(policy.host,policy.origin[2],policy.origin[0]=="https",template,self.helpers,True)
+                except (ValueError,TypeError,JavaException) as error:
+                    self.proxyModeBtn.setSelected(False)
+                    self._proxy_mode_active = False
+                    self._log(getattr(error,"code","TEMPLATE_AUTHORITY_MISMATCH"))
             self._update_autofollow_enabled_on_proxy()
 
             self._log("Proxy processing toggled: %s" % ("ON" if self._proxy_mode_active else "OFF"))
@@ -3550,6 +3944,10 @@ class LoggerUI(ITab):
         self._log_writer.close()
         self._log_io.close()
         def close_timer():
+            dialog = getattr(self,"_scope_dialog",None)
+            if dialog is not None:
+                dialog.dialog.dispose()
+                self._scope_dialog = None
             if getattr(self, "_filter_dialog", None) is not None:
                 self._filter_dialog._on_cancel()
             if getattr(self, "_filter_timer", None) is not None:
@@ -3588,8 +3986,10 @@ class LoggerUI(ITab):
         if snapshot is None:
             snapshot = self._capture_custom_settings()
         code = snapshot[1] if snapshot[0] else getattr(self, "default_code_text", "")
+        context = getattr(self._flow_local, "context", None)
+        validity = (lambda: self.sessions.valid(context)) if context is not None else None
         job = self._custom_executor.submit(code, timeout_ms,
-                                           (incoming_payload1, incoming_payload2, incoming_csrf))
+                                           (incoming_payload1, incoming_payload2, incoming_csrf), validity)
         return self._custom_executor.wait(job)
 
     def _update_cookies_and_csrf(self, response_bytes):
@@ -3597,20 +3997,23 @@ class LoggerUI(ITab):
             return
         context = getattr(self._flow_local, "context", None)
         if context is None:
-            context, error = self.sessions.register(None, self._runtime_for_flow(), False)
-            if error:
-                return
+            return  # No response without request provenance can seed state.
         status, detail = self.sessions.update(context, response_bytes)
         if status in ("REGEX_INVALID", "REGEX_NO_CAPTURE", "DECODE_ERROR"):
             self._log("CSRF %s: %s" % (status, detail or ""))
 
     def _send_http_request(self, host, port, https, request_bytes):
         context = getattr(self._flow_local, "context", None)
-        if context is not None and not self.sessions.valid(context):
-            return HttpSendResult(error_code="SESSION_CLEARED")
+        try:
+            proof = self._scope_request(self._runtime_for_flow(),host,port,https,request_bytes)
+        except (ScopeError, ValueError, TypeError) as error:
+            return HttpSendResult(error_code=getattr(error,"code","TARGET_SCOPE_DENIED"))
+        if not self.sessions.authorize(context,proof):
+            return HttpSendResult(error_code="SCOPE_CHANGED")
         if self._http_sender is None:
             self._http_sender = HttpRequestSender(self.callbacks, self.helpers)
         result = self._http_sender.send(host, port, https, request_bytes)
+        result.provenance = proof
         if context is not None:
             context.any_sent = context.any_sent or result.attempted
         return result
@@ -3633,20 +4036,28 @@ class LoggerUI(ITab):
                                 max_redirects=10, deadline_ms=None):
         previous = getattr(self._flow_local, "config", None)
         previous_context = getattr(self._flow_local, "context", None)
+        owned = None
         if previous is None:
             self._flow_local.config = self._capture_runtime()
-        if previous_context is None:
-            # Standalone callers also freeze the epoch and local stores for the
-            # entire chain. Production workflows already own a managed context.
-            with self.sessions.condition:
-                context = SessionContext(None, self._flow_local.config, self.sessions.epoch, False)
-                context.cookies = _session_cookie_copy(self.cookieManager)
-                context.csrf = _session_csrf_copy(self.csrfManager, context.pattern_state)
-            self._flow_local.context = context
         try:
+            proof = self._scope_request(self._runtime_for_flow(),initial_target_host,
+                initial_target_port,initial_https,initial_request_bytes)
+            if previous_context is None:
+                owned, error = self.sessions.register(None,self._runtime_for_flow(),True,proof)
+                if error:
+                    return RedirectResult(initial_response_bytes,error_code=error)
+                error = self.sessions.begin(owned,deadline_ms or (_monotonic_ms()+WORKFLOW_TIMEOUT_MS))
+                if error:
+                    return RedirectResult(initial_response_bytes,error_code=error)
+                self._flow_local.context = owned
+            self._flow_local.context.response_provenance = proof
             return self._follow_redirects_frozen(initial_request_bytes, initial_response_bytes,
                 initial_target_host, initial_target_port, initial_https, max_redirects, deadline_ms)
+        except ScopeError as error:
+            return RedirectResult(initial_response_bytes,error_code=error.code)
         finally:
+            if owned is not None:
+                self.sessions.finish(owned)
             self._flow_local.config = previous
             self._flow_local.context = previous_context
 
@@ -3686,9 +4097,6 @@ class LoggerUI(ITab):
                         break
                 if not (300 <= status < 400) or not location:
                     return RedirectResult(current_response, hops)
-                if hops >= int(max_redirects):
-                    return RedirectResult(current_response, hops, "REDIRECT_LIMIT")
-
                 request_text = _wire_text(current_request, self.helpers)
                 base, method = _redirect_base(request_text, host, port, https)
                 current_url = urlparse(base)
@@ -3697,9 +4105,17 @@ class LoggerUI(ITab):
                     current_target += "?" + current_url.query
                 visited.add((method, bool(https), host.lower().strip("[]"), int(port), current_target))
                 try:
+                    resolved = urlparse(urljoin(base,location))
+                    if resolved.scheme and resolved.scheme.lower() not in ("http","https"):
+                        return RedirectResult(current_response,hops,stop_reason="OUT_OF_SCOPE")
                     new_host, new_port, new_https, target = _redirect_destination(base, location)
                 except (Exception, JavaException) as error:
                     return RedirectResult(current_response, hops, "REDIRECT_INVALID_LOCATION", type(error).__name__)
+                policy = config.get("scope")[0]
+                if not policy.allows(new_host,new_port,new_https,target.split("?",1)[0]):
+                    return RedirectResult(current_response,hops,stop_reason="OUT_OF_SCOPE")
+                if hops >= int(max_redirects):
+                    return RedirectResult(current_response,hops,"REDIRECT_LIMIT")
                 key = ("GET", new_https, new_host.lower().strip("[]"), new_port, target)
                 if key in visited:
                     return RedirectResult(current_response, hops, "REDIRECT_LOOP")
@@ -3895,7 +4311,8 @@ class LoggerUI(ITab):
         auto = getattr(self, "autoFollowRTChk", None)
         statuses = tuple(sorted(int(label[0]) for label, field in getattr(self, "statusChecks", {}).items()
                                 if field.isSelected()))
-        values = dict(proxy=selected("proxyModeBtn", getattr(self, "_proxy_mode_active", False)),
+        values = dict(scope=self.sessions.selection(),
+                    proxy=selected("proxyModeBtn", getattr(self, "_proxy_mode_active", False)),
                     use_cp=selected("useCheckPageChk", getattr(self, "useCheckPageTemplate", False)),
                     follow=bool(auto and auto.isSelected() and auto.isEnabled()),
                     payload1=text("payloadParamField", "q"), payload2=text("payloadParam2Field", "w"),
@@ -3938,6 +4355,14 @@ class LoggerUI(ITab):
         # legacy logic fixtures intentionally bypass construction/EDT publishing.
         return RuntimeConfig(self._collect_runtime_values(), 0)
 
+    def _scope_request(self, config, host, port, https, request, preflight=False):
+        selection = config.get("scope")
+        if not selection or selection[0] is None:
+            raise ScopeError("SCOPE_NOT_CONFIGURED")
+        if not self.sessions.scope_matches(selection):
+            raise ScopeError("SCOPE_CHANGED")
+        return selection[0].inspect(host,port,https,request,self.helpers,preflight)
+
     def _runtime_for_flow(self):
         return getattr(self._flow_local, "config", None) or self._capture_runtime()
 
@@ -3962,6 +4387,14 @@ class LoggerUI(ITab):
         returns a tuple or resends an internally accepted Request Template.
         """
         config = runtime_config or self._capture_runtime()
+        try:
+            if not config.get("proxy"):
+                return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH)
+            proof = self._scope_request(config,orig_host,orig_port,orig_https,raw_request_bytes)
+        except (ScopeError,TypeError,ValueError):
+            if session_context is not None:
+                self.sessions.finish(session_context)
+            return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH)
         # Unmatched requests must not queue behind a managed exchange.
         if not raw_request_bytes:
             return ProxyWorkflowResult(ProxyWorkflowResult.NO_MATCH)
@@ -3975,7 +4408,7 @@ class LoggerUI(ITab):
         deadline = _monotonic_ms() + WORKFLOW_TIMEOUT_MS
         context = session_context
         if context is None:
-            context, error = self.sessions.register(None, config, True)
+            context, error = self.sessions.register(None, config, True, proof)
             if error:
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id, error_code=error)
         error = self.sessions.begin(context, deadline)
@@ -3988,9 +4421,10 @@ class LoggerUI(ITab):
         self._flow_local.workflow_id = workflow_id
         try:
             result = self._prepare_proxy_request(raw_request_bytes, orig_host, orig_port, orig_https)
-            if not self.sessions.valid(context) and result.status == ProxyWorkflowResult.READY:
+            if not self.sessions.valid(context):
+                code = "SESSION_CLEARED" if self.sessions.scope_matches((context.scope_policy,context.scope_generation)) else "SCOPE_CHANGED"
                 result = ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND if context.any_sent else
-                                             ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id, error_code="SESSION_CLEARED")
+                                             ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,error_code=code)
             result.session_context = context
             if result.status != ProxyWorkflowResult.READY or context.key is None:
                 self.sessions.finish(context, original_response=result.status == ProxyWorkflowResult.ERROR_BEFORE_SEND)
@@ -4039,6 +4473,9 @@ class LoggerUI(ITab):
                     return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
                                                error_code="CP_TEMPLATE_" + template_error)
 
+            self._scope_request(config,orig_host,orig_port,orig_https,request_template,True)
+            if use_cpt:
+                self._scope_request(config,orig_host,orig_port,orig_https,check_template,True)
             custom_settings = config.get("custom")
             build_errors = []
             request_bytes = self.build_request_from_template(
@@ -4056,6 +4493,7 @@ class LoggerUI(ITab):
             if _monotonic_ms() >= deadline_ms:
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_BEFORE_SEND, workflow_id=workflow_id,
                                            error_code="WORKFLOW_TIMEOUT")
+            self._scope_request(config,orig_host,orig_port,orig_https,request_bytes)
             if not use_cpt:
                 return ProxyWorkflowResult(ProxyWorkflowResult.READY, request_bytes, workflow_id)
 
@@ -4074,6 +4512,8 @@ class LoggerUI(ITab):
             if follow_redirects:
                 redirected = self._follow_redirects_chain(request_bytes, response_bytes, orig_host, orig_port,
                                                           orig_https, max_redirects=10, deadline_ms=deadline_ms)
+                if redirected.stop_reason == "OUT_OF_SCOPE":
+                    self.set_status("Redirect outside BoberProxy scope; continuing CheckPage.")
                 if redirected.error_code:
                     return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
                                                error_code=redirected.error_code, error_type=redirected.error_type)
@@ -4098,11 +4538,13 @@ class LoggerUI(ITab):
             if _monotonic_ms() >= deadline_ms:
                 return ProxyWorkflowResult(ProxyWorkflowResult.ERROR_AFTER_SEND, workflow_id=workflow_id,
                                            error_code="WORKFLOW_TIMEOUT")
+            self._scope_request(config,orig_host,orig_port,orig_https,cp_bytes)
             return ProxyWorkflowResult(ProxyWorkflowResult.READY, cp_bytes, workflow_id)
         except (Exception, JavaException) as error:
             status = ProxyWorkflowResult.ERROR_AFTER_SEND if sent_or_uncertain else ProxyWorkflowResult.ERROR_BEFORE_SEND
             return ProxyWorkflowResult(status, workflow_id=workflow_id,
-                                       error_code="WORKFLOW_FAILED", error_type=type(error).__name__)
+                                       error_code=error.code if isinstance(error,ScopeError) else "WORKFLOW_FAILED",
+                                       error_type=type(error).__name__)
 
     def build_checkpage_request(self, incoming_payload1="", incoming_payload2="", template_bytes=None, custom_status_setter=None, custom_settings=None):
         """
@@ -4299,7 +4741,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
                     ui.sessions.response(reference, None)
                 return
             if not messageIsRequest:
-                status, detail = ui.sessions.response(reference, info.getResponse())
+                status, detail = ui.sessions.response(reference, info.getResponse(),info.getHttpService(),info.getRequest())
                 if status in ("SESSION_STALE_RESPONSE", "SESSION_RESPONSE_UNTRACKED"):
                     if ui._capture_runtime().get("cookies") or ui._capture_runtime().get("csrf"):
                         ui._session_warning(status)
@@ -4308,26 +4750,31 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
                 return  # Preserve the response's existing interception action.
             config = ui._capture_runtime()
             raw = info.getRequest()
+            service = info.getHttpService()
+            if service is None:
+                return
+            try:
+                host,port,https = _scope_service(service)
+                proof = ui._scope_request(config,host,port,https,raw)
+            except (ScopeError,ValueError,TypeError):
+                return  # Preserve incoming action; no extraction/custom/state.
             matched = False
             if config.get("proxy") and raw:
                 matched = any(_extract_raw_payloads(_wire_text(raw, ui.helpers),
                                                     config.get("payload1"), config.get("payload2")))
-            context, error = ui.sessions.register(reference, config, matched)
+            context, error = ui.sessions.register(reference, config, matched,proof)
             if error == "EXISTING":
                 return  # Another listener's rehook must not repeat a workflow.
             if error:
+                if error.startswith("SCOPE_") or error=="TARGET_SCOPE_DENIED":
+                    return
                 ui._session_warning(error)
                 if matched:
                     interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
                 return
             if not matched:
                 return  # Passive/unmatched paths preserve the incoming action.
-            service = info.getHttpService()
-            if service is None:
-                ui.sessions.finish(context, original_response=True)
-                return
-            result = ui.proxy_flow_process_request(raw, service.getHost(), service.getPort(),
-                                                    service.getProtocol().lower() == "https",
+            result = ui.proxy_flow_process_request(raw,host,port,https,
                                                     runtime_config=config, session_context=context)
             if not isinstance(result, ProxyWorkflowResult):
                 ui.sessions.finish(context)
@@ -4337,7 +4784,8 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
             if result.status in (ProxyWorkflowResult.ERROR_BEFORE_SEND, ProxyWorkflowResult.ERROR_AFTER_SEND):
                 action = (interceptedMessage.ACTION_DROP if result.status == ProxyWorkflowResult.ERROR_AFTER_SEND
                           else interceptedMessage.ACTION_DONT_INTERCEPT)
-                interceptedMessage.setInterceptAction(action)
+                if result.error_code != "SCOPE_CHANGED" or result.status == ProxyWorkflowResult.ERROR_AFTER_SEND:
+                    interceptedMessage.setInterceptAction(action)
                 self._report_workflow_error(result)
                 return
             if result.status == ProxyWorkflowResult.NO_MATCH:
@@ -4348,21 +4796,22 @@ class BurpExtender(IBurpExtender, IHttpListener, IProxyListener, IExtensionState
                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
                 _print_diagnostic("[BoberProxy] WORKFLOW_INVALID_READY_RESULT")
                 return
-            if not ui.sessions.commit(context):
-                ui.sessions.finish(context, original_response=not context.any_sent)
-                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP if context.any_sent else
-                                                       interceptedMessage.ACTION_DONT_INTERCEPT)
-                self._report_workflow_error(ProxyWorkflowResult(
-                    ProxyWorkflowResult.ERROR_AFTER_SEND if context.any_sent else ProxyWorkflowResult.ERROR_BEFORE_SEND,
-                    workflow_id=result.workflow_id, error_code="SESSION_CLEARED"))
-                return
             try:
-                info.setRequest(result.request_bytes)
-                interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                proof = ui._scope_request(config,host,port,https,result.request_bytes)
+                def handoff():
+                    info.setRequest(result.request_bytes)
+                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DONT_INTERCEPT)
+                if not ui.sessions.authorize(context,proof,handoff):
+                    raise ScopeError("SCOPE_CHANGED")
+            except ScopeError as error:
+                ui.sessions.finish(context,original_response=not context.any_sent)
+                if context.any_sent:
+                    interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
+                _print_diagnostic("[BoberProxy] PROXY_HANDOFF_DENIED",error)
             except (Exception, JavaException) as error:
                 ui.sessions.finish(context)
                 interceptedMessage.setInterceptAction(interceptedMessage.ACTION_DROP)
-                _print_diagnostic("[BoberProxy] PROXY_REPLACE_FAILED", error)
+                _print_diagnostic("[BoberProxy] PROXY_REPLACE_FAILED",error)
         except (Exception, JavaException) as error:
             if context is not None and context.matched:
                 ui.sessions.finish(context)

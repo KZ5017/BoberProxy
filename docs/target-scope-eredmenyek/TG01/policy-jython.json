@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.018, 
+      "test": "test_target_scope.PolicyTests.test_default_port_and_case"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.005, 
+      "test": "test_target_scope.PolicyTests.test_dynamic_path_only_deferred_during_preflight"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.008, 
+      "test": "test_target_scope.PolicyTests.test_host_and_service_and_absolute_authority"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.029, 
+      "test": "test_target_scope.PolicyTests.test_idna_and_ipv6_without_name_resolution"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.004, 
+      "test": "test_target_scope.PolicyTests.test_invalid_origins"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.002, 
+      "test": "test_target_scope.PolicyTests.test_nondefault_port_required_in_host"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.0, 
+      "test": "test_target_scope.PolicyTests.test_policy_is_immutable"
+    }, 
+    {
+      "detail": null, 
+      "outcome": "passed", 
+      "seconds": 0.007, 
+      "test": "test_target_scope.PolicyTests.test_prefix_boundaries_and_encoded_paths"
+    }
+  ], 
+  "implementation": "Jython", 
+  "kind": "isolated-source-logic-not-burp-integration", 
+  "known_defects": 0, 
+  "passed": 8, 
+  "python": "2.7.4 (tags/v2.7.4:3f256f4a7, Aug 18 2024, 10:30:53)\n[OpenJDK 64-Bit Server VM (Oracle Corporation)]", 
+  "source_sha256": "56d609f43628e53cfc7135f81befdb16dce5a171e82cfdb6b61f8e5f70150fce", 
+  "successful_baseline_run": true, 
+  "suite": "scope", 
+  "total": 8
+}

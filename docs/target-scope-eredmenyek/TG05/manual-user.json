@@ -1,0 +1,6 @@
+{
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "run": "tg-manual-192f02deb378",
+  "request_and_response_stopped_and_forwarded": true,
+  "intercept_now_off": true
+}

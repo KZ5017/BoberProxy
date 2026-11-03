@@ -1,0 +1,2793 @@
+{
+  "kind": "TG05-actual-Burp-tagged-loopback",
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c",
+  "instance": "3e5746f02ddb47feab57e94f179dba3b",
+  "cases": [
+    {
+      "name": "TG-R05 bad-location post-attempt drop/no replay",
+      "evidence": {
+        "run": "tg-bad-location-8d0f63761d5e",
+        "response": {
+          "status": 200,
+          "headers": [
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Cache-control",
+              "no-cache, no-store"
+            ],
+            [
+              "Pragma",
+              "no-cache"
+            ],
+            [
+              "X-Frame-Options",
+              "DENY"
+            ],
+            [
+              "Content-Type",
+              "text/html; charset=utf-8"
+            ],
+            [
+              "X-Content-Type-Options",
+              "nosniff"
+            ]
+          ],
+          "body": "<html><head><title>Burp Suite</title>\r\n<style type=\"text/css\">\r\nbody { background: #dedede; font-family: Arial, sans-serif; color: #404042; -webkit-font-smoothing: antialiased; }\r\n#container { padding: 0 15px; margin: 10px auto; background-color: #ffffff; }\r\na { word-wrap: break-word; }\r\na:link, a:visited { color: #e06228; text-decoration: none; }\r\na:hover, a:active { color: #404042; text-decoration: underline; }\r\nh1 { font-size: 1.6em; line-height: 1.2em; font-weight: normal; color: #404042; }\r\nh2 { font-size: 1.3em; line-height: 1.2em; padding: 0; margin: 0.8em 0 0.3em 0; font-weight: normal; color: #404042;}\r\n.title, .navbar { color: #ffffff; background: #e06228; padding: 10px 15px; margin: 0 -15px 10px -15px; overflow: hidden; }\r\n.title h1 { color: #ffffff; padding: 0; margin: 0; font-size: 1.8em; }\r\ndiv.navbar {position: absolute; top: 18px; right: 25px;}\r\ndiv.navbar ul {list-style-type: none; margin: 0; padding: 0;}\r\ndiv.navbar li {display: inline; margin-left: 20px;}\r\ndiv.navbar a {color: white; padding: 10px}\r\ndiv.navbar a:hover, div.navbar a:active {text-decoration: none; background: #404042;}\r\n</style>\r\n</head>\r\n<body>\r\n<div id=\"container\">\r\n<div class=\"title\"><h1>Burp Suite</h1></div>\r\n<h1>Error</h1><p>Request&#32;was&#32;dropped&#32;by&#32;Burp&#32;extension&#46;</p>\r\n<p>&nbsp;</p>\r\n</div>\r\n</body>\r\n</html>\r\n",
+          "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+          "elapsed": 0.02268999999978405
+        },
+        "target": {
+          "actions": 1,
+          "checks": 0,
+          "event_count": 1,
+          "events": [
+            {
+              "body_base64": "b25lPWJhZC1sb2NhdGlvbiZ0d289dGctYmFkLWxvY2F0aW9uLThkMGY2Mzc2MWQ1ZQ==",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18810"
+                ],
+                [
+                  "X-Bober-TG",
+                  "tg-bad-location-8d0f63761d5e"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "49"
+                ]
+              ],
+              "kind": "A",
+              "method": "POST",
+              "monotonic": 7565.9739749,
+              "raw_base64": "UE9TVCAvc2NvcGUvYWN0aW9uP2Nhc2U9YmFkLWxvY2F0aW9uJnJ1bj10Zy1iYWQtbG9jYXRpb24tOGQwZjYzNzYxZDVlIEhUVFAvMS4xDQpIb3N0OiAxMjcuMC4wLjE6MTg4MTANClgtQm9iZXItVEc6IHRnLWJhZC1sb2NhdGlvbi04ZDBmNjM3NjFkNWUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogNDkNCg0Kb25lPWJhZC1sb2NhdGlvbiZ0d289dGctYmFkLWxvY2F0aW9uLThkMGY2Mzc2MWQ1ZQ==",
+              "run": "tg-bad-location-8d0f63761d5e",
+              "target": "/scope/action?case=bad-location&run=tg-bad-location-8d0f63761d5e"
+            }
+          ],
+          "incoming_session_ok": true,
+          "kind": "A",
+          "nexts": 0,
+          "run": "tg-bad-location-8d0f63761d5e",
+          "seeded": false,
+          "version": 1
+        },
+        "state": {
+          "generation": 16,
+          "owner": false,
+          "failures": [
+            {
+              "code": "REDIRECT_INVALID_LOCATION",
+              "status": "error_after_send"
+            },
+            {
+              "code": "HTTP_NO_RESPONSE",
+              "status": "error_after_send"
+            },
+            {
+              "code": "TARGET_SCOPE_DENIED",
+              "status": "error_before_send"
+            },
+            {
+              "code": "SCOPE_CHANGED",
+              "status": "error_after_send"
+            },
+            {
+              "code": "SCOPE_CHANGED",
+              "status": "error_before_send"
+            },
+            {
+              "code": "SCOPE_CHANGED",
+              "status": "error_before_send"
+            },
+            {
+              "code": "REDIRECT_INVALID_LOCATION",
+              "status": "error_after_send"
+            }
+          ],
+          "waiting": 0,
+          "records": 0,
+          "custom": [
+            {
+              "a": "normal",
+              "b": "tg-seed-reuse-69a60fb01010",
+              "csrf": "csrf.A.tg-seed-58a76ce2555b.0"
+            },
+            {
+              "a": "normal",
+              "b": "tg-seed-reuse-69a60fb01010",
+              "csrf": "csrf.A.tg-seed-reuse-69a60fb01010.1"
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-2e13d98066af",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-2e13d98066af",
+              "csrf": "csrf.A.tg-normal-2e13d98066af.1"
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-980c7eda50c5",
+              "csrf": null
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-980c7eda50c5",
+              "csrf": "csrf.A.tg-relative-980c7eda50c5.2"
+            },
+            {
+              "a": "foreign",
+              "b": "tg-foreign-86cd1370c755",
+              "csrf": null
+            },
+            {
+              "a": "foreign",
+              "b": "tg-foreign-86cd1370c755",
+              "csrf": "csrf.A.tg-foreign-86cd1370c755.1"
+            },
+            {
+              "a": "foreign-host",
+              "b": "tg-foreign-host-83f3923cc0a2",
+              "csrf": null
+            },
+            {
+              "a": "foreign-host",
+              "b": "tg-foreign-host-83f3923cc0a2",
+              "csrf": "csrf.A.tg-foreign-host-83f3923cc0a2.1"
+            },
+            {
+              "a": "foreign-tls",
+              "b": "tg-foreign-tls-27b1659ff66d",
+              "csrf": null
+            },
+            {
+              "a": "foreign-tls",
+              "b": "tg-foreign-tls-27b1659ff66d",
+              "csrf": "csrf.A.tg-foreign-tls-27b1659ff66d.1"
+            },
+            {
+              "a": "outside-path",
+              "b": "tg-outside-path-4f2f6dc27601",
+              "csrf": null
+            },
+            {
+              "a": "outside-path",
+              "b": "tg-outside-path-4f2f6dc27601",
+              "csrf": "csrf.A.tg-outside-path-4f2f6dc27601.1"
+            },
+            {
+              "a": "non-http",
+              "b": "tg-non-http-bad5bcc1b70e",
+              "csrf": null
+            },
+            {
+              "a": "non-http",
+              "b": "tg-non-http-bad5bcc1b70e",
+              "csrf": "csrf.A.tg-non-http-bad5bcc1b70e.1"
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-2d7c792215ce",
+              "csrf": null
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-2d7c792215ce",
+              "csrf": "csrf.A.tg-relative-2d7c792215ce.1"
+            },
+            {
+              "a": "relative",
+              "b": "tg-rt-only-71919c55e1a8",
+              "csrf": null
+            },
+            {
+              "a": "%252F+%2B",
+              "b": "tg-raw-028223122a87",
+              "csrf": null
+            },
+            {
+              "a": "%252F+%2B",
+              "b": "tg-raw-028223122a87",
+              "csrf": "csrf.A.tg-raw-028223122a87.1"
+            },
+            {
+              "a": "bad-location",
+              "b": "tg-bad-location-81af0bc8284a",
+              "csrf": null
+            },
+            {
+              "a": "close",
+              "b": "tg-close-d46a6981217b",
+              "csrf": null
+            },
+            {
+              "a": "hold",
+              "b": "tg-mid-rt-9c298f9ab1bb",
+              "csrf": null
+            },
+            {
+              "a": "custom-hold",
+              "b": "tg-custom-running-759dd6c7adcb",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-handoff-1bb99cbb40d8",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-18573e00b954",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-18573e00b954",
+              "csrf": "csrf.T.tg-normal-18573e00b954.1"
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-5ec2183f5d9a",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-5ec2183f5d9a",
+              "csrf": "csrf.A.tg-normal-5ec2183f5d9a.1"
+            },
+            {
+              "a": "bad-location",
+              "b": "tg-bad-location-8d0f63761d5e",
+              "csrf": null
+            }
+          ],
+          "csrf": "csrf.A.tg-bad-location-8d0f63761d5e.1",
+          "follow": true,
+          "rows": 69,
+          "cp": true,
+          "sid": "sid.A.tg-bad-location-8d0f63761d5e.1",
+          "proxy": true,
+          "audit": [
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-none-88829282c023 HTTP/1.1",
+              "run": "tg-none-88829282c023",
+              "manual": false,
+              "reference": 0,
+              "elapsed_ms": 0.3199,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-none-88829282c023 HTTP/1.1",
+              "run": "tg-none-88829282c023",
+              "manual": false,
+              "reference": 0,
+              "elapsed_ms": 0.1501,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/seed?run=tg-seed-58a76ce2555b HTTP/1.1",
+              "run": "tg-seed-58a76ce2555b",
+              "manual": false,
+              "reference": 1,
+              "elapsed_ms": 2.3317,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/seed?run=tg-seed-58a76ce2555b HTTP/1.1",
+              "run": "tg-seed-58a76ce2555b",
+              "manual": false,
+              "reference": 1,
+              "elapsed_ms": 2.8238,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-foreign-pass-fdc0ee87fe94 HTTP/1.1",
+              "run": "tg-foreign-pass-fdc0ee87fe94",
+              "manual": false,
+              "reference": 2,
+              "elapsed_ms": 0.2606,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-foreign-pass-fdc0ee87fe94 HTTP/1.1",
+              "run": "tg-foreign-pass-fdc0ee87fe94",
+              "manual": false,
+              "reference": 2,
+              "elapsed_ms": 0.0439,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-seed-reuse-69a60fb01010 HTTP/1.1",
+              "run": "tg-seed-reuse-69a60fb01010",
+              "manual": false,
+              "reference": 3,
+              "elapsed_ms": 42.7546,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-seed-reuse-69a60fb01010 HTTP/1.1",
+              "run": "tg-seed-reuse-69a60fb01010",
+              "manual": false,
+              "reference": 3,
+              "elapsed_ms": 4.5976,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-normal-2e13d98066af HTTP/1.1",
+              "run": "tg-normal-2e13d98066af",
+              "manual": false,
+              "reference": 4,
+              "elapsed_ms": 15.0585,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-normal-2e13d98066af HTTP/1.1",
+              "run": "tg-normal-2e13d98066af",
+              "manual": false,
+              "reference": 4,
+              "elapsed_ms": 2.0384,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=relative&w=tg-relative-980c7eda50c5 HTTP/1.1",
+              "run": "tg-relative-980c7eda50c5",
+              "manual": false,
+              "reference": 5,
+              "elapsed_ms": 19.0609,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-relative-980c7eda50c5 HTTP/1.1",
+              "run": "tg-relative-980c7eda50c5",
+              "manual": false,
+              "reference": 5,
+              "elapsed_ms": 1.6943,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=foreign&w=tg-foreign-86cd1370c755 HTTP/1.1",
+              "run": "tg-foreign-86cd1370c755",
+              "manual": false,
+              "reference": 6,
+              "elapsed_ms": 11.8533,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-foreign-86cd1370c755 HTTP/1.1",
+              "run": "tg-foreign-86cd1370c755",
+              "manual": false,
+              "reference": 6,
+              "elapsed_ms": 1.5482,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=foreign-host&w=tg-foreign-host-83f3923cc0a2 HTTP/1.1",
+              "run": "tg-foreign-host-83f3923cc0a2",
+              "manual": false,
+              "reference": 7,
+              "elapsed_ms": 14.7088,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-foreign-host-83f3923cc0a2 HTTP/1.1",
+              "run": "tg-foreign-host-83f3923cc0a2",
+              "manual": false,
+              "reference": 7,
+              "elapsed_ms": 1.4267,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=foreign-tls&w=tg-foreign-tls-27b1659ff66d HTTP/1.1",
+              "run": "tg-foreign-tls-27b1659ff66d",
+              "manual": false,
+              "reference": 8,
+              "elapsed_ms": 10.2841,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-foreign-tls-27b1659ff66d HTTP/1.1",
+              "run": "tg-foreign-tls-27b1659ff66d",
+              "manual": false,
+              "reference": 8,
+              "elapsed_ms": 1.429,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=outside-path&w=tg-outside-path-4f2f6dc27601 HTTP/1.1",
+              "run": "tg-outside-path-4f2f6dc27601",
+              "manual": false,
+              "reference": 9,
+              "elapsed_ms": 10.8084,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-outside-path-4f2f6dc27601 HTTP/1.1",
+              "run": "tg-outside-path-4f2f6dc27601",
+              "manual": false,
+              "reference": 9,
+              "elapsed_ms": 1.7502,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=non-http&w=tg-non-http-bad5bcc1b70e HTTP/1.1",
+              "run": "tg-non-http-bad5bcc1b70e",
+              "manual": false,
+              "reference": 10,
+              "elapsed_ms": 9.5215,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-non-http-bad5bcc1b70e HTTP/1.1",
+              "run": "tg-non-http-bad5bcc1b70e",
+              "manual": false,
+              "reference": 10,
+              "elapsed_ms": 1.194,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=relative&w=tg-relative-2d7c792215ce HTTP/1.1",
+              "run": "tg-relative-2d7c792215ce",
+              "manual": false,
+              "reference": 11,
+              "elapsed_ms": 9.1999,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-relative-2d7c792215ce HTTP/1.1",
+              "run": "tg-relative-2d7c792215ce",
+              "manual": false,
+              "reference": 11,
+              "elapsed_ms": 1.772,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=relative&w=tg-rt-only-71919c55e1a8 HTTP/1.1",
+              "run": "tg-rt-only-71919c55e1a8",
+              "manual": false,
+              "reference": 12,
+              "elapsed_ms": 3.2047,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/action?case=relative&run=tg-rt-only-71919c55e1a8 HTTP/1.1",
+              "run": "tg-rt-only-71919c55e1a8",
+              "manual": false,
+              "reference": 12,
+              "elapsed_ms": 1.2442,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=%252F+%2B&w=tg-raw-028223122a87 HTTP/1.1",
+              "run": "tg-raw-028223122a87",
+              "manual": false,
+              "reference": 13,
+              "elapsed_ms": 9.0602,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-raw-028223122a87 HTTP/1.1",
+              "run": "tg-raw-028223122a87",
+              "manual": false,
+              "reference": 13,
+              "elapsed_ms": 1.3747,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=bad-location&w=tg-bad-location-81af0bc8284a HTTP/1.1",
+              "run": "tg-bad-location-81af0bc8284a",
+              "manual": false,
+              "reference": 14,
+              "elapsed_ms": 7.8838,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=close&w=tg-close-d46a6981217b HTTP/1.1",
+              "run": "tg-close-d46a6981217b",
+              "manual": false,
+              "reference": 15,
+              "elapsed_ms": 5.1088,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-cp-path-deny-9cbbb3135eff HTTP/1.1",
+              "run": "tg-cp-path-deny-9cbbb3135eff",
+              "manual": false,
+              "reference": 16,
+              "elapsed_ms": 1.9348,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-cp-path-deny-9cbbb3135eff HTTP/1.1",
+              "run": "tg-cp-path-deny-9cbbb3135eff",
+              "manual": false,
+              "reference": 16,
+              "elapsed_ms": 1.225,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/action?case=hold&run=tg-late-passive-26de1fe81881 HTTP/1.1",
+              "run": "tg-late-passive-26de1fe81881",
+              "manual": false,
+              "reference": 17,
+              "elapsed_ms": 0.4844,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/action?case=hold&run=tg-late-passive-26de1fe81881 HTTP/1.1",
+              "run": "tg-late-passive-26de1fe81881",
+              "manual": false,
+              "reference": 17,
+              "elapsed_ms": 0.0409,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=hold&w=tg-mid-rt-9c298f9ab1bb HTTP/1.1",
+              "run": "tg-mid-rt-9c298f9ab1bb",
+              "manual": false,
+              "reference": 18,
+              "elapsed_ms": 605.983,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-custom-waiting-b94591e877e4 HTTP/1.1",
+              "run": "tg-custom-waiting-b94591e877e4",
+              "manual": false,
+              "reference": 20,
+              "elapsed_ms": 80.6087,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-custom-waiting-b94591e877e4 HTTP/1.1",
+              "run": "tg-custom-waiting-b94591e877e4",
+              "manual": false,
+              "reference": 20,
+              "elapsed_ms": 0.0611,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=custom-hold&w=tg-custom-running-759dd6c7adcb HTTP/1.1",
+              "run": "tg-custom-running-759dd6c7adcb",
+              "manual": false,
+              "reference": 19,
+              "elapsed_ms": 166.467,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=custom-hold&w=tg-custom-running-759dd6c7adcb HTTP/1.1",
+              "run": "tg-custom-running-759dd6c7adcb",
+              "manual": false,
+              "reference": 19,
+              "elapsed_ms": 0.0661,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-handoff-1bb99cbb40d8 HTTP/1.1",
+              "run": "tg-handoff-1bb99cbb40d8",
+              "manual": false,
+              "reference": 21,
+              "elapsed_ms": 43.1208,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-handoff-1bb99cbb40d8 HTTP/1.1",
+              "run": "tg-handoff-1bb99cbb40d8",
+              "manual": false,
+              "reference": 21,
+              "elapsed_ms": 0.0972,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-normal-18573e00b954 HTTP/1.1",
+              "run": "tg-normal-18573e00b954",
+              "manual": false,
+              "reference": 23,
+              "elapsed_ms": 18.8848,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-normal-18573e00b954 HTTP/1.1",
+              "run": "tg-normal-18573e00b954",
+              "manual": false,
+              "reference": 23,
+              "elapsed_ms": 1.0443,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-03-4caa90b315b2 HTTP/1.1",
+              "run": "tg-burst-03-4caa90b315b2",
+              "manual": false,
+              "reference": 27,
+              "elapsed_ms": 0.2006,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-07-e1ef6896f8f4 HTTP/1.1",
+              "run": "tg-burst-07-e1ef6896f8f4",
+              "manual": false,
+              "reference": 31,
+              "elapsed_ms": 0.1761,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-01-c1b2236fbfe6 HTTP/1.1",
+              "run": "tg-burst-01-c1b2236fbfe6",
+              "manual": false,
+              "reference": 25,
+              "elapsed_ms": 0.1944,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-05-3b9c740d4a58 HTTP/1.1",
+              "run": "tg-burst-05-3b9c740d4a58",
+              "manual": false,
+              "reference": 29,
+              "elapsed_ms": 0.2573,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-00-60b14ca35957 HTTP/1.1",
+              "run": "tg-burst-00-60b14ca35957",
+              "manual": false,
+              "reference": 24,
+              "elapsed_ms": 0.4773,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-06-5e2cf6e2a2c4 HTTP/1.1",
+              "run": "tg-burst-06-5e2cf6e2a2c4",
+              "manual": false,
+              "reference": 30,
+              "elapsed_ms": 0.6324,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-04-99293447f1cd HTTP/1.1",
+              "run": "tg-burst-04-99293447f1cd",
+              "manual": false,
+              "reference": 28,
+              "elapsed_ms": 0.9197,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-07-e1ef6896f8f4 HTTP/1.1",
+              "run": "tg-burst-07-e1ef6896f8f4",
+              "manual": false,
+              "reference": 31,
+              "elapsed_ms": 0.0853,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-06-5e2cf6e2a2c4 HTTP/1.1",
+              "run": "tg-burst-06-5e2cf6e2a2c4",
+              "manual": false,
+              "reference": 30,
+              "elapsed_ms": 0.0805,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-01-c1b2236fbfe6 HTTP/1.1",
+              "run": "tg-burst-01-c1b2236fbfe6",
+              "manual": false,
+              "reference": 25,
+              "elapsed_ms": 0.1039,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-00-60b14ca35957 HTTP/1.1",
+              "run": "tg-burst-00-60b14ca35957",
+              "manual": false,
+              "reference": 24,
+              "elapsed_ms": 0.0647,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-04-99293447f1cd HTTP/1.1",
+              "run": "tg-burst-04-99293447f1cd",
+              "manual": false,
+              "reference": 28,
+              "elapsed_ms": 0.0684,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-03-4caa90b315b2 HTTP/1.1",
+              "run": "tg-burst-03-4caa90b315b2",
+              "manual": false,
+              "reference": 27,
+              "elapsed_ms": 0.0735,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-05-3b9c740d4a58 HTTP/1.1",
+              "run": "tg-burst-05-3b9c740d4a58",
+              "manual": false,
+              "reference": 29,
+              "elapsed_ms": 0.0733,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-09-36f0b5a904a6 HTTP/1.1",
+              "run": "tg-burst-09-36f0b5a904a6",
+              "manual": false,
+              "reference": 33,
+              "elapsed_ms": 0.231,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-02-11b4995e8660 HTTP/1.1",
+              "run": "tg-burst-02-11b4995e8660",
+              "manual": false,
+              "reference": 26,
+              "elapsed_ms": 0.5032,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-09-36f0b5a904a6 HTTP/1.1",
+              "run": "tg-burst-09-36f0b5a904a6",
+              "manual": false,
+              "reference": 33,
+              "elapsed_ms": 0.1952,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-02-11b4995e8660 HTTP/1.1",
+              "run": "tg-burst-02-11b4995e8660",
+              "manual": false,
+              "reference": 26,
+              "elapsed_ms": 0.2472,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-11-2829f83af006 HTTP/1.1",
+              "run": "tg-burst-11-2829f83af006",
+              "manual": false,
+              "reference": 35,
+              "elapsed_ms": 0.271,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-14-ec089ead7e7f HTTP/1.1",
+              "run": "tg-burst-14-ec089ead7e7f",
+              "manual": false,
+              "reference": 38,
+              "elapsed_ms": 0.8001,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-08-bc4188873989 HTTP/1.1",
+              "run": "tg-burst-08-bc4188873989",
+              "manual": false,
+              "reference": 32,
+              "elapsed_ms": 0.5796,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-12-ac9bdce5e241 HTTP/1.1",
+              "run": "tg-burst-12-ac9bdce5e241",
+              "manual": false,
+              "reference": 37,
+              "elapsed_ms": 1.0939,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-11-2829f83af006 HTTP/1.1",
+              "run": "tg-burst-11-2829f83af006",
+              "manual": false,
+              "reference": 35,
+              "elapsed_ms": 0.0781,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-08-bc4188873989 HTTP/1.1",
+              "run": "tg-burst-08-bc4188873989",
+              "manual": false,
+              "reference": 32,
+              "elapsed_ms": 0.0609,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-13-d2453552b8ea HTTP/1.1",
+              "run": "tg-burst-13-d2453552b8ea",
+              "manual": false,
+              "reference": 36,
+              "elapsed_ms": 0.228,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-14-ec089ead7e7f HTTP/1.1",
+              "run": "tg-burst-14-ec089ead7e7f",
+              "manual": false,
+              "reference": 38,
+              "elapsed_ms": 0.0752,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-12-ac9bdce5e241 HTTP/1.1",
+              "run": "tg-burst-12-ac9bdce5e241",
+              "manual": false,
+              "reference": 37,
+              "elapsed_ms": 0.0515,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-13-d2453552b8ea HTTP/1.1",
+              "run": "tg-burst-13-d2453552b8ea",
+              "manual": false,
+              "reference": 36,
+              "elapsed_ms": 0.0752,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-19-20070584ff82 HTTP/1.1",
+              "run": "tg-burst-19-20070584ff82",
+              "manual": false,
+              "reference": 43,
+              "elapsed_ms": 0.179,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-15-499a897e4ee9 HTTP/1.1",
+              "run": "tg-burst-15-499a897e4ee9",
+              "manual": false,
+              "reference": 39,
+              "elapsed_ms": 0.1404,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-17-4fed137df1d4 HTTP/1.1",
+              "run": "tg-burst-17-4fed137df1d4",
+              "manual": false,
+              "reference": 41,
+              "elapsed_ms": 0.176,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-10-38c3719e7863 HTTP/1.1",
+              "run": "tg-burst-10-38c3719e7863",
+              "manual": false,
+              "reference": 34,
+              "elapsed_ms": 0.5435,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-16-a6e1c2da53d6 HTTP/1.1",
+              "run": "tg-burst-16-a6e1c2da53d6",
+              "manual": false,
+              "reference": 40,
+              "elapsed_ms": 0.6108,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-20-1f4cd96e8ac4 HTTP/1.1",
+              "run": "tg-burst-20-1f4cd96e8ac4",
+              "manual": false,
+              "reference": 44,
+              "elapsed_ms": 0.5216,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-18-7682d3638f5b HTTP/1.1",
+              "run": "tg-burst-18-7682d3638f5b",
+              "manual": false,
+              "reference": 42,
+              "elapsed_ms": 0.6451,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-17-4fed137df1d4 HTTP/1.1",
+              "run": "tg-burst-17-4fed137df1d4",
+              "manual": false,
+              "reference": 41,
+              "elapsed_ms": 0.0579,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-20-1f4cd96e8ac4 HTTP/1.1",
+              "run": "tg-burst-20-1f4cd96e8ac4",
+              "manual": false,
+              "reference": 44,
+              "elapsed_ms": 0.0767,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-19-20070584ff82 HTTP/1.1",
+              "run": "tg-burst-19-20070584ff82",
+              "manual": false,
+              "reference": 43,
+              "elapsed_ms": 0.1143,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-16-a6e1c2da53d6 HTTP/1.1",
+              "run": "tg-burst-16-a6e1c2da53d6",
+              "manual": false,
+              "reference": 40,
+              "elapsed_ms": 0.0506,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-10-38c3719e7863 HTTP/1.1",
+              "run": "tg-burst-10-38c3719e7863",
+              "manual": false,
+              "reference": 34,
+              "elapsed_ms": 0.071,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-15-499a897e4ee9 HTTP/1.1",
+              "run": "tg-burst-15-499a897e4ee9",
+              "manual": false,
+              "reference": 39,
+              "elapsed_ms": 0.4838,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-21-767e5388ae91 HTTP/1.1",
+              "run": "tg-burst-21-767e5388ae91",
+              "manual": false,
+              "reference": 45,
+              "elapsed_ms": 0.2718,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-18-7682d3638f5b HTTP/1.1",
+              "run": "tg-burst-18-7682d3638f5b",
+              "manual": false,
+              "reference": 42,
+              "elapsed_ms": 0.0836,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-21-767e5388ae91 HTTP/1.1",
+              "run": "tg-burst-21-767e5388ae91",
+              "manual": false,
+              "reference": 45,
+              "elapsed_ms": 0.07,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-22-45b83b68defc HTTP/1.1",
+              "run": "tg-burst-22-45b83b68defc",
+              "manual": false,
+              "reference": 46,
+              "elapsed_ms": 0.6136,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-22-45b83b68defc HTTP/1.1",
+              "run": "tg-burst-22-45b83b68defc",
+              "manual": false,
+              "reference": 46,
+              "elapsed_ms": 0.056,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-29-4a83d3abfddc HTTP/1.1",
+              "run": "tg-burst-29-4a83d3abfddc",
+              "manual": false,
+              "reference": 53,
+              "elapsed_ms": 0.1644,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-23-cafe2f142258 HTTP/1.1",
+              "run": "tg-burst-23-cafe2f142258",
+              "manual": false,
+              "reference": 47,
+              "elapsed_ms": 0.2091,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-27-b7be50fcd9be HTTP/1.1",
+              "run": "tg-burst-27-b7be50fcd9be",
+              "manual": false,
+              "reference": 51,
+              "elapsed_ms": 0.3073,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-25-308aef084894 HTTP/1.1",
+              "run": "tg-burst-25-308aef084894",
+              "manual": false,
+              "reference": 49,
+              "elapsed_ms": 0.3514,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-28-44fa566407b7 HTTP/1.1",
+              "run": "tg-burst-28-44fa566407b7",
+              "manual": false,
+              "reference": 52,
+              "elapsed_ms": 0.5822,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-26-4e6c7f6a7f7a HTTP/1.1",
+              "run": "tg-burst-26-4e6c7f6a7f7a",
+              "manual": false,
+              "reference": 50,
+              "elapsed_ms": 0.5735,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-24-d0434f714ee9 HTTP/1.1",
+              "run": "tg-burst-24-d0434f714ee9",
+              "manual": false,
+              "reference": 48,
+              "elapsed_ms": 0.6137,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-23-cafe2f142258 HTTP/1.1",
+              "run": "tg-burst-23-cafe2f142258",
+              "manual": false,
+              "reference": 47,
+              "elapsed_ms": 0.0721,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-26-4e6c7f6a7f7a HTTP/1.1",
+              "run": "tg-burst-26-4e6c7f6a7f7a",
+              "manual": false,
+              "reference": 50,
+              "elapsed_ms": 0.0629,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-27-b7be50fcd9be HTTP/1.1",
+              "run": "tg-burst-27-b7be50fcd9be",
+              "manual": false,
+              "reference": 51,
+              "elapsed_ms": 0.0916,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-28-44fa566407b7 HTTP/1.1",
+              "run": "tg-burst-28-44fa566407b7",
+              "manual": false,
+              "reference": 52,
+              "elapsed_ms": 0.0915,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-24-d0434f714ee9 HTTP/1.1",
+              "run": "tg-burst-24-d0434f714ee9",
+              "manual": false,
+              "reference": 48,
+              "elapsed_ms": 0.0711,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-29-4a83d3abfddc HTTP/1.1",
+              "run": "tg-burst-29-4a83d3abfddc",
+              "manual": false,
+              "reference": 53,
+              "elapsed_ms": 0.06,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-25-308aef084894 HTTP/1.1",
+              "run": "tg-burst-25-308aef084894",
+              "manual": false,
+              "reference": 49,
+              "elapsed_ms": 0.2124,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-31-cc56ddd76b6b HTTP/1.1",
+              "run": "tg-burst-31-cc56ddd76b6b",
+              "manual": false,
+              "reference": 55,
+              "elapsed_ms": 0.2639,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-31-cc56ddd76b6b HTTP/1.1",
+              "run": "tg-burst-31-cc56ddd76b6b",
+              "manual": false,
+              "reference": 55,
+              "elapsed_ms": 0.0602,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-30-0af5c254484c HTTP/1.1",
+              "run": "tg-burst-30-0af5c254484c",
+              "manual": false,
+              "reference": 54,
+              "elapsed_ms": 0.3686,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-30-0af5c254484c HTTP/1.1",
+              "run": "tg-burst-30-0af5c254484c",
+              "manual": false,
+              "reference": 54,
+              "elapsed_ms": 0.0395,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-normal-5ec2183f5d9a HTTP/1.1",
+              "run": "tg-normal-5ec2183f5d9a",
+              "manual": false,
+              "reference": 56,
+              "elapsed_ms": 7.6887,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-normal-5ec2183f5d9a HTTP/1.1",
+              "run": "tg-normal-5ec2183f5d9a",
+              "manual": false,
+              "reference": 56,
+              "elapsed_ms": 17.9002,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=bad-location&w=tg-bad-location-8d0f63761d5e HTTP/1.1",
+              "run": "tg-bad-location-8d0f63761d5e",
+              "manual": false,
+              "reference": 57,
+              "elapsed_ms": 9.0182,
+              "after": 3
+            }
+          ],
+          "scope": "http://127.0.0.1:18810",
+          "closed": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "TG-R05 close post-attempt drop/no replay",
+      "evidence": {
+        "run": "tg-close-50d63eafd3d5",
+        "response": {
+          "status": 200,
+          "headers": [
+            [
+              "Connection",
+              "close"
+            ],
+            [
+              "Cache-control",
+              "no-cache, no-store"
+            ],
+            [
+              "Pragma",
+              "no-cache"
+            ],
+            [
+              "X-Frame-Options",
+              "DENY"
+            ],
+            [
+              "Content-Type",
+              "text/html; charset=utf-8"
+            ],
+            [
+              "X-Content-Type-Options",
+              "nosniff"
+            ]
+          ],
+          "body": "<html><head><title>Burp Suite</title>\r\n<style type=\"text/css\">\r\nbody { background: #dedede; font-family: Arial, sans-serif; color: #404042; -webkit-font-smoothing: antialiased; }\r\n#container { padding: 0 15px; margin: 10px auto; background-color: #ffffff; }\r\na { word-wrap: break-word; }\r\na:link, a:visited { color: #e06228; text-decoration: none; }\r\na:hover, a:active { color: #404042; text-decoration: underline; }\r\nh1 { font-size: 1.6em; line-height: 1.2em; font-weight: normal; color: #404042; }\r\nh2 { font-size: 1.3em; line-height: 1.2em; padding: 0; margin: 0.8em 0 0.3em 0; font-weight: normal; color: #404042;}\r\n.title, .navbar { color: #ffffff; background: #e06228; padding: 10px 15px; margin: 0 -15px 10px -15px; overflow: hidden; }\r\n.title h1 { color: #ffffff; padding: 0; margin: 0; font-size: 1.8em; }\r\ndiv.navbar {position: absolute; top: 18px; right: 25px;}\r\ndiv.navbar ul {list-style-type: none; margin: 0; padding: 0;}\r\ndiv.navbar li {display: inline; margin-left: 20px;}\r\ndiv.navbar a {color: white; padding: 10px}\r\ndiv.navbar a:hover, div.navbar a:active {text-decoration: none; background: #404042;}\r\n</style>\r\n</head>\r\n<body>\r\n<div id=\"container\">\r\n<div class=\"title\"><h1>Burp Suite</h1></div>\r\n<h1>Error</h1><p>Request&#32;was&#32;dropped&#32;by&#32;Burp&#32;extension&#46;</p>\r\n<p>&nbsp;</p>\r\n</div>\r\n</body>\r\n</html>\r\n",
+          "body_base64": "PGh0bWw+PGhlYWQ+PHRpdGxlPkJ1cnAgU3VpdGU8L3RpdGxlPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmJvZHkgeyBiYWNrZ3JvdW5kOiAjZGVkZWRlOyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGNvbG9yOiAjNDA0MDQyOyAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDsgfQ0KI2NvbnRhaW5lciB7IHBhZGRpbmc6IDAgMTVweDsgbWFyZ2luOiAxMHB4IGF1dG87IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7IH0NCmEgeyB3b3JkLXdyYXA6IGJyZWFrLXdvcmQ7IH0NCmE6bGluaywgYTp2aXNpdGVkIHsgY29sb3I6ICNlMDYyMjg7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ0KYTpob3ZlciwgYTphY3RpdmUgeyBjb2xvcjogIzQwNDA0MjsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0NCmgxIHsgZm9udC1zaXplOiAxLjZlbTsgbGluZS1oZWlnaHQ6IDEuMmVtOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0MjsgfQ0KaDIgeyBmb250LXNpemU6IDEuM2VtOyBsaW5lLWhlaWdodDogMS4yZW07IHBhZGRpbmc6IDA7IG1hcmdpbjogMC44ZW0gMCAwLjNlbSAwOyBmb250LXdlaWdodDogbm9ybWFsOyBjb2xvcjogIzQwNDA0Mjt9DQoudGl0bGUsIC5uYXZiYXIgeyBjb2xvcjogI2ZmZmZmZjsgYmFja2dyb3VuZDogI2UwNjIyODsgcGFkZGluZzogMTBweCAxNXB4OyBtYXJnaW46IDAgLTE1cHggMTBweCAtMTVweDsgb3ZlcmZsb3c6IGhpZGRlbjsgfQ0KLnRpdGxlIGgxIHsgY29sb3I6ICNmZmZmZmY7IHBhZGRpbmc6IDA7IG1hcmdpbjogMDsgZm9udC1zaXplOiAxLjhlbTsgfQ0KZGl2Lm5hdmJhciB7cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyNXB4O30NCmRpdi5uYXZiYXIgdWwge2xpc3Qtc3R5bGUtdHlwZTogbm9uZTsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwO30NCmRpdi5uYXZiYXIgbGkge2Rpc3BsYXk6IGlubGluZTsgbWFyZ2luLWxlZnQ6IDIwcHg7fQ0KZGl2Lm5hdmJhciBhIHtjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHh9DQpkaXYubmF2YmFyIGE6aG92ZXIsIGRpdi5uYXZiYXIgYTphY3RpdmUge3RleHQtZGVjb3JhdGlvbjogbm9uZTsgYmFja2dyb3VuZDogIzQwNDA0Mjt9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+DQo8ZGl2IGlkPSJjb250YWluZXIiPg0KPGRpdiBjbGFzcz0idGl0bGUiPjxoMT5CdXJwIFN1aXRlPC9oMT48L2Rpdj4NCjxoMT5FcnJvcjwvaDE+PHA+UmVxdWVzdCYjMzI7d2FzJiMzMjtkcm9wcGVkJiMzMjtieSYjMzI7QnVycCYjMzI7ZXh0ZW5zaW9uJiM0Njs8L3A+DQo8cD4mbmJzcDs8L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
+          "elapsed": 0.01801809999960824
+        },
+        "target": {
+          "actions": 1,
+          "checks": 0,
+          "event_count": 1,
+          "events": [
+            {
+              "body_base64": "b25lPWNsb3NlJnR3bz10Zy1jbG9zZS01MGQ2M2VhZmQzZDU=",
+              "headers": [
+                [
+                  "Host",
+                  "127.0.0.1:18810"
+                ],
+                [
+                  "X-Bober-TG",
+                  "tg-close-50d63eafd3d5"
+                ],
+                [
+                  "Content-Type",
+                  "application/x-www-form-urlencoded"
+                ],
+                [
+                  "Content-Length",
+                  "35"
+                ]
+              ],
+              "kind": "A",
+              "method": "POST",
+              "monotonic": 7566.2990646,
+              "raw_base64": "UE9TVCAvc2NvcGUvYWN0aW9uP2Nhc2U9Y2xvc2UmcnVuPXRnLWNsb3NlLTUwZDYzZWFmZDNkNSBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xOjE4ODEwDQpYLUJvYmVyLVRHOiB0Zy1jbG9zZS01MGQ2M2VhZmQzZDUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkDQpDb250ZW50LUxlbmd0aDogMzUNCg0Kb25lPWNsb3NlJnR3bz10Zy1jbG9zZS01MGQ2M2VhZmQzZDU=",
+              "run": "tg-close-50d63eafd3d5",
+              "target": "/scope/action?case=close&run=tg-close-50d63eafd3d5"
+            }
+          ],
+          "incoming_session_ok": true,
+          "kind": "A",
+          "nexts": 0,
+          "run": "tg-close-50d63eafd3d5",
+          "seeded": false,
+          "version": 1
+        },
+        "state": {
+          "generation": 16,
+          "owner": false,
+          "failures": [
+            {
+              "code": "REDIRECT_INVALID_LOCATION",
+              "status": "error_after_send"
+            },
+            {
+              "code": "HTTP_NO_RESPONSE",
+              "status": "error_after_send"
+            },
+            {
+              "code": "TARGET_SCOPE_DENIED",
+              "status": "error_before_send"
+            },
+            {
+              "code": "SCOPE_CHANGED",
+              "status": "error_after_send"
+            },
+            {
+              "code": "SCOPE_CHANGED",
+              "status": "error_before_send"
+            },
+            {
+              "code": "SCOPE_CHANGED",
+              "status": "error_before_send"
+            },
+            {
+              "code": "REDIRECT_INVALID_LOCATION",
+              "status": "error_after_send"
+            },
+            {
+              "code": "HTTP_NO_RESPONSE",
+              "status": "error_after_send"
+            }
+          ],
+          "waiting": 0,
+          "records": 0,
+          "custom": [
+            {
+              "a": "normal",
+              "b": "tg-seed-reuse-69a60fb01010",
+              "csrf": "csrf.A.tg-seed-58a76ce2555b.0"
+            },
+            {
+              "a": "normal",
+              "b": "tg-seed-reuse-69a60fb01010",
+              "csrf": "csrf.A.tg-seed-reuse-69a60fb01010.1"
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-2e13d98066af",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-2e13d98066af",
+              "csrf": "csrf.A.tg-normal-2e13d98066af.1"
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-980c7eda50c5",
+              "csrf": null
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-980c7eda50c5",
+              "csrf": "csrf.A.tg-relative-980c7eda50c5.2"
+            },
+            {
+              "a": "foreign",
+              "b": "tg-foreign-86cd1370c755",
+              "csrf": null
+            },
+            {
+              "a": "foreign",
+              "b": "tg-foreign-86cd1370c755",
+              "csrf": "csrf.A.tg-foreign-86cd1370c755.1"
+            },
+            {
+              "a": "foreign-host",
+              "b": "tg-foreign-host-83f3923cc0a2",
+              "csrf": null
+            },
+            {
+              "a": "foreign-host",
+              "b": "tg-foreign-host-83f3923cc0a2",
+              "csrf": "csrf.A.tg-foreign-host-83f3923cc0a2.1"
+            },
+            {
+              "a": "foreign-tls",
+              "b": "tg-foreign-tls-27b1659ff66d",
+              "csrf": null
+            },
+            {
+              "a": "foreign-tls",
+              "b": "tg-foreign-tls-27b1659ff66d",
+              "csrf": "csrf.A.tg-foreign-tls-27b1659ff66d.1"
+            },
+            {
+              "a": "outside-path",
+              "b": "tg-outside-path-4f2f6dc27601",
+              "csrf": null
+            },
+            {
+              "a": "outside-path",
+              "b": "tg-outside-path-4f2f6dc27601",
+              "csrf": "csrf.A.tg-outside-path-4f2f6dc27601.1"
+            },
+            {
+              "a": "non-http",
+              "b": "tg-non-http-bad5bcc1b70e",
+              "csrf": null
+            },
+            {
+              "a": "non-http",
+              "b": "tg-non-http-bad5bcc1b70e",
+              "csrf": "csrf.A.tg-non-http-bad5bcc1b70e.1"
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-2d7c792215ce",
+              "csrf": null
+            },
+            {
+              "a": "relative",
+              "b": "tg-relative-2d7c792215ce",
+              "csrf": "csrf.A.tg-relative-2d7c792215ce.1"
+            },
+            {
+              "a": "relative",
+              "b": "tg-rt-only-71919c55e1a8",
+              "csrf": null
+            },
+            {
+              "a": "%252F+%2B",
+              "b": "tg-raw-028223122a87",
+              "csrf": null
+            },
+            {
+              "a": "%252F+%2B",
+              "b": "tg-raw-028223122a87",
+              "csrf": "csrf.A.tg-raw-028223122a87.1"
+            },
+            {
+              "a": "bad-location",
+              "b": "tg-bad-location-81af0bc8284a",
+              "csrf": null
+            },
+            {
+              "a": "close",
+              "b": "tg-close-d46a6981217b",
+              "csrf": null
+            },
+            {
+              "a": "hold",
+              "b": "tg-mid-rt-9c298f9ab1bb",
+              "csrf": null
+            },
+            {
+              "a": "custom-hold",
+              "b": "tg-custom-running-759dd6c7adcb",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-handoff-1bb99cbb40d8",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-18573e00b954",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-18573e00b954",
+              "csrf": "csrf.T.tg-normal-18573e00b954.1"
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-5ec2183f5d9a",
+              "csrf": null
+            },
+            {
+              "a": "normal",
+              "b": "tg-normal-5ec2183f5d9a",
+              "csrf": "csrf.A.tg-normal-5ec2183f5d9a.1"
+            },
+            {
+              "a": "bad-location",
+              "b": "tg-bad-location-8d0f63761d5e",
+              "csrf": null
+            },
+            {
+              "a": "close",
+              "b": "tg-close-50d63eafd3d5",
+              "csrf": null
+            }
+          ],
+          "csrf": null,
+          "follow": true,
+          "rows": 69,
+          "cp": true,
+          "sid": null,
+          "proxy": true,
+          "audit": [
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-none-88829282c023 HTTP/1.1",
+              "run": "tg-none-88829282c023",
+              "manual": false,
+              "reference": 0,
+              "elapsed_ms": 0.3199,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-none-88829282c023 HTTP/1.1",
+              "run": "tg-none-88829282c023",
+              "manual": false,
+              "reference": 0,
+              "elapsed_ms": 0.1501,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/seed?run=tg-seed-58a76ce2555b HTTP/1.1",
+              "run": "tg-seed-58a76ce2555b",
+              "manual": false,
+              "reference": 1,
+              "elapsed_ms": 2.3317,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/seed?run=tg-seed-58a76ce2555b HTTP/1.1",
+              "run": "tg-seed-58a76ce2555b",
+              "manual": false,
+              "reference": 1,
+              "elapsed_ms": 2.8238,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-foreign-pass-fdc0ee87fe94 HTTP/1.1",
+              "run": "tg-foreign-pass-fdc0ee87fe94",
+              "manual": false,
+              "reference": 2,
+              "elapsed_ms": 0.2606,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-foreign-pass-fdc0ee87fe94 HTTP/1.1",
+              "run": "tg-foreign-pass-fdc0ee87fe94",
+              "manual": false,
+              "reference": 2,
+              "elapsed_ms": 0.0439,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-seed-reuse-69a60fb01010 HTTP/1.1",
+              "run": "tg-seed-reuse-69a60fb01010",
+              "manual": false,
+              "reference": 3,
+              "elapsed_ms": 42.7546,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-seed-reuse-69a60fb01010 HTTP/1.1",
+              "run": "tg-seed-reuse-69a60fb01010",
+              "manual": false,
+              "reference": 3,
+              "elapsed_ms": 4.5976,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-normal-2e13d98066af HTTP/1.1",
+              "run": "tg-normal-2e13d98066af",
+              "manual": false,
+              "reference": 4,
+              "elapsed_ms": 15.0585,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-normal-2e13d98066af HTTP/1.1",
+              "run": "tg-normal-2e13d98066af",
+              "manual": false,
+              "reference": 4,
+              "elapsed_ms": 2.0384,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=relative&w=tg-relative-980c7eda50c5 HTTP/1.1",
+              "run": "tg-relative-980c7eda50c5",
+              "manual": false,
+              "reference": 5,
+              "elapsed_ms": 19.0609,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-relative-980c7eda50c5 HTTP/1.1",
+              "run": "tg-relative-980c7eda50c5",
+              "manual": false,
+              "reference": 5,
+              "elapsed_ms": 1.6943,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=foreign&w=tg-foreign-86cd1370c755 HTTP/1.1",
+              "run": "tg-foreign-86cd1370c755",
+              "manual": false,
+              "reference": 6,
+              "elapsed_ms": 11.8533,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-foreign-86cd1370c755 HTTP/1.1",
+              "run": "tg-foreign-86cd1370c755",
+              "manual": false,
+              "reference": 6,
+              "elapsed_ms": 1.5482,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=foreign-host&w=tg-foreign-host-83f3923cc0a2 HTTP/1.1",
+              "run": "tg-foreign-host-83f3923cc0a2",
+              "manual": false,
+              "reference": 7,
+              "elapsed_ms": 14.7088,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-foreign-host-83f3923cc0a2 HTTP/1.1",
+              "run": "tg-foreign-host-83f3923cc0a2",
+              "manual": false,
+              "reference": 7,
+              "elapsed_ms": 1.4267,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=foreign-tls&w=tg-foreign-tls-27b1659ff66d HTTP/1.1",
+              "run": "tg-foreign-tls-27b1659ff66d",
+              "manual": false,
+              "reference": 8,
+              "elapsed_ms": 10.2841,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-foreign-tls-27b1659ff66d HTTP/1.1",
+              "run": "tg-foreign-tls-27b1659ff66d",
+              "manual": false,
+              "reference": 8,
+              "elapsed_ms": 1.429,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=outside-path&w=tg-outside-path-4f2f6dc27601 HTTP/1.1",
+              "run": "tg-outside-path-4f2f6dc27601",
+              "manual": false,
+              "reference": 9,
+              "elapsed_ms": 10.8084,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-outside-path-4f2f6dc27601 HTTP/1.1",
+              "run": "tg-outside-path-4f2f6dc27601",
+              "manual": false,
+              "reference": 9,
+              "elapsed_ms": 1.7502,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=non-http&w=tg-non-http-bad5bcc1b70e HTTP/1.1",
+              "run": "tg-non-http-bad5bcc1b70e",
+              "manual": false,
+              "reference": 10,
+              "elapsed_ms": 9.5215,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-non-http-bad5bcc1b70e HTTP/1.1",
+              "run": "tg-non-http-bad5bcc1b70e",
+              "manual": false,
+              "reference": 10,
+              "elapsed_ms": 1.194,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=relative&w=tg-relative-2d7c792215ce HTTP/1.1",
+              "run": "tg-relative-2d7c792215ce",
+              "manual": false,
+              "reference": 11,
+              "elapsed_ms": 9.1999,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-relative-2d7c792215ce HTTP/1.1",
+              "run": "tg-relative-2d7c792215ce",
+              "manual": false,
+              "reference": 11,
+              "elapsed_ms": 1.772,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=relative&w=tg-rt-only-71919c55e1a8 HTTP/1.1",
+              "run": "tg-rt-only-71919c55e1a8",
+              "manual": false,
+              "reference": 12,
+              "elapsed_ms": 3.2047,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/action?case=relative&run=tg-rt-only-71919c55e1a8 HTTP/1.1",
+              "run": "tg-rt-only-71919c55e1a8",
+              "manual": false,
+              "reference": 12,
+              "elapsed_ms": 1.2442,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=%252F+%2B&w=tg-raw-028223122a87 HTTP/1.1",
+              "run": "tg-raw-028223122a87",
+              "manual": false,
+              "reference": 13,
+              "elapsed_ms": 9.0602,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-raw-028223122a87 HTTP/1.1",
+              "run": "tg-raw-028223122a87",
+              "manual": false,
+              "reference": 13,
+              "elapsed_ms": 1.3747,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=bad-location&w=tg-bad-location-81af0bc8284a HTTP/1.1",
+              "run": "tg-bad-location-81af0bc8284a",
+              "manual": false,
+              "reference": 14,
+              "elapsed_ms": 7.8838,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=close&w=tg-close-d46a6981217b HTTP/1.1",
+              "run": "tg-close-d46a6981217b",
+              "manual": false,
+              "reference": 15,
+              "elapsed_ms": 5.1088,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-cp-path-deny-9cbbb3135eff HTTP/1.1",
+              "run": "tg-cp-path-deny-9cbbb3135eff",
+              "manual": false,
+              "reference": 16,
+              "elapsed_ms": 1.9348,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-cp-path-deny-9cbbb3135eff HTTP/1.1",
+              "run": "tg-cp-path-deny-9cbbb3135eff",
+              "manual": false,
+              "reference": 16,
+              "elapsed_ms": 1.225,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/action?case=hold&run=tg-late-passive-26de1fe81881 HTTP/1.1",
+              "run": "tg-late-passive-26de1fe81881",
+              "manual": false,
+              "reference": 17,
+              "elapsed_ms": 0.4844,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/action?case=hold&run=tg-late-passive-26de1fe81881 HTTP/1.1",
+              "run": "tg-late-passive-26de1fe81881",
+              "manual": false,
+              "reference": 17,
+              "elapsed_ms": 0.0409,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=hold&w=tg-mid-rt-9c298f9ab1bb HTTP/1.1",
+              "run": "tg-mid-rt-9c298f9ab1bb",
+              "manual": false,
+              "reference": 18,
+              "elapsed_ms": 605.983,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-custom-waiting-b94591e877e4 HTTP/1.1",
+              "run": "tg-custom-waiting-b94591e877e4",
+              "manual": false,
+              "reference": 20,
+              "elapsed_ms": 80.6087,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-custom-waiting-b94591e877e4 HTTP/1.1",
+              "run": "tg-custom-waiting-b94591e877e4",
+              "manual": false,
+              "reference": 20,
+              "elapsed_ms": 0.0611,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=custom-hold&w=tg-custom-running-759dd6c7adcb HTTP/1.1",
+              "run": "tg-custom-running-759dd6c7adcb",
+              "manual": false,
+              "reference": 19,
+              "elapsed_ms": 166.467,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=custom-hold&w=tg-custom-running-759dd6c7adcb HTTP/1.1",
+              "run": "tg-custom-running-759dd6c7adcb",
+              "manual": false,
+              "reference": 19,
+              "elapsed_ms": 0.0661,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-handoff-1bb99cbb40d8 HTTP/1.1",
+              "run": "tg-handoff-1bb99cbb40d8",
+              "manual": false,
+              "reference": 21,
+              "elapsed_ms": 43.1208,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-handoff-1bb99cbb40d8 HTTP/1.1",
+              "run": "tg-handoff-1bb99cbb40d8",
+              "manual": false,
+              "reference": 21,
+              "elapsed_ms": 0.0972,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-normal-18573e00b954 HTTP/1.1",
+              "run": "tg-normal-18573e00b954",
+              "manual": false,
+              "reference": 23,
+              "elapsed_ms": 18.8848,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-normal-18573e00b954 HTTP/1.1",
+              "run": "tg-normal-18573e00b954",
+              "manual": false,
+              "reference": 23,
+              "elapsed_ms": 1.0443,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-03-4caa90b315b2 HTTP/1.1",
+              "run": "tg-burst-03-4caa90b315b2",
+              "manual": false,
+              "reference": 27,
+              "elapsed_ms": 0.2006,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-07-e1ef6896f8f4 HTTP/1.1",
+              "run": "tg-burst-07-e1ef6896f8f4",
+              "manual": false,
+              "reference": 31,
+              "elapsed_ms": 0.1761,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-01-c1b2236fbfe6 HTTP/1.1",
+              "run": "tg-burst-01-c1b2236fbfe6",
+              "manual": false,
+              "reference": 25,
+              "elapsed_ms": 0.1944,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-05-3b9c740d4a58 HTTP/1.1",
+              "run": "tg-burst-05-3b9c740d4a58",
+              "manual": false,
+              "reference": 29,
+              "elapsed_ms": 0.2573,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-00-60b14ca35957 HTTP/1.1",
+              "run": "tg-burst-00-60b14ca35957",
+              "manual": false,
+              "reference": 24,
+              "elapsed_ms": 0.4773,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-06-5e2cf6e2a2c4 HTTP/1.1",
+              "run": "tg-burst-06-5e2cf6e2a2c4",
+              "manual": false,
+              "reference": 30,
+              "elapsed_ms": 0.6324,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-04-99293447f1cd HTTP/1.1",
+              "run": "tg-burst-04-99293447f1cd",
+              "manual": false,
+              "reference": 28,
+              "elapsed_ms": 0.9197,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-07-e1ef6896f8f4 HTTP/1.1",
+              "run": "tg-burst-07-e1ef6896f8f4",
+              "manual": false,
+              "reference": 31,
+              "elapsed_ms": 0.0853,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-06-5e2cf6e2a2c4 HTTP/1.1",
+              "run": "tg-burst-06-5e2cf6e2a2c4",
+              "manual": false,
+              "reference": 30,
+              "elapsed_ms": 0.0805,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-01-c1b2236fbfe6 HTTP/1.1",
+              "run": "tg-burst-01-c1b2236fbfe6",
+              "manual": false,
+              "reference": 25,
+              "elapsed_ms": 0.1039,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-00-60b14ca35957 HTTP/1.1",
+              "run": "tg-burst-00-60b14ca35957",
+              "manual": false,
+              "reference": 24,
+              "elapsed_ms": 0.0647,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-04-99293447f1cd HTTP/1.1",
+              "run": "tg-burst-04-99293447f1cd",
+              "manual": false,
+              "reference": 28,
+              "elapsed_ms": 0.0684,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-03-4caa90b315b2 HTTP/1.1",
+              "run": "tg-burst-03-4caa90b315b2",
+              "manual": false,
+              "reference": 27,
+              "elapsed_ms": 0.0735,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-05-3b9c740d4a58 HTTP/1.1",
+              "run": "tg-burst-05-3b9c740d4a58",
+              "manual": false,
+              "reference": 29,
+              "elapsed_ms": 0.0733,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-09-36f0b5a904a6 HTTP/1.1",
+              "run": "tg-burst-09-36f0b5a904a6",
+              "manual": false,
+              "reference": 33,
+              "elapsed_ms": 0.231,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-02-11b4995e8660 HTTP/1.1",
+              "run": "tg-burst-02-11b4995e8660",
+              "manual": false,
+              "reference": 26,
+              "elapsed_ms": 0.5032,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-09-36f0b5a904a6 HTTP/1.1",
+              "run": "tg-burst-09-36f0b5a904a6",
+              "manual": false,
+              "reference": 33,
+              "elapsed_ms": 0.1952,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-02-11b4995e8660 HTTP/1.1",
+              "run": "tg-burst-02-11b4995e8660",
+              "manual": false,
+              "reference": 26,
+              "elapsed_ms": 0.2472,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-11-2829f83af006 HTTP/1.1",
+              "run": "tg-burst-11-2829f83af006",
+              "manual": false,
+              "reference": 35,
+              "elapsed_ms": 0.271,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-14-ec089ead7e7f HTTP/1.1",
+              "run": "tg-burst-14-ec089ead7e7f",
+              "manual": false,
+              "reference": 38,
+              "elapsed_ms": 0.8001,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-08-bc4188873989 HTTP/1.1",
+              "run": "tg-burst-08-bc4188873989",
+              "manual": false,
+              "reference": 32,
+              "elapsed_ms": 0.5796,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-12-ac9bdce5e241 HTTP/1.1",
+              "run": "tg-burst-12-ac9bdce5e241",
+              "manual": false,
+              "reference": 37,
+              "elapsed_ms": 1.0939,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-11-2829f83af006 HTTP/1.1",
+              "run": "tg-burst-11-2829f83af006",
+              "manual": false,
+              "reference": 35,
+              "elapsed_ms": 0.0781,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-08-bc4188873989 HTTP/1.1",
+              "run": "tg-burst-08-bc4188873989",
+              "manual": false,
+              "reference": 32,
+              "elapsed_ms": 0.0609,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-13-d2453552b8ea HTTP/1.1",
+              "run": "tg-burst-13-d2453552b8ea",
+              "manual": false,
+              "reference": 36,
+              "elapsed_ms": 0.228,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-14-ec089ead7e7f HTTP/1.1",
+              "run": "tg-burst-14-ec089ead7e7f",
+              "manual": false,
+              "reference": 38,
+              "elapsed_ms": 0.0752,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-12-ac9bdce5e241 HTTP/1.1",
+              "run": "tg-burst-12-ac9bdce5e241",
+              "manual": false,
+              "reference": 37,
+              "elapsed_ms": 0.0515,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-13-d2453552b8ea HTTP/1.1",
+              "run": "tg-burst-13-d2453552b8ea",
+              "manual": false,
+              "reference": 36,
+              "elapsed_ms": 0.0752,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-19-20070584ff82 HTTP/1.1",
+              "run": "tg-burst-19-20070584ff82",
+              "manual": false,
+              "reference": 43,
+              "elapsed_ms": 0.179,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-15-499a897e4ee9 HTTP/1.1",
+              "run": "tg-burst-15-499a897e4ee9",
+              "manual": false,
+              "reference": 39,
+              "elapsed_ms": 0.1404,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-17-4fed137df1d4 HTTP/1.1",
+              "run": "tg-burst-17-4fed137df1d4",
+              "manual": false,
+              "reference": 41,
+              "elapsed_ms": 0.176,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-10-38c3719e7863 HTTP/1.1",
+              "run": "tg-burst-10-38c3719e7863",
+              "manual": false,
+              "reference": 34,
+              "elapsed_ms": 0.5435,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-16-a6e1c2da53d6 HTTP/1.1",
+              "run": "tg-burst-16-a6e1c2da53d6",
+              "manual": false,
+              "reference": 40,
+              "elapsed_ms": 0.6108,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-20-1f4cd96e8ac4 HTTP/1.1",
+              "run": "tg-burst-20-1f4cd96e8ac4",
+              "manual": false,
+              "reference": 44,
+              "elapsed_ms": 0.5216,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-18-7682d3638f5b HTTP/1.1",
+              "run": "tg-burst-18-7682d3638f5b",
+              "manual": false,
+              "reference": 42,
+              "elapsed_ms": 0.6451,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-17-4fed137df1d4 HTTP/1.1",
+              "run": "tg-burst-17-4fed137df1d4",
+              "manual": false,
+              "reference": 41,
+              "elapsed_ms": 0.0579,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-20-1f4cd96e8ac4 HTTP/1.1",
+              "run": "tg-burst-20-1f4cd96e8ac4",
+              "manual": false,
+              "reference": 44,
+              "elapsed_ms": 0.0767,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-19-20070584ff82 HTTP/1.1",
+              "run": "tg-burst-19-20070584ff82",
+              "manual": false,
+              "reference": 43,
+              "elapsed_ms": 0.1143,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-16-a6e1c2da53d6 HTTP/1.1",
+              "run": "tg-burst-16-a6e1c2da53d6",
+              "manual": false,
+              "reference": 40,
+              "elapsed_ms": 0.0506,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-10-38c3719e7863 HTTP/1.1",
+              "run": "tg-burst-10-38c3719e7863",
+              "manual": false,
+              "reference": 34,
+              "elapsed_ms": 0.071,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-15-499a897e4ee9 HTTP/1.1",
+              "run": "tg-burst-15-499a897e4ee9",
+              "manual": false,
+              "reference": 39,
+              "elapsed_ms": 0.4838,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-21-767e5388ae91 HTTP/1.1",
+              "run": "tg-burst-21-767e5388ae91",
+              "manual": false,
+              "reference": 45,
+              "elapsed_ms": 0.2718,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-18-7682d3638f5b HTTP/1.1",
+              "run": "tg-burst-18-7682d3638f5b",
+              "manual": false,
+              "reference": 42,
+              "elapsed_ms": 0.0836,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-21-767e5388ae91 HTTP/1.1",
+              "run": "tg-burst-21-767e5388ae91",
+              "manual": false,
+              "reference": 45,
+              "elapsed_ms": 0.07,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-22-45b83b68defc HTTP/1.1",
+              "run": "tg-burst-22-45b83b68defc",
+              "manual": false,
+              "reference": 46,
+              "elapsed_ms": 0.6136,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-22-45b83b68defc HTTP/1.1",
+              "run": "tg-burst-22-45b83b68defc",
+              "manual": false,
+              "reference": 46,
+              "elapsed_ms": 0.056,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-29-4a83d3abfddc HTTP/1.1",
+              "run": "tg-burst-29-4a83d3abfddc",
+              "manual": false,
+              "reference": 53,
+              "elapsed_ms": 0.1644,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-23-cafe2f142258 HTTP/1.1",
+              "run": "tg-burst-23-cafe2f142258",
+              "manual": false,
+              "reference": 47,
+              "elapsed_ms": 0.2091,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-27-b7be50fcd9be HTTP/1.1",
+              "run": "tg-burst-27-b7be50fcd9be",
+              "manual": false,
+              "reference": 51,
+              "elapsed_ms": 0.3073,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-25-308aef084894 HTTP/1.1",
+              "run": "tg-burst-25-308aef084894",
+              "manual": false,
+              "reference": 49,
+              "elapsed_ms": 0.3514,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-28-44fa566407b7 HTTP/1.1",
+              "run": "tg-burst-28-44fa566407b7",
+              "manual": false,
+              "reference": 52,
+              "elapsed_ms": 0.5822,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-26-4e6c7f6a7f7a HTTP/1.1",
+              "run": "tg-burst-26-4e6c7f6a7f7a",
+              "manual": false,
+              "reference": 50,
+              "elapsed_ms": 0.5735,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-24-d0434f714ee9 HTTP/1.1",
+              "run": "tg-burst-24-d0434f714ee9",
+              "manual": false,
+              "reference": 48,
+              "elapsed_ms": 0.6137,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-23-cafe2f142258 HTTP/1.1",
+              "run": "tg-burst-23-cafe2f142258",
+              "manual": false,
+              "reference": 47,
+              "elapsed_ms": 0.0721,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-26-4e6c7f6a7f7a HTTP/1.1",
+              "run": "tg-burst-26-4e6c7f6a7f7a",
+              "manual": false,
+              "reference": 50,
+              "elapsed_ms": 0.0629,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-27-b7be50fcd9be HTTP/1.1",
+              "run": "tg-burst-27-b7be50fcd9be",
+              "manual": false,
+              "reference": 51,
+              "elapsed_ms": 0.0916,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-28-44fa566407b7 HTTP/1.1",
+              "run": "tg-burst-28-44fa566407b7",
+              "manual": false,
+              "reference": 52,
+              "elapsed_ms": 0.0915,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-24-d0434f714ee9 HTTP/1.1",
+              "run": "tg-burst-24-d0434f714ee9",
+              "manual": false,
+              "reference": 48,
+              "elapsed_ms": 0.0711,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-29-4a83d3abfddc HTTP/1.1",
+              "run": "tg-burst-29-4a83d3abfddc",
+              "manual": false,
+              "reference": 53,
+              "elapsed_ms": 0.06,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-25-308aef084894 HTTP/1.1",
+              "run": "tg-burst-25-308aef084894",
+              "manual": false,
+              "reference": 49,
+              "elapsed_ms": 0.2124,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-31-cc56ddd76b6b HTTP/1.1",
+              "run": "tg-burst-31-cc56ddd76b6b",
+              "manual": false,
+              "reference": 55,
+              "elapsed_ms": 0.2639,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-31-cc56ddd76b6b HTTP/1.1",
+              "run": "tg-burst-31-cc56ddd76b6b",
+              "manual": false,
+              "reference": 55,
+              "elapsed_ms": 0.0602,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-30-0af5c254484c HTTP/1.1",
+              "run": "tg-burst-30-0af5c254484c",
+              "manual": false,
+              "reference": 54,
+              "elapsed_ms": 0.3686,
+              "after": 0
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "GET /outside?q=normal&w=tg-burst-30-0af5c254484c HTTP/1.1",
+              "run": "tg-burst-30-0af5c254484c",
+              "manual": false,
+              "reference": 54,
+              "elapsed_ms": 0.0395,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=normal&w=tg-normal-5ec2183f5d9a HTTP/1.1",
+              "run": "tg-normal-5ec2183f5d9a",
+              "manual": false,
+              "reference": 56,
+              "elapsed_ms": 7.6887,
+              "after": 2
+            },
+            {
+              "request": false,
+              "before": 0,
+              "line": "POST /scope/check?run=tg-normal-5ec2183f5d9a HTTP/1.1",
+              "run": "tg-normal-5ec2183f5d9a",
+              "manual": false,
+              "reference": 56,
+              "elapsed_ms": 17.9002,
+              "after": 0
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=bad-location&w=tg-bad-location-8d0f63761d5e HTTP/1.1",
+              "run": "tg-bad-location-8d0f63761d5e",
+              "manual": false,
+              "reference": 57,
+              "elapsed_ms": 9.0182,
+              "after": 3
+            },
+            {
+              "request": true,
+              "before": 0,
+              "line": "GET /scope/entry?q=close&w=tg-close-50d63eafd3d5 HTTP/1.1",
+              "run": "tg-close-50d63eafd3d5",
+              "manual": false,
+              "reference": 58,
+              "elapsed_ms": 5.5894,
+              "after": 3
+            }
+          ],
+          "scope": "http://127.0.0.1:18810",
+          "closed": false
+        }
+      },
+      "passed": true
+    }
+  ],
+  "no_request_retries": true,
+  "passed": true,
+  "case_count": 2
+}

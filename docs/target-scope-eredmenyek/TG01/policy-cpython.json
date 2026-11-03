@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.003511,
+      "test": "test_target_scope.PolicyTests.test_default_port_and_case"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000241,
+      "test": "test_target_scope.PolicyTests.test_dynamic_path_only_deferred_during_preflight"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000288,
+      "test": "test_target_scope.PolicyTests.test_host_and_service_and_absolute_authority"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.002394,
+      "test": "test_target_scope.PolicyTests.test_idna_and_ipv6_without_name_resolution"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000242,
+      "test": "test_target_scope.PolicyTests.test_invalid_origins"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.00011,
+      "test": "test_target_scope.PolicyTests.test_nondefault_port_required_in_host"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 4.7e-05,
+      "test": "test_target_scope.PolicyTests.test_policy_is_immutable"
+    },
+    {
+      "detail": null,
+      "outcome": "passed",
+      "seconds": 0.000256,
+      "test": "test_target_scope.PolicyTests.test_prefix_boundaries_and_encoded_paths"
+    }
+  ],
+  "implementation": "CPython",
+  "kind": "isolated-source-logic-not-burp-integration",
+  "known_defects": 0,
+  "passed": 8,
+  "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+  "source_sha256": "57e30378f103d0b78eb36e068aeffbdee399af1a054494566de2387ba42a87f4",
+  "successful_baseline_run": true,
+  "suite": "scope",
+  "total": 8
+}

@@ -1,0 +1,14 @@
+{
+  "kind": "TG05-private-entry-smoke-no-network",
+  "checks": {
+    "profile_T": true,
+    "profile_A": true,
+    "profile_none": true,
+    "profile_B": true,
+    "prefix_passive": true,
+    "scope_reset": true
+  },
+  "passed": true,
+  "errors": [],
+  "source_sha256": "07c42117fd9ca621b1a0871853d3567cea9f5ba2989a1d5cb4cb4eb055f3456c"
+}

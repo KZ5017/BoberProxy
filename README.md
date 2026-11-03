@@ -15,6 +15,7 @@ This is useful when a tool can generate the right payloads, but needs help deliv
 - [What it does](#what-it-does)
 - [Installation](#installation)
 - [First request](#first-request)
+- [BoberProxy scope](#boberproxy-scope)
 - [Request workflows](#request-workflows)
 - [Custom Python transformations](#custom-python-transformations)
 - [Cookies and CSRF](#cookies-and-csrf)
@@ -28,6 +29,7 @@ This is useful when a tool can generate the right payloads, but needs help deliv
 
 - **Adapt a tool's requests:** build requests from a template, with up to two incoming payload values and a CSRF token.
 - **Transform payloads:** use a Python editor with syntax highlighting, line numbers, indentation, undo/redo and a local Test action.
+- **Select one application:** configure BoberProxy's own origin/path scope before activating templates or collecting session state. Other Proxy traffic passes through.
 - **Track rotating state:** collect cookies and a CSRF token from responses, then use them in subsequent generated requests.
 - **Read results elsewhere:** submit through Request Template, then fetch through CheckPage Template. This supports workflows such as stored template injection, where the effect appears on a different page.
 - **Inspect traffic:** log response-bearing HTTP exchanges, inspect captured requests/responses in Burp-native viewers, and apply separate capture and display filters.
@@ -69,7 +71,8 @@ Start with a single request and confirm what reaches the application before star
 
 1. Configure the command-line tool to use your Burp Proxy listener, for example `127.0.0.1:8080`. For HTTPS, configure the tool to trust Burp's CA as required by that tool.
 2. Leave **Burp Intercept OFF** for unattended traffic. A new BoberProxy instance starts with template injection, custom code, CheckPage and both state automations disabled; logging is enabled.
-3. Put a complete working request in **Request Template**, replacing the values you want to control with the markers shown here:
+3. Open **BoberProxy scope**. Set **Target origin** to `http://app.test` and leave **Path prefix (optional)** empty for this example; click **Apply**. The injection switch becomes available but stays OFF.
+4. Put a complete working request in **Request Template**, replacing the values you want to control with the markers shown here:
 
    ```http
    POST /submit HTTP/1.1
@@ -79,14 +82,27 @@ Start with a single request and confirm what reaches the application before star
    value=p4yl04dm4rk3r&extra=53c0undm4rk3r
    ```
 
-4. Keep **Payload 1 parameter** as `q` and **Payload 2 parameter** as `w`. Enable **Injecting proxy from templates**. Leave **Use CheckPageTemplate**, **Use custom codeblock** and the cookie/CSRF automations OFF for this first request.
-5. Have the tool send a proxied request to `http://app.test/entry?q=HELLO&w=SECOND`.
+5. Keep **Payload 1 parameter** as `q` and **Payload 2 parameter** as `w`. Enable **Injecting proxy from templates**. Leave **Use CheckPageTemplate**, **Use custom codeblock** and the cookie/CSRF automations OFF for this first request.
+6. Have the tool send a proxied request to `http://app.test/entry?q=HELLO&w=SECOND`.
 
 BoberProxy takes `HELLO` and `SECOND` from the incoming request and builds the template request. The application receives `POST /submit` with `value=HELLO&extra=SECOND`; the tool receives that request's response. The builder updates `Content-Length` when rebuilding the message.
 
-The incoming URL must select the intended server, scheme and port. **Changing only the template's `Host` header does not change the network destination.** Keep the host and any required headers appropriate for your target.
+The incoming URL must select the configured server, scheme and port. **Changing only the template's `Host` header does not change the network destination.** Generated requests must have a matching `Host` authority and an allowed path; mismatches are rejected before that send.
 
 Once this works, enable only the additional features your workflow needs: custom transformation, rotating cookie/CSRF state, or CheckPage.
+
+## BoberProxy scope
+
+**BoberProxy scope** selects one exact `http://host[:port]` or `https://host[:port]` origin, with an optional path prefix. It is independent of Burp Target scope and log filters. A fresh instance has no scope: template injection is OFF/disabled, and cookie/CSRF automation collects nothing until a scope is configured. Logging remains available.
+
+- Scheme, canonical host and effective port must match. Default ports 80/443 are recognized; host comparison does not resolve DNS aliases. `localhost` and `127.0.0.1` are different targets. There are no wildcard, regex or multi-host scopes.
+- An empty path prefix or `/` allows all paths on that origin. `/admin` allows `/admin` and `/admin/...`, but not `/administrator`; matching is case-sensitive and ignores the query. Prefix checks conservatively reject ambiguous encoded separators, backslashes and dot segments. Wire payloads are not normalized or decoded by this check.
+- Original out-of-scope requests pass through without BoberProxy transformations or session collection, preserving their received interception action. They may still be logged. This is not a network firewall.
+- Template `Host` headers and absolute request authorities must agree with the actual service. Request Template, redirects and CheckPage each need permission before dispatch; a template cannot retarget the connection.
+
+**Apply** changes the active scope only after validation. A changed scope clears both managed stores and cookie-deletion markers, switches injection OFF and invalidates old workflows. Re-enable injection deliberately after checking the templates. Applying an equivalent scope keeps the existing state; **Cancel** leaves it unchanged. **Clear scope** clears state and disables injection. Scope is per instance and is not persisted across reloads.
+
+An already authorized request may finish against its frozen old target. After replacement, its late response cannot populate the new state, and its workflow cannot obtain permission for another send. Arbitrary custom code, Burp session rules, other extensions and a tool's own requests remain outside this guard's control.
 
 ## Request workflows
 
@@ -107,7 +123,7 @@ Host: app.test
 
 Each incoming payload now triggers a submission followed by a read of `/result`. The tool can evaluate the effect on that page directly. CheckPage may also contain payload or CSRF markers, and it uses state updated by the submission and any followed redirects.
 
-Request Template and CheckPage use the original incoming request's network service. A redirect can select another destination through its `Location`, but CheckPage is still built for the original service. A changed template `Host` header alone is not a routing mechanism.
+Request Template and CheckPage use the original incoming request's network service and must satisfy the configured scope. Redirects resolve `Location` against the current request, but only allowed destinations are followed. A changed template `Host` header alone is not a routing mechanism.
 
 ### Parameter matching and markers
 
@@ -119,17 +135,19 @@ Request Template and CheckPage use the original incoming request's network servi
 
 Matching uses parameter names and nonempty values in the incoming query string or an `application/x-www-form-urlencoded` body. The query is examined first; the first nonempty value found for each slot wins. JSON and multipart bodies are not additional payload sources. This restriction concerns the incoming carrier request: your template can still place payload markers in JSON, headers, paths or other request content. Give the two parameters distinct names; if their names are identical, the first slot has priority.
 
-A request is eligible for rewriting when template injection is ON and at least one selected payload value is nonempty. Matching is not restricted by the template's host/path or by Burp target scope. Other proxied requests retain their normal behavior.
+A request is eligible for rewriting when it passes BoberProxy's service/authority/path guard, template injection is ON and at least one selected payload value is nonempty. Burp Target scope does not grant this permission. Other proxied requests retain their normal behavior.
 
 Payloads are preserved as raw values: `%252F+%2B` stays `%252F+%2B`. There is no automatic URL decoding or encoding. Markers are replaced once in the original template, including when they appear in headers or the body; inserted values are not searched again for markers. An absent payload slot contributes an empty value. Prepare any application-specific encoding in your custom transformation.
 
 ### Manual interception
 
-BoberProxy preserves the interception action it receives from Burp when template injection is disabled or the request does not match the payload parameters. Actively rewritten requests forward automatically. Disable **Injecting proxy from templates** when you want to review the original matching requests manually.
+BoberProxy preserves the interception action it receives from Burp when the request is outside its scope, template injection is disabled or the request does not match the payload parameters. Actively rewritten requests forward automatically. Disable **Injecting proxy from templates** when you want to review the original matching requests manually.
 
 ### Redirects and failure behavior
 
-**AutoFollow redirect on RT** is available only with CheckPage enabled. It follows the internal Request Template's redirect chain, up to ten hops, with relative URL resolution and loop detection. Enabled cookie/CSRF automation processes the received responses along the chain.
+**AutoFollow redirect on RT** is available only with CheckPage enabled. It follows the internal Request Template's redirect chain, up to ten hops, with relative URL resolution and loop detection. Enabled cookie/CSRF automation processes the allowed target's received responses along the chain.
+
+An out-of-scope redirect is a **neutral stop**: no request goes to its destination, the legitimate redirecting response may still update state, and a valid in-scope CheckPage continues. A malformed Location, transport failure, loop, hop limit or expired budget remains a workflow error. With CheckPage OFF, there is no extension-side redirect following; the original Request Template response, including a 3xx, is returned to the tool.
 
 Follow-up redirect requests use the existing minimal **GET** policy, including after 307/308: they carry `Host`, `Connection`, the prior `User-Agent` when available, and enabled managed cookies. The original request body and `Authorization` header are not copied. Account for this when testing a redirect-dependent endpoint.
 
@@ -139,6 +157,8 @@ Workflow preparation, waiting for ownership, internal Request Template/redirect 
 | --- | --- |
 | Before an internal send has been attempted | A diagnostic is shown and the original client request continues automatically, without the template rewrite. |
 | After an internal send has been attempted | The original request is dropped rather than replaying a possibly accepted operation. |
+
+If scope is replaced before any send, the original request retains its received interception action; after an internal attempt, the existing DROP policy applies.
 
 A preparation error is therefore not a guarantee that no request reaches the target. Check the diagnostic and actual request, especially when configuring a new template or custom function. Burp's extension-drop error page can itself have HTTP status **200**; that status alone does not establish workflow success.
 
@@ -176,15 +196,15 @@ The **Timeout (ms)** field accepts an integer from **1 to 30000**, default **500
 
 Custom code runs with Burp's Jython/Java permissions. **It is not sandboxed, and a timeout is not guaranteed forced termination.** A non-returning Python or Java operation can continue running and prevent further custom jobs, including replacement workers after reload. A Burp restart may be necessary.
 
-A matched workflow uses the template, code, timeout and switch settings captured at its start. UI edits affect later workflows. An outdated Test result is discarded if its settings change before completion.
+A matched workflow uses the template, code, timeout and switch settings captured at its start. Ordinary UI edits affect later workflows. A scope change revokes the old workflow's permission instead of letting it finish further sends; a queued old custom job is rejected and a running result is discarded. An outdated Test result is discarded if its settings change before completion.
 
 ## Cookies and CSRF
 
 BoberProxy maintains its **own cookie store and one CSRF token**. Burp cookie-jar rules and macros are not required for these features.
 
-**Auto-update Cookies** and **Auto-update CSRF** each control both response collection and injection into generated requests. Collection covers Proxy responses and internal Request Template/redirect responses. Logging a response from another Burp tool does not itself populate this state.
+**Auto-update Cookies** and **Auto-update CSRF** each control both response collection and injection into generated requests. Collection covers scope-authorized Proxy responses and internal Request Template/redirect responses, with matching request provenance and scope generation. Logging a response from another Burp tool does not itself populate this state.
 
-For a workflow requiring an initial authenticated session or token, enable the corresponding automation and let an initial response pass through Proxy before starting the tool. Use **Show Cookies** and **Show CSRF** to inspect what was collected. Keep any other required authentication data in your templates.
+For a workflow requiring an initial authenticated session or token, enable the corresponding automation and let an in-scope initial response pass through Proxy before starting the tool; injection can remain OFF during collection. Use **Show Cookies** and **Show CSRF** to inspect what was collected. Keep any other required authentication data in your templates.
 
 ### Cookies
 
@@ -204,7 +224,7 @@ An invalid regex or one without a capturing group produces a visible configurati
 
 Matched workflows are coordinated in sequence through their final Proxy response. Each uses a local cookie/token state for Request Template → redirects → CheckPage, so an unrelated passive response cannot substitute another token halfway through that sequence. Clear starts a new shared generation, discarding old workflow publication while clearing only the selected kind of state.
 
-**The store is global, not a browser-style per-origin session model.** Cookie Domain, Path and Secure attributes do not isolate injection, and the token is not separated by target. Values collected from one application can reach another application's generated request. Use this model for one coordinated target/session, and clear state when changing targets.
+**There is one cookie store and one token for the currently configured BoberProxy scope**, with automatic reset on scope replacement. This is not a browser-style cookie jar: individual cookie Domain, Path and Secure attributes do not provide additional isolation inside that scope. Choose a path prefix when the application boundary requires it; there are no saved or concurrent per-target session profiles.
 
 Coordination cannot undo requests already handed to Burp or synchronize token changes caused by other clients. A missing final response can leave a workflow waiting for that response, an explicit Clear, or unload. It is not a network-cancellation mechanism.
 
@@ -262,10 +282,11 @@ There is no separate log search box or next-match navigator. Use **Filter → Re
 
 | Symptom | Check |
 | --- | --- |
-| Traffic appears in the log but is not transformed | Enable Injecting proxy from templates; send through Proxy; check the selected parameter names and nonempty query/form values. Capture filters do not enable rewriting. |
+| Traffic appears in the log but is not transformed | Configure BoberProxy scope; check origin/path and template Host, enable Injecting proxy from templates, send through Proxy, and check the selected nonempty query/form parameters. Capture filters do not enable rewriting. |
+| Injection is disabled or switches back OFF | Apply a valid BoberProxy scope first. Activation also checks template authorities; a scope change intentionally resets injection and managed state. |
 | The generated request reaches the wrong service | The incoming URL selects host/port/protocol. Editing a template Host header does not retarget the connection. |
 | The tool evaluates the submission page instead of the result page | Enable Use CheckPageTemplate and fill its separate editor with the result-page request. |
-| A cookie or CSRF token is missing | Enable its automation before collecting the initial Proxy response; inspect Show Cookies/Show CSRF, the regex capture, and the template marker. |
+| A cookie or CSRF token is missing | Configure the correct scope and enable its automation before collecting the initial in-scope Proxy response; inspect Show Cookies/Show CSRF, the regex capture, and the template marker. |
 | Logging stops or rows seem missing | Check Pause Logging, capture rules, display rules, storage diagnostics and capacity counters. A display filter can hide stored rows. |
 | A request appears to hang | Check Burp Intercept, pending session ownership, custom execution and other Burp rules/extensions. A missing final response or non-returning custom job can block later work. |
 | A failure returns HTTP 200 | Read BoberProxy's Output/status and response body: Burp can return an extension-drop error page with status 200. |
@@ -279,7 +300,9 @@ That baseline includes actual Burp regression and directed HTTP/1.x traffic, thr
 
 The reports are scoped evidence, not a universal throughput or compatibility guarantee. The old isolated callback baseline is unavailable, so the original relative callback-performance gate cannot be assessed. Dedicated body-retention tests do not attribute the entire Burp heap to the extension. Full HTTP/2 behavior and other runtime versions have not been established by these HTTP/1.x checks.
 
-The operational boundaries to keep in mind are the **global cookie/token model**, **raw byte handling**, **pre-send original-request fallback**, **minimal GET redirect policy**, **temporary log storage**, and **absence of guaranteed forced termination for custom code or Java regexes**, described above.
+The [Target Scope evidence](docs/target-scope-eredmenyek/README.md) separately records the later guard implementation: CPython/Jython regressions, native/actual Burp UI checks, directed A/B/HTTPS traffic, controlled scope changes and same-message manual interception. The full K11 long-run workload was not repeated for this change.
+
+The operational boundaries to keep in mind are the **single-scope cookie/token model**, **raw byte handling**, **pre-send original-request fallback**, **minimal GET redirect policy**, **temporary log storage**, and **absence of guaranteed forced termination for custom code or Java regexes**, described above.
 
 ## Development and license
 
